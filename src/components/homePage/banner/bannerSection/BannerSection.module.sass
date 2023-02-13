@@ -1,0 +1,155 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$background_color: rgba(0, 0, 0, 0.3)
+$label_animation_duration: 0.3s
+$label_animation_delay: 0.2s
+
+.PriceLabel
+  font-size: $font_small
+  position: absolute
+  background: $background_color
+  backdrop-filter: blur(8px)
+  left: $space_big
+  top: $space_normal
+  color: #fff
+  border-radius: 72px
+  overflow: hidden
+
+  \:global .DfBalanceDecimals
+    color: #fff !important
+
+.BannerSection
+  overflow: hidden
+  position: relative
+  height: 202px
+
+  .PriceLabel
+    div
+      transition-property: margin
+      transition-duration: $label_animation_duration
+      transition-delay: $label_animation_delay
+      padding: $space_tiny $space_normal !important
+      line-height: normal
+
+  img
+    width: 100%
+    height: 100%
+    object-position: center
+    object-fit: cover
+
+  &:hover
+    .BannerOverlay
+      cursor: pointer
+      display: flex
+      opacity: 100%
+      background: $background_color
+      backdrop-filter: blur(8px)
+
+      div, svg
+        opacity: 100%
+
+.PriceLabelAnimation
+  .PriceLabel
+    div
+      &::before
+        opacity: 0
+        transition-property: margin, opacity
+        transition-duration: $label_animation_duration
+        transition-delay: $label_animation_delay
+        content: attr(data-text)
+        position: absolute
+        left: -60px
+
+  &:hover
+    .PriceLabel
+      div
+        margin-left: 75px !important
+
+        &::before
+          margin-left: 75px !important
+          opacity: 100%
+
+.BannerOverlay
+  top: 0
+  opacity: 0
+  width: 100%
+  height: 100%
+  position: absolute
+  display: flex
+  align-items: center
+  flex-direction: column
+  justify-content: center
+  color: $color_footer
+  transition-property: opacity
+  transition-delay: 0.1s
+
+  div, svg
+    opacity: 0
+
+  svg
+    height: $space_huge
+    width: $space_big
+
+    path
+      stroke: #fff
+
+.Desc
+  font-size: $font_small
+
+.BannerModal
+  \:global .ant-modal-body
+    max-height: 65vh
+
+.NoTokensWarning
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: $space_normal
+  border-radius: $border_radius_normal
+
+  \:global .ant-alert-icon
+    top: 0px
+    height: 100%
+    display: flex
+    align-items: center
+
+@media ( max-width: $max_mobile_width)
+  .PriceLabel
+    font-size: $font_tiny
+    left: $space_normal
+    top: $space_normal
+
+  .PriceLabelAnimation
+    .PriceLabel
+      div
+        &::before
+          left: -55px
+
+    &:hover
+      .PriceLabel
+        div
+          margin-left: 70px !important
+
+          &::before
+            margin-left: 70px !important
+
+  .NoTokensWarning
+    align-items: flex-start
+    button
+      margin-left: $space_normal
+
+    \:global .ant-alert-icon
+      align-items: flex-start
+      top: $space_small
+
+  .BannerSection
+    height: 104px
+
+  .BannerModal
+    \:global .ant-modal-body
+      max-height: 54vh
+
+@media ( max-width: 375px)
+  .BannerModal
+    \:global .ant-modal-body
+      max-height: 40vh

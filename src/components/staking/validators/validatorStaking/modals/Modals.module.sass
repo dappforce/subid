@@ -1,0 +1,73 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.ChangeControllerModalBody
+  \:global .ant-select-selector
+    height: 43px !important
+    border-radius: $border_radius_large !important
+    background: #FAFAFA !important
+
+    \:global .ant-select-selection-item
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+.ControllerInputTitle
+  font-weight: bold
+
+.ControllerInputDesc
+  font-size: $font_small
+
+.StashAccount
+  border: 1px solid #D9D9D9
+  background: #FAFAFA
+  padding: $space_tiny $space_small
+  border-radius: $border_radius_large
+
+.ValidatorsTable
+  table
+    height: 100%
+
+  \:global .ant-table-thead tr th
+    background: transparent !important
+    border-bottom: none !important
+    h3
+      font-size: $font_small !important
+      font-weight: 400 !important
+      margin-bottom: 0
+
+  \:global .ant-table-tbody
+    tr
+      td
+        border-bottom: none
+
+      &:hover
+
+        td:first-child
+          border-top-left-radius: $border_radius_large
+          border-bottom-left-radius: $border_radius_large
+
+        td:last-child
+          border-top-right-radius: $border_radius_large
+          border-bottom-right-radius: $border_radius_large
+
+.UnstakeBlock
+  background: #F5F5F5
+  border-radius: $border_radius_large
+  padding: $space_big $space_large
+  text-align: center
+
+.UnlockingValue
+  font-weight: bold
+  color: $color_font_normal
+  font-size: $font_big
+
+  span
+    color: $color_font_normal
+
+.ValidatorModalButtons
+  \:global .ant-space-item
+    width: 100%
+
+.UnlocksModal
+  \:global .ant-modal-body
+    padding-bottom: $space_huge !important

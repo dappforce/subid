@@ -1,0 +1,168 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$gradient_background_height: 433px
+$area_width: 56rem
+
+.OnlySearchPage
+  margin-top: -5rem
+
+.BodyWrapper
+  width: 100vw
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+.HomeBody
+  display: flex
+  flex-direction: column
+  float: center
+  align-self: center
+  width: $area_width
+
+.TopSection
+  min-height: $gradient_background_height
+  width: 100vw
+  display: flex
+  justify-content: center
+  align-items: start
+
+.BodyContent
+  display: flex
+  height: 100%
+  z-index: 1000
+  width: $area_width
+  flex-direction: column
+
+.BackgroundImg
+  display: flex
+  opacity: 0.8
+  overflow: hidden
+  justify-content: space-between
+  z-index: 10
+  position: absolute
+  top: 0
+  width: 100vw
+
+  img
+    height: $gradient_background_height
+
+.Header
+  display: flex
+  padding: $space_big $space_tiny 4.625rem $space_tiny
+  justify-content: space-between
+  align-items: center
+
+.ConnectButton
+  height: 50px
+  padding: 6.5px $space_huge
+  border-radius: $border_radius_large
+
+.Title
+  display: flex
+  color: #fff
+  text-align: center
+  justify-content: center
+  align-items: center
+  margin-bottom: $space_big
+  font-size: 3rem
+  font-weight: bold
+
+.Logo
+  text-align: center
+
+  img
+    height: 54px
+
+.SearchInput
+  margin-left: $space_tiny
+
+  \:global .DfSearch
+    width: $area_width
+    margin: 0
+    margin-left: $space_tiny
+    filter: drop-shadow(0px 0px 20px #8c1d8d59)
+
+  \:global .ant-input-affix-wrapper
+    font-size: 20px
+    height: 50px
+
+  \:global .ant-btn-icon-only
+    border-radius: $border_radius_large
+    height: 50px
+    width: 50px
+
+.SearchInputBox
+  z-index: 1000
+  position: relative
+  top: -1.5rem
+
+  \:global .ant-input-group-addon
+    width: auto
+
+  div
+    width: $area_width
+  span
+    border-radius: $border_radius_large
+
+  \:global .ant-input-wrapper
+    border-radius: $border_radius_large
+
+@media (max-width: 767px)
+  .BodyWrapper
+    margin-top: $space_huge
+
+  .Header
+    padding: 3.75rem 3.75rem 2.75rem
+    justify-content: center
+
+    p
+      margin-bottom: 2.5rem
+
+  .HomeBody
+    width: 100vw
+    margin-top: $space_huge
+
+  .SearchInput
+    margin: 0 1rem
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+    .SearchInputBox
+      top: 0
+
+  .BackgroundImg
+    opacity: 0.2
+
+  .BodyContent
+    width: 100vw
+
+  .Logo
+    img
+      height: 4.375rem
+
+  .SearchSection
+    width: 100%
+    justify-content: normal
+    \:global .DfSearch
+      margin: 0
+
+  .Title
+    padding: 0 $space_normal
+    margin-bottom: 0
+    font-size: $font_big
+
+  .SearchInput
+    padding-bottom: 2.875rem
+    margin: 0 $space_normal
+
+    \:global .DfSearch
+      margin: 0
+    \:global .ant-input-affix-wrapper
+      font-size: 20px
+
+@media (max-width: $max_mobile_width)
+  .OnlySearchPage
+    margin-top: -4rem
+

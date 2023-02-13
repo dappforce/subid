@@ -1,0 +1,283 @@
+{
+  "general": {
+    "home": "Главная",
+    "nfts": "NFTs",
+    "address": "адрес",
+    "aboutSubId": "Все ваши Substrate адреса и балансы в одном месте",
+    "extensionAccounts": "Аккаунты с рассширения",
+    "suggestFeature": "Предложить функцию",
+    "addressCopied": "Адрес скопирован",
+    "loginHint": "с помощью {{polkadot}} чтобы увидеть балансы вашего аккаунта.",
+    "notListed": "Нет цены",
+    "reportBug": "Сообщить об ошибке",
+    "showAll": "Показать все",
+    "allAccounts": "Все аккаунты",
+    "allAccountsDesc": "Все аккаунты дают тебе возможность увидеть агрегированные данные по всем аккаунтам с Polkadot.js",
+    "total": "Всего",
+    "connectWallet": "Подключить кошелёк",
+    "networkStatus": "Статус сети"
+  },
+  "signIn": {
+    "walletTitle": "Выберете кошелёк",
+    "accountsTitle": "Выберете аккаунт",
+    "walletsDesc": "Выберите один с доступных кошельков для подключения к Sub.ID.",
+    "accountsDesc": "Нажмите на аккаунт для того, чтобы войти",
+    "installToolTip": "Утановите {{title}} или перезагрузите страницу, если {{title}} уже установлен",
+    "notInstalled": "{{title}} не установлен. Если вы уже установили {{title}}, то перезагрузите страницу",
+    "back": "Назад",
+    "setupWalletLink": "Как настроить кошелек?"
+  },
+  "interestingAccounts": {
+    "title": "Интересные аккаунты",
+    "allRoles": "Все роли",
+    "council": "Councilors",
+    "validator": "Validators",
+    "crowdloaner": "Crowdloaners"
+  },
+  "banner": {
+    "placeholderTitle": "Изменить баннер NFT",
+    "placeholderDesc": "Выберите баннер NFT из одной из наших коллекций",
+    "modal": {
+      "title": "Выберите баннер NFT для своей страницы",
+      "desc": "Теперь вы можете установить баннер из любой из наших коллекций. Если вы хотите купить новый баннер,",
+      "descLinkText": "нажмите сюда",
+      "warning": "Ваша энергия меньше 1 токена",
+      "warningButton": "Получить энергию",
+      "moreTokensMsg": "Нужно больше энергии"
+    }
+  },
+  "favoritesAccounts": {
+    "title": "Избранные аккаунты",
+    "pageDesc": "Приватный список, который хранится локально только в этом браузере и доступен только вам.",
+    "table": {
+      "account": "Аккаунт",
+      "notes": "Заметки"
+    },
+    "notifs": {
+      "added": "Аккаунт был добавлен в избранные",
+      "edited": "Заметки для аккаунта были отредактированы",
+      "removed": "Аккаун был удалён с избранных"
+    },
+    "tooltips": {
+      "star": "Удалить с избранных"
+    },
+    "modal": {
+      "addTitle": "Добавить в избранное",
+      "editTitle": "Редактировать заметку",
+      "desc": "После добавления аккаунта в избранное, его можно найти во вкладке на боковой панели. В поле ниже вы можете добавить описание для этого адреса для быстрого поиска в будущем."
+    },
+    "buttons": {
+      "add": "Добавить",
+      "save": "Сохранить",
+      "cancel": "Отменить"
+    },
+    "placeholder": "Описание для этого адреса (необязательно)"
+  },
+  "chains": {
+    "allChains": "Все чейны",
+    "polkadot": "Polkadot",
+    "kusama": "Kusama"
+  },
+  "loading": {
+    "accounts": "Загрузка аккаунтов с расширения",
+    "dataByAccount": "Загрузка данных по аккаунту",
+    "loadingNfts": "Загрузка NFTs...",
+    "transaction": "Это может занять до 30 секунд"
+  },
+  "charts": {
+    "nativeTokenHAxis": "Суммарный баланс в USD эквиваленте",
+    "crowdloanHAxis": "Заблокировано {{symbol}} в USD эквиваленте",
+    "defaultHAxis": "Суммарный баланс в USD эквиваленте",
+    "nativeTokenVAxis": "Substrate Chain",
+    "crowdloanVAxis": "Parachain",
+    "statemineAssetVAxis": "Statemine Актив",
+    "defaultVAxis": "Актив",
+    "labels": {
+      "multiLabel": "Баланс (≈ USD)",
+      "transferable": "Доступно (≈ USD)",
+      "reserved": "В резерве (≈ USD)",
+      "locked": "Заблокировано (≈ USD)"
+    },
+    "tabs": {
+      "barChart": "Гистограмма",
+      "pieChart": "Круговая диаграмма"
+    }
+  },
+  "table": {
+    "balances": {
+      "frozen": "Заморожено",
+      "locked": "Заблокировано",
+      "reserved": "Зарезервировано",
+      "free": "Доступно",
+      "title": "Баланс",
+      "noData": "Балансов не найдено",
+      "checkBoxText": "Показать все",
+      "refreshText": "Обновить балансы",
+      "loading": "Загруска балансов",
+      "tabs": {
+        "all": "Все",
+        "active": "Активные",
+        "winner": "Победители",
+        "ended": "Завершённые"
+      }
+    },
+    "crowdloan": {
+      "title": "{{relayChain}} Краудлоны",
+      "noData": "Вкладов в краудлоны не найдено",
+      "checkBoxText": "Показать все",
+      "refreshText": "Обновить краудлоны",
+      "loading": "Загрузка {{relayChain}} краудлонов...",
+      "lockInfo": {
+        "unlocked": "Внесенный {{token}} был разблокирован {{date}}",
+        "lockedUntil": "Заблокированный {{token}} будет доступен {{date}}"
+      }
+    },
+    "statemine": {
+      "noData": "Никаких активов не найдено",
+      "checkBoxText": "Показать все",
+      "refreshText": "Обновить активы",
+      "loading": "Загрузка активов...",
+      "tabs": {
+        "all": "Все",
+        "free": "Доступные",
+        "frozen": "Замороженные"
+      }
+    },
+    "labels": {
+      "asset": "Актив",
+      "chain": "Сеть",
+      "balance": "Баланс",
+      "price": "Цена",
+      "value": "Общая Стоимость",
+      "contribution": "Вложено",
+      "claimable": "Доступный/ Оставшийся",
+      "raised": "Собрано",
+      "cap": "Цель",
+      "reward": "Награда",
+      "referral": "Реф.",
+      "status": "Статус",
+      "bonus": "Бонус"
+    }
+  },
+  "overview": {
+    "totalPortfolioValue": {
+      "title": "Портфолио",
+      "description": "Общая стоимость передаваемых, непередаваемых и вложенных в краудлоны токенов на нескольких Substrate-based сетях"
+    },
+    "transferableBalance": {
+      "title": "Передаваемый баланс",
+      "description": "Общая стоимость передаваемых токенов в нескольких Substrate-based сетях"
+    },
+    "nonTransferableBalance": {
+      "title": "Непередаваемый баланс",
+      "description": "Общая стоимость зарезервированных и заблокированных токенов в нескольких Substrate-based сетях, включая замороженные Statemine активы"
+    },
+    "lockedCrowdloans": {
+      "title": "Заблокировано",
+      "description": "Общая стоимость KSM и DOT заблокированных в краудлонах"
+    }
+  },
+  "modals": {
+    "howToContribute": "Как внести свой вклад в",
+    "accountAddress": "Адрес"
+  },
+  "donation": {
+    "title": "Отправка",
+    "recipient": "Получатель",
+    "currency": "Валюта",
+    "sender": "Отправитель",
+    "balance": "Баланс",
+    "thanksForSupport": "Thanks for support!",
+    "donate": "Пожертвовать",
+    "amount": "Количество",
+    "max": "MAX",
+    "donationSuccessful": "Пожертвовано успешно",
+    "donationFailed": "Вы не можете пожертвовать больше, чем вы имеете в наличии"
+  },
+  "buttons": {
+    "goBack": "Go Back",
+    "accept": "Принять",
+    "decline": "Отклонить",
+    "close": "Закрыть",
+    "copy": "Скопировать",
+    "gotIt": "Понятно",
+    "contribute": "Вложить",
+    "createProfile": "Создать профиль",
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "follow": "Подписаться",
+    "followTooltip": "Подписаться на Subsocial",
+    "editProfile": "Редактировать",
+    "viewAddressOn": "Посмотреть этот адрес на {{website}}",
+    "transfer": "Transfer"
+  },
+  "placeholders": {
+    "searchAccountAddress": "Поиск по аккаунту (например, Polkadot, Kusama, Acala и др.)",
+    "noNFTsFound": "Никаких NFTs не найдено",
+    "addressIsNotValid": "Адрес некорректный"
+  },
+  "tooltip": {
+    "showQR": "Показать QR-код",
+    "openSearchInput": "Открыть поиск",
+    "closeSearchInput": "Закрыть поиск",
+    "refreshNFTs": "Обновить NFTs",
+    "copyAddress": "Нажмите, чтобы скопировать полный адрес",
+    "informationFrom": "Информация от",
+    "maximumContribution": "Максимальное количество {{symbol}}, которые можно вложить в краудлон.",
+    "percentageOfTotalSupply": "Процент от общего объема токенов, которые проект выделил на краудлон.",
+    "additionalReward": "Дополнительные награды, которые можно заработать за {{symbol}} внесенный через Sub.ID.",
+    "frozenAsset": "Этот актив заморожен и не может быть передан в это время.",
+    "frozenByAdmin": "Администратор токена заморозил его для всех аккаунтов.",
+    "claimNotSupported": "Этот парачейн пока не поддерживает претензии."
+  },
+  "crowdloan": {
+    "crowdloans": "Краудлоны",
+    "raised": "Raised",
+    "goal": "Цель"
+  },
+  "transfer": {
+    "title": "Перевод",
+    "subtitle":  {
+      "sameChain": "Перенесите токены на другую учетную запись в той же цепочке.",
+      "crossChain": "Перевести токены на тот же или другой аккаунт в другой цепочке."
+    },
+    "successSubtitle":  {
+      "sameChain": "Вы успешно перевели свои токены.",
+      "crossChain": "Вы успешно перевели свои токены, и они поступят примерно через 30 секунд."
+    },
+
+    "transfer": "Перевод",
+    "sameChain": "Текущая сеть",
+    "crossChain": "Кроссчейн",
+    "source": "Исходная сеть",
+    "dest": "Целевая сеть",
+    "recipient": "Получатель",
+    "amount": "Количество",
+    "yourAccount": "Ваш счет",
+    "crossChainFee": "Плата за кроссчейн перевод",
+    "max": "MAX",
+    "transferableBalance": "Доступный баланс",
+
+    "existentialDepositInDestAlert": "<1>экзистенциальный депозит</1> для {{token}} в {{network}} составляет {{existential}}. Пожалуйста, переведите более {{minTransfer}}.",
+    "existentialDepositInSourceAlert": "<1>экзистенциальный депозит</1> для {{token}} в {{network}} составляет {{existential}}. Пожалуйста, оставьте хотя бы {{existential}} или переведите весь баланс, чтобы ваш аккаунт не пожинали плоды.",
+
+    "placeholders": {
+      "amount": "Например, 10",
+      "recipient": "Адрес получателя"
+    },
+
+    "errors": {
+      "transferFail": "Ошибка перевода, попробуйте еще раз.",
+      "transferToSelf": "Перевод себе запрещен",
+      "swapRouteNotFound": "Перевод в этом направлении не поддерживается.",
+      "amount": {
+        "zero": "Сумма должна быть больше 0",
+        "exceedMax": "Сумма не должна превышать максимальный баланс"
+      },
+      "recipient": {
+        "required": "Адрес получателя должен быть заполнен",
+        "notValid": "Адрес недействителен"
+      }
+    }
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "general": {
+    "home": "Home",
+    "nfts": "NFTs",
+    "address": "endereço",
+    "extensionAccounts": "Extensão de contas",
+    "aboutSubId": "Todos os seus endereços de substrate e saldos em um só lugar",
+    "suggestFeature": "Recursos Sugeridos",
+    "addressCopied": "Endereço copiado",
+    "loginHint": "com {{polkadot}} para ver o saldo em sua conta.",
+    "notListed": "Sem preço",
+    "reportBug": "Reportar Bug",
+    "showAll": "Mostrar todos",
+    "allAccounts": "Todas as contas",
+    "allAccountsDesc": "Todas as contas permitem que você veja uma visão agregada de todas as contas em sua Polkadot.js",
+    "total": "Total",
+    "connectWallet": "Conectar Carteira",
+    "networkStatus": "Status da rede"
+  },
+  "signIn": {
+    "walletTitle": "Escolha sua carteira",
+    "accountsTitle": "Escolha sua conta",
+    "walletsDesc": "Escolha um dos provedores de carteira disponíveis para se conectar ao Sub.ID.",
+    "accountsDesc": "Clique na sua conta para Entrar",
+    "installToolTip": "Instale {{title}} ou atualize o navegador se {{title}} já está instalado",
+    "notInstalled": "{{title}} extensão não está instalada ou atualize o navegador se {{title}} já está instalado",
+    "back": "Voltar",
+    "setupWalletLink": "Como configurar uma carteira?"
+  },
+  "interestingAccounts": {
+    "title": "Contas interessantes",
+    "allRoles": "Todas as funções",
+    "council": "Consultores",
+    "validator": "Validadores",
+    "crowdloaner": "Crowdloaners"
+  },
+  "banner": {
+    "placeholderTitle": "Editar banner NFT",
+    "placeholderDesc": "Escolha um banner NFT de uma de nossas coleções",
+    "modal": {
+      "title": "Escolha um banner NFT para sua página",
+      "desc": "Agora você pode instalar um banner de qualquer uma de nossas coleções. Se você quiser comprar um novo banner,",
+      "descLinkText": "Clique aqui",
+      "warning": "Sua energia é inferior a 1 token NRG.",
+      "warningButton": "Obter energia",
+      "moreTokensMsg": "Precisa de mais NRG"
+    }
+  },
+  "favoritesAccounts": {
+    "title": "Contas Favoritas",
+    "pageDesc": "Uma lista privada que é armazenada localmente apenas neste navegador e está disponível apenas para você.",
+    "table": {
+      "account": "Conta",
+      "notes": "Notas"
+    },
+    "notifs": {
+      "added": "A conta foi adicionada aos favoritos",
+      "edited": "As notas da conta foram editadas",
+      "removed": "A conta foi removida dos favoritos"
+    },
+    "tooltips": {
+      "star": "Remover dos favoritos"
+    },
+    "modal": {
+      "addTitle": "Adicionar aos favoritos",
+      "editTitle": "Notas editadas",
+      "desc": "Depois de adicionar uma conta aos favoritos, você pode encontrá-la usando a guia na barra lateral. No campo abaixo, você pode adicionar um rótulo para este endereço para uma pesquisa rápida no futuro."
+    },
+    "buttons": {
+      "add": "Adicionar",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    },
+    "placeholder": "Observações para este endereço (opcional)"
+  },
+  "chains": {
+    "allChains": "Todas as Redes",
+    "polkadot": "Polkadot",
+    "kusama": "Kusama"
+  },
+  "loading": {
+    "accounts": "Carregando contas da extensão",
+    "dataByAccount": "Carregando dados por conta",
+    "loadingNfts": "Carregando NFTs...",
+    "transaction": "Pode levar até 30 segundos"
+  },
+  "charts": {
+    "nativeTokenHAxis": "Saldo total equivalente em dolares",
+    "crowdloanHAxis": "Bloqueado {{symbol}} equivalente em dolares",
+    "defaultHAxis": "Valor equivalente em USD",
+    "nativeTokenVAxis": "Substrate Chain",
+    "crowdloanVAxis": "Parachain",
+    "statemineAssetVAxis": "Ativo Statemine",
+    "defaultVAxis": "Ativo",
+    "labels": {
+      "multiLabel": "Saldo (≈ USD)",
+      "transferable": "Saldo transferível (≈ USD)",
+      "reserved": "Saldo reservado (≈ USD)",
+      "locked": "Saldo bloqueado (≈ USD)"
+    },
+    "tabs": {
+      "barChart": "Grafico em barra",
+      "pieChart": "Grafico em pizza"
+    }
+  },
+  "table": {
+    "balances": {
+      "frozen": "Taxa congelada",
+      "locked": "Saldo Bloqueado",
+      "reserved": "Saldo reservado",
+      "free": "Transferível",
+      "title": "Saldos",
+      "loading": "Carregando saldos da conta...",
+      "noData": "Saldos nao encontrados",
+      "checkBoxText": "Saldo zerado",
+      "refreshText": "Atualizar Saldos",
+      "tabs": {
+        "all": "Todo",
+        "active": "Ativo",
+        "winner": "Ganhador",
+        "ended": "Terminou"
+      }
+    },
+    "crowdloan": {
+      "title": "{{relayChain}} crowdloans",
+      "noData": "Nenhuma contribuição de crowdloan encontrada",
+      "checkBoxText": "Mostrar todos crowdloans",
+      "refreshText": "Atualizar crowdloans",
+      "loading": "Carregando {{relayChain}} crowdloans...",
+      "lockInfo": {
+        "unlocked": "O {{token}} contribuído foi desbloqueado em {{date}}",
+        "lockedUntil": "O {{token}} bloqueado estará disponível em {{date}}"
+      }
+    },
+    "statemine": {
+      "noData": "Ativos não encontrados",
+      "loading": "Carregando os ativos da conta...",
+      "checkBoxText": "Saldo zerado",
+      "refreshText": "Atualizar ativos",
+      "tabs": {
+        "all": "Tudo",
+        "free": "Free",
+        "frozen": "Congelado"
+      }
+    },
+    "labels": {
+      "asset": "Ativo",
+      "chain": "Rede",
+      "balance": "Saldo",
+      "price": "Preço",
+      "value": "Valor Total",
+      "contribution": "Contribuição",
+      "claimable": "Exigível/ Restante",
+      "raised": "Arrecadado",
+      "bonus": "Bonus",
+      "cap": "Limite",
+      "reward": "Recompensa",
+      "referral": "Referência",
+      "status": "Status"
+    }
+  },
+  "overview": {
+    "totalPortfolioValue": {
+      "title": "Valor total do portfólio",
+      "description": "Valor total de tokens transferíveis, intransferíveis e crowdloaned em multiplas Substrate-based chains"
+    },
+    "transferableBalance": {
+      "title": "Saldo transferível",
+      "description": "Valor total de tokens transferíveis em multiplas Substrate-based chains"
+    },
+    "nonTransferableBalance": {
+      "title": "Saldo intransferível",
+      "description": "Valor total de tokens reservados e bloqueados em multiplas Substrate-based chains incluindo ativos Statemine congelados"
+    },
+    "lockedCrowdloans": {
+      "title": "Bloqueado em crowdloans",
+      "description": "Valor total de KSM e DOT bloqueados nos crowdloans"
+    }
+  },
+  "modals": {
+    "howToContribute": "Como contribuir para",
+    "accountAddress": "Endereço da conta"
+  },
+  "donation": {
+    "title": "Transferir",
+    "donate": "Doar",
+    "recipient": "Recebedor",
+    "currency": "Moeda",
+    "sender": "Remetente",
+    "balance": "Saldo",
+    "amount": "Quantia",
+    "thanksForSupport": "Obrigado pelo apoio!",
+    "max": "Máximo",
+    "donationSuccessful": "Doado com sucesso",
+    "donationFailed": "Você não pode doar mais do que seu saldo disponível"
+  },
+  "buttons": {
+    "goBack": "Voltar",
+    "accept": "Aceitar",
+    "decline": "Negar",
+    "close": "Fechar",
+    "copy": "Copiar",
+    "gotIt": "Got it",
+    "contribute": "Contribuir",
+    "createProfile": "Criar perfil",
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "follow": "Seguir",
+    "followTooltip": "Seguir en Subsocial",
+    "editProfile": "Editar perfil",
+    "viewAddressOn": "Veja esse endereço no {{website}}",
+    "transfer": "Transferencia"
+  },
+  "placeholders": {
+    "searchAccountAddress": "Pesquise por endereço de conta (por exemplo, Polkadot, Kusama, Acala, etc.)",
+    "noNFTsFound": "Sem NFTs encontrados",
+    "addressIsNotValid": "Endereço não é valido"
+  },
+  "tooltip": {
+    "showQR": "Mostre o QR code",
+    "openSearchInput": "Abrir entrada de pesquisa",
+    "closeSearchInput": "Fechar entrada de pesquisa",
+    "refreshNFTs": "Atualizar NFTs",
+    "copyAddress": "Clique para copiar o endereço completo",
+    "informationFrom": "Informação de",
+    "maximumContribution": "A quantidade máxima de {{symbol}} que pode ser contribuído para este crowdloan.",
+    "percentageOfTotalSupply": "A porcentagem da oferta total que o projeto está alocando para este crowdloan.",
+    "additionalReward": "As recompensas adicionais que você ganhará por {{symbol}} contribuido contribuindo através do Sub.ID.",
+    "frozenAsset": "Este ativo está congelado e não pode ser transferido neste momento.",
+    "frozenByAdmin": "O administrador deste token congelou este token para todas as contas.",
+    "claimNotSupported": "Esta parachain ainda não suporta reivindicações."
+  },
+  "crowdloan": {
+    "crowdloans": "Crowdloans",
+    "raised": "Arrecadado",
+    "goal": "Meta"
+  },
+  "transfer": {
+    "title": "Transferir",
+    "subtitle":  {
+      "sameChain": "Transfira tokens para outra conta na mesma cadeia.",
+      "crossChain": "Transfira tokens para a mesma ou outra conta em uma cadeia diferente."
+    },
+    "successSubtitle":  {
+      "sameChain": "Você transferiu seus tokens com sucesso.",
+      "crossChain": "Você transferiu com sucesso seus tokens e eles chegarão em cerca de 30 segundos."
+    },
+
+    "transfer": "Transferir",
+    "sameChain": "Mesma cadeia",
+    "crossChain": "Cadeia cruzada",
+    "source": "Cadeia de origem",
+    "dest": "Cadeia de destino",
+    "recipient": "Recebedor",
+    "amount": "Montante",
+    "yourAccount": "Sua conta",
+    "crossChainFee": "Taxa de Cadeia Cruzada",
+    "max": "MAX",
+    "transferableBalance": "Saldo transferível",
+
+    "existentialDepositInDestAlert": "O <1>depósito existencial</1> para {{token}} em {{network}} é {{existential}}. Por favor, transfira mais de {{minTransfer}}.",
+    "existentialDepositInSourceAlert": "O <1>depósito existencial</1> para {{token}} em {{network}} é {{existential}}. Deixe pelo menos {{existential}} ou transfira todo o saldo para evitar que sua conta seja ceifada.",
+
+    "placeholders": {
+      "amount": "Por exemplo, 10",
+      "recipient": "Endereço do destinatário"
+    },
+
+    "errors": {
+      "transferFail": "Falha na transferência, tente novamente.",
+      "transferToSelf": "Não é possível transferir para si mesmo",
+      "swapRouteNotFound": "A transferência nesta direção não é suportada.",
+      "amount": {
+        "zero": "O valor deve ser maior que 0",
+        "exceedMax": "O valor não deve exceder seu saldo máximo"
+      },
+      "recipient": {
+        "required": "O endereço do destinatário deve ser preenchido",
+        "notValid": "Endereço inválido"
+      }
+    }
+  }
+}

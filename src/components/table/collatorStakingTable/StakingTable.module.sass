@@ -1,0 +1,63 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.StakingModal
+  \:global .ant-modal-header
+    padding: $space_big
+
+  \:global .ant-modal-body
+    padding: 0 $space_big $space_big $space_big !important
+
+.StakingTableTabs
+  \:global .ant-tabs-nav-operations
+    display: none !important
+
+.StakingActionButtons
+  display: flex
+  padding: 0 4.6rem
+
+.StakingAmountInput
+  label
+    width: 100%
+
+  \:global .ant-form-item-explain
+    margin-bottom: $space_big
+
+.InfoCircle
+  font-size: 18px
+
+  path
+    color: $color_muted
+
+.TokenSymbol
+  font-size: $font_small
+
+.TimeSkeleton
+  \:global .ant-skeleton-title
+    margin: 0 !important
+    margin-top: $space_mini !important
+
+  \:global .ant-skeleton-paragraph
+    display: none
+
+.MobileCards
+  \:global .ant-card-body
+    padding: $space_tiny $space_normal
+
+  \:global .ant-collapse-header
+    padding: 0 !important
+
+  \:global .ant-collapse-arrow
+    right: 0 !important
+
+  \:global .ant-collapse-content-box
+    padding: 0
+
+.CardItems
+  margin-left: 2rem
+
+@media ( max-width: $max_mobile_width )
+  .StakingActionButtons
+    padding: 0
+
+  .MobileCards
+    border-radius: 0 !important

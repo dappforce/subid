@@ -1,0 +1,89 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.Footer
+  display: flex
+  justify-content: center
+  background-color: $color_footer
+  margin-top: $space_big
+  flex-shrink: 0
+  text-align: center
+  padding: $space_normal 0
+  max-height: initial
+
+.SocialLinkIcon
+  font-size: $space_large
+  color: $color_muted
+
+.LinkIcon
+  &:hover
+    svg
+      color: $color_link_hover
+
+.FooterContent
+  min-width: 428px
+  max-width: $max_width_content
+  width: $max_width_content
+  display: flex
+  justify-content: space-between
+  align-items: center
+  flex-shrink: 0
+
+.Logo
+  width: 82px
+  margin-right: $space_huge
+
+
+.SocialHandles
+  display: flex
+  flex: 1
+  justify-content: end
+  align-items: center
+
+@media ( max-width: $max_mobile_width)
+  .FooterContent
+    min-width: auto
+    width: auto
+    max-width: auto
+    display: flex
+    flex: 1
+    margin-bottom: $space_normal
+
+  .Footer
+    display: block
+    max-height: initial
+    padding: $space_big $font_normal
+
+  .FooterLinks
+    display: block
+
+.Row
+  margin-bottom: 3rem
+
+@media ( max-width: $max_mobile_width)
+  .Row
+    margin-left: 5%
+    margin-bottom: $space_normal
+
+.List
+  list-style: none
+  padding: 0
+  margin-bottom: 0
+  display: flex
+  justify-content: space-between
+
+  li
+    display: inline-block
+
+  a
+    color: #666666 !important
+    &:hover
+      color: $color_primary !important
+
+.Col
+  display: grid
+  grid-template-rows: 0fr 1fr
+  justify-content: center
+
+@media ( max-width: $max_mobile_width)
+  .Col
+    justify-content: start

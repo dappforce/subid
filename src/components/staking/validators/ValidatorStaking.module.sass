@@ -1,0 +1,231 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.NominatingStepCollapse
+  background: #fff
+  font-size: $font_normal !important
+  border-radius: $border_radius_large !important
+  box-shadow: 0px 0px 12px #ebebeb
+
+  button
+    height: 40px
+    border-radius: $border_radius_large !important
+
+  input
+    height: 40px
+    border-radius: $border_radius_large !important
+
+  \:global .ant-collapse-header
+    font-size: $font_big
+    font-weight: 600
+    padding: $space_big !important
+
+  \:global .ant-collapse-arrow
+    font-size: $font_large !important
+    right: $space_big !important
+
+  \:global .ant-collapse-content-box
+    padding: $space_big !important
+    padding-top: 0 !important
+    margin-top: -6px
+
+.StepsItems
+  width: 100%
+
+.RewardsDestinationGrid
+  width: 100%
+
+  \:global .ant-space-item
+    width: 100%
+
+.BlockTitle
+  font-size: $font_small
+  margin-bottom: $space_tiny
+
+.DestinationCard
+  padding: $space_normal
+  border: $staking_border_gray
+  border-radius: $border_radius_large
+  cursor: pointer
+  font-size: $font_normal !important
+
+  h3
+    color: $color_font_normal !important
+    margin-bottom: $space_tiny !important
+
+.ActiveDestinationCard
+  border: $staking_border_pink
+  box-shadow: $staking_box_shadow
+
+.ValidatorItem
+  padding: $space_normal
+  border: $staking_border_gray
+  border-radius: $border_radius_large
+
+.ActiveValidatorItem
+  border: $staking_border_pink
+  box-shadow: $staking_box_shadow
+
+.SetValidatorsCard
+  padding: $space_normal
+  border: $staking_border_gray
+  border-radius: $border_radius_large
+  cursor: pointer
+  font-size: $font_normal !important
+
+  h3
+    color: $color_font_normal !important
+
+.CollapseValidatorCard
+  border: $staking_border_gray
+  border-radius: $border_radius_large !important
+  cursor: pointer
+
+  h3
+    color: $color_font_normal !important
+
+  \:global .ant-collapse-content-box
+    padding: 0 !important
+
+  \:global .ant-collapse
+    padding: $space_normal
+
+  \:global .ant-collapse-header
+    font-size: $font_normal
+    padding: 0 !important
+
+  \:global .ant-collapse-arrow
+    font-size: $font_large !important
+
+  \:global .ant-collapse-content-box
+    padding-top: 0 !important
+
+.SelectedItem
+  border-radius: $border_radius_large !important
+  border: $staking_border_pink
+  box-shadow: $staking_box_shadow
+
+.BondInput
+  label
+    width: 100% !important
+
+  \:global .ant-form-item-label
+    padding: 0 !important
+
+  \:global .ant-form-item
+    margin-bottom: 0 !important
+
+  \:global .ant-input-suffix
+    button
+      height: auto !important
+
+  \:global .ant-input-affix-wrapper
+    height: 40px
+    padding-top: 0
+    padding-bottom: 0
+    border-radius: $border_radius_large
+    overflow: hidden
+
+  input
+    padding-bottom: 1px !important
+
+.ValidatorsTable
+  table
+    height: 100%
+
+    colgroup
+      display: none
+
+  \:global .ant-table-thead tr th
+    background: transparent !important
+    border-bottom: none !important
+
+    h3
+      font-size: $font_small !important
+      font-weight: 400 !important
+      margin-bottom: 0
+
+  \:global .ant-table-row-selected
+    td
+      background: transparent !important
+
+    &:hover
+      td
+        background: #fafafa !important
+
+  \:global .ant-table-content
+    overflow: hidden !important
+
+  \:global .ant-table-tbody
+    tr
+      cursor: auto
+
+      td
+        padding: 0 !important
+        padding: $space_tiny 0 $space_tiny $space_tiny !important
+
+      td:last-child
+        padding-right: $space_small !important
+
+
+  \:global .ant-table-tbody
+    tr
+      td
+        border-bottom: none
+
+      &:hover
+        td:first-child
+          border-top-left-radius: $border_radius_large
+          border-bottom-left-radius: $border_radius_large
+
+        td:last-child
+          border-top-right-radius: $border_radius_large
+          border-bottom-right-radius: $border_radius_large
+
+  \:global .ant-pagination
+    justify-content: center !important
+
+.SelectPayoutAccount
+  \:global .ant-select-selector
+    border-radius: $border_radius_large !important
+
+.Bond
+  span
+    font-size: $font_big !important
+    color: $color_font_normal !important
+
+.SummaryInfoBlock
+  background: #F5F5F5
+  padding: $space_normal
+  border-radius: $border_radius_large
+
+.SearchInput
+  margin-bottom: $space_huge
+  height: 40px
+
+.SelectedValidators
+  font-size: 20px
+  margin-bottom: $space_normal
+
+.PageTitle
+  color: $color_font_normal !important
+  margin-bottom: $space_normal
+
+.MinBondSection
+  background: #F5F5F5
+  border-radius: $border_radius_large
+  padding: $space_normal
+  font-size: $font_normal
+
+.PassedStep
+  path
+    color: $color_green
+
+@media ( max-width: $max_mobile_width)
+  .ValidatorsTable
+    \:global .ant-table-tbody
+      tr        
+        td
+          padding: $space_tiny 0 $space_tiny $space_tiny !important
+
+        td:last-child
+          padding-right: $space_tiny !important 

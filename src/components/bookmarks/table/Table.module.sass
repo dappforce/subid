@@ -1,0 +1,62 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$label_row_width: 20rem
+
+.FavoriteAccountsTable
+  box-shadow: $shadow
+
+  tr td
+    cursor: pointer
+
+  thead tr th
+    background-color: #fafafa
+    padding: $space_small
+    font-weight: bold
+
+.TableButton
+  padding: 0 $space_tiny
+
+.CardLink
+  color: $color_font_normal !important
+
+.Label
+  margin: 0 2rem 0 2.8rem
+  white-space: break-word
+
+.ActionButton
+  max-width: 1.5rem
+  width: 1.5rem
+
+  button
+    margin: 0 !important
+    width: auto !important
+
+    color: $color_font_normal
+    &:hover
+      color: $color_link_hover
+
+.AccountRowWidth
+  max-width: 9rem
+  width: 9rem
+
+.LabelRowWidth
+  max-width: $label_row_width
+  width: $label_row_width
+  white-space: break-word
+
+  > div
+    overflow: hidden
+
+.ActiveStarFont
+  color: #F2CB50
+  font-size: $font_normal
+
+.CardsSection
+  background-color: $color_footer
+  padding: 0.625rem
+  border-radius: $border_radius_normal
+
+@media ( max-width: $max_mobile_width)
+  .Label
+    div
+      justify-content: flex-start !important

@@ -1,0 +1,94 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$action_button_height: 50px
+$action_button_width: 190px
+
+.BookmarksModal
+  \:global .ant-form
+    padding: 0 $space_huge $space_huge $space_huge !important
+
+  \:global .ant-modal-header
+    border-bottom: none
+    padding: $space_huge $space_huge $space_normal $space_huge !important
+
+  \:global .ant-modal-header
+    border-bottom: none
+
+  \:global .ant-modal-footer
+    border-top: none
+
+  \:global .ant-modal-content
+    border-radius: $space_normal
+    overflow: hidden
+
+  \:global .ant-divider-inner-text:first-of-type
+    margin-top: 0
+    padding-top: 0
+
+  \:global .ant-modal-close-x
+    margin-top: $space_normal
+    margin-right: $space_normal
+
+  \:global .ant-divider-inner-text
+    color: $color_muted
+    font-size: $font_normal
+
+  \:global .ant-modal-body
+    padding: 0
+    overflow-x: hidden !important
+
+  \:global .ant-menu
+    margin-top: 0 !important
+
+.ActionButtons
+  display: flex
+  align-items: center
+  justify-content: center
+
+  div
+    margin-bottom: 0 !important
+
+  button
+    height: $action_button_height
+    width: $action_button_width
+    border-radius: 10px
+    font-size: $font-normal
+
+.DescInput
+  margin-bottom: $space_huge
+
+.Icon
+  width: 22px
+  margin-right: $space_small
+
+.FollowButton
+  font-size: $font_normal
+  padding-bottom: $space_bigger
+
+.AccountName
+  font-size: $font_big !important
+  font-weight: bold !important
+
+.Address
+  font-size: $space_normal
+
+.AccountSection
+  display: flex
+  align-items: center
+  margin-bottom: $space_huge
+
+.Desc
+  margin-bottom: $space_big
+  font-size: $font_normal
+
+.NotesInput
+  border-radius: 10px
+  height: 50px
+  
+  input
+    font-size: $font_normal
+
+@media ( max-width: $max_mobile_width)
+  .ActionButtons
+    button
+      width: 139.5px

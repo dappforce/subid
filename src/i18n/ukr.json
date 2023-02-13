@@ -1,0 +1,283 @@
+{
+  "general": {
+    "home": "Головна",
+    "nfts": "NFTs",
+    "address": "адреса",
+    "aboutSubId": "Всі ваші Substrate адреси і баланси в одному місці",
+    "extensionAccounts": "Акаунти з розширення",
+    "suggestFeature": "Запропонувати функцію",
+    "addressCopied": "Адреса скопійована",
+    "loginHint": "за допомогою {{polkadot}}, щоб побачити баланси вашого акаунта.",
+    "notListed": "Немає ціни",
+    "reportBug": "Повідомити про помилку",
+    "showAll": "Показати все",
+    "allAccounts": "Всі акаунти",
+    "allAccountsDesc": "Всі акаунти дають тобі можливість побачити агреговані дані по всіх акаунтах з Polkadot.js",
+    "total": "Всього",
+    "connectWallet": "Підключити гаманець",
+    "networkStatus": "Стан мережі"
+  },
+  "signIn": {
+    "walletTitle": "Оберіть гаманець",
+    "accountsTitle": "Оберіть акаунт",
+    "walletsDesc": "Оберіть один з доступних гаманців для підключення до Sub.ID.",
+    "accountsDesc": "Натисніть на акаунт для того, щоб увійти",
+    "installToolTip": "Встановіть {{title}} або перезагрузіть сторінку, якщо {{title}} вже встановлений",
+    "notInstalled": "{{title}} не встановлений. Якщо ви вже встановили {{title}}, то перезавантажте сторінку",
+    "back": "Назад",
+    "setupWalletLink": "Як налаштувати гаманець?"
+  },
+  "interestingAccounts": {
+    "title": "Цікаві акаунти",
+    "allRoles": "Всі ролі",
+    "council": "Councilors",
+    "validator": "Validators",
+    "crowdloaner": "Crowdloaners"
+  },
+  "banner": {
+    "placeholderTitle": "Редагувати банер NFT",
+    "placeholderDesc": "Виберіть банер NFT з однієї із наших колекцій",
+    "modal": {
+      "title": "Виберіть банер NFT для вашої сторінки",
+      "desc": "Тепер ви можете встановити банер з будь якої із наших колекцій. Якщо ви хочете купити новий банер,",
+      "descLinkText": "натисніть сюди",
+      "warning": "Ваша енергія менше 1 токена NRG.",
+      "warningButton": "Отримати енергію",
+      "moreTokensMsg": "Потрібно більше NRG"
+    }
+  },
+  "favoritesAccounts": {
+    "title": "Вибрані акаунти",
+    "pageDesc": "Приватний список, який зберігається локально тільки в цьому браузері і доступний тільки вам.",
+    "table": {
+      "account": "Акаунт",
+      "notes": "Нотатки"
+    },
+    "notifs": {
+      "added": "Акаунт був доданий у вибрані",
+      "edited": "Нотатки для акаунта були відредаговані",
+      "removed": "Акаунт був видалений з вибраних"
+    },
+    "tooltips": {
+      "star": "Видалити з вибраних"
+    },
+    "modal": {
+      "addTitle": "Додати у вибрані",
+      "editTitle": "Редагувати нотатку",
+      "desc": "Після додавання акаунту, його можна знайти у вкладці на бічній панелі. У полі нижче можна додати опис для цієї адреси для швидкого пошуку в майбутньому."
+    },
+    "buttons": {
+      "add": "Додати",
+      "save": "Зберегти",
+      "cancel": "Відмінити"
+    },
+    "placeholder": "Опис для цієї адреси (необов'язково)"
+  },
+  "chains": {
+    "allChains": "Всі чейни",
+    "polkadot": "Polkadot",
+    "kusama": "Kusama"
+  },
+  "loading": {
+    "accounts": "Завантаження акаунтів з розширення",
+    "dataByAccount": "Завантажження даних по акаунту",
+    "loadingNfts": "Завантажження NFTs...",
+    "transaction": "Це може зайняти до 30 секунд"
+  },
+  "charts": {
+    "nativeTokenHAxis": "Сумарний баланс у USD еквіваленті",
+    "crowdloanHAxis": "Заблоковано {{symbol}} в USD еквіваленті",
+    "defaultHAxis": "Сумарний баланс у USD еквіваленті",
+    "nativeTokenVAxis": "Substrate Chain",
+    "crowdloanVAxis": "Parachain",
+    "statemineAssetVAxis": "Statemine Актив",
+    "defaultVAxis": "Актив",
+    "labels": {
+      "multiLabel": "Баланс (≈ USD)",
+      "transferable": "Доступно (≈ USD)",
+      "reserved": "У резерві (≈ USD)",
+      "locked": "Заблоковано (≈ USD)"
+    },
+    "tabs": {
+      "barChart": "Гістограма",
+      "pieChart": "Кругова діаграма"
+    }
+  },
+  "table": {
+    "balances": {
+      "frozen": "Заморожено",
+      "locked": "Заблоковано",
+      "reserved": "Зарезервовано",
+      "free": "Доступно",
+      "title": "Баланс",
+      "noData": "Балансів не знайдено",
+      "checkBoxText": "Показати все",
+      "refreshText": "Оновити баланси",
+      "loading": "Завантаження балансів",
+      "tabs": {
+        "all": "Всі",
+        "active": "Активні",
+        "winner": "Переможці",
+        "ended": "Завершені"
+      }
+    },
+    "crowdloan": {
+      "title": "{{relayChain}} Краудлони",
+      "noData": "Вкладів у краудлони не знайдено",
+      "checkBoxText": "Показати все",
+      "refreshText": "Оновити краудлони",
+      "loading": "Завантаження {{relayChain}} краудлонів...",
+      "lockInfo": {
+        "unlocked": "Внесений {{token}} було розблоковано {{date}}",
+        "lockedUntil": "Заблокований {{token}} буде доступний {{date}}}"
+      }
+    },
+    "statemine": {
+      "noData": "Жодних активів не знайдено",
+      "checkBoxText": "Показати все",
+      "refreshText": "Оновити активи",
+      "loading": "Завантаження активів...",
+      "tabs": {
+        "all": "Все",
+        "free": "Доступні",
+        "frozen": "Заморожені"
+      }
+    },
+    "labels": {
+      "asset": "Актив",
+      "chain": "Мережа",
+      "balance": "Баланс",
+      "price": "Ціна",
+      "value": "Загальна Вартість",
+      "contribution": "Вкладено",
+      "claimable": "Доступно/ Залишається",
+      "raised": "Зібрано",
+      "cap": "Ціль",
+      "reward": "Винагорода",
+      "referral": "Реф.",
+      "status": "Статус",
+      "bonus": "Бонус"
+    }
+  },
+  "overview": {
+    "totalPortfolioValue": {
+      "title": "Портфоліо",
+      "description": "Загальна вартість передаваємих, непередаваємих та вкладених у краудлони токенів у кількох Substrate-based мережах"
+    },
+    "transferableBalance": {
+      "title": "Передаваємий баланс",
+      "description": "Загальна вартість передаваємих токенів у кількох Substrate-based мережах"
+    },
+    "nonTransferableBalance": {
+      "title": "Непередаваємий баланс",
+      "description": "Загальна вартість зарезервованих та заблокованих токенів у кількох Substrate-based мережах, включаючи заморожені Statemine активи"
+    },
+    "lockedCrowdloans": {
+      "title": "Заблоковано",
+      "description": "Загальна вартість KSM та DOT заблокованих у краудлонах"
+    }
+  },
+  "modals": {
+    "howToContribute": "Як зробити свій внесок у",
+    "accountAddress": "Адреса"
+  },
+  "donation": {
+    "title": "Відправка",
+    "recipient": "Отримувач",
+    "currency": "Валюта",
+    "sender": "Відправник",
+    "balance": "Баланс",
+    "thanksForSupport": "Thanks for support!",
+    "donate": "Пожертвувати",
+    "amount": "Кількість",
+    "max": "MAX",
+    "donationSuccessful": "Пожертвовано успішно",
+    "donationFailed": "Ви не можете пожертвувати більше, ніж ви маєте в наявності"
+  },
+  "buttons": {
+    "goBack": "Go Back",
+    "accept": "Прийняти",
+    "decline": "Відхилити",
+    "close": "Закрити",
+    "copy": "Копіювати",
+    "gotIt": "Зрозуміло",
+    "contribute": "Вкласти",
+    "createProfile": "Створити профіль",
+    "signIn": "Увійти",
+    "signOut": "Вийти",
+    "follow": "Підписатися",
+    "followTooltip": "Підписатися на Subsocial",
+    "editProfile": "Редагувати",
+    "viewAddressOn": "Подивитися цю адресу на {{website}}",
+    "transfer": "Transfer"
+  },
+  "placeholders": {
+    "searchAccountAddress": "Пошук по акаунту (наприклад, Polkadot, Kusama, Acala та ін.)",
+    "noNFTsFound": "Жодних NFTs не знайдено",
+    "addressIsNotValid": "Адреса некоректна"
+  },
+  "tooltip": {
+    "showQR": "Показати QR-код",
+    "openSearchInput": "Відкрити пошук",
+    "closeSearchInput": "Закрити пошук",
+    "refreshNFTs": "Оновити NFTs",
+    "copyAddress": "Натисніть, щоб скопіювати повну адресу",
+    "informationFrom": "Інформація від",
+    "maximumContribution": "Максимальна кількість {{symbol}}, яку можна вкласти в краудлон.",
+    "percentageOfTotalSupply": "Відсоток від загального обсягу токенів, які проект виділив на краудлон.",
+    "additionalReward": "Додаткові нагороди, які можна заробити за {{symbol}}, внесений через Sub.ID.",
+    "frozenAsset": "Цей актив заморожений і не може бути переданий у цей час.",
+    "frozenByAdmin": "Адміністратор токена заморозив його для всіх акаунтів.",
+    "claimNotSupported": "Цей парачейн ще не підтримує заявки."
+  },
+  "crowdloan": {
+    "crowdloans": "Краудлони",
+    "raised": "Raised",
+    "goal": "Ціль"
+  },
+  "transfer": {
+    "title": "Трансфер",
+    "subtitle":  {
+      "sameChain": "Передайте токени на інший обліковий запис у тому ж ланцюжку.",
+      "crossChain": "Передайте токени на той самий або інший обліковий запис в іншому ланцюжку."
+    },
+    "successSubtitle":  {
+      "sameChain": "Ви успішно передали свої токени.",
+      "crossChain": "Ви успішно передали свої токени, і вони надійдуть приблизно через 30 секунд."
+    },
+
+    "transfer": "Трансфер",
+    "sameChain": "Поточна мережа",
+    "crossChain": "Кроссчейн трансфер",
+    "source": "Початкова мережа",
+    "dest": "Мережа призначення",
+    "recipient": "Отримувач",
+    "amount": "Сума",
+    "yourAccount": "Ваш рахунок",
+    "crossChainFee": "Комісія за кроссчейн",
+    "max": "MAX",
+    "transferableBalance": "Доступний баланс",
+
+    "existentialDepositInDestAlert": "<1>Екзистенційний депозит</1> для {{token}} на {{network}} становить {{existential}}. Будь ласка, передайте більше ніж {{minTransfer}}.",
+    "existentialDepositInSourceAlert": "<1>Екзистенційний депозит</1> для {{token}} на {{network}} становить {{existential}}. Будь ласка, залиште принаймні {{existential}} або перерахуйте весь баланс, щоб запобігти знищенню вашого рахунку.",
+
+    "placeholders": {
+      "amount": "Наприклад, 10",
+      "recipient": "Адреса отримувача"
+    },
+
+    "errors": {
+      "transferFail": "Помилка передачі, спробуйте ще раз.",
+      "transferToSelf": "Неможливо передати собі",
+      "swapRouteNotFound": "Передача в цьому напрямку не підтримується.",
+      "amount": {
+        "zero": "Сума має бути більше 0",
+        "exceedMax": "Сума не повинна перевищувати ваш максимальний баланс"
+      },
+      "recipient": {
+        "required": "Необхідно вказати адресу одержувача",
+        "notValid": "Адреса недійсна"
+      }
+    }
+  }
+}

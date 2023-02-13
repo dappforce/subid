@@ -1,0 +1,48 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.StatusCard
+  border-radius: 8px
+
+  \:global .ant-card-body
+    padding: $space_normal
+    min-height: 5rem
+    display: flex
+    align-items: center
+
+.CardMargin
+  margin-right: $space_small
+
+.ChainConnection
+  position: absolute
+  width: $space_tiny
+  height: $space_tiny
+  border-radius: 50px
+  right: $space_normal
+  top: $space_normal
+  background-color: $color_volcano
+
+.StatusCol
+  width: 18rem
+  margin-bottom: $space_small
+
+.connected
+  background-color: #4BB543
+
+.Disconnected
+  border-color: #ffa29d
+  background-color: #fff7f6
+
+@media ( max-width: $max_mobile_width)
+  .StatusCard
+    border-radius: 0
+
+  .StatusCol
+    width: 11.25rem
+    margin-bottom: $space_small
+
+  .CardMargin
+    margin-right: 0.5rem
+
+@media ( max-width: 360px)
+  .CardMargin
+    margin-right: 0

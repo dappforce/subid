@@ -1,0 +1,241 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.PageTitle
+  color: $color_font_normal !important
+  margin-bottom: $space_normal
+
+.StakeDashboardTitle
+  font-size: $font_normal !important
+
+.StakingDashboard
+  background: #FFFFFF
+  box-shadow: $box_shadow_black
+  border-radius: $border_radius_large
+  padding: $space_big
+  position: relative
+  overflow: hidden
+
+  \:global .MutedText
+    font-size: $font_small
+
+  button
+    height: 44px !important
+    border-radius: $border_radius_large !important
+    display: flex
+    justify-content: center
+    align-items: center
+
+    svg
+      font-size: 21px
+
+.DashboardValue
+  font-weight: 600 !important
+  font-size: $font_big !important
+
+  span
+    font-size: $font_big !important
+    color: $color_font_normal
+
+.DashboardBlock
+  background-color: #fff
+  padding: $space_normal 0
+  box-shadow: $shadow
+  border-radius: $border_radius_large
+
+.DashboardItem
+  display: grid
+  margin-left: $space_normal
+
+.ActionsPannelBlock
+  padding: $space_small
+  background: #fff
+  border-radius: $border_radius_large
+
+  \:global .ant-space-item:last-child
+    margin-bottom: 0 !important
+
+.ActionButton
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: $space_small
+
+  svg
+    font-size: 24px
+    margin-right: $space_tiny
+
+    path
+      color: #9EA3BE
+
+    rect
+      color: #9EA3BE
+
+  &:hover
+    border-radius: $border_radius_large
+    background: #F5F5F5
+    cursor: pointer
+
+.ActingButtonArrow
+  svg
+    margin-right: 0
+    font-size: 16px
+
+.ValidatorsAlertMargin
+  margin-right: $space_small
+  margin-left: $space_small
+  margin-top: $space_small
+  
+.BondAlertMargin
+  margin-right: $space_small
+  margin-left: $space_small
+  margin-top: $space_small
+
+.RewardSkeleton
+  h3
+    margin: 0 !important
+    height: 26px !important
+    margin-top: $space_tiny !important
+
+.ValidatorStakingModal
+  input
+    height: 40px
+    border-radius: $border_radius_large
+
+  button
+    height: 40px
+    border-radius: $border_radius_large
+
+  \:global .ant-modal-body
+    padding-bottom: $space_normal !important
+
+  \:global .ant-modal-footer
+    position: relative
+    padding: $space_normal $space_huge $space_huge $space_huge
+
+  \:global .ant-modal-footer button + button
+    margin-left: $space_normal
+
+.FooterLight
+  \:global .ant-modal-footer
+    &::before
+      content: ''
+      position: absolute
+      width: 100%
+      height: 30px
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 70.83%)
+      left: 0
+      top: -26px
+
+.UnstakeModalList
+  padding-left: $space_normal
+
+.DashboardImg
+  position: absolute
+  right: -42px
+  top: -64px
+
+  &::after
+    content: ''
+    position: absolute
+    position: absolute
+    right: -46px
+    height: 100%
+    width: 100%
+    background: linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)
+
+.CommonUnlockingBadge
+  width: 16px
+  height: 16px
+  border-radius: 50%
+  top: -3px !important
+  right: 7px !important
+
+  display: flex
+  align-items: center
+  justify-content: center
+
+  svg
+    height: 10px
+    width: 10px
+    margin-right: 0
+
+    path
+      color: #fff
+
+.UnbondingUnlockingBadge
+  @extend .CommonUnlockingBadge
+  background-color: $color_gold
+
+.UnlockedUnlockingBadge
+  @extend .CommonUnlockingBadge
+  background-color: $color_green
+
+.AlertMessageBox
+  border: $staking_border_gray
+  filter: drop-shadow($staking_box_shadow)
+  border-radius: $border_radius_large
+  padding: $space_normal
+  margin-bottom: $space_normal
+
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+  .AlertIcon
+    svg
+      height: 21px
+      width: 21px
+
+    path
+      color: #FAAD14
+
+  .ArrowIcon
+    svg
+      font-size: 16px
+      margin-right: $space_tiny
+
+    path
+      color: #9EA3BE
+
+.ClickableAlert
+  &:hover
+    cursor: pointer
+
+.ChangeValidatorsScreen
+  background: #FFFFFF
+  box-shadow: $box_shadow_black
+  border-radius: $border_radius_large
+  padding: $space_big
+
+  .BackArrow
+    padding-left: 0 !important
+
+    svg
+      height: 20px
+      width: 20px
+
+      path
+        color: #888
+
+    &:hover
+      svg path
+        color: $color_link_hover
+
+  .ChangeValidatorsButtons
+    margin-top: $space_big
+
+    \:global .ant-space-item
+      width: 100%
+
+    button
+      height: 40px
+
+.StakeAndUnstakeButtons
+  \:global .ant-space-item
+    width: 100%
+
+.MobileView
+  align-items: start !important
+  
+  span
+    margin-top: 2px

@@ -1,0 +1,54 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.IdentitySection
+  padding-bottom: $space_tiny
+
+.VerifiedIcon
+  color: $color_green
+  margin-right: $space_tiny
+  font-size: $font_big
+  margin-top: 1px
+
+.IdentityIcon
+  display: inline-flex
+  padding: 2px
+  height: 24px
+  border-radius: 50%
+  border: 2px solid $color_muted
+  margin: 0 $space_tiny 0 0
+
+.verified
+  border-color: $color_green !important
+
+.DfGridParams
+  row-gap: $space_tiny
+  column-gap: $space_tiny
+  justify-content: space-between
+
+@media ( max-width: $max_mobile_width)
+  .DfGridParams
+     margin-top: $space_normal
+
+.IdentityBlock
+  margin-top: $space_tiny
+  background-color: #fff
+  padding: 0 $space_large
+  box-shadow: $shadow
+  border-radius: $border_radius_normal
+  \:global .ant-tabs-tab
+    font-size: $font_normal
+
+.TitleMargin
+  margin-bottom: $space_big
+
+@media ( max-width: $max_mobile_width)
+  .IdentityBlock
+    \:global .ant-tabs-nav
+      margin-bottom: $space_small
+
+    border-radius: 0
+
+.TitleText
+  color: $color_font_normal
+  font-weight: bold
+  font-size: $font_medium

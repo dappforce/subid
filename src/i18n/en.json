@@ -1,0 +1,520 @@
+{
+  "general": {
+    "home": "Home",
+    "nfts": "NFTs",
+    "address": "address",
+    "extensionAccounts": "Extension accounts",
+    "aboutSubId": "All your Substrate addresses and balances in one place",
+    "suggestFeature": "Suggest feature",
+    "addressCopied": "Address copied",
+    "loginHint": "with {{polkadot}} to see the balances of your account.",
+    "notListed": "No price",
+    "reportBug": "Report Bug",
+    "showAll": "Show all",
+    "allAccounts": "All Accounts",
+    "allAccountsDesc": "All Accounts let you see an aggregated view of all the accounts in your Polkadot.js",
+    "total": "Total",
+    "connectWallet": "Connect Wallet",
+    "networkStatus": "Network Status"
+  },
+  "validatorStaking": {
+    "sideMenuTitle": "Validators staking",
+    "title": "Validators Staking ",
+    "subtitle": "Stake your tokens by nominating validators, and receive rewards in return. You can unstake at any time, but it will take {{bondingDuration}} for your tokens to be unlocked.",
+    "backButton": "Back",
+    "continueButton": "Continue",
+    "saveButton": "Save",
+    "startScreen": {
+      "estimatedEarnings": "Your estimated {{symbol}} earnings:",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "button": "Start staking"
+    },
+    "startNominatingScreen": {
+      "title": "Start Staking",
+      "subtitle": "Stake to one or more validators in order to receive staking rewards.",
+      "linkText": " Read more",
+      "stake": {
+        "title": "1. Stake {{symbol}}",
+        "subtitle": "Please enter the amount to stake and choose how the rewards will be awarded."
+      },
+      "selectValidators": {
+        "title": "2. Set Validators",
+        "subtitle": "Stake to our recommended validators, or choose yourself from the list of active validators."
+      },
+      "summary": {
+        "title": "3. Summary"
+      },
+      "stakeBlock": {
+        "minimumStake": {
+          "title": "Minimum Stake",
+          "desc": "The minimum amount of tokens required to stake." 
+        },
+        "minimumActiveStake": {
+          "title": "Minimum Active Stake",
+          "desc": "The minimum amount of staked tokens required to earn rewards from nominating a specific validator." 
+        },
+        "bondInput": {
+          "label": "Amount",
+          "balance": "Balanace:",
+          "staked": "Staked:",
+          "bondAlert": "You do not meet the minimum bond of {{amount}} {{symbol}}"
+        },
+        "rewardDestination": {
+          "label": "Reward Destination",
+          "abountLink": "About rewards",
+          "restake": "Restake Rewards",
+          "account": "Transferable rewards",
+          "payoutAccount": "Payout account"
+        }
+      },
+      "setValidatorsBlock": {
+        "recommended": {
+          "title": "Stake with recommended validators",
+          "desc": "We’ll select the top validators based on security and profitability criteria"
+        },
+        "selectByYourself": {
+          "title": "Select by yourself",
+          "desc": "Select up to {{maxNominations}} validators",
+          "selectedValidators": "Selected validators:",
+          "table": {
+            "validator": "Validators",
+            "stakeAmount": "Stake amount",
+            "apy": "Est. rewards (APY)", 
+            "apyDesc": "Estimated annual percentage gain on your staked tokens."
+          }
+        }
+      },
+      "summaryBlock": {
+        "wallet": "Wallet",
+        "account": "Account",
+        "networkFee": "Network fee",
+        "rewardsDestination": "Rewards destination",
+        "selectedValidators": "Selected validators"
+      }
+    },
+    "stakingScreen": {
+      "accountStakingDashboard": {
+        "yourStake": "Your stake",
+        "yourRewards": "Your rewards so far",
+        "notHaveRewards": "___ {{symbol}}",
+        "persentageOfTotalAmount": "({{percentOfTokens}}% of your {{symbol}} amount)",
+        "stakeMore": "Increase stake",
+        "unstake": "Unstake"
+      },
+      "actionsPannel": {
+        "unlocks": "Unlocks",
+        "rewardsDestination": "Rewards destination",
+        "yourValidators": "Your nominations",
+        "controllerAccount": "Controller account",
+        "unbonding": "unbonding",
+        "unlocked": "unlocked"
+      },
+      "modals": {
+        "rewardDestinationTitle": "Rewards destination",
+        "validatorsTitle": "Your nominations",
+        "controllerTitle": "Controller account",
+        "stopNominating": "Revoke nominations",
+        "networkFee": "Network fee",
+        "validatorAction": "Change nominations",
+        "rewardDestinationAction": "Change",
+        "controllerAction": "Change",
+        "controller": {
+          "desc": "Use separate accounts to hold and control your staked tokens for increased security. This is optional, as you use the same account for both by default.",
+          "stashLabel": "Stash",
+          "stashDesc": "This account holds the staked tokens and can set a controller account.",
+          "controllerLabel": "Controller",
+          "controllerDesc": "This account controls your staked tokens, and can stake, unstake, change your nominations, etc."
+        },
+        "unlocks": {
+          "unlocked": "Unlocked",
+          "unbonding": "Unbonding",
+          "total": "Total",
+          "desc": "Unlocks take {{bondingDuration}} eras before they can be withdrawn. You can rebond unlocks at any time in this period, or withdraw them to your free balance thereafter.",
+          "unlocksAfter": "Unlocks after era",
+          "withdrawButton": "Withdraw Unlocked"
+        },
+        "stakeMoreOrUnstake": {
+          "unstakingPeriod": "Unstaking tokens will take ({{bondingDuration}})",
+          "noRewards": "No staking rewards are earned during the unstaking period",
+          "redeem": "After your tokens finish unstaking, remember to redeem them",
+          "stakeTitle": "Increase stake",
+          "stakeButton": "Stake",
+          "unstake": "Unstake"
+        }
+      },
+      "alerts": {
+        "bond": {
+          "title": "Stake more token",
+          "desc": "Staking is currently inactive. Current minimal stake is"
+        },
+        "chooseValidators": {
+          "title": "Choose your validators",
+          "desc": "Staking is currently inactive. Choose validators to start nominating."
+        },
+        "changeValidators": {
+          "title": "Change your validators",
+          "desc": "You are nominated one or more oversubscribed validators, and will not receive any rewards this era."
+        },
+        "waitingNominator": {
+          "title": "Rewards will begin in the next era."
+        }
+      }
+    },
+    "changeValidatorsScreen": {
+      "title": "Set Validators",
+      "desc": "Stake to our recommended validators, or choose yourself from the list of active validators."
+    },
+    "commonDashboard": {
+      "minimumStake": "Minimum Stake",
+      "unstakingPeriod": "Unstaking Period",
+      "activeNominators": "Active Nominators",
+      "activeEra": "Active Era"
+    },
+    "successMessages": {
+      "rewardDestination": "The reward destination has been successfully changed",
+      "controller": "Controller has been successfully changed",
+      "validators": "Validators have been successfully changed",
+      "withdrawUnlocks": "Unlocked tokens successfully withdrawn",
+      "stakeMore": "Stake has been successfully increased",
+      "unstake": "Unstaked successfully",
+      "stopNominations": "All nominations have been revoked"
+    }
+  },
+  "signIn": {
+    "walletTitle": "Choose your wallet",
+    "accountsTitle": "Choose your account",
+    "walletsDesc": "Choose one of the available wallet providers to connect to Sub.ID.",
+    "accountsDesc": "Click on your account to Sign In",
+    "installToolTip": "Install {{title}} or refresh a page if {{title}} is already installed",
+    "notInstalled": "{{title}} extension is not installed or refresh a page if {{title}} is already installed",
+    "back": "Back",
+    "setupWalletLink": "How do I set up a wallet?"
+  },
+  "interestingAccounts": {
+    "title": "Interesting Accounts",
+    "allRoles": "All Roles",
+    "council": "Councilors",
+    "validator": "Validators",
+    "crowdloaner": "Crowdloaners"
+  },
+  "banner": {
+    "placeholderTitle": "Edit banner NFT",
+    "placeholderDesc": "Choose a banner NFT from one of our collections",
+    "modal": {
+      "title": "Choose a banner NFT for your page",
+      "desc": "Now you can install a banner from any of our collections. If you would like to buy a new banner,",
+      "descLinkText": "click here",
+      "warning": "Your energy is less than 1 NRG token.",
+      "warningButton": "Get energy",
+      "moreTokensMsg": "Need more NRG"
+    }
+  },
+  "staking": {
+    "sideMenuTitle": "Collators staking",
+    "desc": "Stake your tokens by delegating them to collators, and receive rewards in return. You can withdraw at any time, but the withdrawal process may take a few days, depending on the chains settings.",
+    "tabs": {
+      "active": "Active",
+      "waiting": "Waiting"
+    },
+    "FAQ": {
+      "whatIs": {
+        "title": "What is staking?",
+        "desc": "Due to Sub.ID supporting a wide variety of blockchains, it is impossible to precisely answer this question. However, in general, you lock up your tokens, and receive rewards. You can unlock them at any time, but it usually takes anywhere from a few hours to a few days for the unlocking process to finish, depending on the settings of a particular blockchain."
+      },
+      "whichCollator": {
+        "title": "Which collator should I pick?",
+        "desc": "You can choose any collator, but generally rewards will be higher on collators with a lower total stake. Note that if a collator’s total stake gets too low, it will drop out of the active set and stop receiving rewards."
+      },
+      "canIStake": {
+        "title": "Can I stake to more than one collator at a time?",
+        "desc": "Yes, you can stake to as many collators as you wish."
+      },
+      "canIModify": {
+        "title": "Can I modify my existing stake and/or delegations?",
+        "desc": "Yes. You can partially or fully unstake and withdraw your delegations at any time, as well as delegate to new collators or increase any of your existing stakes."
+      }
+    },
+    "warnningSection": {
+      "title": "Incompatible network",
+      "desc": "To display {{network}} staking, please use a {{network}} account",
+      "button": "Switch accounts"
+    },
+    "table": {
+      "collator": "Collator",
+      "myStake": "My Stake",
+      "myUnstake": "My Unstake",
+      "selfStake": "Self-Stake",
+      "total": "Total Staked",
+      "stakers": "Stakers"
+    },
+    "buttons": {
+      "stake": "Stake",
+      "unstake": "Unstake",
+      "claim": "Claim",
+      "cancel": "Cancel"
+    },
+    "dashboard": {
+      "desc": "Stake your tokens by delegating them to collators, and receive rewards in return. You can withdraw at any time, but the withdrawal process may take a few days, depending on the chain’s settings.",
+      "transferable": "Transferable Balance",
+      "nextRound": "Next Round Starts",
+      "collators": "Collators"
+    },
+    "modal": {
+      "staker": "Staker",
+      "amount": "Amount",
+      "staked": "Staked: ",
+      "stakeFailed": "Amount exceeds available balance",
+      "unstakeFailed": "Amount exceeds staked balance",
+      "minStake": "The minimum required {{action}} is {{minStake}} {{currency}}",
+      "minUnstake": "{{minStake}} {{currency}} minimum stake, please leave {{minStake}}+ {{currency}} or unstake all"
+    },
+    "noData": "No stakes found",
+    "loadingLabel": "Loading collators staking data",
+    "success": {
+      "staked": "Stake successful",
+      "unstaked": "Unstake request successful",
+      "claimed": "Claim successful",
+      "canceled": "Unstake request cancelled"
+    },
+    "tooltips": {
+      "claimed": "will be available to claim",
+      "readyToClaim": "Ready to claim",
+      "toManyDelegations": "Too many stake per staker"
+    }
+  },
+  "favoritesAccounts": {
+    "title": "Favorites Accounts",
+    "pageDesc": "A private list that is stored locally only in this browser and is available only to you.",
+    "table": {
+      "account": "Account",
+      "notes": "Notes"
+    },
+    "notifs": {
+      "added": "Account was added to the favorites",
+      "edited": "Notes for account was edited",
+      "removed": "Account was removed from favorites"
+    },
+    "tooltips": {
+      "star": "Remove from favorites"
+    },
+    "modal": {
+      "addTitle": "Add to Favorites",
+      "editTitle": "Edit Notes",
+      "desc": "After adding an account to favorites, you can find it using the tab in the sidebar. In the field below, you can add a label for this address for quick search in the future."
+    },
+    "buttons": {
+      "add": "Add",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "placeholder": "Notes for this address (optional)"
+  },
+  "chains": {
+    "allChains": "All Chains",
+    "polkadot": "Polkadot",
+    "kusama": "Kusama"
+  },
+  "loading": {
+    "accounts": "Loading accounts from extension",
+    "dataByAccount": "Loading data by account",
+    "loadingNfts": "Loading NFTs...",
+    "transaction": "It may take up to 30 seconds"
+  },
+  "charts": {
+    "nativeTokenHAxis": "Total balance in USD equivalent",
+    "crowdloanHAxis": "Locked {{symbol}} in USD equivalent",
+    "defaultHAxis": "Value in USD equivalent",
+    "nativeTokenVAxis": "Substrate Chain",
+    "crowdloanVAxis": "Parachain",
+    "statemineAssetVAxis": "Statemine Asset",
+    "defaultVAxis": "Asset",
+    "labels": {
+      "multiLabel": "Balance (≈ USD)",
+      "transferable": "Transferable balance (≈ USD)",
+      "reserved": "Reserved balance (≈ USD)",
+      "locked": "Locked balance (≈ USD)"
+    },
+    "tabs": {
+      "barChart": "Bar chart",
+      "pieChart": "Pie chart"
+    }
+  },
+  "table": {
+    "balances": {
+      "frozen": "Frozen fee",
+      "locked": "Locked balance",
+      "reserved": "Reserved balance",
+      "free": "Transferable",
+      "title": "Balances",
+      "loading": "Loading account balances...",
+      "noData": "No balances found",
+      "checkBoxText": "Show zero balances",
+      "refreshText": "Refresh balances",
+      "tabs": {
+        "all": "All",
+        "active": "Active",
+        "winner": "Winner",
+        "ended": "Ended"
+      }
+    },
+    "crowdloan": {
+      "title": "{{relayChain}} crowdloans",
+      "noData": "No crowdloan contributions found",
+      "checkBoxText": "Show all crowdloans",
+      "refreshText": "Refresh crowdloans",
+      "loading": "Loading {{relayChain}} crowdloans...",
+      "lockInfo": {
+        "unlocked": "Contributed {{token}} was unlocked on {{date}}",
+        "lockedUntil": "Locked {{token}} will be available on {{date}}"
+      }
+    },
+    "statemine": {
+      "noData": "No assets found",
+      "loading": "Loading account assets...",
+      "checkBoxText": "Show zero balances",
+      "refreshText": "Refresh assets",
+      "tabs": {
+        "all": "All",
+        "free": "Free",
+        "frozen": "Frozen"
+      }
+    },
+    "labels": {
+      "asset": "Asset",
+      "chain": "Chain",
+      "balance": "Balance",
+      "price": "Price",
+      "totalValue": "Total Value",
+      "contribution": "Contribution",
+      "claimable": "Claimable/ Remaining",
+      "raised": "Raised",
+      "bonus": "Bonus",
+      "cap": "Cap",
+      "reward": "Reward",
+      "referral": "Referral",
+      "status": "Status"
+    }
+  },
+  "overview": {
+    "totalPortfolioValue": {
+      "title": "Total portfolio value",
+      "description": "Total value of transferable, non-transferable, and crowdloaned tokens across multiple Substrate-based chains"
+    },
+    "transferableBalance": {
+      "title": "Transferable balance",
+      "description": "Total value of transferable tokens across multiple Substrate-based chains"
+    },
+    "nonTransferableBalance": {
+      "title": "Non-transferable balance",
+      "description": "Total value of reserved and locked tokens across multiple Substrate-based chains including frozen Statemine assets"
+    },
+    "lockedCrowdloans": {
+      "title": "Locked in crowdloans",
+      "description": "Total value of KSM and DOT locked in crowdloans"
+    }
+  },
+  "modals": {
+    "howToContribute": "How to contribute to",
+    "accountAddress": "Account address"
+  },
+  "donation": {
+    "title": "Transfer",
+    "donate": "Donate",
+    "recipient": "Recipient",
+    "currency": "Currency",
+    "sender": "Sender",
+    "balance": "Balance",
+    "amount": "Amount",
+    "thanksForSupport": "Thanks for support!",
+    "max": "MAX",
+    "donationSuccessful": "Donated successfully",
+    "donationFailed": "You cannot donate more than your available balance"
+  },
+  "buttons": {
+    "goBack": "Go Back",
+    "accept": "Accept",
+    "decline": "Decline",
+    "close": "Close",
+    "copy": "Copy",
+    "gotIt": "Got it",
+    "contribute": "Contribute",
+    "createProfile": "Create profile",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "follow": "Follow",
+    "followTooltip": "Follow on Subsocial",
+    "editProfile": "Edit profile",
+    "viewAddressOn": "View this address on {{website}}",
+    "transfer": "Transfer"
+  },
+  "placeholders": {
+    "searchAccountAddress": "Search by account address (e.g. Polkadot, Kusama, Acala, etc.)",
+    "noNFTsFound": "No NFTs found",
+    "addressIsNotValid": "Address is not valid"
+  },
+  "tooltip": {
+    "showQR": "Show QR code",
+    "openSearchInput": "Open search input",
+    "closeSearchInput": "Close search input",
+    "refreshNFTs": "Refresh NFTs",
+    "copyAddress": "Click to copy the full address",
+    "informationFrom": "Information from",
+    "maximumContribution": "The maximum amount of {{symbol}} that can be contributed to this crowdloan.",
+    "percentageOfTotalSupply": "The percentage of the total supply that the project is allocating to this crowdloan.",
+    "additionalReward": "The additional rewards that you will earn per {{symbol}} contributed by contributing through Sub.ID.",
+    "frozenAsset": "This asset is frozen and cannot be transferred at this time.",
+    "frozenByAdmin": "The administrator of this token has frozen this token for all accounts.",
+    "claimNotSupported": "This parachain does not yet support claims."
+  },
+  "crowdloan": {
+    "crowdloans": "Crowdloans",
+    "raised": "Raised",
+    "goal": "Goal"
+  },
+  "transfer": {
+    "title": "Transfer",
+    "subtitle": {
+      "sameChain": "Transfer tokens to another account on the same chain.",
+      "crossChain": "Transfer tokens to the same or another account on a different chain."
+    },
+    "successSubtitle": {
+      "sameChain": "You have successfully transferred your tokens.",
+      "crossChain": "You have successfully transferred your tokens, and they will arrive in about 30 seconds."
+    },
+
+    "transfer": "Transfer",
+    "sameChain": "Same-chain",
+    "crossChain": "Cross-chain",
+    "source": "Origin chain",
+    "dest": "Destination chain",
+    "recipient": "Recipient",
+    "amount": "Amount",
+    "yourAccount": "Your account",
+    "crossChainFee": "Cross Chain Fee",
+    "max": "MAX",
+    "transferableBalance": "Transferable Balance",
+
+    "existentialDepositInDestAlert": "The <1>existential deposit</1> for {{token}} on {{network}} is {{existential}}. Please transfer more than {{minTransfer}}.",
+    "existentialDepositInSourceAlert": "The <1>existential deposit</1> for {{token}} on {{network}} is {{existential}}. Please leave at least {{existential}} or transfer the entire balance to prevent your account from being reaped.",
+
+    "placeholders": {
+      "amount": "For example, 10",
+      "recipient": "Recipient address"
+    },
+
+    "errors": {
+      "transferFail": "Transfer failed, please try again.",
+      "transferToSelf": "Cannot transfer to self",
+      "swapRouteNotFound": "Transferring in this direction is not supported.",
+      "amount": {
+        "zero": "Amount must be more than 0",
+        "exceedMax": "Amount must not exceed your maximum balance"
+      },
+      "recipient": {
+        "required": "Recipient address must be filled",
+        "notValid": "Address not valid"
+      }
+    }
+  }
+}

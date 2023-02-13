@@ -1,0 +1,48 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.DashboardBlock
+  background-color: #fff
+  padding: $space_normal 0
+  box-shadow: $shadow
+  margin-bottom: $space_large
+  border-radius: $border_radius_normal
+
+.DashboardItem
+  display: grid
+  margin-left: $space_normal
+
+.TimeSkeleton
+  \:global .ant-skeleton-title
+    margin: 0 !important
+    margin-top: $space_mini !important
+
+  \:global .ant-skeleton-paragraph
+    display: none
+
+.FAQButton
+  font-weight: bold
+  font-size: $font_normal
+  padding: 0
+
+.CollapseItem
+  p
+    font-size: $font_normal
+    margin-bottom: 0rem !important
+
+  \:global .ant-collapse-content-box
+    padding: 0 0 !important
+    padding-left: $space_big !important
+
+  \:global .ant-collapse-header
+    padding-left: $space_big !important
+    font-weight: bold
+    font-size: $font_normal
+
+  \:global .ant-collapse-arrow
+    left: 0 !important
+
+
+
+@media ( max-width: $max_mobile_width )
+  .DashboardBlock
+    border-radius: 0

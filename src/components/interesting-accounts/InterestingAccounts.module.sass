@@ -1,0 +1,172 @@
+@import 'src/styles/subsocial-vars.scss'
+$card_width_size: 209.5px
+$card_width_mobile_size: 160px
+$card_image_size: 100px
+
+.ShowAllButton
+  padding: $space_large
+  border-radius: 5px
+  border: $border!important
+  background-color: #fff !important
+  box-shadow: 0 2px 5px 2px $color_shadow !important
+  align-items: center
+  display: flex
+  justify-content: center
+  margin-bottom: $space_large
+
+.SelectedNetwork
+  cursor: pointer
+
+  &:hover
+    color: $color_link_hover
+
+.AccountsDivider
+  margin-bottom: $space_mini
+  margin-top: $space_tiny
+  min-width: 92%
+  width: 92%
+
+.MenuOverlay
+  box-shadow: $shadow
+
+.AmountValue
+  color: $color_font_normal !important
+
+  span
+    color: $color_font_normal !important
+
+.SpecialFooter
+  position: absolute
+  left: 0
+  right: 0
+
+.ShortCardDesc
+  .DescriptionSection
+    height: auto
+
+.InfiniteScroll
+  \:global .ant-row
+    margin-left: 0
+    margin-right: 0
+
+.ProfileCard
+  width: $card_width_size
+  border-radius: $border_radius_large
+  display: flex
+  padding: $space_normal
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  cursor: pointer
+
+  &:hover
+    .CardStarButton
+      visibility: visible
+
+  \:global .ant-card-cover
+    width: 100%
+
+  \:global .ant-card-body
+    padding: $space_normal 0 0 0
+    width: 100%
+
+  .RelayChain
+    border-radius: 100%
+    height: 24px
+    width: 24px
+    position: absolute
+    bottom: 4px
+    right: 4px
+    border: $border
+  .Title
+    text-align: center
+    width: 100%
+
+    \:global .ant-card-meta-detail > div:not(:last-child)
+      margin-bottom: 4px
+
+.DescriptionSection
+  height: 3rem
+
+.DropdownContainer
+  \:global .ant-tabs-nav
+    border-bottom: $border
+
+  \:global .ant-tabs-tab
+    padding-left: 0 !important
+    padding-right: 0 !important
+    margin-right: $font_big
+    font-size: $font_normal !important
+
+  \:global .ant-tabs-nav-more
+    display: none
+
+  \:global .ant-tabs-nav-list > div:nth-last-child(2)
+    margin-right: 0 !important
+
+.CardStarButton
+  position: absolute
+  padding: 0 $space_tiny
+  z-index: 1
+  visibility: hidden
+  right: -$space_small
+  top: -$space_tiny
+
+.CardStarButtonVisible
+  visibility: visible !important
+
+.CardCoverBody
+  display: flex
+  justify-content: center
+
+.CardCoverAvatar
+  width: 84px
+  position: relative
+
+.MenuItem
+  padding: $space_small $space_small 0 $space_small
+  margin-bottom: $space_normal
+  text-align: center
+  cursor: pointer
+  .TabIcon
+    border: 1px solid $color_light_border
+    border-radius: $border_radius_normal
+
+  &:hover .TabIcon
+    border: 1px solid $color_link_hover
+
+  &:hover
+    color: $color_link_hover
+    background-color: #fff
+
+@media (max-width: 767px)
+  .CardStarButton
+    visibility: visible !important
+
+  .DropdownContainer
+    max-width: 140px
+
+    \:global .ant-tabs-nav-more
+      display: flex
+
+  .ProfileCard
+    width: 180px
+    margin-right: 0
+
+@media (max-width: 395px)
+  .ProfileCard
+    width: 168px
+    margin-right: 0
+
+  .DescriptionSection
+    height: 5.5rem
+
+@media (max-width: 375px)
+  .ProfileCard
+    width: $card_width_mobile_size
+    margin-right: 0
+
+@media (max-width: 360px)
+  .ProfileCard
+    width: 154px
+    margin-right: 0

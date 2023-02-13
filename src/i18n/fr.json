@@ -1,0 +1,283 @@
+{
+  "general": {
+    "home": "Accueil",
+    "nfts": "NFTs",
+    "address": "address",
+    "extensionAccounts": "Comptes d’extension",
+    "aboutSubId": "Toutes vos adresses et soldes Substrate en un seul endroit",
+    "suggestFeature": "Fonction de suggestion",
+    "addressCopied": "Adresse copiée",
+    "loginHint": "avec {{polkadot}} pour voir les soldes de votre compte.",
+    "notListed": "pas de prix",
+    "reportBug": "Signaler une erreur",
+    "showAll": "Montrer tous",
+    "allAccounts": "Tous les comptes",
+    "allAccountsDesc": "Tous les comptes vous permettent de voir l'apparence globale de tous les comptes de votre polkadot.js",
+    "total": "Total",
+    "connectWallet": "Connexion de portefeuille",
+    "networkStatus": "L'état du réseau"
+  },
+  "signIn": {
+    "walletTitle": "Choisissez votre portefeuille",
+    "accountsTitle": "Sélectionnez votre compte",
+    "walletsDesc": "Choisissez l’un des fournisseurs de portefeuille disponibles pour se connecter à Sub.ID.",
+    "accountsDesc": "Cliquez sur votre compte pour vous connecter",
+    "installToolTip": "Installez {{title}} ou actualisez le navigateur si {{title}} est déjà installé",
+    "notInstalled": "{{title}} n’est pas installé ou actualise le navigateur si {{title}} est déjà installé",
+    "back": "Retour",
+    "setupWalletLink": "Comment puis-je installer un portefeuille?"
+  },
+  "interestingAccounts": {
+    "title": "Comptes intéressants",
+    "allRoles": "Tous les rôles",
+    "council": "Conseillères",
+    "validator": "Validateurs",
+    "crowdloaner": "Crowdloaners"
+  },
+  "banner": {
+    "placeholderTitle": "Banner NFT bewurkje",
+    "placeholderDesc": "Kies in banner NFT út ien fan ús kolleksjes",
+    "modal": {
+      "title": "Kies in NFT-banner foar jo side",
+      "desc": "No kinne jo in banner ynstallearje fan ien fan ús kolleksjes. As jo ​​in nije banner wolle keapje,",
+      "descLinkText": "Klik hjir",
+      "warning": "Jo enerzjy is minder dan 1 NRG token.",
+      "warningButton": "Krij enerzjy",
+      "moreTokensMsg": "Mear NRG nedich"
+    }
+  },
+  "favoritesAccounts": {
+    "title": "Comptes préférés",
+    "pageDesc": "Une liste privée qui est stockée localement uniquement dans ce navigateur et qui n’est disponible que pour vous.",
+    "table": {
+      "account": "Compte",
+      "notes": "Notes"
+    },
+    "notifs": {
+      "added": "Compte ajouter aux préférés",
+      "edited": "Les notes pour le compte ont été modifiées",
+      "removed": "Compte retiré des préférés"
+    },
+    "tooltips": {
+      "star": "Retirer des préférés"
+    },
+    "modal": {
+      "addTitle": "Ajoutez aux préférés",
+      "editTitle": "Modifier des notes",
+      "desc": "Après avoir ajouté un compte aux préférés, vous pouvez le trouver en utilisant l’onglet dans la barre latérale. Dans le champ ci-dessous, vous pouvez ajouter une étiquette pour cette adresse pour une recherche rapide à l’avenir."
+    },
+    "buttons": {
+      "add": "Ajouter",
+      "save": "Sauvegarder",
+      "cancel": "Annuler"
+    },
+    "placeholder": "Notes pour cette adresse (facultatif)"
+  },
+  "chains": {
+    "allChains": "Toutes les chaînes",
+    "polkadot": "Polkadot",
+    "kusama": "Kusama"
+  },
+  "loading": {
+    "accounts": "Chargement des comptes depuis l’extension",
+    "dataByAccount": "Chargement des données par compte",
+    "loadingNfts": "Chargement des NFTs...",
+    "transaction": "Cela peut prendre jusqu'à 30 secondes"
+  },
+  "charts": {
+    "nativeTokenHAxis": "Solde total en équivalent USD",
+    "crowdloanHAxis": "Verrouillé {{symbol}} en équivalent USD",
+    "defaultHAxis": "Valeur en équivalent USD",
+    "nativeTokenVAxis": "Chaîne de Substrat",
+    "crowdloanVAxis": "Parachain",
+    "statemineAssetVAxis": "Actif de Statemine",
+    "defaultVAxis": "Actif",
+    "labels": {
+      "multiLabel": "Solde (≈ USD)",
+      "transferable": "Transferable solde (≈ USD)",
+      "reserved": "Solde réservé (≈ USD)",
+      "locked": "Solde bloqué (≈ USD)"
+    },
+    "tabs": {
+      "barChart": "Diagramme à barres",
+      "pieChart": "Diagramme circulaire"
+    }
+  },
+  "table": {
+    "balances": {
+      "frozen": "Frais bloqué",
+      "locked": "Solde bloqué",
+      "reserved": "Solde réservé",
+      "free": "Transferable",
+      "title": "Soldes",
+      "loading": "Chargement des soldes de compte...",
+      "noData": "Aucun solde trouvé",
+      "checkBoxText": "Afficher zéro solde",
+      "refreshText": "Actualiser les soldes",
+      "tabs": {
+        "all": "Tout",
+        "active": "Actif",
+        "winner": "Vainqueur",
+        "ended": "Terminé"
+      }
+    },
+    "crowdloan": {
+      "title": "{{relayChain}} crowdloans",
+      "noData": "Aucune contribution à Crowdloan trouvée",
+      "checkBoxText": "Montrer tous les crowdloans",
+      "refreshText": "Actualiser les crowdloans",
+      "loading": "Chargement {{relayChain}} crowdloans...",
+      "lockInfo": {
+        "unlocked": "Le {{token}} contribué a été déverrouillé le {{date}}",
+        "lockedUntil": "Le {{token}} verrouillé sera disponible le {{date}}"
+      }
+    },
+    "statemine": {
+      "noData": "Aucun actif trouvé",
+      "loading": "Chargement de l’actif du compte...",
+      "checkBoxText": "Afficher zéro solde",
+      "refreshText": "Actualiser les actifs",
+      "tabs": {
+        "all": "Tout",
+        "free": "Gratuit",
+        "frozen": "Bloqué"
+      }
+    },
+    "labels": {
+      "asset": "Actif",
+      "chain": "Chaîne",
+      "balance": "Solde",
+      "price": "Prix",
+      "value": "Valeur Totale",
+      "contribution": "Contribution",
+      "claimable": "Réclamable/ Restant",
+      "raised": "Augmenté",
+      "bonus": "Bonus",
+      "cap": "Cap",
+      "reward": "Récompense",
+      "referral": "Parrainage",
+      "status": "Statut"
+    }
+  },
+  "overview": {
+    "totalPortfolioValue": {
+      "title": "Valeur totale du portefeuille",
+      "description": "Valeur totale des tokens transférables, non transférables et en crowdloane sur plusieurs chaînes basées sur un Substrat"
+    },
+    "transferableBalance": {
+      "title": "Solde transferable",
+      "description": "Valeur totale des tokens transférables sur plusieurs chaînes à base de substrat"
+    },
+    "nonTransferableBalance": {
+      "title": "Solde non-transferable",
+      "description": "Valeur totale des jetons réservés et verrouillés dans plusieurs chaînes à base de substrat, y compris les actifs bloqué de Statemine"
+    },
+    "lockedCrowdloans": {
+      "title": "Bloqué dans crowdloans",
+      "description": "Valeur totale KSM et DOT bloqués dans crowdloans"
+    }
+  },
+  "modals": {
+    "howToContribute": "Comment contribuer à",
+    "accountAddress": "Adresse du compte"
+  },
+  "donation": {
+    "title": "Transfert",
+    "donate": "Donné",
+    "recipient": "Bénéficiaire",
+    "currency": "Devise",
+    "sender": "Expéditeur",
+    "balance": "Solde",
+    "amount": "Montant",
+    "thanksForSupport": "Merci de votre soutien!",
+    "max": "MAX",
+    "donationSuccessful": "Donné avec succès",
+    "donationFailed": "Vous ne pouvez pas donner plus que votre solde disponible."
+  },
+  "buttons": {
+    "goBack": "Retourner",
+    "accept": "Accepter",
+    "decline": "Déclin",
+    "close": "Fermé",
+    "copy": "Copie",
+    "gotIt": "J'ai compris",
+    "contribute": "Contribuer",
+    "createProfile": "Créer un profil",
+    "signIn": "S'inscrire",
+    "signOut": "Se déconnecter",
+    "follow": "Suivre",
+    "followTooltip": "Suivre sur Subsocial",
+    "editProfile": "Modifier le profil",
+    "viewAddressOn": "Voir cette adresse sur {{website}}",
+    "transfer": "Transfert"
+  },
+  "placeholders": {
+    "searchAccountAddress": "Recherche par adresse de compte (ex. Polkadot, Kusama, Acala, etc.)",
+    "noNFTsFound": "Aucune NFT trouvée",
+    "addressIsNotValid": "Adresse n'est pas valide"
+  },
+  "tooltip": {
+    "showQR": "Afficher le code QR",
+    "openSearchInput": "Ouvrir la saisie de recherche",
+    "closeSearchInput": "Fermer la saisie de recherche",
+    "refreshNFTs": "Actualiser les NFTs",
+    "copyAddress": "Cliquez pour copier l’adresse complète",
+    "informationFrom": "Information de",
+    "maximumContribution": "Le montant maximal de {{symbol}} qui peut être versé à ce crowdloan.",
+    "percentageOfTotalSupply": "Le pourcentage de l’offre totale que le projet alloue à ce crowdloan.",
+    "additionalReward": "Les récompenses supplémentaires que vous obtiendrez par {{symbole}} contribué en contribuant par l’intermédiaire de Sub.ID.",
+    "frozenAsset": "Cet actif est bloqué et ne peut pas être transféré pour le moment.",
+    "frozenByAdmin": "L’administrateur de ce token a bloqué ce token pour tous les comptes.",
+    "claimNotSupported": "Cette parachain ne prend pas encore en charge les revendications."
+  },
+  "crowdloan": {
+    "crowdloans": "Crowdloans",
+    "raised": "Augmenté",
+    "goal": "But"
+  },
+  "transfer": {
+    "title": "Transfert",
+    "subtitle": {
+      "sameChain": "Transférer des jetons vers un autre compte sur la même chaîne.",
+      "crossChain": "Transférez des jetons vers le même compte ou vers un autre compte sur une chaîne différente."
+    },
+    "successSubtitle": {
+      "sameChain": "Vous avez transféré vos jetons avec succès.",
+      "crossChain": "Vous avez réussi à transférer vos jetons et ils arriveront dans environ 30 secondes."
+    },
+
+    "transfer": "Transfert",
+    "sameChain": "Même chaîne",
+    "crossChain": "Croix-chaîne",
+    "source": "Chaîne d'origine",
+    "dest": "Chaîne de destinations",
+    "recipient": "Destinataire",
+    "amount": "Montant",
+    "yourAccount": "Votre compte",
+    "crossChainFee": "Frais de chaîne croisée",
+    "max": "MAX",
+    "transferableBalance": "Transferable Solde",
+
+    "existentialDepositInDestAlert": "Le <1>dépôt existentiel</1> pour {{token}} sur {{network}} est {{existential}}. Veuillez transférer plus de {{minTransfer}}.",
+    "existentialDepositInSourceAlert": "Le <1>dépôt existentiel</1> pour {{token}} sur {{network}} est {{existential}}. Veuillez laisser au moins {{existential}} ou transférer la totalité du solde pour éviter que votre compte ne soit récolté.",
+
+    "placeholders": {
+      "amount": "Par exemple, 10",
+      "recipient": "Adresse du destinataire"
+    },
+
+    "errors": {
+      "transferFail": "Le transfert a échoué, veuillez réessayer.",
+      "transferToSelf": "Impossible de transférer à soi-même",
+      "swapRouteNotFound": "Le transfert dans cette direction n'est pas pris en charge.",
+      "amount": {
+        "zero": "Le montant doit être supérieur à 0",
+        "exceedMax": "Le montant ne doit pas dépasser votre solde maximum"
+      },
+      "recipient": {
+        "required": "L'adresse du destinataire doit être remplie",
+        "notValid": "Adresse non valide"
+      }
+    }
+  }
+}

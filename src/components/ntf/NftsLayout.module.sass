@@ -1,0 +1,180 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$card_image_size: 273px
+$card_image_heigth: $card_image_size
+$mobile_card_image_size: 177px
+$label_padding_size: 5px
+
+.Label
+  display: flex
+  align-items: center
+  justify-content: center
+  text-transform: uppercase
+  border-radius: $label_padding_size
+  padding-left: $label_padding_size
+  padding-right: $label_padding_size
+
+.TableLoading
+  height: 202px
+
+.LabelText
+  font-size: 10px
+
+.NftContent
+  position: absolute
+  height: 100%
+  width: 100%
+  object-fit: cover
+
+.Placeholder
+  display: flex
+  position: absolute
+  height: 100%
+  width: 100%
+  justify-content: center
+  align-items: center
+
+.NftCard
+  width: 100%
+  border-radius: $border_radius_normal
+  box-shadow: $shadow
+  border: none
+  overflow: hidden
+
+  \:global .ant-skeleton-element .ant-skeleton-image
+    height: $card_image_heigth
+    width: $card_image_size
+
+  img
+    border-top-right-radius: $border_radius_normal
+    border-top-left-radius: $border_radius_normal
+    transition: transform 0.5s ease-in-out
+
+    position: absolute
+    min-width: 100%
+    max-width: 100%
+    min-height: 100%
+    max-height: 100%
+    object-fit: cover
+
+    &:hover
+      transform: scale(1.2)
+
+  \:global .ant-card-cover
+    overflow: hidden
+    min-height: $card_image_size
+    max-height: $card_image_size
+
+  \:global .ant-card-body
+    padding: $space_small $space_normal
+    .ant-card-meta-title
+      font-weight: bold
+      margin-bottom: 0
+
+    .ant-card-meta-description
+      color: unset !important
+
+.Rmrk2
+  img
+    object-fit: contain
+
+.NftBlock
+  background-color: #fff
+  padding: 0 $space_large $space_small $space_large
+  box-shadow: $shadow
+  margin-bottom: $space_large
+  border-radius: $border_radius_normal
+  margin-top: $space_tiny
+
+  \:global .ant-row
+    display: grid
+    grid-template-columns: repeat(3, 32.1%)
+    grid-column-gap: $space_normal
+    grid-row-gap: $space_normal !important
+
+.ImageMuted
+  filter: grayscale(1) opacity(0.5)
+
+@media ( max-width: $max_mobile_width)
+  .NftBlock
+    border-radius: 0
+
+    \:global .ant-row
+      grid-template-columns: 48% 48%
+
+  .NftCard
+    width: 100%
+
+    \:global .ant-skeleton-element
+      width: 100%
+
+    \:global .ant-skeleton-element .ant-skeleton-image
+      height: $mobile_card_image_size
+      width: 100%
+
+    \:global .ant-card-cover
+      min-height: $mobile_card_image_size
+      max-height: $mobile_card_image_size
+
+    img
+      &:hover
+        transform: none
+
+.image
+  border: 1px solid #e99634
+  color: #e99634
+
+.video
+  border: 1px solid #ee3298
+  color: #ee3298
+
+.gif
+  border: 1px solid #4794fa
+  color: #4794fa
+
+.audio
+  border: 1px solid #31b757
+  color: #31b757
+
+.model
+  border: 1px solid #9f43cd
+  color: #9f43cd
+
+.NoTokensOverlay
+  position: absolute
+  z-index: 2
+  display: flex
+  color: white
+  align-items: center
+  height: 100%
+  width: 100%
+  font-weight: bold
+  justify-content: center
+  border-radius: $border_radius_normal
+  background: rgba(0, 0, 0, 0.3)
+  backdrop-filter: blur(2px)
+
+.NftTx
+  .NftCard
+    box-shadow: 0px 0px 12px rgba(235, 47, 150, 0.6) !important
+
+  .SelectedItem
+    position: absolute
+    z-index: 1
+    width: 100%
+    height: 100%
+    background: rgba(255, 255, 255, 0.3)
+    border-radius: $border_radius_normal
+
+    span
+      margin: $space_normal
+      border-radius: 50%
+      padding: $space_tiny $space_tiny
+      background-color: #EB2F96
+
+      svg
+        width: 14px
+        height: 14px
+
+        path
+          color: white

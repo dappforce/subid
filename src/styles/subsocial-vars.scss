@@ -1,0 +1,74 @@
+/*-------------Font Size-----------*/
+
+$font_tiny: .75rem;
+$font_small: .875rem;
+$font_normal: 1rem;
+$font_medium: 1.125rem;
+$font_large: 1.35rem;
+$font_big: 1.5rem;
+$font_bigger: 1.75rem;
+$font_huge: 2rem;
+
+/*----------Space Size-------------*/
+
+$space_mini: .25rem;
+$space_tiny: .5rem;
+$space_small: .75rem;
+$space_normal: 1rem;
+$space_large: 1.25rem;
+$space_big: 1.5rem;
+$space_bigger: 1.8rem;
+$space_huge: 2rem;
+
+/*-------------Colors----------*/
+
+$color_page_bg: #f5f5f5;
+$color_font_normal: #222222;
+$color_muted: #909090;
+$color_muted_light: #bbb;
+$color_link: #bd018b;
+$color_primary: #eb2f96;
+$color_link_hover: #f759ab;
+$color_secondary: #595959;
+$color_light_border: #d9d9d9;
+$color_warn_border: #f3e8ac;
+$color_volcano: #fa541c;
+$color_gold: #faad14;
+$color_hover_selectable_bg: #fff0f6;
+$color_green: #4bb543;
+$color_blue: #0099f4;
+$color_shadow: #eeecec;
+$color_footer: #fff;
+$color_twitter_link: #316cf4;
+$color_info: #e6f7ff;
+$color_info_border: #91d5ff;
+$color_info_text: #52b2ee;
+$color_warning: #fffbe6;
+$color_warning_border: #ffe58f;
+$color_warning_text: #faad14;
+
+/*------------- Shadow --------*/
+
+$shadow: 0 0 5px 2px $color_shadow !important;
+
+$border: 1px solid #ddd;
+
+$staking_border_pink: 2px solid #EB2F96;
+$staking_border_gray: 1px solid #B3B3B3;
+$staking_box_shadow: 0px 4px 7px #FBD0E8;
+$box_shadow_black: 0px 0px 12px rgba(0, 0, 0, 0.08);
+
+/*------------- Misc ----------*/
+
+/* 64px is a height of Ant Design toolbar */
+$height_top_menu: 64px;
+$border_radius_normal: 5px;
+$border_radius_large: 0.625em;
+$width_panel: 300px;
+$min_width_content: 428px;
+$max_width_content: calc(860px + #{$space_normal} * 2);
+$max_mobile_width: 755px
+
+// $font_family_title: 'PT Serif', Georgia, serif;
+// $font_family_title: 'Noto Serif', Georgia, serif;
+// $font_family_title: 'Merriweather', Georgia, serif;

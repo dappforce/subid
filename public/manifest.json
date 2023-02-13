@@ -1,0 +1,43 @@
+{
+  "short_name": "SubId",
+  "name": "SubId",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "coins.svg",
+      "type": "image/svg"
+    },
+    {
+      "src": "kusama-logo.svg",
+      "type": "image/svg"
+    },
+    {
+      "src": "polkadot-logo.svg",
+      "type": "image/svg"
+    },
+    {
+      "src": "sub-id-site-preview.png",
+      "type": "image/png"
+    },
+    {
+      "src": "SubID-logo-mobile.svg",
+      "type": "image/svg"
+    },
+    {
+      "src": "SubID-logo.svg",
+      "type": "image/svg"
+    },
+    {
+      "src": "wallet.svg",
+      "type": "image/svg"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

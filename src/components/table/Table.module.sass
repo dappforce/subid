@@ -1,0 +1,252 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$zero_margin: 0
+
+.Table
+  .BalanceBlock
+    padding-bottom: 0 !important
+
+.TableMa\rgin
+  margin-bottom: 1.25rem
+
+
+.DfGridParams
+  row-gap: $space_tiny
+  column-gap: $space_tiny
+  justify-content: space-between
+  margin-top: $space_tiny
+
+.DfCol
+  width: 49.2%
+  margin-bottom: $space_small
+
+@media ( max-width: $max_mobile_width )
+  .DfCol
+    width: 100%
+
+.Card
+  min-height: 5rem
+
+  \:global .ant-card-body
+    min-height: 5rem
+
+.CardDivider
+  margin: $space_tiny 0 0 0 !important
+
+.isExpandedCard
+  border-bottom: 1px solid #f0f0f0f0 !important
+
+.Card > div
+  padding: $space_normal
+  cursor: auto
+
+.tableWrapper
+  margin-bottom: $space_large
+
+.ShowAllButton
+  padding: $space_big
+  border: none
+  background-color: #fff !important
+  box-shadow: 0 2px 5px 2px $color_shadow !important
+  align-items: center
+  display: flex
+  justify-content: center
+  margin-bottom: $space_large
+
+.BalanceBlock
+  background-color: #fff
+  padding: $space_small
+  box-shadow: $shadow
+  border-radius: $border_radius_normal
+  margin-bottom: 0.1rem
+  margin-top: $space_small
+
+  \:global .ant-table-wrapper
+    border-radius: $border_radius_normal !important
+
+  table tr td
+    border-bottom: none !important
+
+  \:global .ant-table-row-level-0:not(:last-child)
+    td
+      border-bottom: 1px solid #f0f0f0 !important
+
+  \:global tr[data-row-key="frozen"]
+    td
+      border-bottom: 1px solid #f0f0f0 !important
+
+.CardContent
+  font-size: 0.9rem
+  display: flex
+  justify-content: space-between
+  height: 3rem
+
+.ExpandIcon
+  cursor: pointer
+  position: absolute
+  right: $space_tiny
+  top: 50%
+  transform: translateY(-50%)
+  &:hover
+    color: $color_primary
+
+.Skeleton
+  \:global .ant-skeleton-content
+    ul
+      margin-bottom: 0
+
+    li
+      width: 100% !important
+
+.FrozenColumn
+  width: 4%
+
+.AssetsTabs
+  \:global .ant-tabs-nav
+    margin-bottom: 0
+    &::before
+      border-bottom: none
+
+.BalanceColumn
+  width: 15.5rem
+
+.ChildrenBalance
+
+  \:global .ml-5
+    margin-left: 0 !important
+
+  \:global .mr-4
+    margin-right: $space_mini !important
+
+.Selectable
+  \:global .ant-card-body
+    cursor: pointer
+
+.SubscanLink
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 25px
+  height: 25px
+  border-radius: 50%
+  background-color: #F0F0F0
+  text-align: center
+  border: 1px solid transparent
+  transition: border 500ms ease-out
+
+  &:hover
+    border-color: $color_primary
+    background-color: $color_hover_selectable_bg
+
+    img
+      filter: grayscale(0) opacity(1)
+
+  img
+    width: 16px
+    filter: grayscale(1) opacity(0.66)
+
+.StatescanAssetLink
+  &:hover
+    img
+      filter: grayscale(0) opacity(1)
+
+  img
+    width: 1.375rem
+    filter: grayscale(1) opacity(0.66)
+
+.FontSmall
+  font-size: $font_small
+
+.Winner
+  color: #579F6E
+
+.ActiveCrowdloan
+  color: $color_link
+
+.SmallLineHeight
+  line-height: 0.7
+
+.DetailsList
+  margin-bottom: 0
+  li
+    line-height: 2
+
+.ReferralCode
+  font-weight: bold
+  padding: $space_mini
+  background-color: #ebebeb
+  border-radius: 6px
+
+.BalanceChainColumn
+  width: 2$space_huge
+
+.CrowdloansChainColumn
+  width: 13rem
+
+.CrowdloanLinkColumn
+  width: 2.625rem
+
+.TableLoading
+  height: 202px
+
+.CardChildren
+  margin-right: $space_normal
+
+.SecondLevelBalances
+  margin-left: 5rem !important
+
+.BalanceChainColumn
+  width: 2$space_huge
+
+.CrowdloansChainColumn
+  width: 16rem
+
+.ContributionColumn
+  width: 9rem
+
+.RaisedColumn
+  width: 7rem
+
+.CardAddressMargin
+  margin-left: $space_huge
+
+.StatusTooltip
+  position: absolute
+  right: 0
+  top: 50%
+  transform: translate(150%, -50%)
+  z-index: 9
+
+@media ( max-width: $max_mobile_width )
+  .AssetsTabs
+    margin-bottom: $space_tiny
+    \:global .ant-tabs-nav
+      .ant-tabs-tab
+        padding-bottom: $space_tiny
+
+  .DfCol
+    margin-bottom: 0
+
+  .Card
+    min-height: 3.75rem
+    border: none
+
+    \:global .ant-card-body
+      min-height: 3.75rem
+
+  .Card > div
+    padding: $space_tiny $space_normal 0 $space_normal
+
+  .CardDivider
+    min-width: 95% !important
+    width: 95%
+    margin: $space_mini 0 0 $space_huge !important
+
+  .CardContent:first-child
+    align-items: start
+
+  .Card
+    border-radius: 0 !important
+
+  .ShowAllButton
+    border-radius: 0 !important

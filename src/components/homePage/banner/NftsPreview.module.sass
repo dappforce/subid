@@ -1,0 +1,40 @@
+@import 'src/styles/subsocial-vars.scss'
+
+$card_width: 265px
+$cover_heught: 96px
+$mobile_cover_height: 116px
+
+.NftsPreview
+  padding: $space_normal $space_big $space_big $space_big
+  text-align: start !important
+
+  \:global .ant-row
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-column-gap: $space_normal
+    grid-row-gap: $space_normal !important
+
+  \:global .ant-card
+    cursor: pointer
+    width: 100%
+
+  \:global .ant-card-cover
+    width: auto
+    min-height: $cover_heught
+    max-height: $cover_heught
+
+    img
+      object-position: center
+
+@media ( max-width: $max_mobile_width)
+  .NftsPreview
+    \:global .ant-col
+      width: 100%
+
+    \:global .ant-row
+      grid-template-columns: repeat(1, 1fr)
+
+    \:global .ant-card-cover
+      width: 100%
+      min-height: $mobile_cover_height
+      max-height: $mobile_cover_height
