@@ -16,12 +16,7 @@ import {
   resolveSvgIcon,
 } from './utils'
 import { LoadMoreProps, AccountCardType, FetchFn } from './types'
-import {
-  getValidatorsByChain,
-  getAllInterestingAccounts,
-  getCouncilMembersByChain,
-  getCrowdloanContributorsByChain
-} from '../utils/OffchainUtils'
+
 import { InfinitePageList } from '../list/InfiniteList'
 import { AccountCard } from './AccountCard'
 import { relayChains } from '../table/utils'
@@ -36,6 +31,12 @@ import { usePrices } from '../../rtk/features/prices/pricesHooks'
 import { useChainInfo } from '../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { MultiChainInfo } from '../../rtk/features/multiChainInfo/types'
 import { PageTitle } from '../utils/index'
+import { 
+  getAllInterestingAccounts, 
+  getCouncilMembersByChain, 
+  getCrowdloanContributorsByChain, 
+  getValidatorsByChain 
+} from '../utils/OffchainUtils'
 
 const { TabPane } = Tabs
 
