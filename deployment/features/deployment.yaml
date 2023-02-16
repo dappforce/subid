@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subid-front-<BRANCH>
+  namespace: sub-id
+  labels:
+    app: subid-front-<BRANCH>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: subid-front-<BRANCH>
+      labels:
+        app: subid-front-<BRANCH>
+    spec:
+      imagePullSecrets:
+        - name: dockerhub 
+      containers:
+        - name: subid-front-<BRANCH>
+          image: <IMAGE> 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: subid-front-<BRANCH>
+
