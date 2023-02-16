@@ -1,10 +1,9 @@
 import React from 'react'
-import { SpaceData } from '@subsocial/types/dto'
 import { AddressProps } from './utils/types'
 import { toShortAddress } from '../../utils/index'
 import { MutedSpan } from '../../utils/MutedText'
 import { useExtensionName } from './utils'
-import { AccountIdentities, Identity } from '../../identity/types'
+import { AccountIdentities, Identity, SubsocialProfile } from '../../identity/types'
 
 type Props = AddressProps & {
   isShort?: boolean
@@ -20,7 +19,7 @@ export const Name = ({
   withShortAddress,
   className
 }: Props) => {
-  const { content } = identities?.subsocial as SpaceData || {}
+  const { name: profileName } = identities?.subsocial as SubsocialProfile || {}
 
   const extensionName = useExtensionName(address)
   const shortAddress = toShortAddress(address)
@@ -31,7 +30,7 @@ export const Name = ({
 
   const nonSubsocialIdentityName = kusamaIdentity?.info?.display || polkadotIdentity?.info?.display
 
-  const name = content?.name || nonSubsocialIdentityName || extensionName
+  const name = profileName || nonSubsocialIdentityName || extensionName
 
   const title = name ? (
     <span className={withShortAddress ? 'd-flex justify-content-between flex-wrap w-100' : ''}>

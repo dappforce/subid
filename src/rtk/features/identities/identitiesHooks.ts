@@ -10,8 +10,7 @@ import {
   AccountIdentitiesRecord,
 } from './identitiesSlice'
 import { useAppSelector, useAppDispatch } from '../../app/store'
-import { AccountIdentities } from '../../../components/identity/types'
-import { SpaceData } from '@subsocial/types/dto'
+import { AccountIdentities, SubsocialProfile } from '../../../components/identity/types'
 import { useEffect } from 'react'
 
 export const fetchIdentities = dispatchWithGenericAccounts(
@@ -23,11 +22,11 @@ export const getSubsocialIdentityByAccount = (
   identities?: AccountIdentitiesRecord
 ) =>
   identities && account
-    ? (identities[toGenericAccountId(account)]?.subsocial as SpaceData)
+    ? (identities[toGenericAccountId(account)]?.subsocial as SubsocialProfile)
     : undefined
 
 export const getSubsocialIdentity = (accountiIdentities?: AccountIdentities) => 
-  accountiIdentities ? accountiIdentities?.subsocial as SpaceData : undefined
+  accountiIdentities ? accountiIdentities?.subsocial as SubsocialProfile : undefined
 
 export const getIdentityByAccount = (
   account?: string,

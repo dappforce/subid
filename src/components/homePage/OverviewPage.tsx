@@ -1,5 +1,4 @@
 import React from 'react'
-import { SpaceContent, SpaceData } from '@subsocial/types/dto'
 import { MutedDiv } from '../utils/MutedText'
 import Section from '../utils/Section'
 import Name from './address-views/Name'
@@ -26,10 +25,11 @@ import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
 import BannerSection from './banner/bannerSection/BannerSection'
+import { SubsocialProfile } from '../identity/types'
 
 export type Props = {
   addresses?: string[]
-  owner?: SpaceData
+  owner?: SubsocialProfile
   size?: number
   addressFromStorage: string
 }
@@ -49,14 +49,14 @@ export const AccountInfo = (props: Props) => {
   const address = !isMulti && addresses ? addresses[addresses.length - 1] : undefined
 
   const identities = address && identitiesByAccount ? identitiesByAccount[toGenericAccountId(address)] : undefined
-  const owner = identities ? identities.subsocial as SpaceData : undefined
+  const owner = identities ? identities.subsocial as SubsocialProfile : undefined
 
   const { t } = useTranslation()
 
   const accounts = useMyExtensionAddresses()
   const chains = useChainInfo()
 
-  let { image: accountAvatar, about: accountDescription } = owner?.content || ({} as SpaceContent)
+  let { image: accountAvatar, about: accountDescription } = owner || {}
 
   if (isMulti === true) {
     accountDescription = t('general.allAccountsDesc')

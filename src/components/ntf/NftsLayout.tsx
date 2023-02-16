@@ -17,9 +17,9 @@ import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitie
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { AccountIdentitiesRecord } from '../../rtk/features/identities/identitiesSlice'
 import clsx from 'clsx'
-import { SpaceData } from '@subsocial/types/dto'
 import NftItem from './NftItem'
 import { SectionTitle } from '../utils/index'
+import { SubsocialProfile } from '../identity/types';
 
 const { TabPane } = Tabs
 
@@ -51,7 +51,7 @@ export type NftGridProps = {
   desktopDivider?: number
   mobileDivider?: number
   withConnection?: boolean
-  owner?: SpaceData
+  owner?: SubsocialProfile
   hide?: () => void
   hasTokens?: boolean
 }
@@ -75,7 +75,7 @@ export const NftGrid = ({
     </div>
   )
 
-  const hasProfile = !!owner?.content
+  const hasProfile = !!owner
 
   return !isEmptyArray(nfts) ? (
     <div>

@@ -1,7 +1,6 @@
 import { AnyAccountId } from '@subsocial/types'
 import { BareProps } from '../utils/Section'
 import BN from 'bignumber.js'
-import { SpaceData } from '@subsocial/types/dto'
 
 export type IdentityBareProps = BareProps & {
   address: AnyAccountId
@@ -69,4 +68,24 @@ export type Identity = {
   isVerify: boolean
 }
 
-export type AccountIdentities = Record<string, SpaceData | Identity>
+export type SubsocialProfile = {
+  content: string
+  createdAtBlock: string
+  createdAtTime: string
+  createdByAccount: Record<'id', string>
+  email: string
+  name: string
+  linksOriginal: string
+  hidden: string
+  id: string
+  updatedAtTime: string
+  postsCount: number
+  image: string
+  tagsOriginal: string
+  summary: string
+  about: string
+  ownedByAccount: Record<'id', string>
+  experimental: Record<string, string>
+}
+
+export type AccountIdentities = Record<string, SubsocialProfile | Identity>

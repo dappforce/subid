@@ -10,9 +10,8 @@ import { useBuildSendGaUserEvent } from '../../ga/events'
 import { accountIdToSubsocialAddress } from '../utils'
 import { useState } from 'react'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
-import { AccountIdentities } from '../identity/types'
+import { AccountIdentities, SubsocialProfile } from '../identity/types'
 import { useTranslation } from 'react-i18next'
-import { SpaceData } from '@subsocial/types/dto'
 import dynamic from 'next/dynamic'
 
 type ActionButtonsProps = {
@@ -81,7 +80,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink
-            url={`${subAppBaseUrl}/${(identities?.subsocial as SpaceData).id}/edit`}
+            url={`${subAppBaseUrl}/${(identities?.subsocial as SubsocialProfile).id}/edit`}
             value={t('buttons.editProfile')}
           />
         </Button>
