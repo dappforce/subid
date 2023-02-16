@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subid-front
+  namespace: sub-id
+  labels:
+    app: subid-front
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: subid-front
+      labels:
+        app: subid-front
+    spec:
+      imagePullSecrets:
+        - name: dockerhub 
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - subid-front
+            topologyKey: kubernetes.io/hostname                 
+      containers:
+        - name: subid-front
+          image: <IMAGE> 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+
+              #          resources:
+              #            requests:
+              #              memory: "80Mi"
+              #              cpu: "0.1m"
+              #            limits:
+              #              memory: "900Mi"
+              #              cpu: "0.5m"
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 35
+
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 20
+
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: subid-front

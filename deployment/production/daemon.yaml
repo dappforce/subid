@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: front-ready
+  name: front-ready
+  namespace: sub-id
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: front-ready
+  template:
+    metadata:
+      labels:
+        app: front-ready
+    spec:
+      containers:
+      - image: <IMAGE>
+        imagePullPolicy: IfNotPresent
+        name: front-ready
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: dockerhub 
+      restartPolicy: Always
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
