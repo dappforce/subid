@@ -46,7 +46,7 @@ jobs:
         name: Build staging image
         uses: docker/build-push-action@v3
         with:
-          context: frontend 
+          context: .
           builder: ${{ steps.buildx.outputs.name }}
           file: docker/Dockerfile
           push: true
@@ -64,9 +64,9 @@ jobs:
         name: Build production image
         uses: docker/build-push-action@v3
         with:
-          context: frontend
+          context: .
           builder: ${{ steps.buildx.outputs.name }}
-          file: frontend/docker/Dockerfile
+          file: docker/Dockerfile
           push: true
           build-args: |
                   GH_BACKEND_URL=https://sub.id
