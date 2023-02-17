@@ -16,7 +16,7 @@ import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
-import { SubsocialProfile } from '../identity/types';
+import { SubsocialProfile } from '../identity/types'
 
 const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })

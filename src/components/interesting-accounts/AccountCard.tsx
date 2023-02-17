@@ -17,7 +17,7 @@ import { capitalize } from 'lodash'
 import BookmarksModal from '../bookmarks/BokmarksModal'
 import { StarFilled, StarOutlined } from '@ant-design/icons'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
-import { SubsocialProfile } from '../identity/types';
+import { SubsocialProfile } from '../identity/types'
 
 type AccountCardProps = {
   accountData: AccountCardType

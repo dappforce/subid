@@ -73,7 +73,7 @@ const parseStakingInfo = ({
     const name = <AccountPreview
       account={candidate}
       name={startWithUpperCase(network)}
-      avatar={subsocialIdentity?.content?.image}
+      avatar={subsocialIdentity?.image}
       withQr={false}
       withAddress={true}
     />

@@ -95,7 +95,7 @@ const NftView: React.FunctionComponent<NftViewProps> = ({
     <div>{loading ? fieldSkeleton : <PriceWithDecimal chainInfo={chainInfo} chain='kusama' contentType={mediaContentType} price={price} />}</div>
 
     {isMulti && account && <AccountPreview
-      avatar={subsocialIdentity?.content?.image}
+      avatar={subsocialIdentity?.image}
       account={account}
       withCopy={false}
       withQr={false}

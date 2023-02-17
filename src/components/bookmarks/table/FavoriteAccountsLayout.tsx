@@ -108,7 +108,7 @@ const FavoriteAccountsLayout = () => {
       account: <AccountPreview
         withCopy={false}
         account={account}
-        avatar={subsocialIdentity?.content?.image}
+        avatar={subsocialIdentity?.image}
         withQr={false}
         largeAvatar
       />,

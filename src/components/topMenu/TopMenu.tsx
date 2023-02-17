@@ -30,7 +30,7 @@ import { toGenericAccountId } from 'src/rtk/app/util'
 const { mobileAppLogo, appLogo } = config
 import { useTranslation } from 'react-i18next'
 import { useSidebarCollapsed } from '../providers/SideBarCollapsedContext'
-import { AccountIdentities, SubsocialProfile } from '../identity/types';
+import { AccountIdentities, SubsocialProfile } from '../identity/types'
 import { isEmptyArray } from '@subsocial/utils'
 import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 

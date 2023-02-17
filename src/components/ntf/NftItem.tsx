@@ -15,7 +15,7 @@ import { getAddressFromStorage } from '../utils/index'
 import { CheckOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 import { useBuildSendGaUserEvent } from 'src/ga'
-import { SubsocialProfile } from '../identity/types';
+import { SubsocialProfile } from '../identity/types'
 
 const createIpfsContent = (value: IpfsCid) => ({ IPFS: value })
 

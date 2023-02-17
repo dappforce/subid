@@ -88,7 +88,7 @@ const ModalBody = ({
 
       <div className={clsx(styles.AccountSection, { ['mt-2']: !showModalDesc })}>
         <div>
-          <BaseAvatar address={address} avatar={owner?.content?.image} size={64} />
+          <BaseAvatar address={address} avatar={owner?.image} size={64} />
         </div>
         <div>
           <Name address={address} identities={identities} className={styles.AccountName} />

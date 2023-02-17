@@ -19,7 +19,7 @@ import { AccountIdentitiesRecord } from '../../rtk/features/identities/identitie
 import clsx from 'clsx'
 import NftItem from './NftItem'
 import { SectionTitle } from '../utils/index'
-import { SubsocialProfile } from '../identity/types';
+import { SubsocialProfile } from '../identity/types'
 
 const { TabPane } = Tabs
 
