@@ -1,4 +1,4 @@
-name: Build and deploy front
+name: Manual production deploy
 on:
   workflow_dispatch:
 
