@@ -20,7 +20,7 @@ import clsx from 'clsx'
 import { useChainInfo } from '../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { allAccountsAvatar } from './address-views/utils/index'
 import { toGenericAccountId } from 'src/rtk/app/util'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
@@ -49,7 +49,7 @@ export const AccountInfo = (props: Props) => {
   const address = !isMulti && addresses ? addresses[addresses.length - 1] : undefined
 
   const identities = address && identitiesByAccount ? identitiesByAccount[toGenericAccountId(address)] : undefined
-  const owner = identities ? identities.subsocial as SubsocialProfile : undefined
+  const owner = getSubsocialIdentity(identities)
 
   const { t } = useTranslation()
 

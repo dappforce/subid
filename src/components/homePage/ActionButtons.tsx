@@ -10,9 +10,10 @@ import { useBuildSendGaUserEvent } from '../../ga/events'
 import { accountIdToSubsocialAddress } from '../utils'
 import { useState } from 'react'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
-import { AccountIdentities, SubsocialProfile } from '../identity/types'
+import { AccountIdentities } from '../identity/types'
 import { useTranslation } from 'react-i18next'
 import dynamic from 'next/dynamic'
+import { getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 
 type ActionButtonsProps = {
   address?: string
@@ -33,6 +34,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
   const isMyAccount = useIsMyAddress(address)
 
   const isInFavorites = Object.keys(favoriteAccounts).find((value) => value === address)
+  const subsocialIdentity = getSubsocialIdentity(identities)
 
   const sendGaFollowEvent = useBuildSendGaUserEvent(
     'Click on the Follow button'
@@ -80,7 +82,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink
-            url={`${subAppBaseUrl}/${(identities?.subsocial as SubsocialProfile).id}/edit`}
+            url={`${subAppBaseUrl}/${subsocialIdentity?.id}/edit`}
             value={t('buttons.editProfile')}
           />
         </Button>

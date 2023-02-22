@@ -13,10 +13,9 @@ import { isDef, isEmptyArray } from '@subsocial/utils'
 import { toGenericAccountId } from '../../rtk/app/util'
 import { isValidAddresses, isValidAddress, parseAddressFromUrl } from './index'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
-import { SubsocialProfile } from '../identity/types'
 
 const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
@@ -70,7 +69,7 @@ const PageContainer: FC<PageContainerProps> = ({ children }) => {
 
   const identity = address && identities ? identities[toGenericAccountId(address)] : undefined
 
-  const owner = identity ? identity.subsocial as SubsocialProfile : undefined
+  const owner = getSubsocialIdentity(identity)
 
   const { name, image } = owner || {}
 

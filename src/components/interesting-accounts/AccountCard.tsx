@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { Card } from 'antd'
 import styles from './InterestingAccounts.module.sass'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import Name from '../homePage/address-views/Name'
 import { AccountCardType } from './types'
 import BaseAvatar from '../utils/DfAvatar'
@@ -17,7 +17,6 @@ import { capitalize } from 'lodash'
 import BookmarksModal from '../bookmarks/BokmarksModal'
 import { StarFilled, StarOutlined } from '@ant-design/icons'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
-import { SubsocialProfile } from '../identity/types'
 
 type AccountCardProps = {
   accountData: AccountCardType
@@ -41,7 +40,7 @@ export const AccountCard = ({ accountData, className }: AccountCardProps) => {
 
   const accountIdentities = address ? identities![toGenericAccountId(address)] : undefined
 
-  const owner = accountIdentities ? accountIdentities.subsocial as SubsocialProfile : undefined
+  const owner = getSubsocialIdentity(accountIdentities)
 
   const { tokenDecimals, tokenSymbols } = chainsInfo[relayChain] || {}
 

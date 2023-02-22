@@ -70,19 +70,10 @@ export type Identity = {
 
 export type SubsocialProfile = {
   content: string
-  createdAtBlock: string
-  createdAtTime: string
   createdByAccount: Record<'id', string>
-  email: string
   name: string
-  linksOriginal: string
-  hidden: string
   id: string
-  updatedAtTime: string
-  postsCount: number
   image: string
-  tagsOriginal: string
-  summary: string
   about: string
   ownedByAccount: Record<'id', string>
   experimental: Record<string, string>

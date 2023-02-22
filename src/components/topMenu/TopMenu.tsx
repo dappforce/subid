@@ -24,13 +24,13 @@ import config from '../../config/index'
 import clsx from 'clsx'
 import { allAccountsAvatar } from '../homePage/address-views/utils/index'
 import { subAppBaseUrl } from 'src/config/env'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import { toGenericAccountId } from 'src/rtk/app/util'
 
 const { mobileAppLogo, appLogo } = config
 import { useTranslation } from 'react-i18next'
 import { useSidebarCollapsed } from '../providers/SideBarCollapsedContext'
-import { AccountIdentities, SubsocialProfile } from '../identity/types'
+import { AccountIdentities } from '../identity/types'
 import { isEmptyArray } from '@subsocial/utils'
 import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 
@@ -41,7 +41,7 @@ type AccountPreviewProps = {
 }
 
 export const AccountPreview = ({ address, withAddress = false, identities }: AccountPreviewProps) => {
-  const subsocialIdentity = identities?.subsocial as SubsocialProfile | undefined
+  const subsocialIdentity = getSubsocialIdentity(identities)
 
   const avatar = subsocialIdentity?.image
 
@@ -202,7 +202,7 @@ const TopMenu = () => {
     sendGuestGaEvent('Click on the Sing In button on top menu')
     openModal()
   }
-  const subsocialIdentity = accountIdentities?.subsocial as SubsocialProfile | undefined
+  const subsocialIdentity = getSubsocialIdentity(accountIdentities)
 
   const showCreateProfile = addressFromStorage && !!accounts?.find(x => x.address === address) && !subsocialIdentity && !isMobile
 

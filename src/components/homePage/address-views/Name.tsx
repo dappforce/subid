@@ -3,7 +3,8 @@ import { AddressProps } from './utils/types'
 import { toShortAddress } from '../../utils/index'
 import { MutedSpan } from '../../utils/MutedText'
 import { useExtensionName } from './utils'
-import { AccountIdentities, Identity, SubsocialProfile } from '../../identity/types'
+import { AccountIdentities, Identity } from '../../identity/types'
+import { getSubsocialIdentity } from '../../../rtk/features/identities/identitiesHooks'
 
 type Props = AddressProps & {
   isShort?: boolean
@@ -19,7 +20,7 @@ export const Name = ({
   withShortAddress,
   className
 }: Props) => {
-  const { name: profileName } = identities?.subsocial as SubsocialProfile || {}
+  const { name: profileName } = getSubsocialIdentity(identities) || {}
 
   const extensionName = useExtensionName(address)
   const shortAddress = toShortAddress(address)

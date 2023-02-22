@@ -22,7 +22,7 @@ export const getSubsocialIdentityByAccount = (
   identities?: AccountIdentitiesRecord
 ) =>
   identities && account
-    ? (identities[toGenericAccountId(account)]?.subsocial as SubsocialProfile)
+    ? getSubsocialIdentity(identities[toGenericAccountId(account)])
     : undefined
 
 export const getSubsocialIdentity = (accountiIdentities?: AccountIdentities) => 
