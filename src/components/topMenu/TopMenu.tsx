@@ -24,9 +24,8 @@ import config from '../../config/index'
 import clsx from 'clsx'
 import { allAccountsAvatar } from '../homePage/address-views/utils/index'
 import { subAppBaseUrl } from 'src/config/env'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import { toGenericAccountId } from 'src/rtk/app/util'
-import { SpaceData } from '@subsocial/types/dto'
 
 const { mobileAppLogo, appLogo } = config
 import { useTranslation } from 'react-i18next'
@@ -42,9 +41,9 @@ type AccountPreviewProps = {
 }
 
 export const AccountPreview = ({ address, withAddress = false, identities }: AccountPreviewProps) => {
-  const subsocialIdentity = identities?.subsocial as SpaceData | undefined
+  const subsocialIdentity = getSubsocialIdentity(identities)
 
-  const avatar = subsocialIdentity?.content?.image
+  const avatar = subsocialIdentity?.image
 
   return <span className={clsx('DfCurrentAddress icon')}>
     <div className='DfChooseAccount'>
@@ -203,7 +202,7 @@ const TopMenu = () => {
     sendGuestGaEvent('Click on the Sing In button on top menu')
     openModal()
   }
-  const subsocialIdentity = accountIdentities?.subsocial as SpaceData | undefined
+  const subsocialIdentity = getSubsocialIdentity(accountIdentities)
 
   const showCreateProfile = addressFromStorage && !!accounts?.find(x => x.address === address) && !subsocialIdentity && !isMobile
 
@@ -269,7 +268,7 @@ const TopMenu = () => {
                   <div>
                     {!isMobile
                       ? <AccountPreview address={addressFromStorage} identities={accountIdentities} />
-                      : <BaseAvatar address={addressFromStorage} avatar={subsocialIdentity?.content?.image} />}
+                      : <BaseAvatar address={addressFromStorage} avatar={subsocialIdentity?.image} />}
                   </div>
                 ) : <div><AllAccountsMenuItem onlyAvatar={isMobile} /></div>}
               </Dropdown>

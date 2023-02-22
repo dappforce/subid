@@ -7,7 +7,6 @@ import { getContentType } from '../../../ntf/types'
 import { CONTENT_TYPES } from '../../../../types/index'
 import { ExtendedSpaceContent } from '../../../utils/getTxParams'
 import { ContentViewSwitch } from '../../../ntf/ContentViewSwitch'
-import { SpaceData } from '@subsocial/types/dto'
 import { NftNetwork } from '../../../../rtk/features/nfts/types'
 import SelectBannerModal from './SelectBannerModal'
 import { useState } from 'react'
@@ -16,10 +15,11 @@ import { useChainInfo } from '../../../../rtk/features/multiChainInfo/multiChain
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import { useBuildSendGaUserEvent } from 'src/ga'
+import { SubsocialProfile } from '../../../identity/types'
 
 type BannerSectionProps = {
   currentAddress?: string
-  owner?: SpaceData
+  owner?: SubsocialProfile
 }
 
 const IMAGE_CONTENT_SET = new Set([ CONTENT_TYPES.image, CONTENT_TYPES.gif ])
@@ -37,9 +37,9 @@ const BannerSection = ({ currentAddress, owner }: BannerSectionProps) => {
 
   const nfts = useNfts(currentAddress)?.nfts
 
-  const content = owner?.content as ExtendedSpaceContent | undefined
+  const experimental = owner?.experimental as ExtendedSpaceContent | undefined
 
-  const [ network, bannerId ] = (content?.banner || '').split('://')
+  const [ network, bannerId ] = (experimental?.banner || '').split('://')
 
   const nftsByNetwork = nfts ? nfts[network as NftNetwork] : undefined
 

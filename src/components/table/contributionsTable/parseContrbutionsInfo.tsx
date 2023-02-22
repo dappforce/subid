@@ -136,7 +136,7 @@ export const parseCrowdloansTableInfo = ({
       const chain = <AccountPreview
         name={relayChainName}
         account={address}
-        avatar={subsocialIdentity?.content?.image}
+        avatar={subsocialIdentity?.image}
         halfLength={5}
       />
 
