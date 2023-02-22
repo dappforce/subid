@@ -1,0 +1,40 @@
+name: Manual production deploy
+on:
+  workflow_dispatch:
+
+jobs:
+
+  front-prod-deploy:
+    name: prod-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        id: extract_branch
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_PROD }}
+
+      - name: Update deploy file
+        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-front:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/deploy.yaml
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/deployment/production/deploy.yaml
+
+      - name: Verify deployment
+        run: kubectl -n sub-id rollout status deployment/subid-front
+
+      - name: add replicas
+        run: kubectl -n sub-id scale deployment/subid-front --replicas=3
+
+      - name: Verify deployment
+        run: kubectl -n sub-id rollout status deployment/subid-front
