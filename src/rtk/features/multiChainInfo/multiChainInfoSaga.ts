@@ -3,7 +3,7 @@ import {
   chainInfoActions,
   selectChainInfoList,
 } from './multiChainInfoSlice'
-import { getChainsInfo, getStakingConstsByNetwork } from '../../../components/utils/OffchainUtils'
+import { getChainsInfo, getStakingConstsByNetwork } from 'src/api'
 import { isEmptyObj } from '@subsocial/utils'
 import { MultiChainInfo, ChainInfo, StakingConsts } from './types'
 import { fetchPricesWorker } from '../prices/pricesSaga'

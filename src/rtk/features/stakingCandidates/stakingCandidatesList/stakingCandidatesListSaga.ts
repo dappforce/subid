@@ -1,6 +1,6 @@
 import { call, put, takeLatest, select } from '@redux-saga/core/effects'
 import { isEmptyObj, isEmptyArray } from '@subsocial/utils'
-import { getCandidatesListByNetwork } from '../../../../components/utils/OffchainUtils'
+import { getCandidatesListByNetwork } from 'src/api'
 import { log, toGenericAccountIds } from '../../../app/util'
 import { fetchIdentitiesWorker } from '../../identities/identitiesSaga'
 import { PayloadAction } from '@reduxjs/toolkit'

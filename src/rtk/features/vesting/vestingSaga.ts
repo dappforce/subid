@@ -4,7 +4,7 @@ import {
   select,
   takeEvery,
 } from '@redux-saga/core/effects'
-import { getVestingData } from '../../../components/utils/OffchainUtils'
+import { getVestingData } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import { all } from 'redux-saga/effects'

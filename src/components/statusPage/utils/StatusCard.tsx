@@ -4,7 +4,7 @@ import { useChainInfo } from '../../../rtk/features/multiChainInfo/multiChainInf
 import { ChainInfo, supportedNetworks, MultiChainInfo } from '../../../rtk/features/multiChainInfo/types'
 import { ChainData } from '../../table/utils'
 import styles from '../StatusPage.module.sass'
-import { getConnectedStatus } from '../../utils/OffchainUtils'
+import { getConnectedStatus } from 'src/api'
 import { MINUTES, Loading } from '../../utils/index'
 import { partition } from 'lodash'
 import clsx from 'clsx'

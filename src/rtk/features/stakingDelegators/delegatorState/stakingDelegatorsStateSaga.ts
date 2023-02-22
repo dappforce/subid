@@ -3,7 +3,7 @@ import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 import { log, toGenericAccountIds, getAccountsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyArray } from '@subsocial/utils'
-import { getDelegatorsStateByNetwork } from '../../../../components/utils/OffchainUtils'
+import { getDelegatorsStateByNetwork } from 'src/api'
 import { StakingDelegatorStateEntityRecord, DelegatorState } from './types'
 import {
   FetchCandidatesInfoProps,

@@ -1,5 +1,6 @@
 import { backendUrl } from 'src/config/env'
 import { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 export function getBackendUrl (subUrl: string): string {
   return `${backendUrl}/api/v1/${subUrl}`
@@ -24,3 +25,21 @@ export const sendRequest = async ({ request, onFaileReturnedValue, onFailedText 
     return onFaileReturnedValue
   }
 }
+
+type GetParams = {
+  url: string
+  config?: any
+}
+
+type SendGetRequestProps = {
+  params: GetParams
+  onFaileReturnedValue: any
+  onFailedText: string
+}
+
+export const sendGetRequest = ({ params: { url, config }, ...otherProps }: SendGetRequestProps) => (
+  sendRequest({  
+    request: () => axios.get(getBackendUrl(url), config),
+    ...otherProps
+  })
+)

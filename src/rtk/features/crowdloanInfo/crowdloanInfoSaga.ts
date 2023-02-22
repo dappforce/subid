@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from '@redux-saga/core/effects'
-import { getCrowdloansInfoByRelayChain } from '../../../components/utils/OffchainUtils'
+import { getCrowdloansInfoByRelayChain } from 'src/api'
 import { isDef, isEmptyObj, isEmptyArray } from '@subsocial/utils'
 import {
   selectCrowdloanInfo,

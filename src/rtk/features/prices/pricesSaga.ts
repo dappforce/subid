@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects'
-import { getTokenPrice } from '../../../components/utils/OffchainUtils'
+import { getTokenPrice } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { pricesActions, pricesId } from './pricesSlice'
 import { log } from '../../app/util'

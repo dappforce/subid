@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects'
-import { getValidatorStakingProps } from '../../../../components/utils/OffchainUtils'
+import { getValidatorStakingProps } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { log } from '../../../app/util'
 import { stakingPropsActions, StakingProps } from './stakingPropsSlice'

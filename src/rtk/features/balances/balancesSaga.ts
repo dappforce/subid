@@ -2,7 +2,7 @@ import { call, put, select, takeEvery } from '@redux-saga/core/effects'
 import {
   getAccountInfo,
   getAccountBalancesByNetwork,
-} from '../../../components/utils/OffchainUtils'
+} from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import {

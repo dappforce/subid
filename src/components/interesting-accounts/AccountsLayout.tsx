@@ -36,7 +36,7 @@ import {
   getCouncilMembersByChain, 
   getCrowdloanContributorsByChain, 
   getValidatorsByChain 
-} from '../utils/OffchainUtils'
+} from 'src/api'
 
 const { TabPane } = Tabs
 

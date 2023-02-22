@@ -8,7 +8,7 @@ import { log, getAccountsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { selectStakingCandidatesInfo, FetchCandidatesInfoProps } from './stakingCandidatesInfoSlice'
 import { isEmptyArray } from '@subsocial/utils'
-import { getCandidatesInfoByNetwork } from '../../../../components/utils/OffchainUtils'
+import { getCandidatesInfoByNetwork } from 'src/api'
 
 function* fetchStakingCandidatesInfoWorker (
   action: PayloadAction<FetchCandidatesInfoProps>

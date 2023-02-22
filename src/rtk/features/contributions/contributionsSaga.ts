@@ -4,7 +4,7 @@ import {
   select,
   takeEvery,
 } from '@redux-saga/core/effects'
-import { getCrowdloans } from '../../../components/utils/OffchainUtils'
+import { getCrowdloans } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import {

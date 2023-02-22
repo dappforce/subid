@@ -8,7 +8,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj, isEmptyArray } from '@subsocial/utils'
 import { FetchProps } from 'src/rtk/app/util'
 import { selectManyIdentities, AccountIdentitiesRecord } from './identitiesSlice'
-import { getAccountIdentities } from 'src/components/utils/OffchainUtils'
+import { getAccountIdentities } from 'src/api'
 
 export function* fetchIdentitiesWorker (action: PayloadAction<FetchProps>) {
   const { accounts, reload = false } = action.payload

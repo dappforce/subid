@@ -1,20 +1,20 @@
-import { getBackendUrl, sendRequest } from './utils'
-import { AccountCardType } from '../../interesting-accounts/types'
-import axios from 'axios'
+import { sendGetRequest } from './utils'
 import { isDef } from '@subsocial/utils'
+import { AccountCardType } from '../components/interesting-accounts/types'
 
 const getAccountsApiUrl = (suburl: string) =>
-  `${getBackendUrl('accounts')}/${suburl}`
+  `accounts/${suburl}`
 
 export const getValidatorsByChain = async (
   relayChain: string,
   offset: number,
   limit: number
 ): Promise<AccountCardType[]> => {
-  const res = await sendRequest({
-    request: () => axios.get(getAccountsApiUrl(`${relayChain}/validators`), {
-      params: { offset, limit },
-    }),
+  const res = await sendGetRequest({
+    params: {
+      url: getAccountsApiUrl(`${relayChain}/validators`),
+      config: { params: { offset, limit } }
+    },
     onFaileReturnedValue: [],
     onFailedText: 'Failed to get validators by relay chain'
   })
@@ -27,10 +27,13 @@ export const getAllInterestingAccounts = async (
   offset: number,
   limit: number
 ): Promise<AccountCardType[]> => {
-  const res = await sendRequest({
-    request: () => axios.get(getAccountsApiUrl(`all/${relayChain}`), {
-      params: { offset, limit },
-    }),
+  const res = await sendGetRequest({
+    params: {
+      url: getAccountsApiUrl(`all/${relayChain}`),
+      config: {
+        params: { offset, limit },
+      }
+    },
     onFaileReturnedValue: [],
     onFailedText: 'Failed to get all interesting accounts'
   })
@@ -39,8 +42,8 @@ export const getAllInterestingAccounts = async (
 }
 
 export const getAllAccountsLength = async (): Promise<number> => {
-  const res = await sendRequest({
-    request: () => axios.get(getAccountsApiUrl('length')),
+  const res = await sendGetRequest({
+    params: { url: getAccountsApiUrl('length') },
     onFaileReturnedValue: 0,
     onFailedText: 'Failed to get all accounts length'
   })
@@ -51,8 +54,8 @@ export const getAllAccountsLength = async (): Promise<number> => {
 export const getAccountsOverviewItems = async (): Promise<
   AccountCardType[]
 > => {
-  const res = await sendRequest({
-    request: () => axios.get(getAccountsApiUrl('overview')),
+  const res = await sendGetRequest({
+    params: { url: getAccountsApiUrl('overview') },
     onFaileReturnedValue: [],
     onFailedText: 'Failed to get overview items for accounts'
   })
@@ -65,10 +68,11 @@ export const getCouncilMembersByChain = async (
   offset: number,
   limit: number
 ): Promise<AccountCardType[]> => {
-  const res = await sendRequest({
-    request: () => axios.get(getAccountsApiUrl(`${relayChain}/council`), {
-      params: { offset, limit },
-    }),
+  const res = await sendGetRequest({
+    params: {
+      url: getAccountsApiUrl(`${relayChain}/council`),
+      config: { params: { offset, limit } }
+    },
     onFaileReturnedValue: [],
     onFailedText: 'Failed to get council members'
   })
@@ -81,11 +85,11 @@ export const getCrowdloanContributorsByChain = async (
   offset: number,
   limit: number
 ): Promise<AccountCardType[]> => {
-  const res = await sendRequest({
-    request: () => axios.get(
-      getAccountsApiUrl(`${relayChain}/contributors`),
-      { params: { offset, limit } }
-    ),
+  const res = await sendGetRequest({
+    params: {
+      url: getAccountsApiUrl(`${relayChain}/contributors`),
+      config: { params: { offset, limit } }
+    },
     onFaileReturnedValue: [],
     onFailedText: 'Failed to get validators info'
   })

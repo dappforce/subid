@@ -1,7 +1,7 @@
 import { call, select, takeEvery, put } from '@redux-saga/core/effects'
 import { isEmptyObj } from '@subsocial/utils'
 import { AccountCardType } from '../../../components/interesting-accounts/types'
-import { getAccountsOverviewItems } from '../../../components/utils/OffchainUtils'
+import { getAccountsOverviewItems } from 'src/api'
 import {
   overviewAccountsActions,
   selectOverviewAccounts,
