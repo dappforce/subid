@@ -20,7 +20,7 @@ const SearchInput = ({ size = 'middle', hideSearch, autoFocus = false, className
   const router = useRouter()
   const { t } = useTranslation()
 
-  const { pathname, query: { address } } = router
+  const { query: { address } } = router
   const addressFromUrl = address as string | undefined
 
   const isMyAddress = useIsMyAddress(addressFromUrl)
@@ -39,12 +39,7 @@ const SearchInput = ({ size = 'middle', hideSearch, autoFocus = false, className
   const onSearch = (value: string) => {
     sendGAEvent(`Search for ${value}`)
 
-    const query = { ...router.query, address: value }
-    if (pathname === '/') {
-      router.push(`/${value}`)
-      return
-    }
-    value && router.push({ pathname, query: query })
+    value && router.push(`/${value}`)
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.currentTarget.value)
