@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { SpaceData } from '@subsocial/types/dto'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { Card } from 'antd'
 import styles from './InterestingAccounts.module.sass'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import Name from '../homePage/address-views/Name'
 import { AccountCardType } from './types'
 import BaseAvatar from '../utils/DfAvatar'
@@ -41,7 +40,7 @@ export const AccountCard = ({ accountData, className }: AccountCardProps) => {
 
   const accountIdentities = address ? identities![toGenericAccountId(address)] : undefined
 
-  const owner = accountIdentities ? accountIdentities.subsocial as SpaceData : undefined
+  const owner = getSubsocialIdentity(accountIdentities)
 
   const { tokenDecimals, tokenSymbols } = chainsInfo[relayChain] || {}
 
@@ -78,7 +77,7 @@ export const AccountCard = ({ accountData, className }: AccountCardProps) => {
             buttonClassName={clsx(styles.CardStarButton, { [styles.CardStarButtonVisible]: isAccountInFavorites })}
           />
           <div className={styles.CardCoverAvatar} style={{ width: '84px', position: 'relative' }}>
-            <BaseAvatar size={76} address={address} avatar={owner?.content?.image} />
+            <BaseAvatar size={76} address={address} avatar={owner?.image} />
             <img src={getIconUrl(resolveSvgIcon(relayChain))} className={styles.RelayChain} />
           </div>
         </div>

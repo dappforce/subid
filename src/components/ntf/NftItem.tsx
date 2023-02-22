@@ -1,7 +1,6 @@
 import { IpfsCid } from '@subsocial/types'
 import { nonEmptyStr } from '@subsocial/utils'
 import { NftViewProps } from './NftView'
-import { SpaceData } from '@subsocial/types/dto'
 import React, { useState } from 'react'
 import { useAppDispatch } from 'src/rtk/app/store'
 import { getIpfs } from '../utils/getIpfs'
@@ -16,6 +15,7 @@ import { getAddressFromStorage } from '../utils/index'
 import { CheckOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 import { useBuildSendGaUserEvent } from 'src/ga'
+import { SubsocialProfile } from '../identity/types'
 
 const createIpfsContent = (value: IpfsCid) => ({ IPFS: value })
 
@@ -37,7 +37,7 @@ export function OptionIpfsContent (value?: IpfsContentValue) {
 
 type NftItemProps = NftViewProps & {
   withConnection?: boolean
-  owner?: SpaceData
+  owner?: SubsocialProfile
   hasProfile: boolean
   hide?: () => void
   hasTokens?: boolean
@@ -58,13 +58,13 @@ const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftIt
   const ipfs = getIpfs()
 
   const { id, network } = props.nft
-  const { name = '', image = '', about = '' } = owner?.content || {}
+  const { name = '', image = '', about = '' } = owner || {}
 
   const profileStruct = { name, image, about }
 
   const newTxParams = (cid: IpfsCid) => {
     function getCidIfChanged (): IpfsCid | undefined {
-      const prevCid = owner?.struct.contentId
+      const prevCid = owner?.content
       return prevCid !== cid.toString() ? cid : undefined
     }
 
@@ -75,7 +75,7 @@ const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftIt
         content: OptionIpfsContent(getCidIfChanged())
       }
 
-      return [ owner?.struct.id, update ]
+      return [ owner?.id, update ]
     }
   }
 

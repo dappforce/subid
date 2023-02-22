@@ -3,7 +3,7 @@ import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 import { log, toGenericAccountIds, getAccountsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyArray } from '@subsocial/utils'
-import { getScheduledRequestsByNetwork } from '../../../../components/utils/OffchainUtils'
+import { getScheduledRequestsByNetwork } from 'src/api'
 import {
   scheduledRequestsActions,
   ScheduledRequestsEntity,

@@ -16,7 +16,7 @@ import {
   getController, 
   getStakingLedger, 
   getNominators 
-} from '../../../../components/utils/OffchainUtils'
+} from 'src/api'
 import { 
   NominatorInfo, 
   FetchNominatorInfoProps, 

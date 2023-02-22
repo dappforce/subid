@@ -1,5 +1,5 @@
 import { call, put, takeEvery, select } from '@redux-saga/core/effects'
-import { getAssetsBalancesByAccount } from '../../../components/utils/OffchainUtils'
+import { getAssetsBalancesByAccount } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import { AssetsBalances } from './types'

@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects'
-import { getStakingRoundByNetwork } from '../../../components/utils/OffchainUtils'
+import { getStakingRoundByNetwork } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { log } from '../../app/util'
 import { stakingRoundActions } from './stakingRoundSlice'

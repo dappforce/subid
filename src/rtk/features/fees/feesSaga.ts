@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from '@redux-saga/core/effects'
-import { getTransferFee } from '../../../components/utils/OffchainUtils'
+import { getTransferFee } from 'src/api'
 import {
   selectFee,
   feesActions,

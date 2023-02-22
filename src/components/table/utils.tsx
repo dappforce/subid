@@ -528,7 +528,7 @@ export const AccountPreview = ({
   />
 
   const accountName = <Name identities={identities} address={toGenericAccountId(account)} />
-  const subsocialAvatar = getSubsocialIdentity(identities)?.content?.image
+  const subsocialAvatar = getSubsocialIdentity(identities)?.image
 
   return <div>
     <div className={clsx(clsx('d-flex', { ['align-items-center']: largeAvatar }), className)}>

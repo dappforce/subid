@@ -31,7 +31,7 @@ import {
   getAllInterestingAccounts,
   getOwnerByDomain,
   getAllAccountsLength,
-} from '../../components/utils/OffchainUtils'
+} from 'src/api'
 import { fetchOverviewAccounts } from '../features/interestingAccounts/interestingAccountsHooks'
 import { shuffle } from 'lodash'
 import { currentAccountActions } from '../features/accounts/currentAccountSlice'

@@ -3,7 +3,7 @@ import { log } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { FetchStakingRewardProps, StakingReward } from './types'
 import { selectStakingReward, stakingRewardActions, StakingRewardEntity } from './rewardsSlice'
-import { getStakingReward } from '../../../../components/utils/OffchainUtils'
+import { getStakingReward } from 'src/api'
 import { isEmptyObj } from '@subsocial/utils'
 
 function* fetchStakingRewardWorker (

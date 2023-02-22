@@ -6,7 +6,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import BN from 'bignumber.js'
 import { ChainInfo } from '../../multiChainInfo/types'
 import { selectChainInfoByNetwork } from '../../multiChainInfo/multiChainInfoSlice'
-import { getValidatorsListByNetwork } from '../../../../components/utils/OffchainUtils'
+import { getValidatorsListByNetwork } from 'src/api'
 import { calculateAPYByValidator } from '../../../../components/staking/validators/valculateAPY'
 import { log } from '../../../app/util'
 

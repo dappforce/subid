@@ -238,7 +238,7 @@ export const parseBalancesTableInfo = ({
         : <AccountPreview
           name={name}
           account={account}
-          avatar={subsocialIdentity?.content?.image}
+          avatar={subsocialIdentity?.image}
           withQr={!isMobile}
         />
 

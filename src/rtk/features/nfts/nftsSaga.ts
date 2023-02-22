@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery } from '@redux-saga/core/effects'
-import { getNtfsByAccount } from '../../../components/utils/OffchainUtils'
+import { getNtfsByAccount } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { nftsActions, selectNfts, NftsEntity } from './nftsSlice'
 import { isDef } from '@subsocial/utils'

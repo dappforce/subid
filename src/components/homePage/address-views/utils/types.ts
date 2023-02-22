@@ -1,13 +1,12 @@
 import React from 'react'
 import { AnyAccountId } from '@subsocial/types'
-import { SpaceData } from '@subsocial/types/dto'
-import { AccountIdentities } from '../../../identity/types'
+import { AccountIdentities, SubsocialProfile } from '../../../identity/types'
 
 export type AddressProps = {
   className?: string
   style?: React.CSSProperties
   address: AnyAccountId
-  owner?: SpaceData
+  owner?: SubsocialProfile
 }
 
 export type AccountData = {

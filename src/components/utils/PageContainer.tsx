@@ -1,7 +1,6 @@
 import React, { useEffect, FC } from 'react'
 import {
   getAddressFromStorage } from '../utils/index'
-import { SpaceContent, SpaceData } from '@subsocial/types/dto'
 import { PageContent, HeadMeta } from './PageWrapper'
 import {
   useIsSignedIn,
@@ -14,7 +13,7 @@ import { isDef, isEmptyArray } from '@subsocial/utils'
 import { toGenericAccountId } from '../../rtk/app/util'
 import { isValidAddresses, isValidAddress, parseAddressFromUrl } from './index'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
-import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
+import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
 
@@ -70,17 +69,15 @@ const PageContainer: FC<PageContainerProps> = ({ children }) => {
 
   const identity = address && identities ? identities[toGenericAccountId(address)] : undefined
 
-  const owner = identity ? identity.subsocial as SpaceData : undefined
+  const owner = getSubsocialIdentity(identity)
 
-  const content = owner?.content || ({} as SpaceContent)
-
-  const { name, image } = content
+  const { name, image } = owner || {}
 
   return <>
     <div className='layout-wrapper'>
       <PageContent
         meta={{
-          title: name,
+          title: name || '',
           image: image,
           canonical: resolveUrlWithAddress(address || '')
         }}
