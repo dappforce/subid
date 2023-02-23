@@ -229,16 +229,6 @@ export const openNewWindow = (url: string) =>
 
 export const resolveUrlWithAddress = (address: string) => `${appBaseUrl}/${address}`
 
-export const getAddressByDomain = async (addressOrDomain: string) => {
-  if (!isValidAddress(addressOrDomain)) {
-    const address = await getOwnerByDomain(addressOrDomain.toLowerCase())
-
-    return address || addressOrDomain
-  } else {
-    return addressOrDomain
-  }
-}
-
 export const checkIsMulti = (accounts?: string) => accounts ? accounts.split(',').length > 1 : false
 
 export const parseAddressFromUrl = (address: string | string[]) => address?.toString().split(',')
