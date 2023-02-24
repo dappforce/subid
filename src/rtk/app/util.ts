@@ -223,16 +223,15 @@ export const upsertManyEntity = <T extends UpsertedEntities>({
 
 export const getAddressesByDomain = async (addressesOrDomains?: string[]) => {
   if (!addressesOrDomains) return
-
   const addressesPromise = addressesOrDomains.map(async (addressOrDomain) => {
     if (!isValidAddress(addressOrDomain)) {
       const domain =
-        addressOrDomain.split('.').length > 1
-          ? addressOrDomain
-          : addressOrDomain + '.sub'
-
+      addressOrDomain.split('.').length > 1
+      ? addressOrDomain
+      : addressOrDomain + '.sub'
+      
       const owner = await getOwnerByDomain(domain)
-      return owner || addressOrDomain
+      return owner?.owner || addressOrDomain
     }
 
     return addressOrDomain

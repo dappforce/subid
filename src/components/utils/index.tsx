@@ -9,7 +9,6 @@ import registry from '@subsocial/types/substrate/registry'
 import { memoize } from 'lodash'
 import { encodeAddress, isEthereumAddress } from '@polkadot/util-crypto'
 import config from 'src/config'
-import { getOwnerByDomain } from 'src/api'
 import { isEmptyArray } from '@subsocial/utils'
 import { CURRENT_WALLET } from '../wallets/wallet-list/WalletsList'
 import { InstallUrl, Urls } from '../wallets/types'
@@ -228,16 +227,6 @@ export const openNewWindow = (url: string) =>
   )
 
 export const resolveUrlWithAddress = (address: string) => `${appBaseUrl}/${address}`
-
-export const getAddressByDomain = async (addressOrDomain: string) => {
-  if (!isValidAddress(addressOrDomain)) {
-    const address = await getOwnerByDomain(addressOrDomain.toLowerCase())
-
-    return address || addressOrDomain
-  } else {
-    return addressOrDomain
-  }
-}
 
 export const checkIsMulti = (accounts?: string) => accounts ? accounts.split(',').length > 1 : false
 
