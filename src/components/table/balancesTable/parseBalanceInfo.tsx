@@ -280,7 +280,6 @@ export const parseBalancesTableInfo = ({
             size='small'
             shape={'circle'}
             onClick={onButtonClick}>
-            {/* {t('transfer.transfer')} */}
             <SubIcon Icon={FiSend} className={styles.TransferIcon}/>
           </Button>
         ),
