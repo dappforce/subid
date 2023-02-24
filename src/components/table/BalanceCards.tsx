@@ -33,7 +33,8 @@ const BalanceCard = <T extends TableInfo>({ value, balanceKind }: BalanceCardPro
     totalValue,
     status,
     children,
-    cardChildren
+    cardChildren,
+    links
   } = value
 
   const haveChildren = children || cardChildren
@@ -61,13 +62,16 @@ const BalanceCard = <T extends TableInfo>({ value, balanceKind }: BalanceCardPro
               withQr={!isMobile}
             />
             <div className='text-right'>
-              <div className='d-flex'>
-                <div className='FontNormal'>{totalValue ? balanceWithoutChildren || balance : status}</div>
+              <div className='d-flex align-items-center'>
+                <div>
+                  <div className='FontNormal'>{totalValue ? balanceWithoutChildren || balance : status}</div>
+                  <div><MutedDiv>{total}</MutedDiv></div>
+                </div>
                 {haveChildren && <MutedDiv className='ml-2 align-self-center'>
-                  {open ? <UpOutlined /> : <DownOutlined />}
-                </MutedDiv>}
+                    {open ? <UpOutlined /> : <DownOutlined />}
+                  </MutedDiv>}
+                {links && <div className='ml-1'>{links}</div>}
               </div>
-              <div className={haveChildren ? 'mr-4' : ''}><MutedDiv>{total}</MutedDiv></div>
             </div>
           </div>
           {open && (

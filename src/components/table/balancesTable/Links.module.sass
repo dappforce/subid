@@ -1,0 +1,77 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.MoreButtonLink
+  padding: 0 !important
+  color: $color_font_normal
+
+  svg
+    font-size: $font_normal
+
+.DropdownOverlay
+  border: none
+  overflow: hidden
+  background: #FFFFFF
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2)
+  border-radius: $border_radius_huge
+  padding-top: $space_tiny
+  padding-bottom: $space_tiny
+
+  ul
+    border-right: none
+
+  \:global .ant-menu-item
+    padding: 0 12px !important
+    height: auto !important
+    margin: 0 !important
+
+    .LinkWithIcon
+      svg
+        path
+          color: $color_muted
+
+    .anticon
+      margin-right: 0px !important
+
+    &:hover
+      .LinkWithIcon
+        border-color: $color_primary
+        background-color: $color_hover_selectable_bg !important
+
+        svg
+          color: $color_link_hover
+          
+          path
+            color: $color_link_hover
+
+        img
+          filter: grayscale(0) opacity(1)
+
+  \:global .ant-menu-item-selected
+    background-color: transparent !important
+
+.MoreButtonDividor
+  min-width: 100% !important
+  width: 100%
+  padding: $space_tiny $space_small !important
+
+  \:global .ant-divider
+    margin: 0
+
+  
+
+.ActionIconWrapp
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 25px
+  height: 25px
+  border-radius: 50%
+  background-color: #F0F0F0
+  text-align: center
+  border: 1px solid transparent
+  transition: border 500ms ease-out
+
+  svg
+    color: $color_muted
+    padding-right: 1px
+ 
