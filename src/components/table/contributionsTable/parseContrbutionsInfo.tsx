@@ -9,14 +9,13 @@ import {
   ChainData,
   LabelAndDescription,
   LabelWithShortMoneyFormat,
-  SubscanLink
 } from '../utils'
 import { contributionInfoByRelayChain, ContributionInfo, defaultContributionLink } from '../links'
 import styles from '../Table.module.sass'
 import { ContributeDetailsModal } from '../ContributeDetailsModal'
 import { ExternalLink } from '../../identity/utils'
 import { Button, Tooltip } from 'antd'
-import { startWithUpperCase } from '../../utils/index'
+import { startWithUpperCase, SubIcon } from '../../utils/index';
 import React from 'react'
 import { CardChildren, CrowdloansTableInfo } from '../types'
 import { partition } from 'lodash'
@@ -36,6 +35,8 @@ import { AccountVestingCrowdloanBalance } from './VestingCrowdloanBalance'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatDate } from 'src/utils/date'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
+import { LinksButton } from '../balancesTable/Links'
+import { GiReceiveMoney } from 'react-icons/gi'
 
 type ParseCrowdloanTableInfoProps = {
   relayChain: RelayChain
@@ -157,15 +158,15 @@ export const parseCrowdloansTableInfo = ({
         status: LINE,
         leaseEnd,
         isReturned,
-        links: <SubscanLink network={networkNameByParaId} address={address} />,
+        links: <LinksButton network={networkNameByParaId} />,
         claimable: <AccountVestingCrowdloanBalance className='text-center' network={networkNameByParaId} address={address} />,
         claimRewards: (
           <ClaimCrowdloanButton
-            style={{ width: '70px' }}
             network={networkNameByParaId}
             address={address}
-            label='Claim'
+            label={<SubIcon Icon={GiReceiveMoney} />}
             type='primary'
+            shape='circle'
             ghost
             size='small'
           />
@@ -261,8 +262,9 @@ export const parseCrowdloansTableInfo = ({
               className='ml-2'
               network={networkNameByParaId}
               address={contribution.address}
-              label='Claim'
+              label={<SubIcon Icon={GiReceiveMoney} />}
               type='primary'
+              shape='circle'
               ghost
               size='small'
             />
