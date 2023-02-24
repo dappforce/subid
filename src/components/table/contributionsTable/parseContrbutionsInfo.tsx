@@ -15,7 +15,7 @@ import styles from '../Table.module.sass'
 import { ContributeDetailsModal } from '../ContributeDetailsModal'
 import { ExternalLink } from '../../identity/utils'
 import { Button, Tooltip } from 'antd'
-import { startWithUpperCase, SubIcon } from '../../utils/index';
+import { startWithUpperCase, SubIcon } from '../../utils/index'
 import React from 'react'
 import { CardChildren, CrowdloansTableInfo } from '../types'
 import { partition } from 'lodash'
