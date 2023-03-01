@@ -16,5 +16,5 @@ export const useTransferableBalance = (token: string, network: string, address?:
   
   const { tokenDecimal, existentialDeposit } = useChainToken(network, token)
   const formattedBalance = formatBalance(transferableBalance, { forceUnit: '-', decimals: tokenDecimal, withSi: false })
-  return { transferableBalance, formattedTransferableBalance: parseFloat(formattedBalance), tokenDecimal, existentialDeposit }
+  return { transferableBalance, formattedTransferableBalance: parseFloat(formattedBalance.replace(/,/g, '')), tokenDecimal, existentialDeposit }
 }

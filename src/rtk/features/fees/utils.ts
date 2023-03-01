@@ -4,5 +4,5 @@ export type TransferFeeParams = {
   dest?: string
 }
 export function generateTransferFeeId (params: TransferFeeParams) {
-  return `transfer-${params.token}-${params.source}-${params.dest}`
+  return `transfer-${params.token}-${params.source}-${params.dest ?? ''}`
 }
