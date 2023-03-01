@@ -1,5 +1,5 @@
 import { StakingCandidatesInfoEntity } from './candidatesInfo/stakingCandidatesInfoSlice'
-export const supportedStakingNetworks = [ 'soonsocial', 'bifrost' ]
+export const supportedStakingNetworks = [ 'bifrost', 'zeitgeist' ]
 export const evmStakingNetworks = [ 'moonriver', 'moonbeam' ]
 
 export type StakingCandidateInfoRecord = Record<string, StakingCandidatesInfoEntity>
