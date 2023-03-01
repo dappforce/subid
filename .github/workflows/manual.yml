@@ -25,7 +25,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_PROD }}
 
       - name: Update deploy file
-        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-front:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/deploy.yaml
+        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-frontend:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/deploy.yaml
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/deployment/production/deploy.yaml
