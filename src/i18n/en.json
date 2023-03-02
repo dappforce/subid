@@ -243,7 +243,7 @@
     "table": {
       "collator": "Collator",
       "myStake": "My Stake",
-      "myUnstake": "My Unstake",
+      "myUnstake": "My Unstaking",
       "selfStake": "Self-Stake",
       "total": "Total Staked",
       "stakers": "Stakers"
