@@ -134,7 +134,7 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
     setLoading(!stakingInfoEntities || !stakingDelegatorStateEntities
       ? true
       : !!stakingInfoLoading || !!stakingDelegatorStateLoading)
-  }, [ stakingInfoLoading, stakingDelegatorStateLoading, network ])
+  }, [ stakingInfoLoading, stakingDelegatorStateLoading, network, addresses?.join(',') ])
 
   const data = useMemo(() => {
     if (!stakingCandidates) return []

@@ -113,7 +113,7 @@ const StakingDashboard = ({ network }: StakingDashboardProps) => {
     setLoading(
       !stakingDelegatorStateEntities ? true : !!stakingDelegatorStateLoading
     )
-  }, [ stakingDelegatorStateLoading ])
+  }, [ stakingDelegatorStateLoading, myAddress ])
 
   useEffect(() => {
     if (!stakingDelegatorStateEntities || !myAddress) return
@@ -134,7 +134,7 @@ const StakingDashboard = ({ network }: StakingDashboardProps) => {
     } else {
       setMyStake('0')
     }
-  }, [ loading, network ])
+  }, [ loading, network, myAddress ])
 
   const rows = [
     {
