@@ -145,6 +145,9 @@ jobs:
       - name: Verify deployment
         run: kubectl -n sub-id rollout status daemonset/front-ready
 
+      - name: Remove from DigitalOcean Kubernetes
+        run: kubectl delete -f $GITHUB_WORKSPACE/deployment/production/daemon.yaml
+        
   front-bk-prod-deploy:
     name: bk-prod-deploy
     needs: front-build
