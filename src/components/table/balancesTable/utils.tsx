@@ -1,6 +1,5 @@
 import { SubIcon } from '../../utils/index'
-import { RiDiscordLine } from 'react-icons/ri' 
-import { FaTelegramPlane } from 'react-icons/fa'
+import { FaTelegramPlane, FaDiscord} from 'react-icons/fa'
 import { AiFillAppstore } from 'react-icons/ai'
 import { FiSend } from 'react-icons/fi'
 import { GlobalOutlined, TwitterOutlined, GithubOutlined } from '@ant-design/icons'
@@ -60,7 +59,7 @@ export const socialMenuItemsValues: Record<string, LinkIconsAndLabelsValue> = {
     label: 'Twitter'
   },
   discord: {
-    icon: <SubIcon Icon={RiDiscordLine} />,
+    icon: <SubIcon Icon={FaDiscord} />,
     label: 'Discord'
   },
   telegram: {
