@@ -92,6 +92,7 @@ const parseStakingInfo = ({
       stakedValue: stakeAmountWithDeciaml,
       total,
       selfStake,
+      totalValue: totalCountedWithDecimal,
       stakers: delegationCount,
       actions: <ActionButtons address={candidate} network={network} />,
       candidateStatus

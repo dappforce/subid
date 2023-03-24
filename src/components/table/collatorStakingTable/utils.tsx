@@ -283,7 +283,9 @@ type FilterStakingDataProps = {
 export const filterStakingData = ({ tabKey, showMyStake, data = {} }: FilterStakingDataProps) => {
   const dataByTabKey = data[tabKey] || []
 
-  return showMyStake ? dataByTabKey.filter(x => x.stakedValue.gt(BIGNUMBER_ZERO)) : dataByTabKey
+  const sortedData = dataByTabKey.sort((a, b) => b.totalValue.minus(a.totalValue).toNumber())
+
+  return showMyStake ? sortedData.filter(x => x.stakedValue.gt(BIGNUMBER_ZERO)) : sortedData
 }
 
 type MobileStakingCardsProps = {
