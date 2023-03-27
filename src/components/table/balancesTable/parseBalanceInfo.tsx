@@ -273,7 +273,8 @@ export const parseBalancesTableInfo = ({
         balanceWithoutChildren: getBalancePart(false),
         balanceValue,
         balanceView: getBalancePart(true),
-        links: <LinksButton network={supportedNetwork} action={isMobile && !isMulti ? onButtonClick : undefined}/>,
+        links: <LinksButton network={supportedNetwork} action={onButtonClick} showActionButton={false} />,
+        showLinks: (isShow: boolean) => <LinksButton action={onButtonClick} network={supportedNetwork} showActionButton={isShow} />,
         transferAction: (
           <Button
             disabled={!chainInfo.isTransferable}

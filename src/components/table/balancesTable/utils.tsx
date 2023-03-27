@@ -85,6 +85,6 @@ type ActionButtonProps = {
 export const ActionButton = ({ label, icon, action }: ActionButtonProps) => {
   return <div onClick={action} className='d-flex align-items-center'>
     <div className={clsx(styles.ActionIconWrapp, 'LinkWithIcon')}>{icon}</div>
-    <div className='ml-3'>{label}</div>
+    <div className='ml-2'>{label}</div>
   </div>
 }

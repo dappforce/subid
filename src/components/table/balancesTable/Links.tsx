@@ -8,17 +8,23 @@ import { isDef } from '@subsocial/utils'
 import clsx from 'clsx'
 import { useState } from 'react'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
-import { socialMenuItemsValues, actionMenuItemsValues, SubscanMenuItemLink, ActionButton } from './utils'
-
+import { 
+  socialMenuItemsValues, 
+  actionMenuItemsValues, 
+  SubscanMenuItemLink, 
+  ActionButton 
+} from './utils'
+  
 type LinkButtonsOverlayProps = {
   network: string
   address?: string
   links: Partial<NetworkLinks>
   action?: (e: any) => void
   hide: () => void
+  showActionButton?: boolean
 }
 
-const LinkButtonsOverlay = ({ network, address, links, action, hide }: LinkButtonsOverlayProps) => {
+const LinkButtonsOverlay = ({ network, address, links, action, hide, showActionButton = true }: LinkButtonsOverlayProps) => {
   const socialMenuItemsValuesEntries = Object.entries(socialMenuItemsValues)
   const actionMenuItemsValuesEntries = Object.entries(actionMenuItemsValues)
 
@@ -30,12 +36,13 @@ const LinkButtonsOverlay = ({ network, address, links, action, hide }: LinkButto
       hide()
     }
 
+    
     switch (fieldName) {
       case 'subscanSubdomain':
         menuItem = <SubscanMenuItemLink network={network} address={address} />
         break
-      case 'actionTransfer':
-        if(!action) break
+        case 'actionTransfer':
+        if(!showActionButton) return
         const { label, icon } = values
         menuItem = <ActionButton label={label} icon={icon} action={onAction} /> 
         break
@@ -73,9 +80,10 @@ const LinkButtonsOverlay = ({ network, address, links, action, hide }: LinkButto
 type LinksButtonProps = {
   network: string
   action?: (e: any) => void
+  showActionButton?: boolean
 }
 
-export const LinksButton = ({ network, action }: LinksButtonProps) => {
+export const LinksButton = ({ network, action, showActionButton }: LinksButtonProps) => {
   const myAddress = useCurrentAccount()[0]
   const [ visible, setVisible ] = useState(false)
   const links = linksByNetworks[network] 
@@ -95,6 +103,7 @@ export const LinksButton = ({ network, action }: LinksButtonProps) => {
       address={myAddress} 
       hide={() => setVisible(false)} 
       links={links} 
+      showActionButton={showActionButton}
       action={action} 
     />}
     onVisibleChange={(visibility) => setVisible(visibility)}

@@ -34,10 +34,12 @@ const BalanceCard = <T extends TableInfo>({ value, balanceKind }: BalanceCardPro
     status,
     children,
     cardChildren,
-    links
+    showLinks
   } = value
 
   const haveChildren = children || cardChildren
+
+  const links = showLinks?.(true)
 
   return (
     <Col key={key} className={styles.DfCol}>
