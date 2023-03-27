@@ -168,5 +168,5 @@ jobs:
           key: ${{ secrets.BACKUP_KEY }}
           port: ${{ secrets.BACKUP_PORT }}
           script: |
-            cd /root/subid
+            cd /root/subid/frontend
             ./update.sh
