@@ -144,6 +144,8 @@ export const parseCrowdloansTableInfo = ({
       setDataIfDefined(commonAttributes, 'isReturned', isReturned)
       setDataIfDefined(commonAttributes, 'leaseEnd', leaseEnd)
 
+      const linksButton = <LinksButton network={networkNameByParaId} showActionButton={false} />
+
       return {
         key: key,
         address,
@@ -158,7 +160,8 @@ export const parseCrowdloansTableInfo = ({
         status: LINE,
         leaseEnd,
         isReturned,
-        links: <LinksButton network={networkNameByParaId} />,
+        links: linksButton,
+        showLinks: () => linksButton,
         claimable: <AccountVestingCrowdloanBalance className='text-center' network={networkNameByParaId} address={address} />,
         claimRewards: (
           <ClaimCrowdloanButton
