@@ -280,6 +280,7 @@ export default function TransferForm ({
                 name={transferFormField('recipient')}
                 disableTransferToSelf={!crossChain}
                 destChain={destChain || sourceChain}
+                form={form}
               />
             )
           }}
