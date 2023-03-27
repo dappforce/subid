@@ -26,7 +26,7 @@ import styles from './StakingTable.module.sass'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { MobileStakingCards, MyStakeCount } from './utils'
 import clsx from 'clsx'
-import { isEmptyArray, isEmptyObj } from '@subsocial/utils'
+import { isEmptyArray } from '@subsocial/utils'
 import { ChainInfo } from '../../../rtk/features/multiChainInfo/types'
 import { MutedDiv } from '../../utils/MutedText'
 
