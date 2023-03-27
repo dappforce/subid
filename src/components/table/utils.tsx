@@ -146,20 +146,28 @@ export const InnerBalancesTable = <T extends TableInfo>({
 )
 
 type LinkWithIconProps = {
-  title: string
+  title?: string
   withCircle?: boolean
   link: string
-  icon: string
+  icon: React.ReactNode
   className?: string
+  label?: string
 }
 
-export const LinkWithIcon = ({ link, title, icon, className, withCircle = true }: LinkWithIconProps) => (
-  <Tooltip title={title}>
-    <div className={clsx({ [styles.SubscanLink]: withCircle }, 'text-center')}>
-      <ExternalLink url={link} className={`d-block ${className}`} value={<img className='d-block' src={icon} />} />
+export const LinkWithIcon = ({ link, title, icon, className, withCircle = true, label }: LinkWithIconProps) => {
+  const linkLabel = <div className='d-flex align-items-center'>
+    <div className={clsx({ [styles.SubscanLink]: withCircle, ['mr-2']: label }, 'text-center LinkWithIcon')}>
+      {typeof icon === 'string' ? <img className={clsx('d-block')} src={icon} /> : icon}
     </div>
-  </Tooltip>
-)
+    {label && label}
+  </div>
+  
+  const linkItem = <ExternalLink url={link} className={`d-block ${className}`} value={linkLabel} />
+
+  return title ? <Tooltip title={title}>
+    {linkItem}
+  </Tooltip> : linkItem
+}
 
 type SubscanLinkProps = {
   address: string

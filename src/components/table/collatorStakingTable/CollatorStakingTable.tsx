@@ -26,7 +26,7 @@ import styles from './StakingTable.module.sass'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { MobileStakingCards, MyStakeCount } from './utils'
 import clsx from 'clsx'
-import { isEmptyArray } from '@subsocial/utils'
+import { isEmptyArray, isEmptyObj } from '@subsocial/utils'
 import { ChainInfo } from '../../../rtk/features/multiChainInfo/types'
 import { MutedDiv } from '../../utils/MutedText'
 
@@ -109,11 +109,11 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
   const [ loading, setLoading ] = useState<boolean>(false)
   const { isMobile } = useResponsiveSize()
   const addresses = useMyAddresses()
-  // const [ data, setData ] = useState<CollatorStakingInfo[]>([])
   const [ showMyStake, setShowMyStake ] = useState<boolean>(false)
   const [ tabKey, setTabKey ] = useState<StakingTabKey>('active')
   const chainsInfo = useChainInfo()
   const { t, i18n: { language } } = useTranslation()
+  const [ firstLoad, setFirstLoad ] = useState(true)
 
   const address = useMyAddress()
 
@@ -136,10 +136,11 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
       : !!stakingInfoLoading || !!stakingDelegatorStateLoading)
   }, [ stakingInfoLoading, stakingDelegatorStateLoading, network, addresses?.join(',') ])
 
-  const data = useMemo(() => {
-    if (!stakingCandidates) return []
 
-    return parseStakingInfo({
+  const tabs = getTabKeys(t)
+
+  const { parsedData, filteredDataByTabKey } = useMemo(() => {
+    const parsedData = parseStakingInfo({
       stakingCandidates,
       network,
       address,
@@ -149,26 +150,47 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
       selectedCandidatesByNetwork,
       identities
     })
+
+    const filteredDataByTabKey = filterStakingDataByTabKey(tabs, parsedData)
+
+    return { parsedData, filteredDataByTabKey }
   }, [ addresses?.join(','), loading, network, language ])
 
   const onSwitchChange = (checked: boolean) => {
     setShowMyStake(checked)
   }
 
-  const tabs = getTabKeys(t)
-
-  const filteredDataByTabKey = filterStakingDataByTabKey(tabs, data)
-
   const filteredData = filterStakingData({ data: filteredDataByTabKey, tabKey, showMyStake })
 
-  return loading || isEmptyArray(data)
+  useEffect(() => {
+    setFirstLoad(true)
+  }, [address, network])
+
+  useEffect(() => {
+    console.log(firstLoad, stakingDelegatorStateEntities)
+    if(
+      stakingDelegatorStateLoading === true || 
+      isEmptyArray(filteredDataByTabKey.active)
+    ) return
+
+    if(firstLoad) {
+      const myStake = filterStakingData({ data: filteredDataByTabKey, tabKey, showMyStake: true })
+
+      console.log('MyStake', myStake, filteredDataByTabKey)
+  
+      setShowMyStake(myStake.length > 0)
+      setFirstLoad(false)
+    }
+  }, [ firstLoad, filteredDataByTabKey, address, network ])
+
+  return loading || isEmptyArray(parsedData)
     ? <TableLoading loadingLabel={t('staking.loadingLabel')} />
     : <div>
       <Row justify='space-between' className={clsx({ ['pl-3 pr-3']: isMobile }, 'align-items-center')}>
         <Col>
           <TableTabsTabs
             className={styles.StakingTableTabs}
-            data={filteredDataByTabKey}
+            data={filteredDataByTabKey || {}}
             tabs={tabs}
             setTabKey={setTabKey}
             tabKey={tabKey}

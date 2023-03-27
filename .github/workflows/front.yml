@@ -71,7 +71,7 @@ jobs:
           build-args: |
                   GH_BACKEND_URL=https://sub.id
                   GH_IPFS_URL=https://ipfs.subsocial.network
-                  GH_GA_ID=UA-204866512-1
+                  GH_GA_ID=G-B4P7CHL1YE 
           tags: |
                   ${{ env.image }}
                   docker.io/dappforce/subid-frontend:main-latest
@@ -145,6 +145,9 @@ jobs:
       - name: Verify deployment
         run: kubectl -n sub-id rollout status daemonset/front-ready
 
+      - name: Remove from DigitalOcean Kubernetes
+        run: kubectl delete -f $GITHUB_WORKSPACE/deployment/production/daemon.yaml
+        
   front-bk-prod-deploy:
     name: bk-prod-deploy
     needs: front-build

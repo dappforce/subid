@@ -52,6 +52,7 @@ export type CommonTableInfo = {
   totalTokensValue?: BN
 
   links: React.ReactNode
+  showLinks?: (isShow: boolean) => React.ReactNode
 
   cardChildren?: CardChildren
 }
