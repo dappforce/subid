@@ -12,6 +12,7 @@ import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import { isTokenBridgeable } from './configs/cross-chain'
+import styles from './TokenSelector.module.sass'
 
 type TransferModalProps = CustomModalProps & {
   defaultSelectedToken?: TransferFormDefaultToken
@@ -98,7 +99,7 @@ export default function TransferModal ({
           noScroll={currentState === 'success'}
           title={t('transfer.title')}
           subtitle={subtitle}
-          className={clsx(className)}
+          className={clsx(className, { [styles.CustomSuccessModalContainer]: currentState === 'success' }) }
           footer={isFormVisible ? buttonSection : undefined}
           {...props}
         >

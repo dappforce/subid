@@ -31,7 +31,7 @@ export function getTransferFormData (form: MinimalFormInstance, crossChain: bool
   const dest = formValues[transferFormField('dest')]
 
   const usedSource = crossChain ? source : network
-
+  
   return {
     recipient: formValues[transferFormField('recipient')],
     amount: formValues[transferFormField('amount')],
