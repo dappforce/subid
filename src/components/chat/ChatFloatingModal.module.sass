@@ -1,0 +1,34 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.ChatFloatingModal
+  position: fixed
+  bottom: 30px
+  right: 30px
+  z-index: 1000
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+  gap: $space_normal
+
+  .ChatFloatingButton
+    width: 60px
+    height: 60px
+    border-radius: 50%
+    background-color: $color-primary
+    color: white
+    font-size: 24px
+    display: flex
+    justify-content: center
+    align-items: center
+
+  .ChatFloatingIframe
+    height: 500px
+    width: 350px
+    border-radius: $border_radius_large
+    overflow: hidden
+
+    iframe
+      width: 100%
+      height: 100%
+      border: none
+

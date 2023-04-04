@@ -23,6 +23,7 @@ import stakingProps from '../features/validators/stakingProps/stakingPropsSlice'
 import nominatorInfo from '../features/validators/nominatorInfo/nominatorInfoSlice'
 import stakingReward from '../features/validators/rewards/rewardsSlice'
 import fees from '../features/fees/feesSlice'
+import chat from '../features/chat/chatSlice'
 
 const rootReducer = combineReducers({
   currentAccount,
@@ -48,7 +49,8 @@ const rootReducer = combineReducers({
   stakingProps,
   nominatorInfo,
   stakingReward,
-  fees
+  fees,
+  chat
 })
 
 export type RootState = ReturnType<typeof rootReducer>

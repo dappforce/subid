@@ -27,6 +27,7 @@ import BaseAvatar from '../../utils/DfAvatar'
 import { BalanceView } from '../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
 import { Button } from 'antd'
+import ChatButton from 'src/components/chat/ChatButton'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
@@ -256,7 +257,12 @@ export const parseBalancesTableInfo = ({
         balanceWithoutChildren: getBalancePart(false),
         balanceValue,
         balanceView: getBalancePart(true),
-        links: <SubscanLink network={supportedNetwork} address={account} />,
+        links: (
+          <div className='d-flex align-items-center GapTiny'>
+            <SubscanLink network={supportedNetwork} address={account} />
+            <ChatButton chatId='1' />
+          </div>
+        ),
         transferAction: (
           <Button
             disabled={!chainInfo.isTransferable}
