@@ -1,4 +1,4 @@
-import { FormItemProps, InputProps, Form, Tag, FormInstance } from 'antd';
+import { FormItemProps, InputProps, Form, Tag, FormInstance } from 'antd'
 import { Rule } from 'antd/lib/form'
 import { checkSameAttributesValues, isValidAddress } from '../../utils'
 import {
@@ -8,7 +8,7 @@ import {
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
-import SelectAccountInput from '../../utils/inputs/SelectAccountInput';
+import SelectAccountInput from '../../utils/inputs/SelectAccountInput'
 
 export type AddressFormItemProps = FormItemProps & {
   inputProps?: InputProps
