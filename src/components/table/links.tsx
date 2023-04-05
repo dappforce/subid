@@ -5,6 +5,11 @@ import { RelayChain } from '../../types/index'
 
 const picassoRefCode = 'XHJ2o0'
 
+type AppLink = {
+  label?: string
+  url: string
+}
+
 export type NetworkLinks = {
   subscanSubdomain: string
   website: string
@@ -12,7 +17,7 @@ export type NetworkLinks = {
   discord: string
   telegram: string
   github: string
-  app: string
+  apps: AppLink[]
 }
 
 export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
@@ -22,14 +27,14 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/kusamanetwork',
     discord: 'https://kusama-discord.w3f.tools/',
     github: 'https://github.com/paritytech/polkadot/',
-    telegram: ''
+    telegram: '',
   },
   polkadot: {
     subscanSubdomain: 'polkadot',
     website: 'https://polkadot.network/',
     twitter: 'https://twitter.com/Polkadot',
     github: 'https://github.com/paritytech/polkadot',
-    discord: 'https://polkadot-discord.w3f.tools/'
+    discord: 'https://polkadot-discord.w3f.tools/',
   },
   centrifugePara: {
     subscanSubdomain: 'centrifuge',
@@ -37,7 +42,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/centrifuge',
     discord: 'https://discord.com/invite/yEzyUq5gxF',
     telegram: 'https://t.me/centrifuge_chat',
-    app: 'https://gov.centrifuge.io/'
+    apps: [
+      {
+        url: 'https://gov.centrifuge.io/',
+      },
+    ],
   },
   sora: {
     subscanSubdomain: 'sora',
@@ -46,7 +55,24 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/sora_xor',
     discord: 'https://discord.com/invite/4TXRN6Y4gb',
     github: 'https://github.com/sora-xor',
-    app: 'https://polkaswap.io/'
+    apps: [
+      {
+        url: 'https://polkaswap.io/',
+      },
+    ],
+  },
+  'sora-parachain': {
+    subscanSubdomain: 'sora',
+    website: 'https://sora.org/',
+    twitter: 'https://twitter.com/sora_xor',
+    telegram: 'https://t.me/sora_xor',
+    discord: 'https://discord.com/invite/4TXRN6Y4gb',
+    github: 'https://github.com/sora-xor',
+    apps: [
+      {
+        url: 'https://polkaswap.io/',
+      },
+    ],
   },
   edgeware: {
     subscanSubdomain: 'edgeware',
@@ -55,14 +81,18 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/bDktqyj',
     twitter: 'https://twitter.com/EdgewareDAO',
     telegram: 'https://t.me/heyedgeware',
-    app: 'https://www.edgeware.app/'
+    apps: [
+      {
+        url: 'https://www.edgeware.app/',
+      },
+    ],
   },
   chainx: {
     subscanSubdomain: 'chainx',
     website: 'https://chainx.org/',
     github: 'https://github.com/chainx-org/ChainX',
     twitter: 'https://twitter.com/chainx_org',
-    telegram: 'https://t.me/chainx_org'
+    telegram: 'https://t.me/chainx_org',
   },
   calamari: {
     subscanSubdomain: 'calamari',
@@ -71,7 +101,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/CalamariNetwork',
     telegram: 'https://t.me/mantanetwork',
     discord: 'https://discord.com/invite/5khsf6QmCb',
-    app: 'https://app.manta.network/calamari/stake',
+    apps: [
+      {
+        url: 'https://app.manta.network/calamari/stake',
+      },
+    ],
   },
   kilt: {
     subscanSubdomain: 'spiritnet',
@@ -87,7 +121,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/8DRBw2h5X4',
     twitter: 'https://twitter.com/BifrostFinance',
     telegram: 'https://t.me/bifrost_finance',
-    app: 'https://bifrost.app/'
+    apps: [
+      {
+        url: 'https://bifrost.app/',
+      },
+    ],
   },
   statemine: {
     subscanSubdomain: 'statemine',
@@ -99,7 +137,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/KaruraNetwork',
     discord: 'https://discord.com/invite/Mw4PFHf',
     telegram: 'https://t.me/karuranetwork',
-    app: 'https://apps.karura.network/'
+    apps: [
+      {
+        url: 'https://apps.karura.network/',
+      },
+    ],
   },
   khala: {
     subscanSubdomain: 'khala',
@@ -116,7 +158,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/PfpUATX',
     twitter: 'https://twitter.com/MoonbeamNetwork',
     telegram: 'https://t.me/Moonbeam_Official',
-    app: 'https://apps.moonbeam.network/moonriver'
+    apps: [
+      {
+        url: 'https://apps.moonbeam.network/moonriver',
+      },
+    ],
   },
   shiden: {
     subscanSubdomain: 'shiden',
@@ -125,7 +171,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/Z3nC9U4',
     twitter: 'https://twitter.com/ShidenNetwork',
     telegram: 'https://t.me/PlasmOfficial',
-    app: 'https://portal.astar.network/'
+    apps: [
+      {
+        url: 'https://portal.astar.network/',
+      },
+    ],
   },
   acala: {
     subscanSubdomain: 'acala',
@@ -134,7 +184,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/Mw4PFHf',
     twitter: 'https://twitter.com/AcalaNetwork',
     telegram: 'https://t.me/acalaofficial',
-    app: 'https://apps.acala.network/'
+    apps: [
+      {
+        url: 'https://apps.acala.network/',
+      },
+    ],
   },
   astar: {
     subscanSubdomain: 'astar',
@@ -143,14 +197,18 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/AstarNetwork',
     discord: 'https://discord.com/invite/Z3nC9U4',
     telegram: 'https://t.me/PlasmOfficial',
-    app: 'https://portal.astar.network/'
+    apps: [
+      {
+        url: 'https://portal.astar.network/',
+      },
+    ],
   },
   altair: {
     subscanSubdomain: 'altair',
     github: 'https://github.com/centrifuge/centrifuge-chain',
     discord: 'https://discord.com/invite/yEzyUq5gxF',
     twitter: 'https://twitter.com/altair_network',
-    telegram: 'https://t.me/centrifuge_chat'
+    telegram: 'https://t.me/centrifuge_chat',
   },
   kintsugi: {
     subscanSubdomain: 'kintsugi',
@@ -158,7 +216,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/KgCYK3MKSf',
     twitter: 'https://twitter.com/kintsugi_btc',
     telegram: 'https://t.me/interlay_community',
-    github: 'https://github.com/interlay/interbtc'
+    github: 'https://github.com/interlay/interbtc',
   },
   quartz: {
     subscanSubdomain: 'quartz',
@@ -166,7 +224,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/jHVdZhsakC',
     telegram: 'https://t.me/Uniquechain',
     github: 'https://github.com/UniqueNetwork',
-    twitter: 'https://twitter.com/Unique_NFTchain'
+    twitter: 'https://twitter.com/Unique_NFTchain',
   },
   litmus: {
     subscanSubdomain: 'litmus',
@@ -174,7 +232,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     github: 'https://github.com/litentry/litentry-parachain',
     discord: 'https://discord.com/invite/M7T4y4skVD',
     twitter: 'https://twitter.com/litentry',
-    telegram: 'https://t.me/Litentry'
+    telegram: 'https://t.me/Litentry',
   },
   robonomics: {
     subscanSubdomain: 'robonomics',
@@ -182,7 +240,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     github: 'https://github.com/airalab/robonomics',
     twitter: 'https://twitter.com/AIRA_Robonomics',
     telegram: 'https://t.me/robonomics',
-    app: 'https://dapp.robonomics.network/'
+    apps: [
+      {
+        url: 'https://dapp.robonomics.network/',
+      },
+    ],
   },
   polkadex: {
     subscanSubdomain: 'polkadex',
@@ -191,106 +253,164 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/Uvua83QAzk',
     twitter: 'https://twitter.com/polkadex',
     telegram: 'https://t.me/Polkadex',
-    app: 'https://orderbook.polkadex.trade/'
+    apps: [
+      {
+        url: 'https://orderbook.polkadex.trade/',
+      },
+    ],
   },
-  'nodle-polkadot': { 
+  'polkadex-polkadot': {
+    subscanSubdomain: 'polkadex',
+    website: 'https://polkadex.trade/',
+    github: 'https://github.com/Polkadex-Substrate/Polkadex',
+    discord: 'https://discord.com/invite/Uvua83QAzk',
+    twitter: 'https://twitter.com/polkadex',
+    telegram: 'https://t.me/Polkadex',
+    apps: [
+      {
+        url: 'https://orderbook.polkadex.trade/',
+      },
+    ],
+  },
+  'nodle-polkadot': {
     subscanSubdomain: 'nodle',
     website: 'https://www.nodle.com/',
     github: 'https://github.com/NodleCode/chain',
     discord: 'https://discord.com/invite/N5nTUt8RWJ',
     twitter: 'https://twitter.com/NodleNetwork',
-    telegram: 'https://t.me/nodlecommunity'
+    telegram: 'https://t.me/nodlecommunity',
   },
-  darwinia: { 
+  darwinia: {
     subscanSubdomain: 'darwinia',
     website: 'https://darwinia.network/',
     github: 'https://github.com/darwinia-network/darwinia',
     twitter: 'https://twitter.com/DarwiniaNetwork',
     discord: 'https://discord.com/invite/aQdK9H4MZS',
     telegram: 'https://t.me/DarwiniaNetwork',
-    
   },
-  'darwinia-crab-parachain': { 
+  darwiniaPokadot: {
+    subscanSubdomain: 'darwinia',
+    website: 'https://darwinia.network/',
+    github: 'https://github.com/darwinia-network/darwinia',
+    twitter: 'https://twitter.com/DarwiniaNetwork',
+    discord: 'https://discord.com/invite/aQdK9H4MZS',
+    telegram: 'https://t.me/DarwiniaNetwork',
+  },
+  'darwinia-crab-parachain': {
     subscanSubdomain: 'crab-parachain',
     website: 'https://crab.network/',
-    github: 'https://github.com/darwinia-network/darwinia/tree/main/runtime/crab',
+    github:
+      'https://github.com/darwinia-network/darwinia/tree/main/runtime/crab',
     discord: 'https://discord.com/invite/aQdK9H4MZS',
     twitter: 'https://twitter.com/DarwiniaNetwork',
     telegram: 'https://t.me/DarwiniaNetwork',
-    app: 'https://apps.darwinia.network/?network=crab',
+    apps: [
+      {
+        url: 'https://apps.darwinia.network/?network=crab',
+      },
+    ],
   },
-  'darwinia-crab': { 
+  'darwinia-crab': {
     subscanSubdomain: 'crab',
     website: 'https://crab.network/',
-    github: 'https://github.com/darwinia-network/darwinia/tree/main/runtime/crab',
+    github:
+      'https://github.com/darwinia-network/darwinia/tree/main/runtime/crab',
     discord: 'https://discord.com/invite/aQdK9H4MZS',
     twitter: 'https://twitter.com/DarwiniaNetwork',
     telegram: 'https://t.me/DarwiniaNetwork',
-    app: 'https://apps.darwinia.network/?network=crab',
+    apps: [
+      {
+        url: 'https://apps.darwinia.network/?network=crab',
+      },
+    ],
   },
-  zeitgeist: { 
+  zeitgeist: {
     subscanSubdomain: 'zeitgeist',
     website: 'https://zeitgeist.pm/',
     github: 'https://github.com/zeitgeistpm/zeitgeist',
     discord: 'https://discord.com/invite/xv8HuA4s8v',
     twitter: 'https://twitter.com/ZeitgeistPM',
     telegram: 'https://t.me/zeitgeist_official',
-    app: 'https://app.zeitgeist.pm/'
+    apps: [
+      {
+        url: 'https://app.zeitgeist.pm/',
+      },
+    ],
   },
-  parallelHeiko: { 
+  parallelHeiko: {
     subscanSubdomain: 'parallel-heiko',
     website: 'https://parallel.fi/',
     github: 'https://github.com/parallel-finance/parallel',
     discord: 'https://discord.com/invite/buKKx4dySW',
     twitter: 'https://twitter.com/ParallelFi',
     telegram: 'https://t.me/parallelfi',
-    app: 'https://app.parallel.fi/'
+    apps: [
+      {
+        url: 'https://app.parallel.fi/',
+      },
+    ],
   },
-  bitCountry: { 
+  bitCountry: {
     subscanSubdomain: 'pioneer',
     website: 'https://bit.country/',
     github: 'https://github.com/bit-country/Metaverse-Network',
     discord: 'https://discord.com/invite/PaMAXZZ59N',
     twitter: 'https://twitter.com/bitdotcountry',
     telegram: 'https://t.me/BitCountryOfficialTG',
-    app: 'https://pioneer.bit.country/'
+    apps: [
+      {
+        url: 'https://pioneer.bit.country/',
+      },
+    ],
   },
-  shadow: { 
+  shadow: {
     subscanSubdomain: 'shadow',
     website: 'https://crust.network/',
     github: 'https://github.com/crustio/crust',
     discord: 'https://discord.com/invite/Jbw2PAUSCR',
     twitter: 'https://twitter.com/crustnetwork',
-    telegram: 'https://t.me/CrustNetwork'
+    telegram: 'https://t.me/CrustNetwork',
   },
-  picasso: { 
+  picasso: {
     subscanSubdomain: 'picasso',
     website: 'https://www.picasso.xyz/',
     github: 'https://github.com/ComposableFi/',
     discord: 'https://github.com/ComposableFi/',
     twitter: 'https://twitter.com/Picasso_Network',
     telegram: 'https://t.me/ComposableFinanceAnnouncements',
-    app: 'https://app.picasso.xyz/'
+    apps: [
+      {
+        url: 'https://app.picasso.xyz/',
+      },
+    ],
   },
-  moonbeam: { 
+  moonbeam: {
     subscanSubdomain: 'moonbeam',
     website: 'https://moonbeam.network/',
     github: 'https://github.com/PureStake/moonbeam',
     discord: 'https://discord.com/invite/PfpUATX',
     twitter: 'https://twitter.com/MoonbeamNetwork',
     telegram: 'https://t.me/Moonbeam_Official',
-    app: 'https://apps.moonbeam.network/moonbeam'
+    apps: [
+      {
+        url: 'https://apps.moonbeam.network/moonbeam',
+      },
+    ],
   },
-  parallel: { 
+  parallel: {
     subscanSubdomain: 'parallel',
     website: 'https://parallel.fi/',
     github: 'https://github.com/parallel-finance/parallel',
     discord: 'https://discord.com/invite/buKKx4dySW',
     twitter: 'https://twitter.com/ParallelFi',
     telegram: 'https://t.me/parallelfi',
-    app: 'https://app.parallel.fi/'
+    apps: [
+      {
+        url: 'https://app.parallel.fi/',
+      },
+    ],
   },
-  clover: { 
+  clover: {
     subscanSubdomain: 'clv',
     website: 'https://clv.org/',
     github: 'https://github.com/clover-network/clover',
@@ -298,84 +418,344 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/clover_finance',
     telegram: 'https://t.me/clvorg',
   },
-  basilisk: { 
+  basilisk: {
     subscanSubdomain: 'basilisk',
     website: 'https://bsx.fi/',
     github: 'https://github.com/galacticcouncil',
     discord: 'https://discord.com/invite/S8YZj5aXR6',
     twitter: 'https://twitter.com/bsx_finance',
-    telegram: 'https://t.me/bsx_fi', 
-    app: 'https://app.basilisk.cloud/#/trade'
+    telegram: 'https://t.me/bsx_fi',
+    apps: [
+      {
+        url: 'https://app.basilisk.cloud/#/trade',
+      },
+    ],
   },
-  interlay: { 
+  interlay: {
     subscanSubdomain: 'interlay',
     website: 'https://www.interlay.io/',
     github: 'https://github.com/interlay/interbtc',
     discord: 'https://discord.com/invite/interlay',
     twitter: 'https://twitter.com/interlayHQ',
     telegram: 'https://t.me/interlay_community',
-    app: 'https://app.interlay.io/dashboard'
+    apps: [
+      {
+        url: 'https://app.interlay.io/dashboard',
+      },
+    ],
   },
-  'hydra-dx': { 
+  'hydra-dx': {
     subscanSubdomain: 'hydradx',
     website: 'https://hydradx.io/',
     github: 'https://github.com/galacticcouncil/HydraDX-node',
     discord: 'https://discord.com/invite/xtVnQgq',
     twitter: 'https://twitter.com/hydra_dx',
     telegram: 'https://t.me/hydradx',
-    app: 'https://app.hydradx.io/#/trade'
+    apps: [
+      {
+        url: 'https://app.hydradx.io/#/trade',
+      },
+    ],
   },
-  integritee: { 
+  integritee: {
     subscanSubdomain: 'integritee',
     website: 'https://integritee.network/',
     github: 'https://github.com/integritee-network/worker',
     discord: 'https://discord.com/invite/anhtxwr4eS',
     twitter: 'https://twitter.com/integri_t_e_e',
-    telegram: 'https://t.me/Integritee_Official', 
+    telegram: 'https://t.me/Integritee_Official',
   },
-  phala: { 
+  phala: {
     subscanSubdomain: 'phala',
     website: 'https://www.phala.network/en/',
     github: 'https://github.com/Phala-Network/phala-blockchain',
     discord: 'https://discord.com/invite/phala',
     twitter: 'https://twitter.com/PhalaNetwork',
-    telegram: 'https://t.me/joinchat/I-ejoxKrdHlOx_zv9VsykA', 
-    app: 'https://app.phala.network/'
+    telegram: 'https://t.me/joinchat/I-ejoxKrdHlOx_zv9VsykA',
+    apps: [
+      {
+        url: 'https://app.phala.network/',
+      },
+    ],
   },
-  centrifuge: { 
+  centrifuge: {
     subscanSubdomain: 'centrifuge',
     website: 'https://centrifuge.io/',
     github: 'https://github.com/centrifuge/centrifuge-chain/',
     discord: 'https://discord.com/invite/yEzyUq5gxF',
     twitter: 'https://twitter.com/centrifuge',
-    telegram: 'https://t.me/centrifuge_chat', 
-    app: 'https://tinlake.centrifuge.io/'
+    telegram: 'https://t.me/centrifuge_chat',
+    apps: [
+      {
+        url: 'https://tinlake.centrifuge.io/',
+      },
+    ],
   },
-  originTrail: { 
+  originTrail: {
     subscanSubdomain: 'origintrail',
     website: 'https://parachain.origintrail.io/',
     github: 'https://github.com/OriginTrail/origintrail-parachain',
     discord: 'https://discord.com/invite/FCgYk2S',
     twitter: 'https://twitter.com/OT_Parachain',
-    telegram: 'https://t.me/origintrail', 
-    app: 'https://teleport.origintrail.io/'
+    telegram: 'https://t.me/origintrail',
+    apps: [
+      {
+        url: 'https://teleport.origintrail.io/',
+      },
+    ],
   },
-  turing: { 
+  turing: {
     subscanSubdomain: 'turing',
     website: 'https://oak.tech/',
     github: 'https://github.com/OAK-Foundation/OAK-blockchain',
     discord: 'https://discord.com/invite/7W9UDvsbwh',
     twitter: 'https://twitter.com/oak_network',
-    telegram: 'https://t.me/OAK_Announcements', 
+    telegram: 'https://t.me/OAK_Announcements',
   },
-  nodle: { 
+  nodle: {
     subscanSubdomain: 'nodle',
     website: 'https://www.nodle.com/',
     github: 'https://github.com/NodleCode/chain',
     discord: 'https://discord.com/invite/N5nTUt8RWJ',
     twitter: 'https://twitter.com/NodleNetwork',
-    telegram: 'https://t.me/nodlecommunity'
+    telegram: 'https://t.me/nodlecommunity',
   },
+  subsocial: {
+    website: 'https://subsocial.network/',
+    github: 'https://github.com/dappforce',
+    discord: 'https://discord.com/invite/w2Rqy2M',
+    twitter: 'https://twitter.com/SubsocialChain',
+    telegram: 'https://t.me/SubsocialNetwork',
+    apps: [
+      {
+        label: 'PolkaVerse',
+        url: 'https://polkaverse.com/',
+      },
+      {
+        label: 'Grill.chat',
+        url: 'https://grill.chat/',
+      },
+    ],
+  },
+  invArch: {
+    website: 'https://invarch.network/',
+    github: 'https://github.com/InvArch/InvArch-node',
+    discord: 'https://discord.com/invite/VjtyvR32Br',
+    twitter: 'https://twitter.com/InvArchNetwork',
+    telegram: 'https://t.me/InvArch',
+  },
+
+
+  efinity: {
+    website: 'https://enjin.io/',
+    github: 'https://github.com/enjin/claims-substrate',
+    discord: 'https://discord.com/invite/qVA6uDr2f8',
+    twitter: 'https://twitter.com/enjin',
+    telegram: 'https://t.me/enjin',
+  },
+  composable: {
+    website: 'https://www.composable.finance/',
+    github: 'https://github.com/ComposableFi/',
+    discord: 'https://discord.com/invite/composable',
+    twitter: 'https://twitter.com/ComposableFin',
+    telegram: 'https://t.me/ComposableFinanceAnnouncements',
+    apps: [
+      {
+        label: 'Pablo',
+        url: 'https://app.pablo.finance/'
+      },
+      {
+        label: 'Picasso',
+        url: 'https://app.picasso.xyz/'
+      },
+      {
+        label: 'XCVM Tools',
+        url: 'https://tools.xcvm.dev/'
+      }
+    ]
+  },
+  litentry: {
+    website: 'https://www.litentry.com/',
+    github: 'https://github.com/litentry/litentry-parachain',
+    discord: 'https://discord.com/invite/M7T4y4skVD',
+    twitter: 'https://twitter.com/litentry',
+    telegram: 'https://t.me/Litentry',
+  },
+  unique: {
+    website: 'https://unique.network/',
+    github: 'https://github.com/UniqueNetwork',
+    discord: 'https://discord.com/invite/jHVdZhsakC',
+    twitter: 'https://twitter.com/Unique_NFTchain',
+    telegram: 'https://t.me/Uniquechain',
+  },
+  equilibrium: {
+    website: 'https://equilibrium.io/',
+    github: 'https://github.com/equilibrium-eosdt/equilibrium-substrate-chain',
+    discord: 'https://discord.com/invite/p2FmYuW5Hu',
+    twitter: 'https://twitter.com/EquilibriumDeFi',
+    telegram: 'https://t.me/equilibrium_eosdt_official',
+    apps: [
+      { url: 'https://app.equilibrium.io/' }
+    ]
+  },
+  kylin: {
+    website: 'https://www.kylin.network/',
+    github: 'https://github.com/Kylin-Network/kylin-collator',
+    discord: 'https://discord.com/invite/PwYCssr',
+    twitter: 'https://twitter.com/Kylin_Network',
+    telegram: 'https://t.me/KylinOfficial',
+  },
+  coinversation: {
+    website: 'https://www.coinversation.io/',
+    github: 'https://github.com/Coinversation/coinpro',
+    twitter: 'https://twitter.com/Coinversation_',
+    telegram: 'https://t.me/coinversationofficial',
+    apps: [
+      { label: 'Kako', url: 'https://www.kaco.finance/' }
+    ]
+  },
+  manta: {
+    website: 'https://manta.network',
+    github: 'https://github.com/Manta-Network/Manta',
+    discord: 'https://discord.com/invite/5khsf6QmCb',
+    twitter: 'https://twitter.com/mantanetwork',
+    telegram: 'https://t.me/mantanetwork',
+    apps: [
+      { url: 'https://app.manta.network/calamari/transact' }
+    ]
+  },
+  subdao: {
+    website: 'https://www.subdao.network',
+    github: 'https://github.com/SubDAO-Network/subdao-node',
+    twitter: 'https://twitter.com/subdao_network',
+    telegram: 'https://t.me/subdao',
+  },
+  subGame: {
+    website: 'https://subgame.org/',
+    github: 'https://github.com/SubGame-Network',
+    twitter: 'https://twitter.com/SubGame_Network',
+    telegram: 'https://t.me/subgamenetwork',
+  },
+  geminis: {
+    discord: 'https://discord.com/invite/zFS3Mnfpwj',
+    telegram: 'https://t.me/ParaState',
+  },
+  gm: {
+    website: 'https://www.gmordie.com',
+    discord: 'https://discord.com/invite/JFzD2b5P2B',
+    twitter: 'https://twitter.com/GmOrDie_',
+    apps: [
+      { url: 'https://app.gmordie.com/' }
+    ]
+  },
+  genshiro: {
+    website: 'https://genshiro.equilibrium.io/en',
+    github: 'https://github.com/equilibrium-eosdt',
+    twitter: 'https://twitter.com/GenshiroDeFi',
+    discord: 'https://discord.com/invite/p2FmYuW5Hu',
+    telegram: 'https://t.me/genshiro_official',
+    apps: [
+      { url: 'https://genshiro.equilibrium.io/gateway/en/deposit' }
+    ]
+  },
+  bajun: {
+    website: 'https://ajuna.io',
+    github: 'https://github.com/ajuna-network/',
+    discord: 'https://discord.com/invite/cE72GYcFgY',
+    twitter: 'https://twitter.com/AjunaNetwork',
+    telegram: 'https://t.me/ajunanetwork',
+  },
+  amplitude: {
+    website: 'https://pendulumchain.org/amplitude',
+    github: 'https://github.com/pendulum-chain/pendulum',
+    discord: 'https://discord.com/invite/wJ2fQh776B',
+    twitter: 'https://twitter.com/amplitude_chain',
+    telegram: 'https://t.me/pendulum_chain',
+  },
+  listen: {
+    github: 'https://github.com/listenofficial/listen-parachain',
+    twitter: 'https://twitter.com/Listen_io',
+    telegram: 'https://t.me/listengroup',
+  },
+  dora: {
+    website: 'https://dorafactory.org',
+    twitter: 'https://twitter.com/DoraFactory',
+    telegram: 'https://t.me/dorafactory',
+  },
+  kabocha: {
+    website: 'https://www.kabocha.network/?ref=parachains-info',
+    discord: 'https://discord.com/invite/bDktqyj',
+    telegram: 'https://t.me/heyedgeware',
+  },
+  pichiu: {
+    website: 'https://www.kylin.network/',
+    github: 'https://github.com/Kylin-Network/kylin-collator',
+    discord: 'https://discord.com/invite/PwYCssr',
+    twitter: 'https://twitter.com/Kylin_Network',
+    telegram: 'https://t.me/KylinOfficial',
+  },
+  mangata: {
+    website: 'https://x.mangata.finance',
+    github: 'https://github.com/mangata-finance/mangata-node',
+    discord: 'https://discord.com/invite/X4VTaejebf',
+    twitter: 'https://twitter.com/MangataFinance',
+    telegram: 'https://t.me/mgtfi',
+    apps: [
+      { url: 'https://app.mangata.finance/' }
+    ]
+  },
+  tanganika: {
+    website: 'https://www.datahighway.com',
+    github: 'https://github.com/DataHighway-DHX/DataHighway-Parachain',
+    discord: 'https://discord.com/invite/UuZN2tE',
+    twitter: 'https://twitter.com/DataHighway_DHX',
+  },
+  imbue: {
+    website: 'https://www.imbue.network',
+    github: 'https://github.com/ImbueNetwork/imbue',
+    discord: 'https://discord.com/invite/cVTEhDhVKs',
+    twitter: 'https://twitter.com/ImbueNetwork',
+    telegram: 'https://t.me/ImbueNetwork',
+  },
+  kico: {
+    website: 'https://dico.io',
+    github: 'https://github.com/DICO-TEAM/dico-chain',
+    discord: 'https://discord.com/invite/V2MASPX3Ra',
+    twitter: 'https://twitter.com/DICONetwork',
+    telegram: 'https://t.me/dicochain',
+    apps: [
+      {
+        label: 'Dico',
+        url: 'https://app.dico.io/ico/'
+      }
+    ]
+  },
+  mars: {
+    website: 'https://www.aresprotocol.io',
+    github: 'https://github.com/aresprotocols/mars',
+    discord: 'https://discord.com/invite/cqduK4ZNaY',
+    twitter: 'https://twitter.com/AresProtocolLab',
+    telegram: 'https://t.me/AresProtocolLab',
+  },
+  sakura: {
+    website: 'https://clv.org/',
+    github: 'https://github.com/clover-network/clover',
+    discord: 'https://discord.com/invite/M6SxuXqMVB',
+    twitter: 'https://twitter.com/clover_finance',
+    telegram: 'https://t.me/clvorg',
+  },
+  sherpax: {
+    website: 'https://chainx.org/en/',
+    github: 'https://github.com/chainx-org/ChainX',
+    twitter: 'https://twitter.com/chainx_org',
+    telegram: 'https://t.me/chainx_org',
+    apps: [
+      {
+        url: 'https://chainx.org/wallet'
+      }
+    ]
+  },
+  
 }
 
 export const resolveSubscanUrl = (network: string, address: string) => {

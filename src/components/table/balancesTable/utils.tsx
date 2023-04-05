@@ -1,5 +1,5 @@
 import { SubIcon } from '../../utils/index'
-import { FaTelegramPlane, FaDiscord} from 'react-icons/fa'
+import { FaTelegramPlane, FaDiscord } from 'react-icons/fa'
 import { AiFillAppstore } from 'react-icons/ai'
 import { FiSend } from 'react-icons/fi'
 import { GlobalOutlined, TwitterOutlined, GithubOutlined } from '@ant-design/icons'
@@ -24,11 +24,11 @@ type SubscanMenuItemLinkProps = {
 }
 
 export const SubscanMenuItemLink = ({ network, address }: SubscanMenuItemLinkProps) => {
-  if(!address) return <></>
+  if(!address) return null
 
   const link = resolveSubscanUrl(network, address)
 
-  if (!link) return <></>
+  if (!link) return null
 
   return <MenuItemsLinkWithLogo link={link} label={'Subscan'} icon='/images/subscan.svg' />
 }
@@ -70,10 +70,6 @@ export const socialMenuItemsValues: Record<string, LinkIconsAndLabelsValue> = {
     icon: <GithubOutlined />,
     label: 'Github'
   },
-  app: {
-    icon: <SubIcon Icon={AiFillAppstore} />,
-    label: 'DApp'
-  }
 }
 
 type ActionButtonProps = {

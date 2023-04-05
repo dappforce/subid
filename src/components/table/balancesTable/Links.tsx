@@ -14,6 +14,8 @@ import {
   SubscanMenuItemLink, 
   ActionButton 
 } from './utils'
+import { SubIcon } from 'src/components/utils'
+import { AiFillAppstore } from 'react-icons/ai'
   
 type LinkButtonsOverlayProps = {
   network: string
@@ -36,9 +38,9 @@ const LinkButtonsOverlay = ({ network, address, links, action, hide, showActionB
       hide()
     }
 
-    
     switch (fieldName) {
       case 'subscanSubdomain':
+        if(!links.subscanSubdomain) return 
         menuItem = <SubscanMenuItemLink network={network} address={address} />
         break
         case 'actionTransfer':
@@ -64,15 +66,25 @@ const LinkButtonsOverlay = ({ network, address, links, action, hide, showActionB
     if(!link) return
 
     return <Menu.Item key={i}>
-      <LinkWithIcon label={label} icon={icon} link={link} />
+      <LinkWithIcon label={label} icon={icon} link={link as string} />
     </Menu.Item>
   }).filter(isDef)
 
+  const appsLinks = links.apps?.map(({ label, url }, i) => {
+    return <Menu.Item key={i}>
+    <LinkWithIcon label={label || 'DApp'} icon={<SubIcon Icon={AiFillAppstore} />} link={url} />
+  </Menu.Item>
+  })
+
   return <Menu selectable={false}>
-    {actionMenuItems}
-    {socialMenuItems.length && <>
+    {actionMenuItems.length && <>
+      {actionMenuItems}
       <div className={styles.MoreButtonDividor}><Divider /></div>
-      {socialMenuItems}
+    </>}
+    {socialMenuItems}
+    {appsLinks?.length && <>
+      <div className={styles.MoreButtonDividor}><Divider /></div>
+      {appsLinks}
     </>}
   </Menu>
 }
