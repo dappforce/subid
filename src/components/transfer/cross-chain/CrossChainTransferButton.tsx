@@ -17,9 +17,12 @@ export default function CrossChainTransferButton ({ crossChainParam, ...props }:
   const txBuilder: TxButtonProps['customTxBuilder'] = async (api, signer, address) => {
     const { amount, destChain, recipient, token } = await crossChainParam()
     const adapter = getCrossChainAdapter(props.network)
+    
+    const a = await api?.createType('AccountId32', '5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe').toHex()
     if (!adapter) throw new Error(`Adapter ${props.network} not found`)
 
-    await adapter.setApi(api)
+    await adapter.init(api as any)
+
 
     const tx = adapter.createTx({
       amount: FN.fromInner(amount, 10),
@@ -29,7 +32,8 @@ export default function CrossChainTransferButton ({ crossChainParam, ...props }:
       signer: address
     })
 
-    const signedTx = await tx.signAsync(address, { signer })
+
+    const signedTx = await tx.signAsync(address, { signer: signer as any })
     return signedTx as any
   }
   return (
