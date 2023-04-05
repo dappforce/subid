@@ -1,6 +1,5 @@
 import { SubIcon } from '../../utils/index'
 import { FaTelegramPlane, FaDiscord } from 'react-icons/fa'
-import { AiFillAppstore } from 'react-icons/ai'
 import { FiSend } from 'react-icons/fi'
 import { GlobalOutlined, TwitterOutlined, GithubOutlined } from '@ant-design/icons'
 import { resolveSubscanUrl } from '../links'
