@@ -114,7 +114,20 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://github.com/KILTprotocol/kilt-node',
     telegram: 'https://t.me/KILTProtocolChat',
   },
-  bifrost: {
+  bifrostKusama: {
+    subscanSubdomain: 'bifrost',
+    website: 'https://bifrost.finance/',
+    github: 'https://github.com/bifrost-finance/bifrost',
+    discord: 'https://discord.com/invite/8DRBw2h5X4',
+    twitter: 'https://twitter.com/BifrostFinance',
+    telegram: 'https://t.me/bifrost_finance',
+    apps: [
+      {
+        url: 'https://bifrost.app/',
+      },
+    ],
+  },
+  bifrostPolkadot: {
     subscanSubdomain: 'bifrost',
     website: 'https://bifrost.finance/',
     github: 'https://github.com/bifrost-finance/bifrost',
@@ -337,7 +350,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
-  parallelHeiko: {
+  heiko: {
     subscanSubdomain: 'parallel-heiko',
     website: 'https://parallel.fi/',
     github: 'https://github.com/parallel-finance/parallel',
@@ -444,7 +457,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
-  'hydra-dx': {
+  hydra: {
     subscanSubdomain: 'hydradx',
     website: 'https://hydradx.io/',
     github: 'https://github.com/galacticcouncil/HydraDX-node',
@@ -994,7 +1007,7 @@ export const polkadotContributionInfoByNetwork: ContributionByNetwork = {
   crust: {
     rewardPool: '5%',
   },
-  'hydra-dx': {
+  hydra: {
     rewardPool: '10%',
   },
   coinversation: {
