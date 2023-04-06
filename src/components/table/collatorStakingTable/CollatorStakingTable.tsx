@@ -167,7 +167,6 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
   }, [address, network])
 
   useEffect(() => {
-    console.log(firstLoad, stakingDelegatorStateEntities)
     if(
       stakingDelegatorStateLoading === true || 
       isEmptyArray(filteredDataByTabKey.active)
@@ -176,8 +175,6 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
     if(firstLoad) {
       const myStake = filterStakingData({ data: filteredDataByTabKey, tabKey, showMyStake: true })
 
-      console.log('MyStake', myStake, filteredDataByTabKey)
-  
       setShowMyStake(myStake.length > 0)
       setFirstLoad(false)
     }
