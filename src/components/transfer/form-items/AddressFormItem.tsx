@@ -112,7 +112,7 @@ function AddressInput ({
       rules={augmentedRules}>
       <SelectAccountInput
           disabled={inputProps?.disabled}
-          value={'5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe'}
+          value={recipient}
           form={form}
           withAvatar={false}
           revalidate={revalidate}
