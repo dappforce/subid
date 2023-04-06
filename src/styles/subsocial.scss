@@ -1456,7 +1456,7 @@ hr {
 
 .DfTopBar {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   height: $height_top_menu;
   width: 100%;
   padding: $space_normal;
@@ -2121,6 +2121,18 @@ hr {
 
   .ant-menu {
     margin-top: 0 !important;
+  }
+}
+
+.ant-modal {
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0;
+
+  .ant-modal-content {
+    width: 100%
   }
 }
 
