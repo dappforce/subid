@@ -14,7 +14,8 @@ export const subscanSubdomainByChain: Record<string, string> = {
   chainx: 'chainx',
   calamari: 'calamari',
   kilt: 'spiritnet',
-  bifrost: 'bifrost',
+  bifrostKusama: 'bifrost-kusama',
+  bifrostPolkadot: 'bifrost',
   statemine: 'statemine',
   karura: 'karura',
   khala: 'khala',
@@ -33,7 +34,7 @@ export const subscanSubdomainByChain: Record<string, string> = {
   'darwinia-crab-parachain': 'crab-parachain',
   'darwinia-crab': 'crab',
   zeitgeist: 'zeitgeist',
-  'parallelHeiko': 'parallel-heiko',
+  heiko: 'parallel-heiko',
   bitCountry: 'pioneer',
   shadow: 'shadow',
   picasso: 'picasso',
@@ -42,7 +43,7 @@ export const subscanSubdomainByChain: Record<string, string> = {
   clover: 'clv',
   basilisk: 'basilisk',
   interlay: 'interlay',
-  'hydra-dx': 'hydradx', 
+  hydra: 'hydradx', 
   integritee: 'integritee', 
   phala: 'phala', 
   centrifuge: 'centrifuge', 
@@ -129,7 +130,7 @@ export const kusamaContributionInfoByNetwork: ContributionByNetwork = {
   polkasmith: {
     rewardPool: '15%'
   },
-  bifrost: {
+  bifrostKusama: {
     rewardPool: '13.5%'
   },
   genshiro: {
