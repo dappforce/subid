@@ -43,7 +43,7 @@ export const actionMenuItemsValues: Record<string, LinkIconsAndLabelsValue> = {
   }
 }
 
-type LinkIconsAndLabelsValue = {
+export type LinkIconsAndLabelsValue = {
   icon: React.ReactNode
   label: string
 }

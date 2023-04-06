@@ -146,7 +146,7 @@ export const parseBalancesTableInfo = ({
 
     const getOtherTokenSymbols = (tokenBalances: string[]) => (
       nonEmptyArr(tokenBalances) && (
-        <MutedSpan className={`${styles.SymbolSize} ${styles.OtherTokens} text-nowrap`}>
+        <MutedSpan className={clsx(styles.SymbolSize, styles.OtherTokens, 'text-nowrap')}>
           {otherBalances(tokenBalances)}
         </MutedSpan>
       )

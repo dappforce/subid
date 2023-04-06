@@ -12,7 +12,8 @@ import {
   socialMenuItemsValues, 
   actionMenuItemsValues, 
   SubscanMenuItemLink, 
-  ActionButton 
+  ActionButton, 
+  LinkIconsAndLabelsValue
 } from './utils'
 import { SubIcon } from 'src/components/utils'
 import { AiFillAppstore } from 'react-icons/ai'
@@ -26,35 +27,60 @@ type LinkButtonsOverlayProps = {
   showActionButton?: boolean
 }
 
+type ViewByNetwork = LinkButtonsOverlayProps & {
+  values: LinkIconsAndLabelsValue
+  fieldName: string
+}
+
+const getViewByFieldName = ({ 
+  network, 
+  address, 
+  links, 
+  action, 
+  hide,
+  showActionButton = true, 
+  values, 
+  fieldName 
+}: ViewByNetwork) => {
+  const onAction = (e: any) => {
+    action?.(e)
+    hide()
+  }
+
+  const viewByFieldName: Record<string, () => React.ReactNode> = {
+    subscanSubdomain: () => {
+      if(!links.subscanSubdomain) return 
+        return <SubscanMenuItemLink network={network} address={address} />
+    },
+    actionTransfer: () => {
+      if(!showActionButton) return
+        const { label, icon } = values
+        return <ActionButton label={label} icon={icon} action={onAction} /> 
+    }
+  }
+
+  return viewByFieldName[fieldName]?.()
+}
+
 const LinkButtonsOverlay = ({ network, address, links, action, hide, showActionButton = true }: LinkButtonsOverlayProps) => {
   const socialMenuItemsValuesEntries = Object.entries(socialMenuItemsValues)
   const actionMenuItemsValuesEntries = Object.entries(actionMenuItemsValues)
 
   const actionMenuItems = actionMenuItemsValuesEntries.map(([ fieldName, values ], i) => {
-    let menuItem = undefined
-
-    const onAction = (e: any) => {
-      action?.(e)
-      hide()
-    }
-
-    switch (fieldName) {
-      case 'subscanSubdomain':
-        if(!links.subscanSubdomain) return 
-        menuItem = <SubscanMenuItemLink network={network} address={address} />
-        break
-        case 'actionTransfer':
-        if(!showActionButton) return
-        const { label, icon } = values
-        menuItem = <ActionButton label={label} icon={icon} action={onAction} /> 
-        break
-      default:
-        break
-    }
+    let menuItem = getViewByFieldName({ 
+      network,
+      address,
+      links,
+      action,
+      hide,
+      showActionButton,
+      fieldName,
+      values
+     })
 
     if(!menuItem) return
 
-    return <Menu.Item key={i}>
+    return <Menu.Item key={`${fieldName}-${i}`}>
       {menuItem}
     </Menu.Item>
   }).filter(isDef)
@@ -65,7 +91,7 @@ const LinkButtonsOverlay = ({ network, address, links, action, hide, showActionB
 
     if(!link) return
 
-    return <Menu.Item key={i}>
+    return <Menu.Item key={`${fieldName}-${i}`}>
       <LinkWithIcon label={label} icon={icon} link={link as string} />
     </Menu.Item>
   }).filter(isDef)
