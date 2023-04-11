@@ -18,7 +18,6 @@ export default function CrossChainTransferButton ({ crossChainParam, ...props }:
     const { amount, destChain, recipient, token } = await crossChainParam()
     const adapter = getCrossChainAdapter(props.network)
     
-    const a = await api?.createType('AccountId32', '5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe').toHex()
     if (!adapter) throw new Error(`Adapter ${props.network} not found`)
 
     await adapter.init(api as any)
