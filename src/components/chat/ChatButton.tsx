@@ -5,12 +5,12 @@ import styles from './ChatButton.module.sass'
 import { useAppDispatch } from 'src/rtk/app/store'
 import { chatActions } from 'src/rtk/features/chat/chatSlice'
 
-export type GrillChatButtonProps = ComponentProps<'div'> & {
+export type ChatButtonProps = ComponentProps<'div'> & {
   children?: React.ReactNode
   chatId: string
 }
 
-export default function ChatButton ({ children, onClick, chatId, ...props }: GrillChatButtonProps) {
+export default function ChatButton ({ children, onClick, chatId, ...props }: ChatButtonProps) {
   const dispatch = useAppDispatch()
   const handleClick = (e: Parameters<NonNullable<typeof onClick>>[0]) => {
     onClick?.(e)
