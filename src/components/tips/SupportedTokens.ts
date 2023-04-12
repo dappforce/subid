@@ -6,7 +6,7 @@ export const networkByCurrency: Record<string, string> = {
   KAR: 'karura',
   SDN: 'shiden',
   PHA: 'khala',
-  BNC: 'bifrost',
+  BNC: 'bifrostKusama',
   KILT: 'kilt',
   QTZ: 'quartz',
   AIR: 'altair',

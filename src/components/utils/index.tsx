@@ -21,6 +21,7 @@ import { SubmittableResult } from '@polkadot/api'
 import { showErrorMessage } from './Message'
 import clsx from 'clsx'
 import { MultiChainInfo } from '../../rtk/features/multiChainInfo/types'
+import { asAccountId } from '@subsocial/api'
 
 export const MINUTES = 1000 * 60
 
@@ -54,6 +55,18 @@ export const Loading = ({ label, style, center = true }: LoadingProps) => {
       {label && <em className='ml-3 text-muted'>{label}</em>}
     </div>
   )
+}
+
+type MaybeAccAddr = undefined | AnyAccountId
+
+export function equalAddresses (addr1: MaybeAccAddr, addr2: MaybeAccAddr): boolean {
+  if (addr1 === addr2) {
+    return true
+  } else if (!addr1 || !addr2) {
+    return false
+  } else {
+    return asAccountId(addr1)?.eq(asAccountId(addr2)) || false
+  }
 }
 
 export const getPriceByNetwork = (network: string, chainsInfo: MultiChainInfo, prices: any | undefined) => {

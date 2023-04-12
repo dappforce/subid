@@ -1,4 +1,4 @@
-import { FormItemProps, InputProps, Form, Input, Tag } from 'antd'
+import { FormItemProps, InputProps, Form, Tag, FormInstance } from 'antd'
 import { Rule } from 'antd/lib/form'
 import { checkSameAttributesValues, isValidAddress } from '../../utils'
 import {
@@ -8,32 +8,38 @@ import {
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
+import SelectAccountInput from '../../utils/inputs/SelectAccountInput'
 
 export type AddressFormItemProps = FormItemProps & {
   inputProps?: InputProps
   isRequired?: boolean
   isEthAddress?: boolean
   validateIsNotSelfErrMsg?: string
+  form: FormInstance<any>
 }
 
-export function AddressFormItem ({ name, ...props }: AddressFormItemProps) {
+export function AddressFormItem ({ name, form, ...props }: AddressFormItemProps) {
   return (
     <Form.Item
       noStyle
       shouldUpdate={(prev, curr) =>
         !checkSameAttributesValues(prev, curr, [ name?.toString() ?? '' ])
-      }>
+      }>  
       {({ getFieldValue, validateFields, isFieldTouched }) => {
         const fieldName = name ?? ''
         const value = getFieldValue(fieldName)
+
         return (
           <AddressInput
             recipient={getFieldValue(fieldName)}
             name={name}
+            form={form}
             {...props}
-            revalidate={() => {
+            revalidate={async () => {
+              console.log(isFieldTouched(fieldName) || value)
+
               if (isFieldTouched(fieldName) || value) {
-                validateFields([ fieldName ])
+                await validateFields([ fieldName ])
               }
             }}
           />
@@ -51,6 +57,7 @@ function AddressInput ({
   validateIsNotSelfErrMsg,
   recipient,
   revalidate,
+  form,
   label: _label,
   ...props
 }: AddressFormItemProps & { recipient: string; revalidate: () => void }) {
@@ -67,6 +74,7 @@ function AddressInput ({
     ({ getFieldValue }) => ({
       async validator () {
         const address = getFieldValue(props.name ?? '')
+
         if (isRequired && !address) {
           throw new Error(t('transfer.errors.recipient.required'))
         }
@@ -102,7 +110,13 @@ function AddressInput ({
       {...props}
       label={label}
       rules={augmentedRules}>
-      <Input {...inputProps} />
+      <SelectAccountInput
+          disabled={inputProps?.disabled}
+          value={recipient}
+          form={form}
+          withAvatar={false}
+          revalidate={revalidate}
+        />
     </Form.Item>
   )
 }

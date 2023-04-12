@@ -81,6 +81,7 @@ export default function ClaimCrowdloanButton ({ address, label, containerProps, 
         onFailed={onError}
         onError={onError}
         onSuccess={onSuccess}
+        withSpinner={false}
         className={clsx(props.className, 'd-flex justify-content-center align-items-center')}
         label={
           <span className='d-flex align-items-center justify-content-center'>

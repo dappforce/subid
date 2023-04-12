@@ -3,7 +3,7 @@ import { selectPrices } from './pricesSlice'
 import { MultiChainInfo } from '../multiChainInfo/types'
 
 export const overriddenChainNames: Record<string, string> = {
-  'bifrost': 'bifrost-native-coin',
+  'bifrostKusama': 'bifrost-native-coin',
   'khala': 'pha',
   'calamari': 'calamari-network',
   'darwinia': 'darwinia-network-native-token',
@@ -13,7 +13,8 @@ export const overriddenChainNames: Record<string, string> = {
   'robonomics': 'robonomics-network',
   'bitCountry': 'metaverse-network-pioneer',
   'parallel': 'parallel-finance',
-  'hydra-dx': 'hydradx'
+  'hydra': 'hydradx',
+  'pendulum': 'pendulum-chain'
 }
 
 export const statemineAssets = [ 'rmrk' ]

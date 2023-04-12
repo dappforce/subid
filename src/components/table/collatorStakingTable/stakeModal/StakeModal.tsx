@@ -126,7 +126,7 @@ const StakingModal = ({ open, hide, address, network, action }: StakingModalProp
   return <Modal
     visible={open}
     title={<h3 className='font-weight-bold m-0'>
-      {title} {<Name identities={identities} address={toGenericAccountId(address)} />}
+      {title} {<Name identities={identities} address={address} />}
     </h3>}
     footer={null}
     width={600}
