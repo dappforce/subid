@@ -257,12 +257,7 @@ export const parseBalancesTableInfo = ({
         balanceWithoutChildren: getBalancePart(false),
         balanceValue,
         balanceView: getBalancePart(true),
-        links: (
-          <div className='d-flex align-items-center GapTiny'>
-            <SubscanLink network={supportedNetwork} address={account} />
-            <ChatButton chatId='1' />
-          </div>
-        ),
+        links: <SubscanLink network={supportedNetwork} address={account} />,
         transferAction: (
           <Button
             disabled={!chainInfo.isTransferable}
