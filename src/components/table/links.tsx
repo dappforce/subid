@@ -334,6 +334,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/kintsugi_btc',
     telegram: 'https://t.me/interlay_community',
     github: 'https://github.com/interlay/interbtc',
+    apps: [
+      {
+        label: 'Kintsugi Dapp',
+        url: 'https://kintsugi.interlay.io/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://kintsugi.subsquare.io/',
+      },
+    ],
   },
   quartz: {
     subscanSubdomain: 'quartz',
@@ -350,6 +360,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/M7T4y4skVD',
     twitter: 'https://twitter.com/litentry',
     telegram: 'https://t.me/Litentry',
+    apps: [
+      {
+        label: 'Subsquare',
+        url: 'https://litmus.subsquare.io/',
+      },
+    ],
   },
   robonomics: {
     subscanSubdomain: 'robonomics',
@@ -359,7 +375,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/robonomics',
     apps: [
       {
+        label: 'Robonomics Dapp',
         url: 'https://dapp.robonomics.network/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://robonomics.polkassembly.io/',
       },
     ],
   },
@@ -372,7 +393,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/Polkadex',
     apps: [
       {
+        label: 'Orderbook',
         url: 'https://orderbook.polkadex.trade/',
+      },
+      {
+        label: 'Staking',
+        url: 'https://polkadex.trade/staking',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://polkadex.polkassembly.io/',
       },
     ],
   },
@@ -385,7 +415,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/Polkadex',
     apps: [
       {
+        label: 'Orderbook',
         url: 'https://orderbook.polkadex.trade/',
+      },
+      {
+        label: 'Staking',
+        url: 'https://polkadex.trade/staking',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://polkadex.polkassembly.io/',
       },
     ],
   },
@@ -396,6 +435,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/N5nTUt8RWJ',
     twitter: 'https://twitter.com/NodleNetwork',
     telegram: 'https://t.me/nodlecommunity',
+    apps: [
+      {
+        label: 'Nodle Cash App',
+        url: 'https://www.nodle.com/products/cash_app',
+      },
+    ],
   },
   darwinia: {
     subscanSubdomain: 'darwinia',
@@ -404,6 +449,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/DarwiniaNetwork',
     discord: 'https://discord.com/invite/aQdK9H4MZS',
     telegram: 'https://t.me/DarwiniaNetwork',
+    apps: [
+      {
+        label: 'Darwinia Portal',
+        url: 'https://apps.darwinia.network/portal',
+      },
+    ],
   },
   darwiniaPokadot: {
     subscanSubdomain: 'darwinia',
@@ -412,6 +463,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/DarwiniaNetwork',
     discord: 'https://discord.com/invite/aQdK9H4MZS',
     telegram: 'https://t.me/DarwiniaNetwork',
+    apps: [
+      {
+        label: 'Darwinia Portal',
+        url: 'https://apps.darwinia.network/portal',
+      },
+    ],
   },
   'darwinia-crab-parachain': {
     subscanSubdomain: 'crab-parachain',
@@ -423,7 +480,8 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/DarwiniaNetwork',
     apps: [
       {
-        url: 'https://apps.darwinia.network/?network=crab',
+        label: 'Darwinia Portal',
+        url: 'https://apps.darwinia.network/portal',
       },
     ],
   },
@@ -437,7 +495,8 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/DarwiniaNetwork',
     apps: [
       {
-        url: 'https://apps.darwinia.network/?network=crab',
+        label: 'Darwinia Portal',
+        url: 'https://apps.darwinia.network/portal',
       },
     ],
   },
