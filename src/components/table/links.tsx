@@ -885,15 +885,15 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       {
         label: 'Pablo',
-        url: 'https://app.pablo.finance/'
+        url: 'https://app.pablo.finance/',
       },
       {
         label: 'Picasso',
-        url: 'https://app.picasso.xyz/'
+        url: 'https://app.picasso.xyz/',
       },
       {
         label: 'XCVM Tools',
-        url: 'https://tools.xcvm.dev/'
+        url: 'https://tools.xcvm.dev/',
       },
       {
         label: 'Polkassembly',
@@ -910,7 +910,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       {
         label: 'Subsquare',
-        url: 'https://litentry.subsquare.io/'
+        url: 'https://litentry.subsquare.io/',
       },
     ],
   },
@@ -930,7 +930,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       { 
         label: 'Equilibrium Dashboard',
-        url: 'https://app.equilibrium.io/'
+        url: 'https://app.equilibrium.io/',
       },
       {
         label: 'Polkassembly',
@@ -947,7 +947,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       { 
         label: 'Staking',
-        url: 'https://staking.kylin.network/'
+        url: 'https://staking.kylin.network/',
       },
       {
         label: 'Polkassembly',
@@ -963,7 +963,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       { 
         label: 'Kaco Finance', 
-        url: 'https://www.kaco.finance/
+        url: 'https://www.kaco.finance/',
       },
     ],
   },
@@ -985,8 +985,15 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/JFzD2b5P2B',
     twitter: 'https://twitter.com/GmOrDie_',
     apps: [
-      { url: 'https://app.gmordie.com/' }
-    ]
+      { 
+        label: 'GM Or Die',
+        url: 'https://app.gmordie.com/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://gmordie.polkassembly.io/',
+      },
+    ],
   },
   genshiro: {
     website: 'https://genshiro.equilibrium.io/en',
@@ -995,8 +1002,15 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/p2FmYuW5Hu',
     telegram: 'https://t.me/genshiro_official',
     apps: [
-      { url: 'https://genshiro.equilibrium.io/gateway/en/deposit' }
-    ]
+      { 
+        label: 'Genshiro Dashboard',
+        url: 'https://genshiro.equilibrium.io/gateway/en/market',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://genshiro.polkassembly.io/',
+      },
+    ],
   },
   bajun: {
     website: 'https://ajuna.io',
@@ -1004,6 +1018,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/cE72GYcFgY',
     twitter: 'https://twitter.com/AjunaNetwork',
     telegram: 'https://t.me/ajunanetwork',
+    apps: [
+      { 
+        label: 'Awesome Ajuna Avatars',
+        url: 'https://aaa.ajuna.io/',
+      },
+    ],
   },
   amplitude: {
     website: 'https://pendulumchain.org/amplitude',
@@ -1011,6 +1031,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/wJ2fQh776B',
     twitter: 'https://twitter.com/amplitude_chain',
     telegram: 'https://t.me/pendulum_chain',
+    apps: [
+      { 
+        label: 'Polkassembly',
+        url: 'https://amplitude.polkassembly.io/',
+      },
+    ],
   },
   listen: {
     github: 'https://github.com/listenofficial/listen-parachain',
@@ -1023,7 +1049,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/dorafactory',
   },
   kabocha: {
-    website: 'https://www.kabocha.network/?ref=parachains-info',
+    website: 'https://www.kabocha.network/',
     discord: 'https://discord.com/invite/bDktqyj',
     telegram: 'https://t.me/heyedgeware',
   },
@@ -1033,6 +1059,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/PwYCssr',
     twitter: 'https://twitter.com/Kylin_Network',
     telegram: 'https://t.me/KylinOfficial',
+    apps: [
+      { 
+        label: 'Polkassembly',
+        url: 'https://pichiu.polkassembly.io/',
+      },
+    ],
   },
   mangata: {
     website: 'https://x.mangata.finance',
@@ -1041,14 +1073,23 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/MangataFinance',
     telegram: 'https://t.me/mgtfi',
     apps: [
-      { url: 'https://app.mangata.finance/' }
-    ]
+      { 
+        label: 'Mangata X DEX',
+        url: 'https://app.mangata.finance/',
+      },
+    ],
   },
   tanganika: {
     website: 'https://www.datahighway.com',
     github: 'https://github.com/DataHighway-DHX/DataHighway-Parachain',
     discord: 'https://discord.com/invite/UuZN2tE',
     twitter: 'https://twitter.com/DataHighway_DHX',
+    apps: [
+      { 
+        label: 'Polkassembly',
+        url: 'https://tanganika.polkassembly.io/',
+      },
+    ],
   },
   imbue: {
     website: 'https://www.imbue.network',
@@ -1065,10 +1106,10 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/dicochain',
     apps: [
       {
-        label: 'Dico',
-        url: 'https://app.dico.io/ico/'
-      }
-    ]
+        label: 'DICO',
+        url: 'https://app.dico.io/ico/',
+      },
+    ],
   },
   mars: {
     website: 'https://www.aresprotocol.io',
@@ -1076,6 +1117,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/cqduK4ZNaY',
     twitter: 'https://twitter.com/AresProtocolLab',
     telegram: 'https://t.me/AresProtocolLab',
+    apps: [
+      {
+        label: 'Trojan',
+        url: 'https://trojan.aresprotocol.io/',
+      },
+    ],
   },
   sakura: {
     website: 'https://clv.org/',
@@ -1083,6 +1130,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/M6SxuXqMVB',
     twitter: 'https://twitter.com/clover_finance',
     telegram: 'https://t.me/clvorg',
+    apps: [
+      {
+        label: 'CLV Portal',
+        url: 'https://portal.clv.org/#/connectWallet',
+      },
+    ],
   },
   sherpax: {
     website: 'https://chainx.org/en/',
@@ -1091,9 +1144,10 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/chainx_org',
     apps: [
       {
-        url: 'https://chainx.org/wallet'
-      }
-    ]
+        label: 'BTC cross-chain',
+        url: 'https://dapp.chainx.org/',
+      },
+    ],
   },
   
 }
