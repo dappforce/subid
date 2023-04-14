@@ -45,11 +45,15 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     apps: [
       {
         label: 'Tinlake',
-        url: 'https://github.com/dappforce/subid/edit/main/src/components/table/links.tsx',
+        url: 'https://tinlake.centrifuge.io/',
       },
       {
         label: 'Polkassembly',
         url: 'https://centrifuge.polkassembly.io/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://centrifuge.subsquare.io/',
       },
       {
         label: 'Governance Forum',
@@ -222,6 +226,14 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       {
         label: 'Khala Dashboard',
         url: 'https://app.phala.network/',
+      },
+      {
+        label: 'PhalaWorld',
+        url: 'https://phala.world/',
+      },
+      {
+        label: 'SubBridge',
+        url: 'https://subbridge.io/',
       },
       {
         label: 'Polkassembly',
@@ -509,7 +521,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/zeitgeist_official',
     apps: [
       {
+        label: 'Prediction Markets',
         url: 'https://app.zeitgeist.pm/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://zeitgeist.subsquare.io/',
       },
     ],
   },
@@ -522,7 +539,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/parallelfi',
     apps: [
       {
+        label: 'Heiko Dashboard',
         url: 'https://app.parallel.fi/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://heiko.polkassembly.io/',
       },
     ],
   },
@@ -535,7 +557,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/BitCountryOfficialTG',
     apps: [
       {
+        label: 'Pioneer App',
         url: 'https://pioneer.bit.country/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://pioneer.polkassembly.io/',
       },
     ],
   },
@@ -546,6 +573,24 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/Jbw2PAUSCR',
     twitter: 'https://twitter.com/crustnetwork',
     telegram: 'https://t.me/CrustNetwork',
+    apps: [
+      {
+        label: 'Crust Files',
+        url: 'https://crustfiles.io/',
+      },
+      {
+        label: 'Crust Swap',
+        url: 'https://swap.crust.network/#/swap',
+      },
+      {
+        label: 'Crust Wallet',
+        url: 'https://wiki.crust.network/docs/en/crustWallet',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://crustshadow.polkassembly.io/',
+      },
+    ],
   },
   picasso: {
     subscanSubdomain: 'picasso',
@@ -556,7 +601,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/ComposableFinanceAnnouncements',
     apps: [
       {
+        label: 'Picasso',
         url: 'https://app.picasso.xyz/',
+      },
+      {
+        label: 'Pablo Finance',
+        url: 'https://app.pablo.finance/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://picasso.polkassembly.io/',
       },
     ],
   },
@@ -591,7 +645,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/parallelfi',
     apps: [
       {
+        label: 'Parallel Dashboard',
         url: 'https://app.parallel.fi/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://parallel.polkassembly.io/',
       },
     ],
   },
@@ -602,6 +661,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/M6SxuXqMVB',
     twitter: 'https://twitter.com/clover_finance',
     telegram: 'https://t.me/clvorg',
+    apps: [
+      {
+        label: 'CLV Portal',
+        url: 'https://portal.clv.org/#/connectWallet',
+      },
+    ],
   },
   basilisk: {
     subscanSubdomain: 'basilisk',
@@ -612,7 +677,17 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/bsx_fi',
     apps: [
       {
+        
+        label: 'Snek Swap',
         url: 'https://app.basilisk.cloud/#/trade',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://basilisk.polkassembly.io/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://basilisk.subsquare.io/',
       },
     ],
   },
@@ -625,7 +700,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/interlay_community',
     apps: [
       {
+        label: 'Interlay Dashboard',
         url: 'https://app.interlay.io/dashboard',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://interlay.subsquare.io/',
       },
     ],
   },
@@ -638,7 +718,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/hydradx',
     apps: [
       {
+        label: 'Omnipool',
         url: 'https://app.hydradx.io/#/trade',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://hydradx.polkassembly.io/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://hydradx.subsquare.io/',
       },
     ],
   },
@@ -663,6 +752,14 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
         url: 'https://app.phala.network/',
       },
       {
+        label: 'PhalaWorld',
+        url: 'https://phala.world/',
+      },
+      {
+        label: 'SubBridge',
+        url: 'https://subbridge.io/',
+      },
+      {
         label: 'Subsquare',
         url: 'https://phala.subsquare.io/',
       },
@@ -677,7 +774,20 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     telegram: 'https://t.me/centrifuge_chat',
     apps: [
       {
+        label: 'Tinlake',
         url: 'https://tinlake.centrifuge.io/',
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://centrifuge.polkassembly.io/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://centrifuge.subsquare.io/',
+      },
+      {
+        label: 'Governance Forum',
+        url: 'https://gov.centrifuge.io/',
       },
     ],
   },
@@ -688,11 +798,6 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/FCgYk2S',
     twitter: 'https://twitter.com/OT_Parachain',
     telegram: 'https://t.me/origintrail',
-    apps: [
-      {
-        url: 'https://teleport.origintrail.io/',
-      },
-    ],
   },
   turing: {
     subscanSubdomain: 'turing',
@@ -701,6 +806,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/7W9UDvsbwh',
     twitter: 'https://twitter.com/oak_network',
     telegram: 'https://t.me/OAK_Announcements',
+    apps: [
+      {
+        label: 'Staking',
+        url: 'https://staketur.com/',
+      },
+      {
+        label: 'Subsquare',
+        url: 'https://turing.subsquare.io/',
+      },
+    ],
   },
   nodle: {
     subscanSubdomain: 'nodle',
@@ -709,6 +824,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/N5nTUt8RWJ',
     twitter: 'https://twitter.com/NodleNetwork',
     telegram: 'https://t.me/nodlecommunity',
+    apps: [
+      {
+        label: 'Nodle Cash App',
+        url: 'https://www.nodle.com/products/cash_app',
+      },
+    ],
   },
   subsocial: {
     website: 'https://subsocial.network/',
@@ -725,6 +846,14 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
         label: 'Grill.chat',
         url: 'https://grill.chat/',
       },
+      {
+        label: 'Polkadot Arena',
+        url: 'https://polkadotarena.blog/',
+      },
+      {
+        label: 'Post4Ever',
+        url: 'https://post4ever.app/',
+      },
     ],
   },
   invArch: {
@@ -733,9 +862,13 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/VjtyvR32Br',
     twitter: 'https://twitter.com/InvArchNetwork',
     telegram: 'https://t.me/InvArch',
+    apps: [
+      {
+        label: 'OCIF Staking',
+        url: 'https://www.tinker.network/staking',
+      },
+    ],
   },
-
-
   efinity: {
     website: 'https://enjin.io/',
     github: 'https://github.com/enjin/claims-substrate',
@@ -761,8 +894,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       {
         label: 'XCVM Tools',
         url: 'https://tools.xcvm.dev/'
-      }
-    ]
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://composable.polkassembly.io/',
+      },
+    ],
   },
   litentry: {
     website: 'https://www.litentry.com/',
@@ -770,6 +907,12 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/M7T4y4skVD',
     twitter: 'https://twitter.com/litentry',
     telegram: 'https://t.me/Litentry',
+    apps: [
+      {
+        label: 'Subsquare',
+        url: 'https://litentry.subsquare.io/'
+      },
+    ],
   },
   unique: {
     website: 'https://unique.network/',
@@ -785,8 +928,15 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/EquilibriumDeFi',
     telegram: 'https://t.me/equilibrium_eosdt_official',
     apps: [
-      { url: 'https://app.equilibrium.io/' }
-    ]
+      { 
+        label: 'Equilibrium Dashboard',
+        url: 'https://app.equilibrium.io/'
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://equilibrium.polkassembly.io/',
+      },
+    ],
   },
   kylin: {
     website: 'https://www.kylin.network/',
@@ -794,6 +944,16 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     discord: 'https://discord.com/invite/PwYCssr',
     twitter: 'https://twitter.com/Kylin_Network',
     telegram: 'https://t.me/KylinOfficial',
+    apps: [
+      { 
+        label: 'Staking',
+        url: 'https://staking.kylin.network/'
+      },
+      {
+        label: 'Polkassembly',
+        url: 'https://kylin.polkassembly.io/',
+      },
+    ],
   },
   coinversation: {
     website: 'https://www.coinversation.io/',
@@ -801,8 +961,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/Coinversation_',
     telegram: 'https://t.me/coinversationofficial',
     apps: [
-      { label: 'Kako', url: 'https://www.kaco.finance/' }
-    ]
+      { 
+        label: 'Kaco Finance', 
+        url: 'https://www.kaco.finance/
+      },
+    ],
   },
   manta: {
     website: 'https://manta.network',
@@ -811,8 +974,11 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
     twitter: 'https://twitter.com/mantanetwork',
     telegram: 'https://t.me/mantanetwork',
     apps: [
-      { url: 'https://app.manta.network/calamari/transact' }
-    ]
+      {
+        label: 'Polkassembly',
+        url: 'https://manta.polkassembly.io/',
+      },
+    ],
   },
   subdao: {
     website: 'https://www.subdao.network',
