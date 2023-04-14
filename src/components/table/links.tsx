@@ -980,22 +980,6 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
-  subdao: {
-    website: 'https://www.subdao.network',
-    github: 'https://github.com/SubDAO-Network/subdao-node',
-    twitter: 'https://twitter.com/subdao_network',
-    telegram: 'https://t.me/subdao',
-  },
-  subGame: {
-    website: 'https://subgame.org/',
-    github: 'https://github.com/SubGame-Network',
-    twitter: 'https://twitter.com/SubGame_Network',
-    telegram: 'https://t.me/subgamenetwork',
-  },
-  geminis: {
-    discord: 'https://discord.com/invite/zFS3Mnfpwj',
-    telegram: 'https://t.me/ParaState',
-  },
   gm: {
     website: 'https://www.gmordie.com',
     discord: 'https://discord.com/invite/JFzD2b5P2B',
