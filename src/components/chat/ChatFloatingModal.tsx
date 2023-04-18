@@ -7,6 +7,7 @@ import { useSortMyBalances } from 'src/utils/hooks/useSortMyBalances'
 import { Button } from 'antd'
 import { TOKEN_TO_CHAT_ID } from './chat-ids'
 import clsx from 'clsx'
+import { grillchatUrl } from 'src/config/env'
 
 export default function ChatFloatingModal () {
   const { isOpen } = useAppSelector((state) => state.chat)
@@ -35,7 +36,12 @@ export default function ChatFloatingModal () {
   order.forEach((id) => {
     urlParam.append('order', id)
   })
-  const iframeLink = `https://iframe-configs-grillchat.subsocial.network/1004?theme=light&${urlParam.toString()}`
+
+  if (!grillchatUrl) {
+    return null
+  }
+
+  const iframeLink = `${grillchatUrl}?theme=light&${urlParam.toString()}`
 
   return (
     <div className={styles.ChatFloatingModal}>
