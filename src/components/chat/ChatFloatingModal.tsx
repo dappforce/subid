@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'src/rtk/app/store'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import styles from './ChatFloatingModal.module.sass'
@@ -6,11 +6,16 @@ import { chatActions } from 'src/rtk/features/chat/chatSlice'
 import { useSortMyBalances } from 'src/utils/hooks/useSortMyBalances'
 import { Button } from 'antd'
 import { TOKEN_TO_CHAT_ID } from './chat-ids'
+import clsx from 'clsx'
 
 export default function ChatFloatingModal () {
   const { isOpen } = useAppSelector((state) => state.chat)
   const dispatch = useAppDispatch()
   const toggleChat = () => dispatch(chatActions.toggleChat())
+  const isOpened = useRef(false)
+  useEffect(() => {
+    if (isOpen) isOpened.current = true
+  }, [ isOpen ])
 
   const balances = useSortMyBalances()
   const order = useMemo<string[]>(() => {
@@ -30,12 +35,13 @@ export default function ChatFloatingModal () {
   order.forEach((id) => {
     urlParam.append('order', id)
   })
+  const iframeLink = `https://iframe-configs-grillchat.subsocial.network/1004?theme=light&${urlParam.toString()}`
 
   return (
     <div className={styles.ChatFloatingModal}>
-      {isOpen && (
-        <div className={styles.ChatFloatingIframe}>
-          <iframe src={`https://iframe-configs-grillchat.subsocial.network/1004?${urlParam.toString()}`} />
+      {(isOpen || isOpened.current) && (
+        <div className={clsx(styles.ChatFloatingIframe, !isOpen && styles.ChatFloatingIframeHidden)}>
+          <iframe src={iframeLink} />
         </div>
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>

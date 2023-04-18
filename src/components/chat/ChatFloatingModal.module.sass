@@ -27,6 +27,12 @@
     border-radius: $border_radius_large
     overflow: hidden
     box-shadow: $box_shadow_black
+    transition: opacity 0.3s ease-out
+    opacity: 1
+
+    &.ChatFloatingIframeHidden
+      opacity: 0
+      pointer-events: none
 
     iframe
       width: 100%

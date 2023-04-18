@@ -30,8 +30,8 @@ const App = (props) => {
       <GoogleAnalytics trackPageViews gaMeasurementId={gaId} />
       <NextLayout>
         <Component {...pageProps} />
-        <ChatFloatingModal />
       </NextLayout>
+      <ChatFloatingModal />
     </>
   )
 }
