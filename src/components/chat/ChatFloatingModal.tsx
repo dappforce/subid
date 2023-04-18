@@ -31,8 +31,6 @@ export default function ChatFloatingModal () {
     urlParam.append('order', id)
   })
 
-  if (balances.length === 0) return null
-
   return (
     <div className={styles.ChatFloatingModal}>
       {isOpen && (
