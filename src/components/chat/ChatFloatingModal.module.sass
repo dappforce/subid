@@ -22,8 +22,10 @@
     align-items: center
 
   .ChatFloatingIframe
+    // 100px from the height of the button + offset to the bottom + gap
     height: min(570px, 90vh - 100px)
-    width: 400px
+    // 60px from the offset left & right of the iframe (30px each)
+    width: min(400px, 100vw - 60px)
     border-radius: $border_radius_large
     overflow: hidden
     box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25)
