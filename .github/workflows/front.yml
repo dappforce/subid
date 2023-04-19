@@ -55,6 +55,7 @@ jobs:
                   GH_BACKEND_URL=https://staging.sub.id
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
+                  GH_GRILLCHAT_URL=https://x.grill.chat/1005
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -71,6 +72,7 @@ jobs:
           build-args: |
                   GH_BACKEND_URL=https://sub.id
                   GH_IPFS_URL=https://ipfs.subsocial.network
+                  GH_GRILLCHAT_URL=https://x.grill.chat/1005
                   GH_GA_ID=G-B4P7CHL1YE 
           tags: |
                   ${{ env.image }}
