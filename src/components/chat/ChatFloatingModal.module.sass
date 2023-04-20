@@ -33,12 +33,13 @@
     opacity: 1
 
     &.ChatFloatingIframeHidden
-      opacity: 0
       pointer-events: none
+      height: 0
+      width: 0
+      opacity: 0
 
     iframe
       border-radius: $border_radius_large
       width: 100%
       height: 100%
       border: none
-

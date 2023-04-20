@@ -24,7 +24,10 @@ export default function ChatFloatingModal () {
     return balances
       .map(({ token }) => {
         if (appendedToken.has(token)) return ''
-        const tokenId = TOKEN_TO_CHAT_ID?.[token.toLowerCase() as keyof typeof TOKEN_TO_CHAT_ID]
+        const tokenId =
+          TOKEN_TO_CHAT_ID?.[
+            token.toLowerCase() as keyof typeof TOKEN_TO_CHAT_ID
+          ]
         if (tokenId) appendedToken.add(token)
         return tokenId
       })
@@ -45,8 +48,16 @@ export default function ChatFloatingModal () {
   return (
     <div className={styles.ChatFloatingModal}>
       {(isOpen || hasOpened.current) && (
-        <div className={clsx(styles.ChatFloatingIframe, !isOpen && styles.ChatFloatingIframeHidden)}>
-          <iframe src={iframeLink} />
+        <div
+          className={clsx(
+            styles.ChatFloatingIframe,
+            !isOpen && styles.ChatFloatingIframeHidden
+          )}
+        >
+          <iframe
+            sandbox='allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation'
+            src={iframeLink}
+          />
         </div>
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>

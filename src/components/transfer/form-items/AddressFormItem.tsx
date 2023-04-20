@@ -36,8 +36,6 @@ export function AddressFormItem ({ name, form, ...props }: AddressFormItemProps)
             form={form}
             {...props}
             revalidate={async () => {
-              console.log(isFieldTouched(fieldName) || value)
-
               if (isFieldTouched(fieldName) || value) {
                 await validateFields([ fieldName ])
               }
