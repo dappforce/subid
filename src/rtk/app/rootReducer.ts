@@ -48,7 +48,7 @@ const rootReducer = combineReducers({
   stakingProps,
   nominatorInfo,
   stakingReward,
-  fees
+  fees,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -13,7 +13,7 @@ const OverviewSection = dynamic(() => import('../homePage/OverviewSection'), { s
 const HomePage: NextPage = () => {
   useFetchDataByAddresses()
   useFetchNfts()
-  
+
   const { query } = useRouter()
   const { address: maybeAddress } = query
 

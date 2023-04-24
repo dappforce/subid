@@ -17,6 +17,7 @@ import { useRouter } from 'next/router'
 import { gaId } from 'src/config/env'
 
 import '../i18n'
+import ChatFloatingModal from 'src/components/chat/ChatFloatingModal'
 
 const App = (props) => {
   const { Component, pageProps } = props
@@ -30,6 +31,7 @@ const App = (props) => {
       <NextLayout>
         <Component {...pageProps} />
       </NextLayout>
+      <ChatFloatingModal />
     </>
   )
 }
