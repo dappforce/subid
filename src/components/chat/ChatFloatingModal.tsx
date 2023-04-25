@@ -1,5 +1,4 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
-import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import styles from './ChatFloatingModal.module.sass'
 import { useSortMyBalances } from 'src/utils/hooks/useSortMyBalances'
 import { Button } from 'antd'
@@ -61,7 +60,7 @@ export default function ChatFloatingModal () {
         </div>
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-        <BsFillChatLeftTextFill />
+        <img src='/images/grillchat.svg' alt='GrillChat' />
       </Button>
     </div>
   )
