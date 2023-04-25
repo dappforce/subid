@@ -61,7 +61,7 @@ export default function ChatFloatingModal () {
         </div>
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-        <BsFillChatLeftTextFill />
+        <img src='images/grillchat.svg' alt='GrillChat' />
       </Button>
     </div>
   )
