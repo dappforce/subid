@@ -60,7 +60,7 @@ export default function ChatFloatingModal () {
         </div>
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-        <img src='images/grillchat.svg' alt='GrillChat' />
+        <img src='/images/grillchat.svg' alt='GrillChat' />
       </Button>
     </div>
   )
