@@ -10,6 +10,7 @@ import { pricesActions } from '../rtk/features/prices/pricesSlice'
 import { getChainsNamesForCoinGecko } from '../rtk/features/prices/pricesHooks'
 import { useChainInfo } from '../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { MINUTES } from '../components/utils/index'
+import ChatFloatingModal from 'src/components/chat/ChatFloatingModal'
 
 const Page: React.FunctionComponent = ({ children }) => <>
   <>{children}</>
@@ -42,6 +43,7 @@ const NextLayout: React.FunctionComponent = (props) => {
               <Navigation>
                 <Page {...props} />
               </Navigation>
+              <ChatFloatingModal />
             </ClaimCrowdloanProvider>
           </LazyConnectionsProvider>
         </SidebarCollapsedProvider>
