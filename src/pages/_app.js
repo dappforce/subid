@@ -31,7 +31,6 @@ const App = (props) => {
       <NextLayout>
         <Component {...pageProps} />
       </NextLayout>
-      <ChatFloatingModal />
     </>
   )
 }
