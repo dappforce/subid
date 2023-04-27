@@ -34,15 +34,14 @@ export default function ChatFloatingModal () {
   }, [ balances ])
 
   const urlParam = new URLSearchParams()
-  order.forEach((id) => {
-    urlParam.append('order', id)
-  })
+  urlParam.set('order', order.join(','))
+  urlParam.set('theme', 'light')
 
   if (!grillchatUrl) {
     return null
   }
 
-  const iframeLink = `${grillchatUrl}?theme=light&${urlParam.toString()}`
+  const iframeLink = `${grillchatUrl}?${urlParam.toString()}`
 
   return (
     <div className={styles.ChatFloatingModal}>
@@ -54,7 +53,6 @@ export default function ChatFloatingModal () {
           )}
         >
           <iframe
-            sandbox='allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation'
             allow='clipboard-write'
             src={iframeLink}
           />
