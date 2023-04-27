@@ -10,6 +10,9 @@
   align-items: flex-end
   gap: $space_normal
 
+  &:has(.ChatFloatingIframeHidden)
+    // z-index: -1 !important
+
   .ChatFloatingButton
     width: 60px
     height: 60px
@@ -34,11 +37,16 @@
     border-radius: $border_radius_large
     overflow: hidden
     box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25)
-    transition: opacity 0.3s ease-out
+    transition-property: opacity, height, width,
+    transition-duration: .3s, 0s, 0s
+    transition-delay: 0s, 0s, 0s
     opacity: 1
 
     &.ChatFloatingIframeHidden
       pointer-events: none
+      transition-delay: 0s, .3s, .3s !important
+      height: 0
+      width: 0
       opacity: 0
 
     iframe
