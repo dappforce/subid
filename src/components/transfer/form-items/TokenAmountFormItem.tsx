@@ -85,7 +85,9 @@ export function TokenAmountFormItem ({
 
   const onMaxClick = () => {
     const name = props.name?.toString()
-    if (name) setFieldsValue({ [name]: maxTransfer })
+    if (name) {
+      setFieldsValue({ [name]: maxTransfer })
+    }
   }
 
   const augmentedRules: Rule[] = [
