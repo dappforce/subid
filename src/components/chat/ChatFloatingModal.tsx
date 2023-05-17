@@ -1,10 +1,8 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styles from './ChatFloatingModal.module.sass'
-import { useSortMyBalances } from 'src/utils/hooks/useSortMyBalances'
 import { Button } from 'antd'
-import { TOKEN_TO_CHAT_ID } from './chat-ids'
 import clsx from 'clsx'
-import { grillchatUrl } from 'src/config/env'
+import grill from '@subsocial/grill-widget'
 
 export default function ChatFloatingModal () {
   const [ isOpen, setIsOpen ] = useState(false)
@@ -13,50 +11,24 @@ export default function ChatFloatingModal () {
   }
   const hasOpened = useRef(false)
   useEffect(() => {
-    if (isOpen) hasOpened.current = true
+    if (!isOpen) return
+
+    if (!hasOpened.current) {
+      grill.init({ hub: { id: 'polka' }, theme: 'light' })
+    }
+    hasOpened.current = true
   }, [ isOpen ])
-
-  const balances = useSortMyBalances()
-  const order = useMemo<string[]>(() => {
-    if (balances.length === 0) return []
-    const appendedToken = new Set()
-    return balances
-      .map(({ token }) => {
-        if (appendedToken.has(token)) return ''
-        const tokenId =
-          TOKEN_TO_CHAT_ID?.[
-            token.toLowerCase() as keyof typeof TOKEN_TO_CHAT_ID
-          ]
-        if (tokenId) appendedToken.add(token)
-        return tokenId
-      })
-      .filter((id) => !!id)
-  }, [ balances ])
-
-  const urlParam = new URLSearchParams()
-  urlParam.set('order', order.join(','))
-  urlParam.set('theme', 'light')
-
-  if (!grillchatUrl) {
-    return null
-  }
-
-  const iframeLink = `${grillchatUrl}?${urlParam.toString()}`
 
   return (
     <div className={styles.ChatFloatingModal}>
       {(isOpen || hasOpened.current) && (
         <div
+          id='grill'
           className={clsx(
             styles.ChatFloatingIframe,
             !isOpen && styles.ChatFloatingIframeHidden
           )}
-        >
-          <iframe
-            allow='clipboard-write'
-            src={iframeLink}
-          />
-        </div>
+        />
       )}
       <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
         <img src='/images/grillchat.svg' alt='GrillChat' />

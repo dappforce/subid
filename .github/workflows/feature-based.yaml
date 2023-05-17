@@ -52,7 +52,6 @@ jobs:
                   GH_BACKEND_URL=https://${{ github.event.inputs.back-address }}
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
-                  GH_GRILLCHAT_URL=https://grill.chat/polka
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache

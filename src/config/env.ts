@@ -4,8 +4,6 @@ export const devMode = getEnvAsBool('DEV_MODE') || false
 
 export const gaId = getEnv('GA_ID') || ''
 
-export const grillchatUrl = getEnv('GRILLCHAT_URL') || ''
-
 export const subAppBaseUrl = 'https://polkaverse.com'
 
 function getEnv (varName: string): string | undefined {
