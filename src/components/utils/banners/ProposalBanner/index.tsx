@@ -8,6 +8,8 @@ import clsx from 'clsx'
 
 const BANNER_STORAGE_KEY = 'df.proposal_banner'
 
+const bannersKind = [ 'orange', 'pink' ]
+
 export const ProposalBannerSection = () => {
   const { isMobile } = useResponsiveSize()
 
@@ -17,7 +19,10 @@ export const ProposalBannerSection = () => {
 
   if (!showBanner) return null
 
-  const backgroundImage = `/images/banners/proposal-${isMobile ? 'mobile' : 'desktop'}.png`
+  const kindIndex = new Date().getTime() % 2
+  const kind = bannersKind[kindIndex]
+
+  const backgroundImage = `/images/banners/proposal-${kind}-${isMobile ? 'mobile' : 'desktop'}.png`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault()
