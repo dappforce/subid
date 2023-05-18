@@ -6,11 +6,9 @@ import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
 
-// const bannersKind = [ 'blue', 'white', 'pink' ]
+const BANNER_STORAGE_KEY = 'df.proposal_banner'
 
-const BANNER_STORAGE_KEY = 'df.spacers_banner'
-
-export const SpacersBannerSection = () => {
+export const ProposalBannerSection = () => {
   const { isMobile } = useResponsiveSize()
 
   const bannerFromStorage = store.get(BANNER_STORAGE_KEY)
@@ -19,17 +17,13 @@ export const SpacersBannerSection = () => {
 
   if (!showBanner) return null
 
-  // const kindIndex = new Date().getTime() % 3
-  // const kind = bannersKind[kindIndex]
-
-  const backgroundImage = `/images/banners/spacers-${isMobile ? 'mobile' : 'desktop'}.jpg`
+  const backgroundImage = `/images/banners/proposal-${isMobile ? 'mobile' : 'desktop'}.png`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault()
     setShowBanner(false)
     store.set(BANNER_STORAGE_KEY, false)
   }
-
 
   const closeButton = <CloseOutlined
     className={styles.DfCloseButton}
@@ -48,12 +42,12 @@ export const SpacersBannerSection = () => {
   )
 }
 
-const SpacersBanner = () => (
-  <Link href='https://pods.spacers.app'>
+const ProposalBanner = () => (
+  <Link href='https://kusama.subsquare.io/referenda/referendum/198'>
     <a target='_blank' rel='noreferrer'>
-      <SpacersBannerSection />
+      <ProposalBannerSection />
     </a>
   </Link>
 )
 
-export default SpacersBanner
+export default ProposalBanner
