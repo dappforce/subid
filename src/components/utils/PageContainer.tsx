@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react'
+import React, { useEffect, FC, useMemo } from 'react'
 import {
   getAddressFromStorage } from '../utils/index'
 import { PageContent, HeadMeta } from './PageWrapper'
@@ -20,12 +20,13 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
 const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
+const DomainsBanner = dynamic(import('./banners/ProposalBanner/index'), { ssr: false })
 
 type PageContainerProps = {
   isHomePage?: boolean
 }
 
-const PageContainer: FC<PageContainerProps> = ({ children }) => {
+const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const addressFromStorage = getAddressFromStorage()
   const { query, replace, asPath } = useRouter()
   const { address: maybeAddress } = query
@@ -56,6 +57,8 @@ const PageContainer: FC<PageContainerProps> = ({ children }) => {
 
   }, [ addressFromStorage, isSignIn ])
 
+  const banner = useMemo(() => <DomainsBanner />, [])
+    
   if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
     <HeadMeta title='' />
 
@@ -64,6 +67,7 @@ const PageContainer: FC<PageContainerProps> = ({ children }) => {
     </div>
     <Footer />
   </>
+
 
   const address = !isMulti ? addresses[addresses.length - 1] : undefined
 
@@ -85,6 +89,7 @@ const PageContainer: FC<PageContainerProps> = ({ children }) => {
         {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
           ? <NoData description='Address is not valid' />
           : <>
+            {isHomePage && banner}
             <AccountInfo
               addresses={addresses}
               addressFromStorage={addressFromStorage}
