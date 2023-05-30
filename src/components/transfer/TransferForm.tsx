@@ -355,7 +355,7 @@ export default function TransferForm ({
           return (
             <LazyTxButton
               {...commonButtonProps}
-              tx={getSameChainTransferExtrinsic()}
+              tx={getSameChainTransferExtrinsic()?.split('(')?.[0]}
               params={sameChainParamBuilder}
             />
           )
