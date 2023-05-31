@@ -17,7 +17,6 @@ spec:
     spec:
       containers:
       - image: <IMAGE>
-        command: ["sleep", "100000"]        
         imagePullPolicy: IfNotPresent
         name: front-ready
       dnsPolicy: ClusterFirst
