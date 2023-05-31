@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import grill from '@subsocial/grill-widget'
 
 export default function ChatFloatingModal () {
-  const [ isOpen, setIsOpen ] = useState(false)
+  const [ isOpen, setIsOpen ] = useState(true)
   const toggleChat = () => {
     setIsOpen((prev) => !prev)
   }
