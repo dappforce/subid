@@ -1,5 +1,5 @@
 import { useChainInfoByNetwork } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { getExtrinsicParams } from 'src/utils/extrinsicDecoder'
+import { decodeExtrinsicString, getExtrinsicParams } from 'src/utils/extrinsicDecoder'
 
 const getCustomTransferParamId = (token: string, network: string) => `${token}|${network}`
 export type SameChainTransferParamData = {
@@ -46,7 +46,8 @@ export function useSameChainTransferExtrinsic (network: string, token: string, g
     } else if (!tokenId) {
       return 'balances.transfer'
     } else {
-      return chainInfo?.tokenTransferMethod
+      const { extrinsic } = decodeExtrinsicString(chainInfo?.tokenTransferMethod || '')
+      return extrinsic
     }
   }
 
