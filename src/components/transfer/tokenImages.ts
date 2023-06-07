@@ -47,7 +47,6 @@ const tokenImages = {
   CFG: 'centrifuge.png',
   GENS: 'genshiro.svg',
   TAIKSM: 'tokens/taiksm.png',
-  LT: 'listen.png',
   TAI: 'tokens/tai.png',
   HKO: 'parallel.svg',
   KICO: 'kico.png',
