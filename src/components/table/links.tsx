@@ -1038,11 +1038,6 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
-  listen: {
-    github: 'https://github.com/listenofficial/listen-parachain',
-    twitter: 'https://twitter.com/Listen_io',
-    telegram: 'https://t.me/listengroup',
-  },
   dora: {
     website: 'https://dorafactory.org',
     twitter: 'https://twitter.com/DoraFactory',

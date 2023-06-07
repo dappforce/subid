@@ -94,7 +94,6 @@ export const supportedNetworks = [
   'darwinia',
   'darwinia-crab',
   'invArch',
-  'listen',
 ]
 
 export const evmLikeNetworks = [ 'moonriver', 'moonbeam' ]

@@ -7,7 +7,6 @@ import { BasiliskAdapter } from '@polkawallet/bridge/adapters/hydradx'
 import { InterlayAdapter, KintsugiAdapter } from '@polkawallet/bridge/adapters/interlay'
 import { KicoAdapter } from '@polkawallet/bridge/adapters/kico'
 import { PichiuAdapter } from '@polkawallet/bridge/adapters/kylin'
-import { ListenAdapter } from '@polkawallet/bridge/adapters/listen'
 import { CalamariAdapter } from '@polkawallet/bridge/adapters/manta'
 import { MoonbeamAdapter, MoonriverAdapter } from '@polkawallet/bridge/adapters/moonbeam'
 import { KhalaAdapter } from '@polkawallet/bridge/adapters/phala'
@@ -70,9 +69,6 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   },
   pichiu: {
     adapter: new PichiuAdapter(),
-  },
-  listen: {
-    adapter: new ListenAdapter(),
   },
   calamari: {
     adapter: new CalamariAdapter(),
