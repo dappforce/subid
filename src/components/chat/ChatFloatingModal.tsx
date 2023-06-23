@@ -3,10 +3,14 @@ import styles from './ChatFloatingModal.module.sass'
 import { Button } from 'antd'
 import clsx from 'clsx'
 import grill from '@subsocial/grill-widget'
+import { useSendGaUserEvent } from '../../ga'
 
 export default function ChatFloatingModal () {
   const [ isOpen, setIsOpen ] = useState(false)
+  const sendEvent = useSendGaUserEvent()
+
   const toggleChat = () => {
+    sendEvent('open_grill_iframe')
     setIsOpen((prev) => !prev)
   }
   const hasOpened = useRef(false)
