@@ -4,11 +4,29 @@ import { Button } from 'antd'
 import clsx from 'clsx'
 import grill from '@subsocial/grill-widget'
 import { useSendGaUserEvent } from '../../ga'
-import { isMobile } from 'react-device-detect'
 
 export default function ChatFloatingModal () {
-  const [ isOpen, setIsOpen ] = useState(!isMobile)
+  const [ isOpen, setIsOpen ] = useState(false)
   const sendEvent = useSendGaUserEvent()
+  const iframeRef = useRef<HTMLDivElement>(null);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const clickOutside = (event: any) => {
+    if (isOpen && iframeRef.current && !iframeRef.current.contains(event.target)) {
+      closeModal();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", clickOutside);
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, []);
+
   const toggleChat = () => {
     sendEvent('open_grill_iframe')
     setIsOpen((prev) => !prev)
@@ -24,7 +42,7 @@ export default function ChatFloatingModal () {
   }, [ isOpen ])
 
   return (
-    <div className={styles.ChatFloatingModal}>
+    <div className={styles.ChatFloatingModal} ref={iframeRef}>
       {(isOpen || hasOpened.current) && (
         <div
           id='grill'
