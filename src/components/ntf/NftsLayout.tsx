@@ -141,22 +141,16 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
   }, [ loading ])
 
   const {
-    unique = [],
     rmrk2 = [],
     rmrk1 = [],
     statemine = [],
-    karura = [],
-    acala = []
   } = nfts || {}
 
   const dataByKey: Record<string, Nft[]> = {
-    all: [ ...unique, ...rmrk2, ...rmrk1, ...statemine, ...acala, ...karura ],
-    unique,
+    all: [ ...rmrk2, ...rmrk1, ...statemine ],
     rmrk2,
     rmrk1,
     statemine,
-    acala,
-    karura,
   }
 
   const start = (page - 1) * pageSize
@@ -200,12 +194,9 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
     <div className={styles.NftBlock}>
       <Tabs onChange={onTabKeyChange} activeKey={tabKey}>
         <TabPane key='all' tab={<TabWithLogo text='All' />} />
-        <TabPane key='unique' tab={<TabWithLogo count={unique.length.toString()} icon={getIconUrl('unique.svg')} text='Unique Network' />} />
         <TabPane key='rmrk1' tab={<TabWithLogo count={rmrk1.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 1' />} />
         <TabPane key='rmrk2' tab={<TabWithLogo count={rmrk2.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 2' />} />
         <TabPane key='statemine' tab={<TabWithLogo count={statemine.length.toString()} icon={getIconUrl('statemine.svg')} text='Statemine' />} />
-        <TabPane key='acala' tab={<TabWithLogo count={acala.length.toString()} icon={getIconUrl('acala.svg')} text='Acala' />} />
-        <TabPane key='karura' tab={<TabWithLogo count={karura.length.toString()} icon={getIconUrl('karura.svg')} text='Karura' />} />
       </Tabs>
 
       <NftGrid nfts={data.slice(start, end)} nftsLoading={loading} isMulti={isMulti} identities={identities} />
