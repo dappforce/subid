@@ -21,6 +21,7 @@ import { TFunction } from 'i18next'
 import { TransferFormDefaultToken } from 'src/components/transfer/TransferForm'
 import { useBuildSendGaUserEvent } from 'src/ga'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
+import { parseTokenOrientedView } from './parseTokenOrientedView'
 
 const TransferModal = dynamic(() => import('src/components/transfer/TransferModal'), { ssr: false })
 
@@ -172,7 +173,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
     let isMounted = true
 
     const info = async () => {
-      const tableInfo: BalancesTableInfo[] = parseBalancesTableInfo({
+      const tableInfo: BalancesTableInfo[] = parseTokenOrientedView({
         chainsInfo,
         tokenPrices,
         identities,
