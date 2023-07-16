@@ -180,8 +180,8 @@ export const BalancesTable = (props: BalanceTableProps) => {
         isMulti,
         balancesEntities,
         isMobile,
-        onTransferClick: (token, network) => {
-          transferModalDispatch({ type: 'OPEN', payload: { token, network } })
+        onTransferClick: (token, network, tokenId) => {
+          transferModalDispatch({ type: 'OPEN', payload: { token, network, tokenId } })
           sendGaTransferEvent()
         },
         t

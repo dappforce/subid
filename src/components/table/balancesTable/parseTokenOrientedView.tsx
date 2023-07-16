@@ -6,6 +6,7 @@ import { TFunction } from 'i18next'
 import { AccountInfoByChain } from 'src/components/identity/types'
 import BN from 'bignumber.js'
 import {
+  ChainData,
   getBalanceWithDecimals,
   getBalances,
   getDecimalsAndSymbol,
@@ -18,6 +19,10 @@ import BaseAvatar from 'src/components/utils/DfAvatar'
 import { MutedDiv } from 'src/components/utils/MutedText'
 import clsx from 'clsx'
 import styles from '../Table.module.sass'
+import { SubIcon, convertAddressToChainFormat } from 'src/components/utils'
+import { LinksButton } from './Links'
+import { Button } from 'antd'
+import { FiSend } from 'react-icons/fi'
 
 type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -26,7 +31,11 @@ type ParseBalanceTableInfoProps = {
   isMulti?: boolean
   balancesEntities?: BalanceEntityRecord
   isMobile: boolean
-  onTransferClick: (token: string, network: string) => void
+  onTransferClick: (
+    token: string,
+    network: string,
+    tokenId?: { id: any }
+  ) => void
   t: TFunction
 }
 
@@ -46,9 +55,14 @@ export const parseTokenOrientedView = ({
 
   const balancesByTokenEntries = Object.entries(balancesByToken)
 
-  const parsedData = balancesByTokenEntries.map(([tokenId, balanceByToken]) => {
-    const { balancesByNetwork, decimals, totalBalance, ...balances } =
-      balanceByToken
+  const parsedData = balancesByTokenEntries.map(([ tokenId, balanceByToken ]) => {
+    const {
+      balancesByNetwork,
+      decimals,
+      totalBalance,
+      firstNetwork,
+      ...balances
+    } = balanceByToken
 
     const priceValue = getPrice(tokenPrices, 'symbol', tokenId)
 
@@ -81,7 +95,7 @@ export const parseTokenOrientedView = ({
       })
 
       const chain = (
-        <div className="d-flex align-items-center">
+        <div className='d-flex align-items-center'>
           <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
           <div>{label}</div>
         </div>
@@ -96,7 +110,7 @@ export const parseTokenOrientedView = ({
             {chain}
           </MutedDiv>
         ),
-        balance: <span className="mr-4">{balance}</span>,
+        balance: <span className='mr-4'>{balance}</span>,
         price,
         total,
         totalValue,
@@ -104,23 +118,63 @@ export const parseTokenOrientedView = ({
       }
     })
 
-    childrenBalances.children = [...accountDataArray.reverse()]
+    const children = getChildrenBalances({
+      balancesByNetwork,
+      isMobile,
+      isMulti,
+      identities,
+      priceValue,
+      tokenId,
+      chainsInfo,
+      onTransferClick,
+      t,
+    })
+
+    childrenBalances.children = [ ...accountDataArray.reverse(), ...children ]
+
+    const chainInfo = chainsInfo[firstNetwork]
+
+    const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+      e.stopPropagation()
+      e.currentTarget?.blur()
+        
+      const { assetsRegistry, tokenSymbols } = chainInfo
+      const asset = assetsRegistry?.[tokenId]
+
+      const currency = asset?.currency
+
+      const isNativeToken = tokenSymbols[0] === tokenId
+      const assetRedistyId = !isNativeToken ? currency : undefined
+
+      onTransferClick(tokenId, firstNetwork, { id: assetRedistyId })
+    }
 
     return {
       key: tokenId,
-      chain: isMulti ? <div className="ml-5">{tokenId}</div> : tokenId,
+      chain: isMulti ? <div className='ml-5'>{tokenId}</div> : tokenId,
       balance: getBalancePart(balance, true),
       price,
-      total: <BalanceView value={totalValue} symbol="$" startWithSymbol />,
+      total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
       totalTokensValue: totalValue,
       icon: '',
-      name: '',
+      name: tokenId,
       address: '',
       totalValue: totalValue,
       balanceWithoutChildren: getBalancePart(balance, false),
       balanceValue: totalBalance,
       balanceView: getBalancePart(balance, true),
       links: [],
+      transferAction: (
+        <Button
+          disabled={!chainInfo.isTransferable}
+          size='small'
+          shape={'circle'}
+          onClick={onButtonClick}
+        >
+          <SubIcon Icon={FiSend} className={styles.TransferIcon} />
+        </Button>
+      ),
+
       ...childrenBalances,
     } as BalancesTableInfo
   })
@@ -142,46 +196,48 @@ type BalanceByToken = {
   frozenFee: BN
   freeBalance: BN
   frozenMisc: BN
+  firstNetwork: string
   decimals: number
   balancesByNetwork: Record<string, AccountInfoByChain>
 }
 
 type BalancesByTokenId = Record<string, BalanceByToken>
 
-function parseBalancesByToken(
+function parseBalancesByToken (
   balancesEntities: BalanceEntityRecord,
   multiChainInfo: MultiChainInfo
 ) {
   const balancesByToken: BalancesByTokenId = {}
 
   const balancesEntityFirst = Object.values(balancesEntities)[0].balances
+  const address = Object.keys(balancesEntities)[0]
 
   balancesEntityFirst?.forEach(({ network, info }) => {
     const chainInfo = multiChainInfo[network]
 
-    Object.entries(info).forEach(([tokenId, balances]) => {
-      const { balancesByNetwork, ...params } = balancesByToken[tokenId] || {}
+    const { ss58Format } = chainInfo
 
-      const {
-        totalBalanceValue,
-        reservedBalanceValue,
-        freeBalanceValue,
-        frozenFeeValue,
-        frozenMiscValue,
-      } = calcTotalBlalaces(params as unknown as BalancesBN, balances)
+    Object.entries(info).forEach(([ tokenId, balances ]) => {
+      const { balancesByNetwork, firstNetwork, ...params } =
+        balancesByToken[tokenId] || {}
+
+      const totalBalances = calcTotalBlalaces(
+        params as unknown as BalancesBN,
+        balances
+      )
 
       const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
       balancesByToken[tokenId] = {
-        totalBalance: totalBalanceValue,
-        reservedBalance: reservedBalanceValue,
-        frozenFee: frozenFeeValue,
-        freeBalance: freeBalanceValue,
-        frozenMisc: frozenMiscValue,
+        ...totalBalances,
         decimals: decimal,
+        firstNetwork: firstNetwork || network,
         balancesByNetwork: {
           ...(balancesByNetwork || {}),
-          [network]: balances,
+          [network]: {
+            ...balances,
+            accountId: convertAddressToChainFormat(address, ss58Format),
+          } as AccountInfoByChain,
         },
       }
     })
@@ -189,6 +245,8 @@ function parseBalancesByToken(
 
   return balancesByToken
 }
+
+type AccountDataKeys = keyof Omit<Balances, 'totalBalance'>
 
 type BalancesBN = {
   totalBalance: BN
@@ -206,7 +264,7 @@ type Balances = {
   frozenMisc: string
 }
 
-function calcTotalBlalaces(balancesSum: BalancesBN, newBalances: Balances) {
+function calcTotalBlalaces (balancesSum: BalancesBN, newBalances: Balances) {
   const {
     totalBalance: totalBalanceSum,
     freeBalance: freeBalancesSum,
@@ -237,12 +295,180 @@ function calcTotalBlalaces(balancesSum: BalancesBN, newBalances: Balances) {
   )
 
   return {
-    totalBalanceValue,
-    reservedBalanceValue,
-    freeBalanceValue,
-    frozenFeeValue,
-    frozenMiscValue,
+    totalBalance: totalBalanceValue,
+    reservedBalance: reservedBalanceValue,
+    freeBalance: freeBalanceValue,
+    frozenFee: frozenFeeValue,
+    frozenMisc: frozenMiscValue,
   }
+}
+
+type GetChildrenBalanceParams = {
+  balancesByNetwork: Record<string, AccountInfoByChain>
+  isMulti?: boolean
+  isMobile: boolean
+  chainsInfo: MultiChainInfo
+  tokenId: string
+  priceValue: string
+  identities?: AccountIdentitiesRecord
+  onTransferClick: (token: string, network: string, tokenId: { id: any }) => void
+  t: TFunction
+}
+
+function getChildrenBalances ({
+  balancesByNetwork,
+  isMulti,
+  chainsInfo,
+  tokenId,
+  priceValue,
+  onTransferClick,
+  t,
+}: GetChildrenBalanceParams): BalancesTableInfo[] {
+  const balancesByNetworkEntries = Object.entries(balancesByNetwork)
+
+  const result = balancesByNetworkEntries.map(([ network, balances ]) => {
+    const { totalBalance, accountId, ...otherBalances } = balances
+
+    const chainInfo = chainsInfo[network]
+
+    const { icon, name } = chainInfo
+
+    const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
+
+    const balanceValue = getBalanceWithDecimals({
+      totalBalance: totalBalance ?? '0',
+      decimals: decimal,
+    })
+
+    if (balanceValue.isZero()) return
+
+    const { totalValue, balance, price } = getBalances({
+      balanceValue,
+      priceValue,
+      symbol: tokenId,
+      t,
+    })
+
+    const childrenBalances: any = {}
+
+    const otherBalancesBN: {
+      [key in AccountDataKeys]: BN
+    } = {} as any
+
+    Object.entries(otherBalances).forEach(
+      ([ key, value ]) =>
+        (otherBalancesBN[key as AccountDataKeys] = new BN(value || '0'))
+    )
+
+    const accountData = getAccountData({ ...otherBalancesBN, t })
+    const accountDataArray = accountData.map(({ key, label, value }: any) => {
+      const valueWithDecimal = getBalanceWithDecimals({
+        totalBalance: value,
+        decimals: decimal,
+      })
+
+      const { total, totalValue, balance } = getBalances({
+        balanceValue: valueWithDecimal,
+        priceValue,
+        symbol: tokenId,
+        t,
+      })
+
+      const chain = (
+        <div className='d-flex align-items-center'>
+          <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
+          <div>{label}</div>
+        </div>
+      )
+
+      return {
+        key,
+        chain: (
+          <MutedDiv
+            className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
+          >
+            {chain}
+          </MutedDiv>
+        ),
+        balance: <span className='mr-4'>{balance}</span>,
+        price,
+        total,
+        totalValue,
+        className: styles.Children,
+      }
+    })
+
+    childrenBalances.children = [ ...accountDataArray.reverse() ]
+
+    const chain = (
+      <ChainData
+        accountId={accountId}
+        isShortAddress={true}
+        halfLength={6}
+        icon={icon}
+        name={name}
+      />
+    )
+
+    const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+      e.stopPropagation()
+      e.currentTarget?.blur()
+
+
+      const { assetsRegistry, tokenSymbols } = chainInfo
+      const asset = assetsRegistry?.[tokenId]
+
+      const currency = asset?.currency
+
+      const isNativeToken = tokenSymbols[0] === tokenId
+      const assetRedistyId = !isNativeToken ? currency : undefined
+
+      onTransferClick(tokenId, network, { id: assetRedistyId })
+    }
+
+    return {
+      key: network,
+      chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+      balance: getBalancePart(balance, true),
+      price,
+      total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
+      totalTokensValue: totalValue,
+      icon,
+      name: network,
+      address: accountId,
+      totalValue: totalValue,
+      balanceWithoutChildren: getBalancePart(balance, false),
+      balanceValue: balanceValue,
+      balanceView: getBalancePart(balance, true),
+      links: (
+        <LinksButton
+          network={network}
+          action={onButtonClick}
+          showActionButton={false}
+        />
+      ),
+      showLinks: (isShow: boolean) => (
+        <LinksButton
+          action={onButtonClick}
+          network={network}
+          showActionButton={isShow}
+        />
+      ),
+      transferAction: (
+        <Button
+          disabled={!chainInfo.isTransferable}
+          size='small'
+          shape={'circle'}
+          onClick={onButtonClick}
+        >
+          <SubIcon Icon={FiSend} className={styles.TransferIcon} />
+        </Button>
+      ),
+      ...childrenBalances,
+    } as BalancesTableInfo
+  })
+
+  return result.filter(isDef)
 }
 
 type GetAccountDataParams = {
@@ -253,7 +479,7 @@ type GetAccountDataParams = {
   t: TFunction
 }
 
-function getAccountData({ t, ...info }: GetAccountDataParams) {
+function getAccountData ({ t, ...info }: GetAccountDataParams) {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
 
   const transferableBalance = new BN(freeBalance || 0)
