@@ -23,6 +23,7 @@ import { SubIcon, convertAddressToChainFormat } from 'src/components/utils'
 import { LinksButton } from './Links'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
+import { getBalancePart } from './utils'
 
 type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -80,42 +81,14 @@ export const parseTokenOrientedView = ({
 
     const childrenBalances: any = {}
 
-    const accountData = getAccountData({ ...balances, t })
-    const accountDataArray = accountData.map(({ key, label, value }: any) => {
-      const valueWithDecimal = getBalanceWithDecimals({
-        totalBalance: value,
-        decimals,
-      })
-
-      const { total, totalValue, balance } = getBalances({
-        balanceValue: valueWithDecimal,
-        priceValue,
-        symbol: tokenId,
-        t,
-      })
-
-      const chain = (
-        <div className='d-flex align-items-center'>
-          <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
-          <div>{label}</div>
-        </div>
-      )
-
-      return {
-        key,
-        chain: (
-          <MutedDiv
-            className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
-          >
-            {chain}
-          </MutedDiv>
-        ),
-        balance: <span className='mr-4'>{balance}</span>,
-        price,
-        total,
-        totalValue,
-        className: styles.Children,
-      }
+    const accountData = getAccountDataRows({
+      ...balances,
+      t,
+      price,
+      priceValue,
+      tokenId,
+      decimal: decimals,
+      isMulti,
     })
 
     const children = getChildrenBalances({
@@ -130,14 +103,14 @@ export const parseTokenOrientedView = ({
       t,
     })
 
-    childrenBalances.children = [ ...accountDataArray.reverse(), ...children ]
+    childrenBalances.children = [ ...accountData.reverse(), ...children ]
 
     const chainInfo = chainsInfo[firstNetwork]
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
       e.currentTarget?.blur()
-        
+
       const { assetsRegistry, tokenSymbols } = chainInfo
       const asset = assetsRegistry?.[tokenId]
 
@@ -187,6 +160,9 @@ export const parseTokenOrientedView = ({
       .toNumber()
   )
 
+  const tokenIds = balancesInfoSorted.map((item) => item.key)
+
+  console.log(tokenIds)
   return balancesInfoSorted
 }
 
@@ -311,7 +287,11 @@ type GetChildrenBalanceParams = {
   tokenId: string
   priceValue: string
   identities?: AccountIdentitiesRecord
-  onTransferClick: (token: string, network: string, tokenId: { id: any }) => void
+  onTransferClick: (
+    token: string,
+    network: string,
+    tokenId: { id: any }
+  ) => void
   t: TFunction
 }
 
@@ -360,45 +340,17 @@ function getChildrenBalances ({
         (otherBalancesBN[key as AccountDataKeys] = new BN(value || '0'))
     )
 
-    const accountData = getAccountData({ ...otherBalancesBN, t })
-    const accountDataArray = accountData.map(({ key, label, value }: any) => {
-      const valueWithDecimal = getBalanceWithDecimals({
-        totalBalance: value,
-        decimals: decimal,
-      })
-
-      const { total, totalValue, balance } = getBalances({
-        balanceValue: valueWithDecimal,
-        priceValue,
-        symbol: tokenId,
-        t,
-      })
-
-      const chain = (
-        <div className='d-flex align-items-center'>
-          <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
-          <div>{label}</div>
-        </div>
-      )
-
-      return {
-        key,
-        chain: (
-          <MutedDiv
-            className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
-          >
-            {chain}
-          </MutedDiv>
-        ),
-        balance: <span className='mr-4'>{balance}</span>,
-        price,
-        total,
-        totalValue,
-        className: styles.Children,
-      }
+    const accountData = getAccountDataRows({
+      ...otherBalancesBN,
+      t,
+      price,
+      priceValue,
+      isMulti,
+      tokenId,
+      decimal,
     })
 
-    childrenBalances.children = [ ...accountDataArray.reverse() ]
+    childrenBalances.children = [ ...accountData.reverse() ]
 
     const chain = (
       <ChainData
@@ -413,7 +365,6 @@ function getChildrenBalances ({
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
       e.currentTarget?.blur()
-
 
       const { assetsRegistry, tokenSymbols } = chainInfo
       const asset = assetsRegistry?.[tokenId]
@@ -471,7 +422,7 @@ function getChildrenBalances ({
   return result.filter(isDef)
 }
 
-type GetAccountDataParams = {
+type GetAccountDataValuesParams = {
   reservedBalance: BN
   frozenFee: BN
   freeBalance: BN
@@ -479,7 +430,7 @@ type GetAccountDataParams = {
   t: TFunction
 }
 
-function getAccountData ({ t, ...info }: GetAccountDataParams) {
+function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
 
   const transferableBalance = new BN(freeBalance || 0)
@@ -510,6 +461,66 @@ function getAccountData ({ t, ...info }: GetAccountDataParams) {
   ]
 }
 
-const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (
-  <div className={clsx('d-grid', withMargin && 'mr-4')}>{balance}</div>
-)
+type GetAccountDataRowsParams = GetAccountDataValuesParams & {
+  decimal: number
+  priceValue: string
+  price: JSX.Element
+  tokenId: string
+  isMulti?: boolean
+}
+
+function getAccountDataRows ({
+  decimal,
+  price,
+  priceValue,
+  tokenId,
+  isMulti,
+  t,
+  ...accountDataValuesParams
+}: GetAccountDataRowsParams) {
+  const accountDataValues = getAccountDataValues({
+    t,
+    ...accountDataValuesParams,
+  })
+
+  const accountDataArray = accountDataValues.map(
+    ({ key, label, value }: any) => {
+      const valueWithDecimal = getBalanceWithDecimals({
+        totalBalance: value,
+        decimals: decimal,
+      })
+
+      const { total, totalValue, balance } = getBalances({
+        balanceValue: valueWithDecimal,
+        priceValue,
+        symbol: tokenId,
+        t,
+      })
+
+      const chain = (
+        <div className='d-flex align-items-center'>
+          <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
+          <div>{label}</div>
+        </div>
+      )
+
+      return {
+        key,
+        chain: (
+          <MutedDiv
+            className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
+          >
+            {chain}
+          </MutedDiv>
+        ),
+        balance: <span className='mr-4'>{balance}</span>,
+        price,
+        total,
+        totalValue,
+        className: styles.Children,
+      }
+    }
+  )
+
+  return accountDataArray
+}

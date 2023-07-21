@@ -83,3 +83,7 @@ export const ActionButton = ({ label, icon, action }: ActionButtonProps) => {
     <div className='ml-2'>{label}</div>
   </div>
 }
+
+export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (
+  <div className={clsx('d-grid', withMargin && 'mr-4')}>{balance}</div>
+)
