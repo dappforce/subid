@@ -56,14 +56,9 @@ export const parseTokenOrientedView = ({
 
   const balancesByTokenEntries = Object.entries(balancesByToken)
 
-  const parsedData = balancesByTokenEntries.map(([ tokenId, balanceByToken ]) => {
-    const {
-      balancesByNetwork,
-      decimals,
-      totalBalance,
-      firstNetwork,
-      ...balances
-    } = balanceByToken
+  const parsedData = balancesByTokenEntries.map(([tokenId, balanceByToken]) => {
+    const { balancesByNetwork, decimals, totalBalance, firstNetwork } =
+      balanceByToken
 
     const priceValue = getPrice(tokenPrices, 'symbol', tokenId)
 
@@ -81,16 +76,6 @@ export const parseTokenOrientedView = ({
 
     const childrenBalances: any = {}
 
-    const accountData = getAccountDataRows({
-      ...balances,
-      t,
-      price,
-      priceValue,
-      tokenId,
-      decimal: decimals,
-      isMulti,
-    })
-
     const children = getChildrenBalances({
       balancesByNetwork,
       isMobile,
@@ -103,7 +88,7 @@ export const parseTokenOrientedView = ({
       t,
     })
 
-    childrenBalances.children = [ ...accountData.reverse(), ...children ]
+    childrenBalances.children = [...children]
 
     const chainInfo = chainsInfo[firstNetwork]
 
@@ -124,10 +109,10 @@ export const parseTokenOrientedView = ({
 
     return {
       key: tokenId,
-      chain: isMulti ? <div className='ml-5'>{tokenId}</div> : tokenId,
+      chain: isMulti ? <div className="ml-5">{tokenId}</div> : tokenId,
       balance: getBalancePart(balance, true),
       price,
-      total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
+      total: <BalanceView value={totalValue} symbol="$" startWithSymbol />,
       totalTokensValue: totalValue,
       icon: '',
       name: tokenId,
@@ -140,7 +125,7 @@ export const parseTokenOrientedView = ({
       transferAction: (
         <Button
           disabled={!chainInfo.isTransferable}
-          size='small'
+          size="small"
           shape={'circle'}
           onClick={onButtonClick}
         >
@@ -168,10 +153,6 @@ export const parseTokenOrientedView = ({
 
 type BalanceByToken = {
   totalBalance: BN
-  reservedBalance: BN
-  frozenFee: BN
-  freeBalance: BN
-  frozenMisc: BN
   firstNetwork: string
   decimals: number
   balancesByNetwork: Record<string, AccountInfoByChain>
@@ -179,7 +160,7 @@ type BalanceByToken = {
 
 type BalancesByTokenId = Record<string, BalanceByToken>
 
-function parseBalancesByToken (
+function parseBalancesByToken(
   balancesEntities: BalanceEntityRecord,
   multiChainInfo: MultiChainInfo
 ) {
@@ -193,19 +174,23 @@ function parseBalancesByToken (
 
     const { ss58Format } = chainInfo
 
-    Object.entries(info).forEach(([ tokenId, balances ]) => {
-      const { balancesByNetwork, firstNetwork, ...params } =
-        balancesByToken[tokenId] || {}
+    Object.entries(info).forEach(([tokenId, balances]) => {
+      const {
+        balancesByNetwork,
+        firstNetwork,
+        totalBalance: totalBalanceSum,
+      } = balancesByToken[tokenId] || {}
 
-      const totalBalances = calcTotalBlalaces(
-        params as unknown as BalancesBN,
-        balances
+      const { totalBalance: newTotalBalance } = balances
+
+      const totalBalanceValue = (totalBalanceSum || new BN('0')).plus(
+        newTotalBalance || '0'
       )
 
       const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
       balancesByToken[tokenId] = {
-        ...totalBalances,
+        totalBalance: totalBalanceValue,
         decimals: decimal,
         firstNetwork: firstNetwork || network,
         balancesByNetwork: {
@@ -224,59 +209,12 @@ function parseBalancesByToken (
 
 type AccountDataKeys = keyof Omit<Balances, 'totalBalance'>
 
-type BalancesBN = {
-  totalBalance: BN
-  reservedBalance: BN
-  frozenFee: BN
-  freeBalance: BN
-  frozenMisc: BN
-}
-
 type Balances = {
   totalBalance: string
   reservedBalance: string
   frozenFee: string
   freeBalance: string
   frozenMisc: string
-}
-
-function calcTotalBlalaces (balancesSum: BalancesBN, newBalances: Balances) {
-  const {
-    totalBalance: totalBalanceSum,
-    freeBalance: freeBalancesSum,
-    reservedBalance: reservedBalanceSum,
-    frozenFee: frozenFeeSum,
-    frozenMisc: frozenMiscSum,
-  } = balancesSum
-  const {
-    totalBalance: newTotalBalance,
-    freeBalance: newFreeBalances,
-    reservedBalance: newReservedBalance,
-    frozenFee: newFrozenFee,
-    frozenMisc: newfrozenMisc,
-  } = newBalances
-
-  const totalBalanceValue = (totalBalanceSum || new BN('0')).plus(
-    newTotalBalance || '0'
-  )
-  const reservedBalanceValue = (reservedBalanceSum || new BN('0')).plus(
-    newReservedBalance || '0'
-  )
-  const freeBalanceValue = (freeBalancesSum || new BN('0')).plus(
-    newFreeBalances || '0'
-  )
-  const frozenFeeValue = (frozenFeeSum || new BN('0')).plus(newFrozenFee || '0')
-  const frozenMiscValue = (frozenMiscSum || new BN('0')).plus(
-    newfrozenMisc || '0'
-  )
-
-  return {
-    totalBalance: totalBalanceValue,
-    reservedBalance: reservedBalanceValue,
-    freeBalance: freeBalanceValue,
-    frozenFee: frozenFeeValue,
-    frozenMisc: frozenMiscValue,
-  }
 }
 
 type GetChildrenBalanceParams = {
@@ -295,7 +233,7 @@ type GetChildrenBalanceParams = {
   t: TFunction
 }
 
-function getChildrenBalances ({
+function getChildrenBalances({
   balancesByNetwork,
   isMulti,
   chainsInfo,
@@ -306,7 +244,7 @@ function getChildrenBalances ({
 }: GetChildrenBalanceParams): BalancesTableInfo[] {
   const balancesByNetworkEntries = Object.entries(balancesByNetwork)
 
-  const result = balancesByNetworkEntries.map(([ network, balances ]) => {
+  const result = balancesByNetworkEntries.map(([network, balances]) => {
     const { totalBalance, accountId, ...otherBalances } = balances
 
     const chainInfo = chainsInfo[network]
@@ -336,7 +274,7 @@ function getChildrenBalances ({
     } = {} as any
 
     Object.entries(otherBalances).forEach(
-      ([ key, value ]) =>
+      ([key, value]) =>
         (otherBalancesBN[key as AccountDataKeys] = new BN(value || '0'))
     )
 
@@ -350,17 +288,9 @@ function getChildrenBalances ({
       decimal,
     })
 
-    childrenBalances.children = [ ...accountData.reverse() ]
+    childrenBalances.children = [...accountData.reverse()]
 
-    const chain = (
-      <ChainData
-        accountId={accountId}
-        isShortAddress={true}
-        halfLength={6}
-        icon={icon}
-        name={name}
-      />
-    )
+    const chain = <ChainData icon={icon} name={name} avatarSize={'small'} />
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
@@ -379,10 +309,10 @@ function getChildrenBalances ({
 
     return {
       key: network,
-      chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+      chain: <div className="ml-5">{chain}</div>,
       balance: getBalancePart(balance, true),
       price,
-      total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
+      total: <BalanceView value={totalValue} symbol="$" startWithSymbol />,
       totalTokensValue: totalValue,
       icon,
       name: network,
@@ -408,7 +338,7 @@ function getChildrenBalances ({
       transferAction: (
         <Button
           disabled={!chainInfo.isTransferable}
-          size='small'
+          size="small"
           shape={'circle'}
           onClick={onButtonClick}
         >
@@ -430,7 +360,7 @@ type GetAccountDataValuesParams = {
   t: TFunction
 }
 
-function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
+function getAccountDataValues({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
 
   const transferableBalance = new BN(freeBalance || 0)
@@ -469,7 +399,7 @@ type GetAccountDataRowsParams = GetAccountDataValuesParams & {
   isMulti?: boolean
 }
 
-function getAccountDataRows ({
+function getAccountDataRows({
   decimal,
   price,
   priceValue,
@@ -498,7 +428,7 @@ function getAccountDataRows ({
       })
 
       const chain = (
-        <div className='d-flex align-items-center'>
+        <div className="d-flex align-items-center">
           <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
           <div>{label}</div>
         </div>
@@ -513,7 +443,7 @@ function getAccountDataRows ({
             {chain}
           </MutedDiv>
         ),
-        balance: <span className='mr-4'>{balance}</span>,
+        balance: <span className="mr-4">{balance}</span>,
         price,
         total,
         totalValue,
