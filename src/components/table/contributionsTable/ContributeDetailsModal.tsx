@@ -2,8 +2,8 @@ import { ButtonProps, Button } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { startWithUpperCase } from '../utils'
-import styles from './Table.module.sass'
+import { startWithUpperCase } from '../../utils'
+import styles from '../Table.module.sass'
 
 type DetailsModalProps = {
   trigger: React.FC<ButtonProps>

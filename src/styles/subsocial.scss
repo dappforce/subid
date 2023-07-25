@@ -2331,7 +2331,6 @@ hr {
     Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
   position: relative;
-  top: 2px;
 }
 
 .font-weight-medium {
@@ -2372,7 +2371,7 @@ hr {
     @extend .DfUnboundedTitle;
     color: #222222;
     line-height: 22px;
-    margin-bottom: $space_normal !important;
-    padding-top: $space_normal;
+    // margin-bottom: $space_normal !important;
+    // padding-top: $space_normal;
   }
 }

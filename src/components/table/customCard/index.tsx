@@ -1,15 +1,15 @@
 import { isEmptyArray } from '@subsocial/utils'
 import { Card, Col, Divider, Row } from 'antd'
-import NoData from '../utils/EmptyList'
-import styles from './Table.module.sass'
-import { ChainData } from './utils'
-import { BalanceKind, TableInfo } from './types'
+import NoData from '../../utils/EmptyList'
+import styles from '../Table.module.sass'
+import { ChainData } from '../utils'
+import { BalanceKind, TableInfo } from '../types'
 import { useState } from 'react'
 import { UpOutlined, DownOutlined } from '@ant-design/icons'
-import { MutedDiv } from '../utils/MutedText'
+import { MutedDiv } from '../../utils/MutedText'
 import clsx from 'clsx'
-import { useResponsiveSize } from '../responsive/ResponsiveContext'
-import { useIsMulti } from '../providers/MyExtensionAccountsContext'
+import { useResponsiveSize } from '../../responsive/ResponsiveContext'
+import { useIsMulti } from '../../providers/MyExtensionAccountsContext'
 import CardAdditionalView from './CardAdditionalView'
 
 export type BalanceCardProps<T> = {
@@ -17,7 +17,7 @@ export type BalanceCardProps<T> = {
   balanceKind: BalanceKind
 }
 
-const BalanceCard = <T extends TableInfo>({ value, balanceKind }: BalanceCardProps<T>) => {
+const CustomCard = <T extends TableInfo>({ value, balanceKind }: BalanceCardProps<T>) => {
   const [ open, setOpen ] = useState<boolean>(false)
   const { isMobile } = useResponsiveSize()
   const isMulti = useIsMulti()
@@ -106,7 +106,7 @@ export const BalanceCards = <T extends TableInfo>({ data, noData, balanceKind }:
   return (
     <Row className={clsx(styles.DfGridParams)}>
       {data.map((value: T, index) =>
-        <BalanceCard key={index} value={value} balanceKind={balanceKind} />)}
+        <CustomCard key={index} value={value} balanceKind={balanceKind} />)}
     </Row>
   )
 }

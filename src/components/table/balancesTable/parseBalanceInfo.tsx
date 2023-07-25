@@ -158,7 +158,7 @@ const createChildrenTokenData = () => {
   }
 }
 
-export const parseBalancesTableInfo = ({
+export const parseBalancesTableInfo = async ({
   chainsInfo,
   tokenPrices,
   identities,
@@ -167,7 +167,7 @@ export const parseBalancesTableInfo = ({
   isMobile,
   onTransferClick,
   t,
-}: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
+}: ParseBalanceTableInfoProps): Promise<BalancesTableInfo[]> => {
   if (!balancesEntities) return []
 
   const balancesByKey = parseBalancesEntities(
@@ -491,7 +491,9 @@ export const parseBalancesTableInfo = ({
     }
   )
 
-  const balancesInfo = parsedData.filter(isDef).flat()
+  const result = await Promise.all(parsedData)
+
+  const balancesInfo = result.filter(isDef).flat()
 
   const balancesInfoSorted = balancesInfo.sort((a, b) =>
     b.totalTokensValue.minus(a.totalTokensValue).toNumber()

@@ -12,7 +12,7 @@ import {
 } from '../utils'
 import { contributionInfoByRelayChain, ContributionInfo, defaultContributionLink } from '../links'
 import styles from '../Table.module.sass'
-import { ContributeDetailsModal } from '../ContributeDetailsModal'
+import { ContributeDetailsModal } from './ContributeDetailsModal'
 import { ExternalLink } from '../../identity/utils'
 import { Button, Tooltip } from 'antd'
 import { startWithUpperCase, SubIcon } from '../../utils/index'

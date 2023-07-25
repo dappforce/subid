@@ -7,12 +7,15 @@ import dynamic from 'next/dynamic'
 import { useFetchBalances } from 'src/rtk/features/balances/balancesHooks'
 import { useFetchNfts } from 'src/rtk/features/nfts/nftsHooks'
 
-const BalancesTable = dynamic(() => import('../table/balancesTable/BalanceTable'), { ssr: false })
+const BalancesTable = dynamic(
+  () => import('../table/balancesTable/BalanceTable'),
+  { ssr: false }
+)
 
 const BalancesPage: NextPage = () => {
   useFetchBalances()
   useFetchNfts()
-  
+
   const addresses = useCurrentAccount()
   const chainsInfo = useChainInfo()
 
@@ -20,6 +23,7 @@ const BalancesPage: NextPage = () => {
     <>
       <PageContainer>
         <BalancesTable
+          showTabs={true}
           showCheckBox={true}
           addresses={addresses!}
           chainsInfo={chainsInfo}
@@ -28,7 +32,5 @@ const BalancesPage: NextPage = () => {
     </>
   )
 }
-
-
 
 export default BalancesPage

@@ -29,8 +29,8 @@ const OverviewSection = ({ addresses }: OverviewSectionProps) => {
 
     <div>
       <BalancesTable
-        showTabs={false}
-        showZeroBalance={true}
+        showTabs
+        showZeroBalance
         showCheckBox={false}
         maxItems={MAX_ITEMS_FOR_TABLE}
         addresses={addresses}

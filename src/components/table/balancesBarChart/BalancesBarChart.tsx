@@ -1,22 +1,22 @@
 import { isDef, isEmptyArray } from '@subsocial/utils'
-import NoData from '../utils/EmptyList'
-import { BalanceKind, TableInfo } from './types'
 import styles from './BalancesBarChart.module.sass'
-import { Loading } from '../utils'
 import { Tabs } from 'antd'
 import { useMemo, useState } from 'react'
 import { BarChartOutlined, PieChartOutlined } from '@ant-design/icons'
 import { sortBy } from 'lodash'
 import store from 'store'
 import dynamic from 'next/dynamic'
-import { RelayChain } from '../../types/index'
-import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { BarConfig, PieConfig } from '@ant-design/charts'
+import { BalanceKind, TableInfo } from '../types'
+import { RelayChain } from 'src/types'
+import { useIsMulti } from 'src/components/providers/MyExtensionAccountsContext'
+import { Loading } from 'src/components/utils'
+import NoData from 'src/components/utils/EmptyList'
 
-const Pie = dynamic(() => import('../charts/Pie'), { ssr: false })
-const Bar = dynamic(() => import('../charts/Bar'), { ssr: false })
+const Pie = dynamic(() => import('./charts/Pie'), { ssr: false })
+const Bar = dynamic(() => import('./charts/Bar'), { ssr: false })
 
 const { TabPane } = Tabs
 
