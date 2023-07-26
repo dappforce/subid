@@ -33,8 +33,8 @@ import { useBuildSendGaUserEvent, useSendGaUserEvent } from 'src/ga'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
 import {
   ParseBalanceTableInfoProps,
-  parseTokenOrientedView,
-} from './parseTokenOrientedView'
+  parseTokenCentricView,
+} from './parseTokenCentricView'
 import { parseBalancesTableInfo } from './parseBalanceInfo'
 import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
@@ -300,7 +300,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
 
       const tableInfo: BalancesTableInfo[] = balancesVaraint === 'chains'
         ? await parseBalancesTableInfo(props)
-        : await parseTokenOrientedView(props)
+        : await parseTokenCentricView(props)
 
       if (tableInfo) {
         setData(tableInfo.filter(isDef))

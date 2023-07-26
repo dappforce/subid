@@ -24,6 +24,7 @@ import { LinksButton } from './Links'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { getBalancePart } from './utils'
+import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -40,7 +41,7 @@ export type ParseBalanceTableInfoProps = {
   t: TFunction
 }
 
-export const parseTokenOrientedView = async ({
+export const parseTokenCentricView = async ({
   chainsInfo,
   tokenPrices,
   identities,
@@ -107,7 +108,9 @@ export const parseTokenOrientedView = async ({
       onTransferClick(tokenId, firstNetwork, { id: assetRedistyId })
     }
 
-    const chain = <ChainData icon={'hello.png'} name={tokenId} />
+    const image = (tokensCentricImages as any)[tokenId.toLowerCase()] || 'unknown-image.svg'
+
+    const chain = <ChainData icon={`tokens-centric/${image}`} name={tokenId} />
 
     return {
       key: tokenId,
