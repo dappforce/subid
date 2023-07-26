@@ -138,7 +138,6 @@ export default function TokenSelector ({
     return Object.values(tokenMap)
   }, [ chainInfo, showNetwork, myAddress ])
 
-  console.log(value)
   
   return (
     <div

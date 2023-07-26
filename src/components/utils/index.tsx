@@ -344,7 +344,7 @@ export const PriceView = ({ value, network }: PriceViewProps) => {
   const valueInDollars = getTotalBalance(new BN(value), price)
   return (
     <BalanceView
-      value={valueInDollars.toFormat().replace(',', '')}
+      value={valueInDollars.toFormat().replace(/,/g, '')}
       symbol={'$'}
       startWithSymbol
     />
