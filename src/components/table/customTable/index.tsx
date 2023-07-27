@@ -77,7 +77,7 @@ export const InnerCustomTable = <T extends TableInfo>(
         {...actionsConfig}
       />
 
-      <div className={clsx({ [styles.BalanceBlock]: tableView !== 'cards' })}>
+      <div className={clsx(styles.BalanceBlock)}>
         <TableActions totalBalance={totalBalance} {...actionsConfig} />
 
         <BalancePart

@@ -38,7 +38,7 @@ export const TableActions = <T extends TableInfo>({
   return (
     <div
       className={clsx(styles.TableActions, {
-        [styles.CardsActions]: tableView === 'cards',
+        // [styles.CardsActions]: tableView === 'cards',
       })}
     >
       <div className='d-flex font-weight-bold'>
