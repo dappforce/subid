@@ -21,7 +21,7 @@ export type BalanceCardProps<T> = {
 const CustomCard = <T extends TableInfo>({
   value,
   balanceKind,
-  isLastElement
+  isLastElement,
 }: BalanceCardProps<T>) => {
   const [ open, setOpen ] = useState<boolean>(false)
   const { isMobile } = useResponsiveSize()
@@ -45,6 +45,9 @@ const CustomCard = <T extends TableInfo>({
   const haveChildren = children || cardChildren
 
   const links = showLinks?.(true)
+
+  const showDivider =
+    (isMobile && (!isLastElement || open)) || (!isMobile && open)
 
   return (
     <Col key={key} className={styles.DfCol}>
@@ -90,7 +93,9 @@ const CustomCard = <T extends TableInfo>({
               </div>
             </div>
           </div>
-          {isMobile && (!isLastElement || open) && <Divider className={clsx(styles.CardDivider, 'MarginTopTiny')} />}
+          {showDivider && (
+            <Divider className={clsx(styles.CardDivider, 'MarginTopTiny')} />
+          )}
 
           {open &&
             (children ? (
@@ -125,7 +130,14 @@ export const BalanceCards = <T extends TableInfo>({
     <Row className={clsx(styles.DfGridParams)}>
       {data.map((value: T, index) => {
         const isLastElement = index === data.length - 1
-        return <CustomCard key={index} value={value} balanceKind={balanceKind} isLastElement={isLastElement} />
+        return (
+          <CustomCard
+            key={index}
+            value={value}
+            balanceKind={balanceKind}
+            isLastElement={isLastElement}
+          />
+        )
       })}
     </Row>
   )
@@ -239,7 +251,7 @@ const ChildrenBalances = <T extends TableInfo>({
           isMulti={isMulti}
           className={clsx(
             { ['mb-2']: isMobile && isLastElement },
-            'MarginLeftHuge'
+            isMobile && 'MarginLeftHuge'
           )}
         />
 
