@@ -71,6 +71,7 @@ export const InnerCustomTable = <T extends TableInfo>(
         totalBalance={totalBalance}
         loading={loading}
         data={data}
+        balanceKind={balanceKind}
         setSkeleton={setSkeleton}
         createFieldSkeletons={createFieldSkeletons}
         filterNonZero={filterNonZero}

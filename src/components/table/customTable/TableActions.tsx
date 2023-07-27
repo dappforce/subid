@@ -36,11 +36,7 @@ export const TableActions = <T extends TableInfo>({
   }
 
   return (
-    <div
-      className={clsx(styles.TableActions, {
-        // [styles.CardsActions]: tableView === 'cards',
-      })}
-    >
+    <div className={clsx(styles.TableActions)}>
       <div className='d-flex font-weight-bold'>
         <div className='mr-2'>{t('general.total')}</div>
         <BalanceView value={totalBalance} symbol='$' startWithSymbol />
@@ -77,11 +73,13 @@ export const TitleAndControls = <T extends TableInfo>({
   setSkeleton,
   createFieldSkeletons,
   checkBoxText,
+  balanceKind,
   data,
   onReload,
   filterNonZero,
 }: TableActionsProps<T>) => {
   const addresses = useMyAddresses()
+  const { isMobile } = useResponsiveSize()
 
   const onReloadClick = () => {
     setSkeleton(
@@ -97,17 +95,22 @@ export const TitleAndControls = <T extends TableInfo>({
     }
   }
 
+  const isCrowdloanTable = balanceKind === 'Crowdloan'
+
   return (
-    <div className='d-flex justify-content-between align-items-center'>
-      <SectionTitle title={title} className='mb-0' />
-      <div className={styles.TitleAndControlsRight}>
-        {showTabs && tabs}
-        <Tooltip title={refreshText}>
-          <Button onClick={onReloadClick} disabled={loading}>
-            {loading ? <LoadingOutlined /> : <ReloadOutlined />}
-          </Button>
-        </Tooltip>
+    <div className={clsx({ ['mx-3']: isMobile })}>
+      <div className='d-flex justify-content-between align-items-center'>
+        <SectionTitle title={title} className='mb-0' />
+        <div className={styles.TitleAndControlsRight}>
+          {showTabs && !isCrowdloanTable && tabs}
+          <Tooltip title={refreshText}>
+            <Button onClick={onReloadClick} disabled={loading}>
+              {loading ? <LoadingOutlined /> : <ReloadOutlined />}
+            </Button>
+          </Tooltip>
+        </div>
       </div>
+      {showTabs && isCrowdloanTable && tabs}
     </div>
   )
 }

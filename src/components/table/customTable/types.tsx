@@ -40,6 +40,7 @@ export type TableActionsProps<T> = ActionsConfig & {
   onReload: () => void
   totalBalance?: BigNumber
   loading: boolean
+  balanceKind: BalanceKind
   data?: T[]
   setSkeleton: (skeleton: T[]) => void
   createFieldSkeletons: (data?: T[]) => T[]

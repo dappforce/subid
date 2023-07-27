@@ -52,7 +52,6 @@ import {
   getSubsocialIdentity,
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
-import { useTableContext } from './customTable/TableContext'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
 export const CROWDLOAN_TABLE_VIEW = 'CrowdloanTableView'
@@ -274,13 +273,11 @@ type TableLoadingProps = {
   loadingLabel: string
 }
 
-export const TableLoading = ({ loadingLabel }: TableLoadingProps) => {
-  const { tableView } = useTableContext()
-  return (
-  <div className={clsx({ [styles.BalanceBlock]: tableView === 'cards' }, styles.TableLoading)}>
+export const TableLoading = ({ loadingLabel }: TableLoadingProps) => (
+  <div className={clsx(styles.TableLoading)}>
     <Loading label={loadingLabel} />
   </div>
-)}
+)
 
 export const BalancePart = <T extends TableInfo>({
   balanceKind,

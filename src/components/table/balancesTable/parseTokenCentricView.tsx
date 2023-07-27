@@ -280,16 +280,7 @@ function parseBalancesByToken (
 
       const { ss58Format } = chainInfo
 
-      if (network === 'statemint') {
-        console.log(network, Object.keys(info))
-      }
-
       Object.entries(info).forEach(([ tokenId, balances ]) => {
-        console.log(
-          tokenId,
-          network,
-          allowedTokens && !allowedTokens.includes(tokenId)
-        )
         if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId) return
 
         const {

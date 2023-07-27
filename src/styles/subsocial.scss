@@ -132,6 +132,14 @@ a {
   gap: $space_huge;
 }
 
+.MarginLeftHuge {
+  margin-left: $space_huge;
+}
+
+.MarginTopTiny {
+  margin-top: $space_tiny !important;
+}
+
 .RoundedNormal {
   border-radius: $border_radius_normal !important;
 }

@@ -31,12 +31,13 @@ $zero_margin: 0
 .Card
   min-height: 5rem
   border-radius: $border_radius_normal
+  background: #FBFCFD
 
   \:global .ant-card-body
     min-height: 5rem
 
 .CardDivider
-  margin: $space_tiny 0 0 0 !important
+  margin: $space_tiny 0 0 0
 
 .isExpandedCard
   border-bottom: 1px solid #f0f0f0f0 !important
@@ -111,6 +112,9 @@ $zero_margin: 0
     margin-bottom: 0
     &::before
       border-bottom: none
+
+  \:global .ant-tabs-nav-operations
+    display: none !important
 
 .BalanceColumn
   width: 15.5rem
@@ -237,7 +241,8 @@ $zero_margin: 0
   align-items: center
   justify-content: space-between
   gap: $space_small
-  margin-bottom: $space_small
+  padding-top: $space_mini
+  padding-bottom: $space_normal
 
 .CardsActions
   @extend .BalanceBlock
@@ -271,7 +276,7 @@ $zero_margin: 0
   .CardDivider
     min-width: 95% !important
     width: 95%
-    margin: $space_mini 0 0 $space_huge !important
+    margin: $space_mini 0 0 $space_huge
 
   .CardContent:first-child
     align-items: start
@@ -281,3 +286,14 @@ $zero_margin: 0
 
   .ShowAllButton
     border-radius: 0 !important
+
+  .BalanceBlock
+    padding-left: 0
+    padding-right: 0
+    background: none
+
+  .TableActions
+    padding-left: $space_normal
+    padding-right: $space_normal
+    padding-bottom: $space_normal
+    border-bottom: 1px solid #f0f0f0 
