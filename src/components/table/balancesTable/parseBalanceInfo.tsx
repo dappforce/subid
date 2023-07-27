@@ -164,7 +164,6 @@ export const parseBalancesTableInfo = async ({
   identities,
   isMulti,
   balancesEntities,
-  isMobile,
   onTransferClick,
   t,
 }: ParseBalanceTableInfoProps): Promise<BalancesTableInfo[]> => {
@@ -362,7 +361,7 @@ export const parseBalancesTableInfo = async ({
                 name={name}
                 account={account}
                 avatar={subsocialIdentity?.image}
-                withQr={!isMobile}
+                withQr={false}
               />
             )
 

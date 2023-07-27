@@ -63,6 +63,8 @@ export type BalancesTableInfo = CommonTableInfo & {
   balanceWithoutChildren: React.ReactNode
   balanceView: React.ReactNode
   children?: Partial<BalancesTableInfo>[]
+  networkIcons?: string[]
+  decimals: number
 
   transferAction?: React.ReactNode
 }

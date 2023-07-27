@@ -370,6 +370,7 @@ type ChainProps = {
   halfLength?: number
   isMonosizedFont?: boolean
   withQr?: boolean
+  desc?: JSX.Element
 }
 
 type AvatarOrSkeletonProps = BareProps & {
@@ -383,17 +384,26 @@ export const AvatarOrSkeleton = ({
   icon,
   className,
   externalIcon = false,
+  style,
 }: AvatarOrSkeletonProps) => {
   if (icon) {
     const imgUrl = externalIcon ? icon : getIconUrl(icon)
 
-    return <Avatar src={imgUrl} size={size} className={className} />
+    return (
+      <Avatar
+        src={imgUrl}
+        size={size}
+        className={clsx(className, 'bg-white')}
+        style={style}
+      />
+    )
   } else {
     return (
       <Skeleton.Avatar
         size={size as number}
         shape='circle'
-        className={className}
+        className={clsx(className, 'bg-white')}
+        style={style}
       />
     )
   }
@@ -409,6 +419,7 @@ export const ChainData = ({
   halfLength = 6,
   isMonosizedFont = true,
   withQr = true,
+  desc,
 }: ChainProps) => {
   const { isMobile } = useResponsiveSize()
 
@@ -435,10 +446,14 @@ export const ChainData = ({
         <div>
           {name && <div className='font-weight-bold FontNormal'>{name}</div>}
           {(!isMobile || avatarSize === 'large') && address}
+          {desc}
         </div>
       </div>
       {isMobile && avatarSize !== 'large' && (
-        <div className={styles.CardAddressMargin}>{address}</div>
+        <div className={styles.CardAddressMargin}>
+          {desc}
+          {address}
+        </div>
       )}
     </div>
   )
@@ -652,7 +667,10 @@ export const Address = ({
     {withCopy ? (
       <CopyAddress
         message={`${name} address copied`}
-        className={clsx({ ['MonosizedFont']: isMonosizedFont }, 'mr-2')}
+        className={clsx({
+          ['MonosizedFont']: isMonosizedFont,
+          ['mr-2']: withQr,
+        })}
         address={accountId}
         iconVisibility
       >
@@ -744,11 +762,13 @@ export const AccountPreview = ({
 
 export const getParentBalances = <T extends TableInfo>(
   balances: T[],
-  nativeSymbol: string
+  nativeSymbol: string,
+  parseBalanceValue?: boolean
 ) => {
   let balanceValueBN = BIGNUMBER_ZERO
   let totalValueBN = BIGNUMBER_ZERO
   let priceValue
+  let decimals = balances[0]?.decimals || 0
 
   balances
     .filter(isDef)
@@ -758,11 +778,18 @@ export const getParentBalances = <T extends TableInfo>(
       priceValue = price
     })
 
-  const balance = <BalanceView value={balanceValueBN} symbol={nativeSymbol} />
+  const balanceValue = parseBalanceValue
+    ? getBalanceWithDecimals({
+        totalBalance: balanceValueBN.toString(),
+        decimals,
+      })
+    : balanceValueBN
+
+  const balance = <BalanceView value={balanceValue} symbol={nativeSymbol} />
   const total = <BalanceView value={totalValueBN} symbol='$' startWithSymbol />
 
   return {
-    balanceValueBN,
+    balanceValueBN: balanceValue,
     totalValueBN,
     priceValue,
     balance,

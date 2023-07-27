@@ -7,6 +7,7 @@ import { AccountInfoByChain } from 'src/components/identity/types'
 import BN from 'bignumber.js'
 import {
   AccountPreview,
+  AvatarOrSkeleton,
   ChainData,
   getBalanceWithDecimals,
   getBalances,
@@ -49,6 +50,24 @@ export type ParseBalanceTableInfoProps = {
   t: TFunction
 }
 
+type NetworksIconsProps = {
+  networkIcons: string[]
+}
+
+export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
+  const icons = networkIcons.map((icon, i) => {
+    return (
+      <AvatarOrSkeleton
+        key={i}
+        icon={icon}
+        size={14}
+        style={{ marginLeft: '-4px' }}
+      />
+    )
+  })
+  return <div className={'d-flex alignt-items-center'}>{icons}</div>
+}
+
 export const parseTokenCentricView = async ({
   chainsInfo,
   tokenPrices,
@@ -74,7 +93,8 @@ export const parseTokenCentricView = async ({
     })
 
     const image =
-      (tokensCentricImages as any)[tokenId.toLowerCase()] || 'no-token-image.svg'
+      (tokensCentricImages as any)[tokenId.toLowerCase()] ||
+      'no-token-image.svg'
 
     const imagePath = `tokens-centric/${image}`
 
@@ -110,7 +130,7 @@ export const parseTokenCentricView = async ({
 
         const childrenBalances: any = {}
 
-        const children = getChildrenBalances({
+        const { children, networkIcons } = getChildrenBalances({
           balancesByNetwork,
           isMobile,
           isMulti,
@@ -144,13 +164,17 @@ export const parseTokenCentricView = async ({
         }
 
         const chain = !isMulti ? (
-          <ChainData icon={imagePath} name={tokenId} />
+          <ChainData
+            icon={imagePath}
+            name={tokenId}
+            desc={<NetworksIcons networkIcons={networkIcons} />}
+          />
         ) : (
           <AccountPreview
             name={tokenId}
             account={address}
             avatar={subsocialIdentity?.image}
-            withQr={!isMobile}
+            withQr={false}
           />
         )
 
@@ -164,11 +188,13 @@ export const parseTokenCentricView = async ({
           icon: imagePath,
           name: tokenId,
           address: '',
+          decimals,
           totalValue: totalValue,
           balanceWithoutChildren: getBalancePart(balance, false),
           balanceValue: totalBalance,
           balanceView: getBalancePart(balance, true),
           links: [],
+          networkIcons,
           transferAction: (
             <Button
               disabled={!chainInfo.isTransferable}
@@ -187,7 +213,7 @@ export const parseTokenCentricView = async ({
 
     if (isMulti) {
       const { balanceValueBN, totalValueBN, balance, total } =
-        getParentBalances(balancesByKey, tokenId)
+        getParentBalances(balancesByKey, tokenId, true)
 
       const childrenBalances: any = {}
 
@@ -281,7 +307,8 @@ function parseBalancesByToken (
       const { ss58Format } = chainInfo
 
       Object.entries(info).forEach(([ tokenId, balances ]) => {
-        if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId) return
+        if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId)
+          return
 
         const {
           balancesByNetwork,
@@ -351,8 +378,9 @@ function getChildrenBalances ({
   priceValue,
   onTransferClick,
   t,
-}: GetChildrenBalanceParams): BalancesTableInfo[] {
+}: GetChildrenBalanceParams) {
   const balancesByNetworkEntries = Object.entries(balancesByNetwork)
+  const networkIcons: string[] = []
 
   const result = balancesByNetworkEntries.map(([ network, balances ]) => {
     const { totalBalance, accountId, ...otherBalances } = balances
@@ -417,6 +445,8 @@ function getChildrenBalances ({
       onTransferClick(tokenId, network, { id: assetRedistyId })
     }
 
+    networkIcons.push(icon)
+
     return {
       key: network,
       chain: <div className='ml-5'>{chain}</div>,
@@ -459,7 +489,7 @@ function getChildrenBalances ({
     } as BalancesTableInfo
   })
 
-  return result.filter(isDef)
+  return { children: result.filter(isDef), networkIcons }
 }
 
 type GetAccountDataValuesParams = {

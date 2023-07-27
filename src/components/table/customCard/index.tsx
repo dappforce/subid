@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { useIsMulti } from '../../providers/MyExtensionAccountsContext'
 import CardAdditionalView from './CardAdditionalView'
+import { NetworksIcons } from '../balancesTable/parseTokenCentricView'
 
 export type BalanceCardProps<T> = {
   value: T
@@ -39,6 +40,7 @@ const CustomCard = <T extends TableInfo>({
     status,
     children,
     cardChildren,
+    networkIcons,
     showLinks,
   } = value
 
@@ -71,8 +73,9 @@ const CustomCard = <T extends TableInfo>({
               isMonosizedFont={!isMulti}
               avatarSize={isMobile ? 'small' : 'large'}
               icon={icon}
+              desc={networkIcons && <NetworksIcons networkIcons={networkIcons} />}
               halfLength={isMobile ? 5 : 6}
-              withQr={!isMobile}
+              withQr={true}
             />
             <div className='text-right'>
               <div className='d-flex align-items-center'>
@@ -251,7 +254,7 @@ const ChildrenBalances = <T extends TableInfo>({
           isMulti={isMulti}
           className={clsx(
             { ['mb-2']: isMobile && isLastElement },
-            isMobile && 'MarginLeftHuge'
+            isMobile && styles.ChildrenBalanceMargin
           )}
         />
 
