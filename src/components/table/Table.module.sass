@@ -3,9 +3,6 @@
 $zero_margin: 0
 
 .Table
-  .BalanceBlock
-    padding-bottom: 0 !important
-
   h2
     margin-bottom: 0 !important
     padding-top: 0 !important
@@ -233,6 +230,22 @@ $zero_margin: 0
 .CardContent
   .OtherTokens
     display: none !important
+
+.TableActions
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_small
+  margin-bottom: $space_small
+
+.CardsActions
+  @extend .BalanceBlock
+  padding-bottom: $space_small !important
+
+.TitleAndControlsRight
+  display: flex
+  align-items: center
+  gap: $space_small
 
 @media ( max-width: $max_mobile_width )
   .AssetsTabs

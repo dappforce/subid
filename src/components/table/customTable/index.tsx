@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { MAX_ITEMS_FOR_TABLE } from '../../homePage/OverviewSection'
 import { TableContextWrapper, useTableContext } from './TableContext'
-import TableActions from './TableActions'
+import { TableActions, TitleAndControls } from './TableActions'
 import { CustomTableProps } from './types'
 
 export const InnerCustomTable = <T extends TableInfo>(
@@ -33,7 +33,7 @@ export const InnerCustomTable = <T extends TableInfo>(
     onReload,
     showAllPage,
     totalBalance,
-    actionsConfig
+    actionsConfig,
   } = props
   const { t } = useTranslation()
   const { tableView, showZeroBalances } = useTableContext()
@@ -65,7 +65,7 @@ export const InnerCustomTable = <T extends TableInfo>(
         [styles.TableMargin]: !isHomePage,
       })}
     >
-      <TableActions
+      <TitleAndControls
         tabs={tabs}
         onReload={onReload}
         totalBalance={totalBalance}
@@ -77,23 +77,27 @@ export const InnerCustomTable = <T extends TableInfo>(
         {...actionsConfig}
       />
 
-      <BalancePart
-        maxItems={maxItems}
-        balanceKind={balanceKind}
-        data={data || []}
-        columns={columns}
-        skeleton={skeleton}
-        showCheckBox={!!checkBoxText}
-        relayChain={relayChain}
-        filterItem={filterItem}
-        loadingLabel={loadingLabel}
-        tableView={tableView}
-        showZeroBalances={showZeroBalances}
-        loading={loading}
-        storeTableView={storeTableView}
-        storeShowZeroBalance={storeShowZeroBalance}
-        noData={noData}
-      />
+      <div className={clsx({ [styles.BalanceBlock]: tableView !== 'cards' })}>
+        <TableActions totalBalance={totalBalance} {...actionsConfig} />
+
+        <BalancePart
+          maxItems={maxItems}
+          balanceKind={balanceKind}
+          data={data || []}
+          columns={columns}
+          skeleton={skeleton}
+          showCheckBox={!!checkBoxText}
+          relayChain={relayChain}
+          filterItem={filterItem}
+          loadingLabel={loadingLabel}
+          tableView={tableView}
+          showZeroBalances={showZeroBalances}
+          loading={loading}
+          storeTableView={storeTableView}
+          storeShowZeroBalance={storeShowZeroBalance}
+          noData={noData}
+        />
+      </div>
 
       {tableView !== 'pie' && isHomePage && (
         <Link href={showAllPage}>

@@ -29,7 +29,7 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'PHA',
     'PARA',
   ],
-  statemint: ['WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'BUSD'],
+  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'BUSD' ],
 }
 
 export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (

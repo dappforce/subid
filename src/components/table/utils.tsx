@@ -14,7 +14,10 @@ import NoData from '../utils/EmptyList'
 import { getIconUrl, Loading, toShortAddress } from '../utils/index'
 import { MutedDiv } from '../utils/MutedText'
 import { BalanceCards } from './customCard'
-import { BalancesChart, toShortMoney } from './balancesBarChart/BalancesBarChart'
+import {
+  BalancesChart,
+  toShortMoney,
+} from './balancesBarChart/BalancesBarChart'
 import styles from './Table.module.sass'
 import { BalanceKind, TableView, TableViewOption, TableInfo } from './types'
 import BN from 'bignumber.js'
@@ -49,6 +52,7 @@ import {
   getSubsocialIdentity,
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
+import { useTableContext } from './customTable/TableContext'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
 export const CROWDLOAN_TABLE_VIEW = 'CrowdloanTableView'
@@ -144,7 +148,7 @@ export const InnerBalancesTable = <T extends TableInfo>({
   loading,
   noData,
 }: InnerBalancesTableProps<T>) => (
-  <div className={styles.BalanceBlock}>
+  <>
     {isEmptyArray(tableData) ? (
       <NoData description={noData} />
     ) : (
@@ -177,7 +181,7 @@ export const InnerBalancesTable = <T extends TableInfo>({
         }}
       />
     )}
-  </div>
+  </>
 )
 
 type LinkWithIconProps = {
@@ -270,11 +274,13 @@ type TableLoadingProps = {
   loadingLabel: string
 }
 
-export const TableLoading = ({ loadingLabel }: TableLoadingProps) => (
-  <div className={clsx(styles.BalanceBlock, styles.TableLoading)}>
+export const TableLoading = ({ loadingLabel }: TableLoadingProps) => {
+  const { tableView } = useTableContext()
+  return (
+  <div className={clsx({ [styles.BalanceBlock]: tableView === 'cards' }, styles.TableLoading)}>
     <Loading label={loadingLabel} />
   </div>
-)
+)}
 
 export const BalancePart = <T extends TableInfo>({
   balanceKind,

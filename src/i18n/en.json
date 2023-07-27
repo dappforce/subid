@@ -13,7 +13,7 @@
     "showAll": "Show all",
     "allAccounts": "All Accounts",
     "allAccountsDesc": "All Accounts let you see an aggregated view of all the accounts in your Polkadot.js",
-    "total": "Total",
+    "total": "Total balance: ",
     "connectWallet": "Connect Wallet",
     "networkStatus": "Network Status"
   },
