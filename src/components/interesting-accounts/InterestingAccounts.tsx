@@ -26,7 +26,7 @@ export const PreviewAccountsGrid: FC = () => {
     </Link>
   </div> : null
 
-  return <div className={'mt-3'}>
+  return <div>
     <Row justify='space-between'>
       <Col>
         <SectionTitle 

@@ -8,6 +8,7 @@ import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitie
 import { toGenericAccountId } from '../../rtk/app/util'
 import { PreviewAccountsGrid } from '../interesting-accounts/InterestingAccounts'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
+import styles from './address-views/utils/index.module.sass'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -27,7 +28,7 @@ const OverviewSection = ({ addresses }: OverviewSectionProps) => {
   return <>
     <Overview />
 
-    <div>
+    <div className={styles.SectionsGap}>
       <BalancesTable
         showTabs
         showZeroBalance

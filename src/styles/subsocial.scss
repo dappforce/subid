@@ -2379,7 +2379,7 @@ hr {
     @extend .DfUnboundedTitle;
     color: #222222;
     line-height: 22px;
-    // margin-bottom: $space_normal !important;
+    margin-bottom: 0 !important;
     // padding-top: $space_normal;
   }
 }
