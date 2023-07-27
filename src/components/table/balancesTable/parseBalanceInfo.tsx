@@ -37,7 +37,7 @@ import { BalanceView } from '../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
-import { LinksButton } from './Links'
+import { LinksButton } from '../links/Links'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info

@@ -1,5 +1,5 @@
 import { LinkWithIcon } from '../utils'
-import { linksByNetworks, NetworkLinks } from '../links'
+import { linksByNetworks, NetworkLinks } from '.'
 import { Menu, Dropdown, Button, Divider } from 'antd'
 import { useCurrentAccount } from '../../providers/MyExtensionAccountsContext'
 import { MoreOutlined } from '@ant-design/icons'

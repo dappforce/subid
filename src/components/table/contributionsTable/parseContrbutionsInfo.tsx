@@ -35,7 +35,7 @@ import { AccountVestingCrowdloanBalance } from './VestingCrowdloanBalance'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatDate } from 'src/utils/date'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
-import { LinksButton } from '../balancesTable/Links'
+import { LinksButton } from '../links/Links'
 import { GiReceiveMoney } from 'react-icons/gi'
 
 type ParseCrowdloanTableInfoProps = {
