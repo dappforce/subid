@@ -103,7 +103,7 @@ export const InnerCustomTable = <T extends TableInfo>(
       {tableView !== 'pie' && isHomePage && (
         <Link href={showAllPage}>
           <Button
-            className={clsx(styles.ShowAllButton)}
+            className={clsx(styles.ShowAllButton, 'mt-3')}
             type='primary'
             block
             ghost

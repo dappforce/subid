@@ -38,6 +38,7 @@ import {
 import { parseBalancesTableInfo } from './parseBalanceInfo'
 import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
+import BN from 'bignumber.js'
 
 const TransferModal = dynamic(
   () => import('src/components/transfer/TransferModal'),
@@ -74,6 +75,20 @@ const BalanceTableVariantTabs = ({
       value={balancesVariant}
     />
   )
+}
+
+const calculateChildrenBalances = (
+  freeChainBalances: BN,
+  lockedChainBalances: BN,
+  childrenBalance?: Partial<BalancesTableInfo>[],
+) => {
+  const { freeBalance, lockedBalance } =
+    getFreeAndLockedBalanceFromChildren(childrenBalance)
+
+  return {
+    freeCalculatedBalance: freeChainBalances.plus(freeBalance),
+    lockedCalculatedBalance: lockedChainBalances.plus(lockedBalance),
+  }
 }
 
 export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
@@ -298,9 +313,10 @@ export const BalancesTable = (props: BalanceTableProps) => {
         t,
       }
 
-      const tableInfo: BalancesTableInfo[] = balancesVaraint === 'chains'
-        ? await parseBalancesTableInfo(props)
-        : await parseTokenCentricView(props)
+      const tableInfo: BalancesTableInfo[] =
+        balancesVaraint === 'chains'
+          ? await parseBalancesTableInfo(props)
+          : await parseTokenCentricView(props)
 
       if (tableInfo) {
         setData(tableInfo.filter(isDef))
@@ -318,18 +334,40 @@ export const BalancesTable = (props: BalanceTableProps) => {
           childrenBalances?.forEach((childrenInfo) => {
             const childrenBalancesByAccount = childrenInfo?.children
 
-            const { freeBalance, lockedBalance } =
-              getFreeAndLockedBalanceFromChildren(childrenBalancesByAccount)
+            const { freeCalculatedBalance, lockedCalculatedBalance } =
+              calculateChildrenBalances(
+                freeChainBalances,
+                lockedChainBalances,
+                childrenBalancesByAccount,
+              )
 
-            freeChainBalances = freeChainBalances.plus(freeBalance)
-            lockedChainBalances = lockedChainBalances.plus(lockedBalance)
+            freeChainBalances = freeCalculatedBalance
+            lockedChainBalances = lockedCalculatedBalance
           })
         } else {
-          const { freeBalance, lockedBalance } =
-            getFreeAndLockedBalanceFromChildren(childrenBalances)
+          if (balancesVaraint === 'chains') {
+            const { freeCalculatedBalance, lockedCalculatedBalance } =
+              calculateChildrenBalances(
+                freeChainBalances,
+                lockedChainBalances,
+                childrenBalances,
+              )
 
-          freeChainBalances = freeChainBalances.plus(freeBalance)
-          lockedChainBalances = lockedChainBalances.plus(lockedBalance)
+            freeChainBalances = freeCalculatedBalance
+            lockedChainBalances = lockedCalculatedBalance
+          } else {
+            childrenBalances?.forEach((childrenBalance) => {
+              const { freeCalculatedBalance, lockedCalculatedBalance } =
+              calculateChildrenBalances(
+                freeChainBalances,
+                lockedChainBalances,
+                childrenBalance?.children,
+              )
+
+            freeChainBalances = freeCalculatedBalance
+            lockedChainBalances = lockedCalculatedBalance
+            })
+          }
         }
       })
 
@@ -350,8 +388,9 @@ export const BalancesTable = (props: BalanceTableProps) => {
       <CustomTable
         actionsConfig={{
           title: t('table.balances.title'),
-          checkBoxText: 
-            showCheckBox ? t('table.balances.checkBoxText') : undefined,
+          checkBoxText: showCheckBox
+            ? t('table.balances.checkBoxText')
+            : undefined,
           showTabs,
           refreshText: t('table.balances.refreshText'),
           buttonsClassName: clsx('mt-2 align-items-center'),
@@ -375,7 +414,6 @@ export const BalancesTable = (props: BalanceTableProps) => {
         storeShowZeroBalance={BALANCE_SHOW_ZERO_BALANCES}
         onReload={fetchBalancesFunc}
         totalBalance={freeChainBalances.plus(lockedChainBalances)}
-        
         tabs={
           <BalanceTableVariantTabs
             balancesVariant={balancesVaraint}

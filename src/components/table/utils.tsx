@@ -598,7 +598,7 @@ export const LabelWithShortMoneyFormat = ({
   <BalanceView
     style={style}
     className={className}
-    value={new BN(toShortMoney({ num: value.toNumber(), noFractionForZero }))}
+    value={toShortMoney({ num: value.toNumber() })}
     symbol={symbol}
     defaultPostfix={noFractionForZero ? '' : undefined}
   />
