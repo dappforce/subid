@@ -451,7 +451,6 @@ export const ChainData = ({
       </div>
       {isMobile && avatarSize !== 'large' && (
         <div className={styles.CardAddressMargin}>
-          {desc}
           {address}
         </div>
       )}

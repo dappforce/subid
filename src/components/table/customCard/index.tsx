@@ -73,7 +73,11 @@ const CustomCard = <T extends TableInfo>({
               isMonosizedFont={!isMulti}
               avatarSize={isMobile ? 'small' : 'large'}
               icon={icon}
-              desc={networkIcons && <NetworksIcons networkIcons={networkIcons} />}
+              desc={
+                networkIcons ? (
+                  <NetworksIcons networkIcons={networkIcons} />
+                ) : undefined
+              }
               halfLength={isMobile ? 5 : 6}
               withQr={true}
             />

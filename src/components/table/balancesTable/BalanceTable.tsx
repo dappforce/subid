@@ -173,6 +173,7 @@ const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
     ...transferColumn,
     {
       dataIndex: 'links',
+      className: styles.LinksColumn
     },
   ]
 }

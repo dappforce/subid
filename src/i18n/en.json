@@ -349,7 +349,7 @@
       "title": "Balances",
       "loading": "Loading account balances...",
       "noData": "No balances found",
-      "checkBoxText": "Show zero balances",
+      "checkBoxText": "Zero balances",
       "refreshText": "Refresh balances",
       "tabs": {
         "all": "All",
