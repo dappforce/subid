@@ -26,7 +26,7 @@ type PageContainerProps = {
   isHomePage?: boolean
 }
 
-const PageContainer: FC<PageContainerProps> = ({ children/* , isHomePage */ }) => {
+const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const addressFromStorage = getAddressFromStorage()
   const { query, replace, asPath } = useRouter()
   const { address: maybeAddress } = query
@@ -94,6 +94,7 @@ const PageContainer: FC<PageContainerProps> = ({ children/* , isHomePage */ }) =
               addresses={addresses}
               addressFromStorage={addressFromStorage}
               size={isMobile ? 60 : 90}
+              isHomePage={isHomePage}
             />
             {children}
           </>}

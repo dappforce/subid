@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import styles from '../Table.module.sass'
@@ -78,7 +78,11 @@ export const InnerCustomTable = <T extends TableInfo>(
         {...actionsConfig}
       />
 
-      <div className={clsx(styles.BalanceBlock)}>
+      <div
+        className={clsx(styles.BalanceBlock, {
+          [styles.BalanceBlockWithButton]: tableView !== 'pie' && isHomePage,
+        })}
+      >
         <TableActions totalBalance={totalBalance} {...actionsConfig} />
 
         <BalancePart
@@ -98,20 +102,23 @@ export const InnerCustomTable = <T extends TableInfo>(
           storeShowZeroBalance={storeShowZeroBalance}
           noData={noData}
         />
-      </div>
 
-      {tableView !== 'pie' && isHomePage && (
-        <Link href={showAllPage}>
-          <Button
-            className={clsx(styles.ShowAllButton, 'mt-3')}
-            type='primary'
-            block
-            ghost
-          >
-            {t('general.showAll')}
-          </Button>
-        </Link>
-      )}
+        {tableView !== 'pie' && isHomePage && (
+          <>
+            <Divider className='m-0' />
+            <Link href={showAllPage}>
+              <Button
+                className={clsx(styles.ShowAllButton)}
+                type='primary'
+                block
+                ghost
+              >
+                {t('general.showAll')}
+              </Button>
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   )
 }

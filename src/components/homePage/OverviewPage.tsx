@@ -31,6 +31,7 @@ export type Props = {
   addresses?: string[]
   owner?: SubsocialProfile
   size?: number
+  isHomePage?: boolean
   addressFromStorage: string
 }
 
@@ -39,6 +40,7 @@ export const AccountInfo = (props: Props) => {
     addresses,
     size = LARGE_AVATAR_SIZE,
     addressFromStorage,
+    isHomePage
   } = props
   const { isMobile } = useResponsiveSize()
 
@@ -106,7 +108,7 @@ export const AccountInfo = (props: Props) => {
   const actionButtons = <ActionButtons identities={identities} showFollowButton={showFollowButton} address={address} />
 
   return (
-    <Section className={clsx('mb-3', styles.AccountOverview)}>
+    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'mb-3')}>
       {!isMulti && <BannerSection
         currentAddress={address}
         owner={owner}
