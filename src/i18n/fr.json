@@ -8,13 +8,13 @@
     "suggestFeature": "Fonction de suggestion",
     "addressCopied": "Adresse copiée",
     "loginHint": "avec {{polkadot}} pour voir les soldes de votre compte.",
-    "notListed": "pas de prix",
+    "notListed": "non listé",
     "reportBug": "Signaler une erreur",
     "showAll": "Montrer tous",
     "allAccounts": "Tous les comptes",
     "allAccountsDesc": "Tous les comptes vous permettent de voir l'apparence globale de tous les comptes de votre polkadot.js",
     "total": "Total",
-    "connectWallet": "Connexion de portefeuille",
+    "connectWallet": "Connecter votre portefeuille",
     "networkStatus": "L'état du réseau"
   },
   "signIn": {
@@ -25,46 +25,46 @@
     "installToolTip": "Installez {{title}} ou actualisez le navigateur si {{title}} est déjà installé",
     "notInstalled": "{{title}} n’est pas installé ou actualise le navigateur si {{title}} est déjà installé",
     "back": "Retour",
-    "setupWalletLink": "Comment puis-je installer un portefeuille?"
+    "setupWalletLink": "Comment puis-je installer un portefeuille ?"
   },
   "interestingAccounts": {
     "title": "Comptes intéressants",
     "allRoles": "Tous les rôles",
-    "council": "Conseillères",
+    "council": "Conseil",
     "validator": "Validateurs",
     "crowdloaner": "Crowdloaners"
   },
   "banner": {
-    "placeholderTitle": "Banner NFT bewurkje",
-    "placeholderDesc": "Kies in banner NFT út ien fan ús kolleksjes",
+    "placeholderTitle": "Modifier la bannière NFT",
+    "placeholderDesc": "Choisissez une bannière NFT dans l'une de nos collections",
     "modal": {
-      "title": "Kies in NFT-banner foar jo side",
-      "desc": "No kinne jo in banner ynstallearje fan ien fan ús kolleksjes. As jo ​​in nije banner wolle keapje,",
-      "descLinkText": "Klik hjir",
-      "warning": "Jo enerzjy is minder dan 1 NRG token.",
-      "warningButton": "Krij enerzjy",
-      "moreTokensMsg": "Mear NRG nedich"
+      "title": "Choisissez une bannière NFT pour votre page",
+      "desc": "Vous pouvez maintenant installer une bannière de l'une de nos collections. Si vous souhaitez acheter une nouvelle bannière,",
+      "descLinkText": "cliquez içi",
+      "warning": "Votre énergie est inférieure à 1 jeton NRG.",
+      "warningButton": "Obtenir de l'énergie",
+      "moreTokensMsg": "Besoin de NRG"
     }
   },
   "favoritesAccounts": {
-    "title": "Comptes préférés",
+    "title": "Comptes favoris",
     "pageDesc": "Une liste privée qui est stockée localement uniquement dans ce navigateur et qui n’est disponible que pour vous.",
     "table": {
       "account": "Compte",
       "notes": "Notes"
     },
     "notifs": {
-      "added": "Compte ajouter aux préférés",
+      "added": "Compte ajouter aux favoris",
       "edited": "Les notes pour le compte ont été modifiées",
-      "removed": "Compte retiré des préférés"
+      "removed": "Le compte a été retiré des favoris"
     },
     "tooltips": {
-      "star": "Retirer des préférés"
+      "star": "Retirer des favoris"
     },
     "modal": {
-      "addTitle": "Ajoutez aux préférés",
+      "addTitle": "Ajouter aux favoris",
       "editTitle": "Modifier des notes",
-      "desc": "Après avoir ajouté un compte aux préférés, vous pouvez le trouver en utilisant l’onglet dans la barre latérale. Dans le champ ci-dessous, vous pouvez ajouter une étiquette pour cette adresse pour une recherche rapide à l’avenir."
+      "desc": "Après avoir ajouté un compte aux favoris, vous pouvez le trouver en utilisant l’onglet dans la barre latérale. Dans le champ ci-dessous, vous pouvez ajouter une étiquette sur cette adresse pour une recherche rapide à l’avenir."
     },
     "buttons": {
       "add": "Ajouter",
@@ -81,7 +81,7 @@
   "loading": {
     "accounts": "Chargement des comptes depuis l’extension",
     "dataByAccount": "Chargement des données par compte",
-    "loadingNfts": "Chargement des NFTs...",
+    "loadingNfts": "Chargement des NFTs ...",
     "transaction": "Cela peut prendre jusqu'à 30 secondes"
   },
   "charts": {
@@ -94,7 +94,7 @@
     "defaultVAxis": "Actif",
     "labels": {
       "multiLabel": "Solde (≈ USD)",
-      "transferable": "Transferable solde (≈ USD)",
+      "transferable": "Solde transferable (≈ USD)",
       "reserved": "Solde réservé (≈ USD)",
       "locked": "Solde bloqué (≈ USD)"
     },
@@ -110,7 +110,7 @@
       "reserved": "Solde réservé",
       "free": "Transferable",
       "title": "Soldes",
-      "loading": "Chargement des soldes de compte...",
+      "loading": "Chargement des soldes de compte ...",
       "noData": "Aucun solde trouvé",
       "checkBoxText": "Afficher zéro solde",
       "refreshText": "Actualiser les soldes",
@@ -150,7 +150,7 @@
       "price": "Prix",
       "value": "Valeur Totale",
       "contribution": "Contribution",
-      "claimable": "Réclamable/ Restant",
+      "claimable": "Réclamable/Restant",
       "raised": "Augmenté",
       "bonus": "Bonus",
       "cap": "Cap",
@@ -183,23 +183,23 @@
   },
   "donation": {
     "title": "Transfert",
-    "donate": "Donné",
+    "donate": "Donner",
     "recipient": "Bénéficiaire",
     "currency": "Devise",
     "sender": "Expéditeur",
     "balance": "Solde",
     "amount": "Montant",
-    "thanksForSupport": "Merci de votre soutien!",
+    "thanksForSupport": "Merci de votre soutien !",
     "max": "MAX",
     "donationSuccessful": "Donné avec succès",
     "donationFailed": "Vous ne pouvez pas donner plus que votre solde disponible."
   },
   "buttons": {
-    "goBack": "Retourner",
+    "goBack": "Retour",
     "accept": "Accepter",
-    "decline": "Déclin",
-    "close": "Fermé",
-    "copy": "Copie",
+    "decline": "Refuser",
+    "close": "Fermer",
+    "copy": "Copier",
     "gotIt": "J'ai compris",
     "contribute": "Contribuer",
     "createProfile": "Créer un profil",
@@ -214,10 +214,10 @@
   "placeholders": {
     "searchAccountAddress": "Recherche par adresse de compte (ex. Polkadot, Kusama, Acala, etc.)",
     "noNFTsFound": "Aucune NFT trouvée",
-    "addressIsNotValid": "Adresse n'est pas valide"
+    "addressIsNotValid": "L'adresse n'est pas valide"
   },
   "tooltip": {
-    "showQR": "Afficher le code QR",
+    "showQR": "Afficher le QR code",
     "openSearchInput": "Ouvrir la saisie de recherche",
     "closeSearchInput": "Fermer la saisie de recherche",
     "refreshNFTs": "Actualiser les NFTs",
@@ -248,13 +248,13 @@
 
     "transfer": "Transfert",
     "sameChain": "Même chaîne",
-    "crossChain": "Croix-chaîne",
+    "crossChain": "Cross-chain",
     "source": "Chaîne d'origine",
     "dest": "Chaîne de destinations",
     "recipient": "Destinataire",
     "amount": "Montant",
     "yourAccount": "Votre compte",
-    "crossChainFee": "Frais de chaîne croisée",
+    "crossChainFee": "Frais de cross-chain",
     "max": "MAX",
     "transferableBalance": "Transferable Solde",
 
