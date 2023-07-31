@@ -18,6 +18,7 @@ export type ChainInfo = {
   assetsRegistry: Record<string, any>
   name: string
   node: string
+  wsNode?: string
   paraId: string
   existentialDeposit: string
   relayChain?: RelayChain

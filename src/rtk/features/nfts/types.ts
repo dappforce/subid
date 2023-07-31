@@ -12,11 +12,8 @@ export type Nft = {
 }
 
 export type NftNetwork =
-  | 'unique'
   | 'rmrk1'
   | 'rmrk2'
   | 'statemine'
-  | 'acala'
-  | 'karura'
 
 export type Nfts = Record<NftNetwork, Nft[]>
