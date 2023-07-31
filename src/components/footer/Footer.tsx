@@ -55,11 +55,11 @@ const footerLinks: FooterLink = {
     },
     {
       linkName: 'Privacy Policy',
-      link: 'https://polkaverse.com/legal/privacy'
+      link: 'https://subsocial.network/legal/privacy'
     },
     {
       linkName: 'Terms of Use',
-      link: 'https://polkaverse.com/legal/terms'
+      link: 'https://subsocial.network/legal/terms'
     },
   ]
 }

@@ -1277,9 +1277,6 @@ export const kusamaContributionInfoByNetwork: ContributionByNetwork = {
     refBonus: '5%',
     rewardPool: '12.5%',
   },
-  //  sakura: {
-  //    rewardPool: '1.5%'
-  //  },
   sherpax: {
     rewardPool: '40%',
   },

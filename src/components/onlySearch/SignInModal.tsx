@@ -35,13 +35,13 @@ const ModalFooter = () => (
   <div className={styles.ModalFooter}>
     <ExternalLink
       className='mr-2'
-      url='https://polkaverse.com/legal/terms'
+      url='https://subsocial.network/legal/terms'
       value='Terms of Use'
     />
     ·
     <ExternalLink
       className='ml-2'
-      url='https://polkaverse.com/legal/privacy'
+      url='https://subsocial.network/legal/privacy'
       value='Privacy Policy'
     />
   </div>
