@@ -4,7 +4,7 @@ import {
   useIsMyConnectedAddress,
   useMyExtensionAccount,
 } from '../../providers/MyExtensionAccountsContext'
-import CusomTable from '../customTable'
+import CustomTable from '../customTable'
 import { BalanceTableProps, CrowdloansTableInfo, CrowdloansTab } from '../types'
 import {
   CROWDLOAN_TABLE_VIEW,
@@ -335,7 +335,7 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
 
   return (
     <>
-      <CusomTable
+      <CustomTable
         actionsConfig={{
           title: t('table.crowdloan.title', {
             relayChain: startWithUpperCase(relayChain),

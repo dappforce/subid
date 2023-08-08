@@ -80,7 +80,7 @@ const BalanceTableVariantTabs = ({
 const calculateChildrenBalances = (
   freeChainBalances: BN,
   lockedChainBalances: BN,
-  childrenBalance?: Partial<BalancesTableInfo>[],
+  childrenBalance?: Partial<BalancesTableInfo>[]
 ) => {
   const { freeBalance, lockedBalance } =
     getFreeAndLockedBalanceFromChildren(childrenBalance)
@@ -173,7 +173,7 @@ const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
     ...transferColumn,
     {
       dataIndex: 'links',
-      className: styles.LinksColumn
+      className: styles.LinksColumn,
     },
   ]
 }
@@ -187,19 +187,18 @@ const getFreeAndLockedBalanceFromChildren = (
   children?.forEach((childrenInfo) => {
     switch (childrenInfo.key) {
       case 'reserved':
-        return (lockedBalance = lockedBalance.plus(
-          childrenInfo?.totalValue || BIGNUMBER_ZERO
-        ))
       case 'locked':
-        return (lockedBalance = lockedBalance.plus(
+        lockedBalance = lockedBalance.plus(
           childrenInfo?.totalValue || BIGNUMBER_ZERO
-        ))
+        )
+        break
       case 'frozen':
         break
       default:
-        return (freeBalance = freeBalance.plus(
+        freeBalance = freeBalance.plus(
           childrenInfo?.totalValue || BIGNUMBER_ZERO
-        ))
+        )
+        break
     }
   })
 
@@ -248,7 +247,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
   const { isMobile } = useResponsiveSize()
   const [ data, setData ] = useState<BalancesTableInfo[]>()
   const [ loading, setLoading ] = useState<boolean>(false)
-  const [ balancesVaraint, setBalancesVariant ] =
+  const [ balancesVariant, setBalancesVariant ] =
     useState<BalanceVariant>('chains')
   const tokenPrices = usePrices()
   const dispatch = useAppDispatch()
@@ -315,7 +314,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
       }
 
       const tableInfo: BalancesTableInfo[] =
-        balancesVaraint === 'chains'
+        balancesVariant === 'chains'
           ? await parseBalancesTableInfo(props)
           : await parseTokenCentricView(props)
 
@@ -339,19 +338,19 @@ export const BalancesTable = (props: BalanceTableProps) => {
               calculateChildrenBalances(
                 freeChainBalances,
                 lockedChainBalances,
-                childrenBalancesByAccount,
+                childrenBalancesByAccount
               )
 
             freeChainBalances = freeCalculatedBalance
             lockedChainBalances = lockedCalculatedBalance
           })
         } else {
-          if (balancesVaraint === 'chains') {
+          if (balancesVariant === 'chains') {
             const { freeCalculatedBalance, lockedCalculatedBalance } =
               calculateChildrenBalances(
                 freeChainBalances,
                 lockedChainBalances,
-                childrenBalances,
+                childrenBalances
               )
 
             freeChainBalances = freeCalculatedBalance
@@ -359,14 +358,14 @@ export const BalancesTable = (props: BalanceTableProps) => {
           } else {
             childrenBalances?.forEach((childrenBalance) => {
               const { freeCalculatedBalance, lockedCalculatedBalance } =
-              calculateChildrenBalances(
-                freeChainBalances,
-                lockedChainBalances,
-                childrenBalance?.children,
-              )
+                calculateChildrenBalances(
+                  freeChainBalances,
+                  lockedChainBalances,
+                  childrenBalance?.children
+                )
 
-            freeChainBalances = freeCalculatedBalance
-            lockedChainBalances = lockedCalculatedBalance
+              freeChainBalances = freeCalculatedBalance
+              lockedChainBalances = lockedCalculatedBalance
             })
           }
         }
@@ -382,7 +381,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
           err
         )
       )
-  }, [ addresses?.join(','), isMulti, loading, language, balancesVaraint ])
+  }, [ addresses?.join(','), isMulti, loading, language, balancesVariant ])
 
   return (
     <>
@@ -417,7 +416,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
         totalBalance={freeChainBalances.plus(lockedChainBalances)}
         tabs={
           <BalanceTableVariantTabs
-            balancesVariant={balancesVaraint}
+            balancesVariant={balancesVariant}
             setBalancesVariant={setBalancesVariant}
           />
         }

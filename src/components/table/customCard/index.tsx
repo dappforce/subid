@@ -171,8 +171,6 @@ const ChildrenBalances = <T extends TableInfo>({
   const balances = childrenBalances.map((child, index) => {
     const isLastElement = index === childrenBalances.length - 1
 
-    console.log(level)
-
     return (
       <>
         <InnerChildrenBalances

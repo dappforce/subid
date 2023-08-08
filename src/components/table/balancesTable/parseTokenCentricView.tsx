@@ -33,7 +33,12 @@ import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
-import { allowedTokensByNetwork, getBalancePart } from './utils'
+import {
+  allowedTokensByNetwork,
+  decodeTokenId,
+  encodeTokenId,
+  getBalancePart,
+} from './utils'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -87,7 +92,7 @@ export const parseTokenCentricView = async ({
 
   const parsedData = Array.from(tokenIds).map((tokenId, i) => {
     const balancesKeysByTokenId = Object.keys(balancesByToken).filter((x) => {
-      const [ , tokenIdPart ] = x.split('-and-')
+      const { id: tokenIdPart } = decodeTokenId(x)
 
       return tokenIdPart === tokenId
     })
@@ -100,7 +105,7 @@ export const parseTokenCentricView = async ({
 
     const balancesByKey = balancesKeysByTokenId
       .map((balancesKey, j) => {
-        const [ address ] = balancesKey.split('-and-')
+        const { address } = decodeTokenId(balancesKey)
 
         const subsocialIdentity = getSubsocialIdentityByAccount(
           address,
@@ -307,6 +312,8 @@ function parseBalancesByToken (
       const { ss58Format } = chainInfo
 
       Object.entries(info).forEach(([ tokenId, balances ]) => {
+        const encodedTokenId = encodeTokenId(address, tokenId)
+
         if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId)
           return
 
@@ -314,7 +321,7 @@ function parseBalancesByToken (
           balancesByNetwork,
           firstNetwork,
           totalBalance: totalBalanceSum,
-        } = balancesByToken[`${address}-and-${tokenId}`] || {}
+        } = balancesByToken[encodedTokenId] || {}
 
         const { totalBalance: newTotalBalance } = balances
         const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
@@ -325,7 +332,7 @@ function parseBalancesByToken (
 
         tokenIds.add(tokenId)
 
-        balancesByToken[`${address}-and-${tokenId}`] = {
+        balancesByToken[encodedTokenId] = {
           totalBalance: totalBalanceValue,
           decimals: decimal,
           firstNetwork: firstNetwork || network,

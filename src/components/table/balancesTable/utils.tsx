@@ -35,3 +35,10 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
 export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (
   <div className={clsx('d-grid', withMargin && 'mr-4')}>{balance}</div>
 )
+
+export const encodeTokenId = (address: string, tokenId: string) => `${address}-and-${tokenId}`
+
+export const decodeTokenId = (tokenId: string) => {
+  const [ address, id ] = tokenId.split('-and-')
+  return { address, id }
+}
