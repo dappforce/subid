@@ -54,6 +54,7 @@ import {
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
+export const BALANCE_TABLE_VARIANT = 'BalanceTableVariant'
 export const CROWDLOAN_TABLE_VIEW = 'CrowdloanTableView'
 export const ASSETS_TABLE_VIEW = 'AssetsTableView'
 export const BALANCE_SHOW_ZERO_BALANCES = 'BalanceShowZeroBalances'

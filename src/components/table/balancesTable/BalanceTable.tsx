@@ -16,6 +16,7 @@ import {
   BALANCE_SHOW_ZERO_BALANCES,
   fieldSkeleton,
   isDataLoading,
+  BALANCE_TABLE_VARIANT,
 } from '../utils'
 import styles from '../Table.module.sass'
 import { usePrices } from '../../../rtk/features/prices/pricesHooks'
@@ -39,6 +40,7 @@ import { parseBalancesTableInfo } from './parseBalanceInfo'
 import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
 import BN from 'bignumber.js'
+import store from 'store'
 
 const TransferModal = dynamic(
   () => import('src/components/transfer/TransferModal'),
@@ -65,6 +67,7 @@ const BalanceTableVariantTabs = ({
     const newTableView = e.target.value
     sendGaEvent(`Change balance table variant to ${newTableView}`)
     setBalancesVariant(newTableView)
+    store.set(BALANCE_TABLE_VARIANT, newTableView)
   }
 
   return (
@@ -247,8 +250,12 @@ export const BalancesTable = (props: BalanceTableProps) => {
   const { isMobile } = useResponsiveSize()
   const [ data, setData ] = useState<BalancesTableInfo[]>()
   const [ loading, setLoading ] = useState<boolean>(false)
+
+  const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
+  console.log(tableVariantFromStore)
+
   const [ balancesVariant, setBalancesVariant ] =
-    useState<BalanceVariant>('chains')
+    useState<BalanceVariant>(tableVariantFromStore || 'chains')
   const tokenPrices = usePrices()
   const dispatch = useAppDispatch()
   const {
