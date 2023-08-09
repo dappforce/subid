@@ -37,7 +37,7 @@ export type CardAdditionalData = { icon?: React.ReactNode; label: string | React
 export type CardChildren = { data?: CardAdditionalData[]; custom?: React.ReactNode }
 export type CommonTableInfo = {
   name: React.ReactNode | string
-  icon: string
+  icon: string | JSX.Element
 
   key: string
   chain: React.ReactNode

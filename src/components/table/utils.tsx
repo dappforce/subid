@@ -363,7 +363,7 @@ export const getTotalBalance = (balance: BN, price: string) =>
 
 type ChainProps = {
   accountId?: string
-  icon: string
+  icon: string | JSX.Element
   name?: string
   isShortAddress?: boolean
   withCopy?: boolean
@@ -375,7 +375,7 @@ type ChainProps = {
 }
 
 type AvatarOrSkeletonProps = BareProps & {
-  icon: string
+  icon: string | JSX.Element
   size?: AvatarSize
   externalIcon?: boolean
 }
@@ -388,16 +388,21 @@ export const AvatarOrSkeleton = ({
   style,
 }: AvatarOrSkeletonProps) => {
   if (icon) {
-    const imgUrl = externalIcon ? icon : getIconUrl(icon)
+    if (typeof icon === 'string') {
+      const imgUrl = externalIcon ? icon : getIconUrl(icon)
 
-    return (
-      <Avatar
-        src={imgUrl}
-        size={size}
-        className={clsx(className, 'bg-white')}
-        style={style}
-      />
-    )
+      return (
+        <Avatar
+          src={imgUrl}
+          size={size}
+          className={clsx(className, 'bg-white')}
+          style={style}
+        />
+      )
+    } else {
+      console.log('Not string')
+      return icon
+    }
   } else {
     return (
       <Skeleton.Avatar
@@ -451,9 +456,7 @@ export const ChainData = ({
         </div>
       </div>
       {isMobile && avatarSize !== 'large' && (
-        <div className={styles.CardAddressMargin}>
-          {address}
-        </div>
+        <div className={styles.CardAddressMargin}>{address}</div>
       )}
     </div>
   )
