@@ -400,7 +400,6 @@ export const AvatarOrSkeleton = ({
         />
       )
     } else {
-      console.log('Not string')
       return icon
     }
   } else {

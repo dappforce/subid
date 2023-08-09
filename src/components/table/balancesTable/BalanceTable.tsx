@@ -252,7 +252,6 @@ export const BalancesTable = (props: BalanceTableProps) => {
   const [ loading, setLoading ] = useState<boolean>(false)
 
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
-  console.log(tableVariantFromStore)
 
   const [ balancesVariant, setBalancesVariant ] =
     useState<BalanceVariant>(tableVariantFromStore || 'chains')
