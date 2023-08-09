@@ -59,7 +59,7 @@ type NonTokenImageProps = {
   tokenId: string
 }
 
-const excludedTokensPrefixes = ['xc', 'a', 't', '3', 'vs', 'wa' ]
+const excludedTokensPrefixes = [ 'xc', 'a', 't', '3', 'vs', 'wa' ]
 
 const NonTokenImage = ({ tokenId }: NonTokenImageProps) => {
   const excludedTokenPrefix = excludedTokensPrefixes.find((prefix) =>
@@ -167,7 +167,7 @@ export const parseTokenCentricView = async ({
         })
 
         if (nonEmptyArr(children)) {
-          childrenBalances.children = [...children]
+          childrenBalances.children = [ ...children ]
         }
 
         const chainInfo = chainsInfo[firstNetwork]
@@ -204,10 +204,10 @@ export const parseTokenCentricView = async ({
 
         return {
           key: `${balancesKey}-${j}`,
-          chain: isMulti ? <div className="ml-5">{chain}</div> : chain,
+          chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
           balance: getBalancePart(balance, true),
           price,
-          total: <BalanceView value={totalValue} symbol="$" startWithSymbol />,
+          total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
           totalTokensValue: totalValue,
           icon: imagePath,
           name: tokenId,
@@ -222,7 +222,7 @@ export const parseTokenCentricView = async ({
           transferAction: (
             <Button
               disabled={!chainInfo.isTransferable}
-              size="small"
+              size='small'
               shape={'circle'}
               onClick={onButtonClick}
             >
@@ -248,9 +248,9 @@ export const parseTokenCentricView = async ({
       const tokenPrice = getPrice(tokenPrices || [], 'symbol', tokenId)
 
       const price = tokenPrice ? (
-        <BalanceView value={tokenPrice} symbol="$" startWithSymbol />
+        <BalanceView value={tokenPrice} symbol='$' startWithSymbol />
       ) : (
-        <div className="DfGrey">{t('general.notListed')}</div>
+        <div className='DfGrey'>{t('general.notListed')}</div>
       )
 
       const childrenLength = balancesByKey.length
@@ -316,21 +316,21 @@ type BalanceByToken = {
 
 type BalancesByTokenId = Record<string, BalanceByToken>
 
-function parseBalancesByToken(
+function parseBalancesByToken (
   balancesEntities: BalanceEntityRecord,
   multiChainInfo: MultiChainInfo
 ) {
   const balancesByToken: BalancesByTokenId = {}
   const tokenIds = new Set<string>()
 
-  Object.entries(balancesEntities).forEach(([address, balancesEntity]) => {
+  Object.entries(balancesEntities).forEach(([ address, balancesEntity ]) => {
     balancesEntity.balances?.forEach(({ network, info }) => {
       const chainInfo = multiChainInfo[network]
       const allowedTokens = allowedTokensByNetwork[network]
 
       const { ss58Format } = chainInfo
 
-      Object.entries(info).forEach(([tokenId, balances]) => {
+      Object.entries(info).forEach(([ tokenId, balances ]) => {
         const encodedTokenId = encodeTokenId(address, tokenId)
 
         if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId)
@@ -396,7 +396,7 @@ type GetChildrenBalanceParams = {
   t: TFunction
 }
 
-function getChildrenBalances({
+function getChildrenBalances ({
   balancesByNetwork,
   isMulti,
   chainsInfo,
@@ -408,7 +408,7 @@ function getChildrenBalances({
   const balancesByNetworkEntries = Object.entries(balancesByNetwork)
   const networkIcons: string[] = []
 
-  const result = balancesByNetworkEntries.map(([network, balances]) => {
+  const result = balancesByNetworkEntries.map(([ network, balances ]) => {
     const { totalBalance, accountId, ...otherBalances } = balances
 
     const chainInfo = chainsInfo[network]
@@ -438,7 +438,7 @@ function getChildrenBalances({
     } = {} as any
 
     Object.entries(otherBalances).forEach(
-      ([key, value]) =>
+      ([ key, value ]) =>
         (otherBalancesBN[key as AccountDataKeys] = new BN(value || '0'))
     )
 
@@ -452,7 +452,7 @@ function getChildrenBalances({
       decimal,
     })
 
-    childrenBalances.children = [...accountData.reverse()]
+    childrenBalances.children = [ ...accountData.reverse() ]
 
     const chain = <ChainData icon={icon} name={name} avatarSize={'small'} />
 
@@ -475,10 +475,10 @@ function getChildrenBalances({
 
     return {
       key: network,
-      chain: <div className="ml-5">{chain}</div>,
+      chain: <div className='ml-5'>{chain}</div>,
       balance: getBalancePart(balance, true),
       price,
-      total: <BalanceView value={totalValue} symbol="$" startWithSymbol />,
+      total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
       totalTokensValue: totalValue,
       icon,
       name: network,
@@ -504,7 +504,7 @@ function getChildrenBalances({
       transferAction: (
         <Button
           disabled={!chainInfo.isTransferable}
-          size="small"
+          size='small'
           shape={'circle'}
           onClick={onButtonClick}
         >
@@ -526,7 +526,7 @@ type GetAccountDataValuesParams = {
   t: TFunction
 }
 
-function getAccountDataValues({ t, ...info }: GetAccountDataValuesParams) {
+function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
 
   const transferableBalance = new BN(freeBalance || 0)
@@ -565,7 +565,7 @@ type GetAccountDataRowsParams = GetAccountDataValuesParams & {
   isMulti?: boolean
 }
 
-function getAccountDataRows({
+function getAccountDataRows ({
   decimal,
   price,
   priceValue,
@@ -594,7 +594,7 @@ function getAccountDataRows({
       })
 
       const chain = (
-        <div className="d-flex align-items-center">
+        <div className='d-flex align-items-center'>
           <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
           <div>{label}</div>
         </div>
@@ -609,7 +609,7 @@ function getAccountDataRows({
             {chain}
           </MutedDiv>
         ),
-        balance: <span className="mr-4">{balance}</span>,
+        balance: <span className='mr-4'>{balance}</span>,
         price,
         total,
         totalValue,
