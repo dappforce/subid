@@ -43,13 +43,14 @@
     "markdown-loader": "^5.1.0",
     "next-compose-plugins": "^2.2.0",
     "npm-watch": "^0.10.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "sass": "^1.54.4",
     "styled-components": "^5.3.0",
+    "tailwindcss": "^3.3.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "4.4.2"
   },
   "resolutions": {
-    "node-sass": "^6.x.x",
     "@types/react": "^17.x.x"
   },
   "dependencies": {
@@ -57,6 +58,7 @@
     "@ant-design/icons": "^4.6.2",
     "@blazity/next-image-proxy": "^1.0.2",
     "@google/model-viewer": "^1.10.1",
+    "@headlessui/react": "^1.7.16",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/react-identicon": "^0.84.1",
     "@polkawallet/bridge": "^0.0.4",
@@ -64,7 +66,6 @@
     "@subsocial/api": "0.6.8",
     "@subsocial/grill-widget": "^0.0.7",
     "@subsocial/utils": "^0.6.8",
-    "@webdeb/next-styles": "^1.1.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "antd": "4.12.3",
@@ -101,6 +102,7 @@
     "redux-saga": "^1.1.3",
     "sharp": "^0.30.7",
     "style-loader": "^3.3.1",
+    "tailwind-merge": "^1.14.0",
     "url-loader": "^4.1.1",
     "worker-loader": "^3.0.8",
     "yup": "^0.32.9"
