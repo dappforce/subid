@@ -3,18 +3,21 @@
 $zero_margin: 0
 
 .Table
-  .BalanceBlock
-    padding-bottom: 0 !important
+  h2
+    margin-bottom: 0 !important
+    padding-top: 0 !important
 
-.TableMa\rgin
+.TableMargin
   margin-bottom: 1.25rem
 
+  h2
+    margin-bottom: 0 !important
+    padding-top: 0 !important
 
 .DfGridParams
   row-gap: $space_tiny
   column-gap: $space_tiny
   justify-content: space-between
-  margin-top: $space_tiny
 
 .DfCol
   width: 49.2%
@@ -26,12 +29,16 @@ $zero_margin: 0
 
 .Card
   min-height: 5rem
+  border-radius: $border_radius_normal
+  background: #FBFCFD
 
   \:global .ant-card-body
     min-height: 5rem
 
 .CardDivider
-  margin: $space_tiny 0 0 0 !important
+  min-width: 88% !important
+  width: 88%
+  margin: $space_tiny 0 0 46px
 
 .isExpandedCard
   border-bottom: 1px solid #f0f0f0f0 !important
@@ -46,12 +53,12 @@ $zero_margin: 0
 .ShowAllButton
   padding: $space_big
   border: none
-  background-color: #fff !important
-  box-shadow: 0 2px 5px 2px $color_shadow !important
   align-items: center
   display: flex
   justify-content: center
-  margin-bottom: $space_large
+
+.BalanceBlockWithButton
+  padding-bottom: 0 !important
 
 .BalanceBlock
   background-color: #fff
@@ -107,13 +114,16 @@ $zero_margin: 0
     &::before
       border-bottom: none
 
+  \:global .ant-tabs-nav-operations
+    display: none !important
+
 .BalanceColumn
   width: 15.5rem
 
 .ChildrenBalance
 
   \:global .ml-5
-    margin-left: 0 !important
+    margin-left: 0
 
   \:global .mr-4
     margin-right: $space_mini !important
@@ -121,6 +131,10 @@ $zero_margin: 0
 .Selectable
   \:global .ant-card-body
     cursor: pointer
+
+.ChildrenBalanceMargin
+  \:global .ml-5
+    margin-left: 2rem !important
 
 .SubscanLink
   display: flex
@@ -178,7 +192,10 @@ $zero_margin: 0
   border-radius: 6px
 
 .BalanceChainColumn
-  width: 2$space_huge
+  width: 19rem
+
+.LinksColumn
+  width: 2.625rem
 
 .CrowdloansChainColumn
   width: 13rem
@@ -193,7 +210,7 @@ $zero_margin: 0
   margin-right: $space_normal
 
 .SecondLevelBalances
-  margin-left: 5rem !important
+  margin-left: 5rem
 
 .BalanceChainColumn
   width: 2$space_huge
@@ -223,10 +240,40 @@ $zero_margin: 0
   height: 12px
   width: 12px
 
-    
 .CardContent
   .OtherTokens
     display: none !important
+
+.TableActions
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_small
+  padding-top: $space_mini
+  padding-bottom: $space_normal
+
+.CardsActions
+  @extend .BalanceBlock
+  padding-bottom: $space_small !important
+
+.TitleAndControlsRight
+  display: flex
+  align-items: center
+  gap: $space_small
+
+.NonTokenImage
+  width: 40px
+  height: 40px
+  background: linear-gradient(138deg, #FFB1D3 0%, #FF9BD7 0.01%, #E860FF 100%)
+  color: #fff
+  font-weight: bold
+  font-size: $font_normal
+  text-transform: uppercase
+  border-radius: 50%
+  margin-right: $space_tiny
+  display: flex
+  align-items: center
+  justify-content: center
 
 @media ( max-width: $max_mobile_width )
   .AssetsTabs
@@ -251,7 +298,7 @@ $zero_margin: 0
   .CardDivider
     min-width: 95% !important
     width: 95%
-    margin: $space_mini 0 0 $space_huge !important
+    margin: $space_mini 0 0 $space_huge
 
   .CardContent:first-child
     align-items: start
@@ -261,3 +308,19 @@ $zero_margin: 0
 
   .ShowAllButton
     border-radius: 0 !important
+
+  .BalanceBlock
+    padding-left: 0
+    padding-right: 0
+    background: none
+
+  .TableActions
+    padding-left: $space_normal
+    padding-right: $space_normal
+    padding-bottom: $space_normal
+    border-bottom: 1px solid #f0f0f0
+
+  .NonTokenImage
+    width: 24px
+    height: 24px
+    font-size: $font_small

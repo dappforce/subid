@@ -175,8 +175,8 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
 
   const data = dataByKey[tabKey]
 
-  return (<div className='mt-3'>
-    <Row justify='space-between'>
+  return (<div>
+    <Row justify='space-between' className='align-items-center'>
       <Col>
         <SectionTitle title='NFTs' className={clsx({ ['pr-3 pl-3']: isMobile }, 'mb-0')}/>
       </Col>

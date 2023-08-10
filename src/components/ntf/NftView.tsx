@@ -18,7 +18,7 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import BN from 'bignumber.js'
-import { toShortMoney } from '../table/BalancesBarChart'
+import { toShortMoney } from '../table/balancesBarChart/BalancesBarChart'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 
 export type NftViewProps = {

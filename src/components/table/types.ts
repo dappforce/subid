@@ -37,7 +37,7 @@ export type CardAdditionalData = { icon?: React.ReactNode; label: string | React
 export type CardChildren = { data?: CardAdditionalData[]; custom?: React.ReactNode }
 export type CommonTableInfo = {
   name: React.ReactNode | string
-  icon: string
+  icon: string | JSX.Element
 
   key: string
   chain: React.ReactNode
@@ -63,6 +63,8 @@ export type BalancesTableInfo = CommonTableInfo & {
   balanceWithoutChildren: React.ReactNode
   balanceView: React.ReactNode
   children?: Partial<BalancesTableInfo>[]
+  networkIcons?: string[]
+  decimals: number
 
   transferAction?: React.ReactNode
 }

@@ -30,7 +30,12 @@ const SUBSOCIAL_SS58_PREFIX = 28
 const { appBaseUrl, ipfsUrl } = config
 
 export type AnyText = string | Text | Option<Text>
-export type AnyAddress = string | AccountId | GenericAccountId | Option<AccountId> | Option<GenericAccountId>
+export type AnyAddress =
+  | string
+  | AccountId
+  | GenericAccountId
+  | Option<AccountId>
+  | Option<GenericAccountId>
 
 function toString<DFT> (
   value?: { toString: () => string },
@@ -50,7 +55,10 @@ type LoadingProps = {
 export const Loading = ({ label, style, center = true }: LoadingProps) => {
   const alignCss = center ? 'justify-content-center align-items-center' : ''
   return (
-    <div className={`d-flex w-100 h-100 flex-sm-fill ${alignCss}`} style={style}>
+    <div
+      className={`d-flex w-100 h-100 flex-sm-fill ${alignCss}`}
+      style={style}
+    >
       <LoadingOutlined />
       {label && <em className='ml-3 text-muted'>{label}</em>}
     </div>
@@ -59,7 +67,10 @@ export const Loading = ({ label, style, center = true }: LoadingProps) => {
 
 type MaybeAccAddr = undefined | AnyAccountId
 
-export function equalAddresses (addr1: MaybeAccAddr, addr2: MaybeAccAddr): boolean {
+export function equalAddresses (
+  addr1: MaybeAccAddr,
+  addr2: MaybeAccAddr
+): boolean {
   if (addr1 === addr2) {
     return true
   } else if (!addr1 || !addr2) {
@@ -69,7 +80,11 @@ export function equalAddresses (addr1: MaybeAccAddr, addr2: MaybeAccAddr): boole
   }
 }
 
-export const getPriceByNetwork = (network: string, chainsInfo: MultiChainInfo, prices: any | undefined) => {
+export const getPriceByNetwork = (
+  network: string,
+  chainsInfo: MultiChainInfo,
+  prices: any | undefined
+) => {
   const { nativeToken, tokenSymbols } = chainsInfo?.[network] || {}
 
   const symbol = tokenSymbols?.[0] || nativeToken
@@ -83,7 +98,10 @@ export const getTokenSymbol = (network: string, chainsInfo: MultiChainInfo) => {
   return tokenSymbols?.[0] || nativeToken
 }
 
-export const getTokenDecimals = (network: string, chainsInfo: MultiChainInfo) => {
+export const getTokenDecimals = (
+  network: string,
+  chainsInfo: MultiChainInfo
+) => {
   const { tokenDecimals } = chainsInfo[network] || {}
 
   return tokenDecimals?.[0] || 0
@@ -96,7 +114,12 @@ type LinkProps = {
 
 type ButtonLinkProps = LinkProps & ButtonProps
 
-export const ButtonLink = ({ href, target, children, ...buttonProps }: ButtonLinkProps) => (
+export const ButtonLink = ({
+  href,
+  target,
+  children,
+  ...buttonProps
+}: ButtonLinkProps) => (
   <Button {...buttonProps}>
     <a href={href} target={target}>
       {children}
@@ -109,7 +132,9 @@ export const toShortAddress = (_address: AnyAccountId, halfLength?: number) => {
 
   const addressLength = halfLength ? halfLength : 6
 
-  return address.length > 13 ? `${address.slice(0, addressLength)}…${address.slice(-addressLength)}` : address
+  return address.length > 13
+    ? `${address.slice(0, addressLength)}…${address.slice(-addressLength)}`
+    : address
 }
 
 export const tryParseInt = (maybeNum: string | number, def: number): number => {
@@ -127,7 +152,10 @@ export type HasAddress = {
   address: AnyAccountId
 }
 
-export function stringifyAny<DFT> (value?: any, _default?: DFT): string | DFT | undefined {
+export function stringifyAny<DFT> (
+  value?: any,
+  _default?: DFT
+): string | DFT | undefined {
   if (typeof value !== 'undefined') {
     if (value instanceof Option) {
       return stringifyText(value.unwrapOr(undefined))
@@ -137,11 +165,17 @@ export function stringifyAny<DFT> (value?: any, _default?: DFT): string | DFT | 
   return _default
 }
 
-export function stringifyText<DFT extends string> (value?: AnyText, _default?: DFT): string | DFT | undefined {
+export function stringifyText<DFT extends string> (
+  value?: AnyText,
+  _default?: DFT
+): string | DFT | undefined {
   return stringifyAny(value, _default)
 }
 
-export function stringifyAddress<DFT> (value?: AnyAddress, _default?: DFT): string | DFT | undefined {
+export function stringifyAddress<DFT> (
+  value?: AnyAddress,
+  _default?: DFT
+): string | DFT | undefined {
   return stringifyAny(value, _default)
 }
 
@@ -157,18 +191,24 @@ export const isHomePage = (): boolean =>
   isClientSide() && window.location.pathname === '/'
 
 export const isAccountsPage = (): boolean =>
-  isClientSide() && window.location.pathname === '/accounts' && window.location.search === ''
+  isClientSide() &&
+  window.location.pathname === '/accounts' &&
+  window.location.search === ''
 
-  export const isFavorites = (): boolean =>
-  isClientSide() && window.location.pathname === '/favorites' && window.location.search === ''
+export const isFavorites = (): boolean =>
+  isClientSide() &&
+  window.location.pathname === '/favorites' &&
+  window.location.search === ''
 
-export const startWithUpperCase = (str?: string) => str?.replace(/(?:^\s*|\s+)(\S?)/g, (b) => b.toUpperCase()) || ''
+export const startWithUpperCase = (str?: string) =>
+  str?.replace(/(?:^\s*|\s+)(\S?)/g, (b) => b.toUpperCase()) || ''
 
 export const getAddressFromStorage = (): string => store.get('MyAddress')
 
 export const getCurrentWallet = (): string => store.get(CURRENT_WALLET)
 
-export const setCurrentWallet = (currentWallet: string) => store.set(CURRENT_WALLET, currentWallet)
+export const setCurrentWallet = (currentWallet: string) =>
+  store.set(CURRENT_WALLET, currentWallet)
 
 export const setAddressToStorage = (address: string) => {
   store.set('MyAddress', address)
@@ -180,9 +220,14 @@ type SubIconProps = IconBaseProps & {
   Icon: (props: any) => JSX.Element
 }
 
-export const SubIcon = ({ Icon, className, ...props }: SubIconProps) => <Icon className={`anticon ${className}`} {...props} />
+export function SubIcon ({ Icon, className, ...props }: SubIconProps) {
+  return <Icon className={`anticon ${className}`} {...props} />
+}
 
-export const isValidAddress = (address?: string, acceptFormat = { eth: true, substrate: true }) => {
+export const isValidAddress = (
+  address?: string,
+  acceptFormat = { eth: true, substrate: true }
+) => {
   try {
     if (acceptFormat.eth && isEthereumAddress(address)) return true
 
@@ -195,23 +240,34 @@ export const isValidAddress = (address?: string, acceptFormat = { eth: true, sub
 }
 
 export const isValidAddresses = (addresses?: string[]) =>
-  addresses && !isEmptyArray(addresses) ? addresses.every((address) => isValidAddress(address)) : false
+  addresses && !isEmptyArray(addresses)
+    ? addresses.every((address) => isValidAddress(address))
+    : false
 
 export const resolveIpfsUrl = memoize((cid: string) => {
   try {
-    return CID.isCID(new CID(cid))
-      ? `${ipfsUrl}/ipfs/${cid}`
-      : cid // Looks like CID is already a resolved URL in this case.
+    return CID.isCID(new CID(cid)) ? `${ipfsUrl}/ipfs/${cid}` : cid // Looks like CID is already a resolved URL in this case.
   } catch (err) {
     return cid
   }
 })
 
 export const accountIdToSubsocialAddress = (address: AnyAccountId) =>
-  isEthereumAddress(address.toString()) ? address : convertAddressToChainFormat(address.toString(), SUBSOCIAL_SS58_PREFIX)
+  isEthereumAddress(address.toString())
+    ? address
+    : convertAddressToChainFormat(address.toString(), SUBSOCIAL_SS58_PREFIX)
 
-export const convertAddressToChainFormat = (address?: string, ss58Format?: number) => {
-  if (!address || ss58Format === undefined || isEthereumAddress(address) || !isValidAddress(address)) return
+export const convertAddressToChainFormat = (
+  address?: string,
+  ss58Format?: number
+) => {
+  if (
+    !address ||
+    ss58Format === undefined ||
+    isEthereumAddress(address) ||
+    !isValidAddress(address)
+  )
+    return
 
   return encodeAddress(address.toString(), ss58Format)
 }
@@ -230,20 +286,24 @@ export const innerFullUrl = (appBaseUrl: string, relative: string) => {
   return base + pathname
 }
 
-export const fullUrl = (relative: string, externalBaseUrl?: string) => innerFullUrl(externalBaseUrl || appBaseUrl, relative)
+export const fullUrl = (relative: string, externalBaseUrl?: string) =>
+  innerFullUrl(externalBaseUrl || appBaseUrl, relative)
 
 export const openNewWindow = (url: string) =>
   window.open(
     url,
     '_blank',
-    'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400',
+    'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400'
   )
 
-export const resolveUrlWithAddress = (address: string) => `${appBaseUrl}/${address}`
+export const resolveUrlWithAddress = (address: string) =>
+  `${appBaseUrl}/${address}`
 
-export const checkIsMulti = (accounts?: string) => accounts ? accounts.split(',').length > 1 : false
+export const checkIsMulti = (accounts?: string) =>
+  accounts ? accounts.split(',').length > 1 : false
 
-export const parseAddressFromUrl = (address: string | string[]) => address?.toString().split(',')
+export const parseAddressFromUrl = (address: string | string[]) =>
+  address?.toString().split(',')
 
 const browsers = [ 'Chrome', 'Firefox' ]
 
@@ -282,10 +342,20 @@ export const PriceView = ({ value, network }: PriceViewProps) => {
   const price = getPrice(prices, 'symbol', symbol)
 
   const valueInDollars = getTotalBalance(new BN(value), price)
-  return <BalanceView value={valueInDollars.toFormat().replace(',', '')} symbol={'$'} startWithSymbol />
+  return (
+    <BalanceView
+      value={valueInDollars.toFormat().replace(/,/g, '')}
+      symbol={'$'}
+      startWithSymbol
+    />
+  )
 }
 
-export function checkSameAttributesValues<T> (obj1: T, obj2: T, keysToCheck: (keyof T)[]) {
+export function checkSameAttributesValues<T> (
+  obj1: T,
+  obj2: T,
+  keysToCheck: (keyof T)[]
+) {
   return keysToCheck.every((key) => obj1[key] === obj2[key])
 }
 
@@ -294,24 +364,30 @@ export const showParsedErrorMessage = (result: SubmittableResult | null) => {
 
   const events = result?.events
 
-  if(!events || isEmptyArray(events)) return
+  if (!events || isEmptyArray(events)) return
 
-  const failedEvent = events?.find(event => event.event.method === 'ExtrinsicFailed')
+  const failedEvent = events?.find(
+    (event) => event.event.method === 'ExtrinsicFailed'
+  )
 
   const dispatchError = failedEvent?.event.data[0] as DispatchError | undefined
 
-  const dispatchErrorModuleData = dispatchError && dispatchError.isModule ? dispatchError.asModule.toU8a() : undefined
+  const dispatchErrorModuleData =
+    dispatchError && dispatchError.isModule
+      ? dispatchError.asModule.toU8a()
+      : undefined
 
-  if(dispatchErrorModuleData) {
-    const { docs } = failedEvent?.registry?.findMetaError(dispatchErrorModuleData) || {}
+  if (dispatchErrorModuleData) {
+    const { docs } =
+      failedEvent?.registry?.findMetaError(dispatchErrorModuleData) || {}
 
-    if(docs) {
+    if (docs) {
       errorMessage = docs[0]
     }
   }
 
   showErrorMessage(errorMessage)
-} 
+}
 
 type PageTitleProps = {
   title: React.ReactNode
@@ -322,7 +398,11 @@ type PageTitleProps = {
 
 export const PageTitle = ({ title, desc, link, className }: PageTitleProps) => (
   <div className={clsx('DfPageTitle', className)}>
-    <div className={clsx({ [ 'd-flex align-items-center justify-content-between' ]: link })}>
+    <div
+      className={clsx({
+        ['d-flex align-items-center justify-content-between']: link,
+      })}
+    >
       <h2>{title}</h2>
       {link && link}
     </div>

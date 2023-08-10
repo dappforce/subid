@@ -12,7 +12,7 @@ import {
 } from '../utils'
 import { contributionInfoByRelayChain, ContributionInfo, defaultContributionLink } from '../links'
 import styles from '../Table.module.sass'
-import { ContributeDetailsModal } from '../ContributeDetailsModal'
+import { ContributeDetailsModal } from './ContributeDetailsModal'
 import { ExternalLink } from '../../identity/utils'
 import { Button, Tooltip } from 'antd'
 import { startWithUpperCase, SubIcon } from '../../utils/index'
@@ -35,7 +35,7 @@ import { AccountVestingCrowdloanBalance } from './VestingCrowdloanBalance'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { formatDate } from 'src/utils/date'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
-import { LinksButton } from '../balancesTable/Links'
+import { LinksButton } from '../links/Links'
 import { GiReceiveMoney } from 'react-icons/gi'
 
 type ParseCrowdloanTableInfoProps = {

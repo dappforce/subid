@@ -164,7 +164,7 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
 
   useEffect(() => {
     setFirstLoad(true)
-  }, [address, network])
+  }, [ address, network ])
 
   useEffect(() => {
     if(

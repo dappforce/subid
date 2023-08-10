@@ -90,7 +90,7 @@ export const Overview = () => {
     }
   ]
 
-  return <div className={`${styles.OverviewBlock} mb-4`}>
+  return <div className={`${styles.OverviewBlock}`}>
     <Row justify='space-between'>
       {rows?.map(({ title, balance, description }, index) => {
         return <Col key={index} span={isMobile ? 12 : 6}>

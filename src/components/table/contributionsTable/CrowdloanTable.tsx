@@ -1,9 +1,18 @@
 import { ColumnsType } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
-import { useIsMyConnectedAddress, useMyExtensionAccount } from '../../providers/MyExtensionAccountsContext'
-import TableTemplate from '../Table'
+import {
+  useIsMyConnectedAddress,
+  useMyExtensionAccount,
+} from '../../providers/MyExtensionAccountsContext'
+import CustomTable from '../customTable'
 import { BalanceTableProps, CrowdloansTableInfo, CrowdloansTab } from '../types'
-import { CROWDLOAN_TABLE_VIEW, CROWDLOAN_SHOW_ZERO_BALANCES, fieldSkeleton, TableTabsTabs, isDataLoading } from '../utils'
+import {
+  CROWDLOAN_TABLE_VIEW,
+  CROWDLOAN_SHOW_ZERO_BALANCES,
+  fieldSkeleton,
+  TableTabsTabs,
+  isDataLoading,
+} from '../utils'
 import styles from '../Table.module.sass'
 import { RelayChain } from '../../../types'
 import { Tooltip } from 'antd'
@@ -11,7 +20,10 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import { startWithUpperCase } from '../../utils'
 import { isEmptyArray } from '@subsocial/utils'
 import { usePrices } from '../../../rtk/features/prices/pricesHooks'
-import { fetchContributions, useManyContributions } from '../../../rtk/features/contributions/contributionsHooks'
+import {
+  fetchContributions,
+  useManyContributions,
+} from '../../../rtk/features/contributions/contributionsHooks'
 import { useAppDispatch } from '../../../rtk/app/store'
 import { useCrowdloanInfo } from '../../../rtk/features/crowdloanInfo/crowdloanInfoHooks'
 import { parseCrowdloansTableInfo } from './parseContrbutionsInfo'
@@ -27,7 +39,7 @@ const getTabKeys = (t: TFunction) => [
   { key: 'All', label: t('table.balances.tabs.all') },
   { key: 'Active', label: t('table.balances.tabs.active') },
   { key: 'Winner', label: t('table.balances.tabs.winner') },
-  { key: 'Ended', label: t('table.balances.tabs.ended') }
+  { key: 'Ended', label: t('table.balances.tabs.ended') },
 ]
 
 export const createFieldSkeletons = (data?: CrowdloansTableInfo[]) => {
@@ -53,120 +65,149 @@ export const createFieldSkeletons = (data?: CrowdloansTableInfo[]) => {
   })
 }
 
-const filterDataByKey = (tabKey: CrowdloansTab, data?: CrowdloansTableInfo[]) => {
+const filterDataByKey = (
+  tabKey: CrowdloansTab,
+  data?: CrowdloansTableInfo[]
+) => {
   if (!data) return []
 
   if (tabKey !== 'All') {
-    return data?.filter(x => x.statusValue === tabKey)
+    return data?.filter((x) => x.statusValue === tabKey)
   }
 
   return data
 }
 
-const getColumns = (chainInfo: ChainInfo, isMyAddress: boolean, isMulti: boolean, t: TFunction): ColumnsType<any> => {
+const getColumns = (
+  chainInfo: ChainInfo,
+  isMyAddress: boolean,
+  isMulti: boolean,
+  t: TFunction
+): ColumnsType<any> => {
   if (!chainInfo) return []
 
   const { tokenSymbols } = chainInfo
 
-  const symbol = tokenSymbols && !isEmptyArray(tokenSymbols) ? tokenSymbols[0] : ''
+  const symbol =
+    tokenSymbols && !isEmptyArray(tokenSymbols) ? tokenSymbols[0] : ''
   const claimCrowdloanColumns = []
   if (isMyAddress && !isMulti) {
-    claimCrowdloanColumns.push(...[
-      {
-        title: <h3 className='font-weight-bold FontSmall'>{t('table.labels.claimable')}</h3>,
-        dataIndex: 'claimable'
-      },
-      {
-        dataIndex: 'claimRewards'
-      }
-    ])
+    claimCrowdloanColumns.push(
+      ...[
+        {
+          title: (
+            <h3 className='font-weight-bold FontSmall'>
+              {t('table.labels.claimable')}
+            </h3>
+          ),
+          dataIndex: 'claimable',
+        },
+        {
+          dataIndex: 'claimRewards',
+        },
+      ]
+    )
   }
 
   return [
     {
-      title: <h3 className='font-weight-bold FontSmall'>{t('table.labels.chain')}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          {t('table.labels.chain')}
+        </h3>
+      ),
       dataIndex: 'chain',
-      className: styles.CrowdloansChainColumn
+      className: styles.CrowdloansChainColumn,
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>{t('table.labels.contribution')}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          {t('table.labels.contribution')}
+        </h3>
+      ),
       dataIndex: 'balance',
       align: 'right',
-      className: styles.ContributionColumn
+      className: styles.ContributionColumn,
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>{t('table.labels.raised')}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          {t('table.labels.raised')}
+        </h3>
+      ),
       dataIndex: 'raised',
       align: 'right',
-      className: styles.RaisedColumn
+      className: styles.RaisedColumn,
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <span className='d-flex align-items-center justify-content-end'>
-          <div className={styles.SmallLineHeight}>{t('table.labels.cap')}</div>
-          <Tooltip
-            className='ml-2 FontSmall'
-            title={(
-              <div>
-                {t('tooltip.maximumContribution', { symbol })}
-              </div>
-            )}
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        </span>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <span className='d-flex align-items-center justify-content-end'>
+            <div className={styles.SmallLineHeight}>
+              {t('table.labels.cap')}
+            </div>
+            <Tooltip
+              className='ml-2 FontSmall'
+              title={<div>{t('tooltip.maximumContribution', { symbol })}</div>}
+            >
+              <InfoCircleOutlined />
+            </Tooltip>
+          </span>
+        </h3>
+      ),
       dataIndex: 'cap',
-      align: 'right'
+      align: 'right',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <>
-          <div>{t('table.labels.reward')}</div>
-          <span className='d-flex align-items-center justify-content-center'>
-            <div className={styles.SmallLineHeight}>%</div>
-            <Tooltip
-              className='ml-2 FontSmall'
-              title={(
-                <div>
-                  {t('tooltip.percentageOfTotalSupply')}
-                </div>
-              )}
-            >
-              <InfoCircleOutlined />
-            </Tooltip>
-          </span>
-        </>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <>
+            <div>{t('table.labels.reward')}</div>
+            <span className='d-flex align-items-center justify-content-center'>
+              <div className={styles.SmallLineHeight}>%</div>
+              <Tooltip
+                className='ml-2 FontSmall'
+                title={<div>{t('tooltip.percentageOfTotalSupply')}</div>}
+              >
+                <InfoCircleOutlined />
+              </Tooltip>
+            </span>
+          </>
+        </h3>
+      ),
       dataIndex: 'rewardPool',
-      align: 'center'
+      align: 'center',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <>
-          <div>{t('table.labels.referral')}</div>
-          <span className='d-flex align-items-center justify-content-center'>
-            <div className={styles.SmallLineHeight}>{t('table.labels.bonus')}</div>
-            <Tooltip
-              className='ml-2 FontSmall'
-              title={(
-                <div>
-                  {t('tooltip.additionalReward', { symbol })}
-                </div>
-              )}
-            >
-              <InfoCircleOutlined />
-            </Tooltip>
-          </span>
-        </>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <>
+            <div>{t('table.labels.referral')}</div>
+            <span className='d-flex align-items-center justify-content-center'>
+              <div className={styles.SmallLineHeight}>
+                {t('table.labels.bonus')}
+              </div>
+              <Tooltip
+                className='ml-2 FontSmall'
+                title={<div>{t('tooltip.additionalReward', { symbol })}</div>}
+              >
+                <InfoCircleOutlined />
+              </Tooltip>
+            </span>
+          </>
+        </h3>
+      ),
       dataIndex: 'refBonus',
-      align: 'center'
+      align: 'center',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall mr-3'>{t('table.labels.status')}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall mr-3'>
+          {t('table.labels.status')}
+        </h3>
+      ),
       dataIndex: 'status',
-      align: 'center'
+      align: 'center',
     },
     ...claimCrowdloanColumns,
     {
@@ -180,7 +221,11 @@ type CrowdloanTableProps = BalanceTableProps & {
 }
 
 export const CrowdloansTable = (props: CrowdloanTableProps) => {
-  const { setBalances, balances: { lockedCrowdloanBalances }, isMulti } = useMyExtensionAccount()
+  const {
+    setBalances,
+    balances: { lockedCrowdloanBalances },
+    isMulti,
+  } = useMyExtensionAccount()
   const [ totalContribution, setTotalContribution ] = useState(BIGNUMBER_ZERO)
 
   const [ loading, setLoading ] = useState<boolean>(false)
@@ -191,7 +236,15 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 
-  const { showTabs, maxItems, chainsInfo, addresses, relayChain, showZeroBalance, showCheckBox } = props
+  const {
+    showTabs,
+    maxItems,
+    chainsInfo,
+    addresses,
+    relayChain,
+    showZeroBalance,
+    showCheckBox,
+  } = props
   useEffect(() => {
     if (!data) return
     const displayedData = data.slice(0, maxItems)
@@ -240,13 +293,14 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
         balances: contributionsEntity,
         networkByParaId,
         isMulti,
-        t
+        t,
       })
 
       if (tableInfo) {
         setData(tableInfo)
 
-        if (contributionsLoading === false && contributionsEntity) setLoading(false)
+        if (contributionsLoading === false && contributionsEntity)
+          setLoading(false)
       }
 
       let lockedBalances = BIGNUMBER_ZERO
@@ -264,9 +318,10 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
       setTotalContribution(totalContribution)
     }
 
-    isMounted && loadInfo().catch(err => console.error(
-      'Failed to load crowdloans info:', err
-    ))
+    isMounted &&
+      loadInfo().catch((err) =>
+        console.error('Failed to load crowdloans info:', err)
+      )
   }, [ addresses?.join(','), isMulti, relayChain, loading ])
 
   const dataByKey: Partial<Record<CrowdloansTab, CrowdloansTableInfo[]>> = {}
@@ -280,29 +335,47 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
 
   return (
     <>
-      <TableTemplate
+      <CustomTable
+        actionsConfig={{
+          title: t('table.crowdloan.title', {
+            relayChain: startWithUpperCase(relayChain),
+          }),
+          showTabs,
+          refreshText: t('table.crowdloan.refreshText'),
+          checkBoxText: showCheckBox
+            ? t('table.crowdloan.checkBoxText')
+            : undefined,
+        }}
         showAllPage={`${addresses?.join(',') || ''}/crowdloans/${relayChain}`}
         showTabs={showTabs}
         maxItems={maxItems}
         showZeroBalance={showZeroBalance}
-        checkBoxText={showCheckBox ? t('table.crowdloan.checkBoxText') : undefined}
-        title={t('table.crowdloan.title', { relayChain: startWithUpperCase(relayChain) })}
         balanceKind='Crowdloan'
         columns={getColumns(chainsInfo[relayChain], isMyAddress, isMulti, t)}
         loading={loading}
-        loadingLabel={t('table.crowdloan.loading', { relayChain: startWithUpperCase(relayChain) })}
+        loadingLabel={t('table.crowdloan.loading', {
+          relayChain: startWithUpperCase(relayChain),
+        })}
         addresses={addresses}
         setLoading={setLoading}
         relayChain={relayChain}
-        createFieldSkeletons={(data) => createFieldSkeletons(data as CrowdloansTableInfo[])}
+        createFieldSkeletons={(data) =>
+          createFieldSkeletons(data as CrowdloansTableInfo[])
+        }
         data={dataByKey[tabKey as CrowdloansTab]}
         filterItem={(item) => item.statusValue === 'Active'}
         chainsInfo={chainsInfo}
-        refreshText={t('table.crowdloan.refreshText')}
         noData={t('table.crowdloan.noData')}
         storeTableView={CROWDLOAN_TABLE_VIEW}
         storeShowZeroBalance={CROWDLOAN_SHOW_ZERO_BALANCES}
-        tabs={<TableTabsTabs data={dataByKey} tabs={tabs} tabKey={tabKey} setTabKey={setTabKey} />}
+        tabs={
+          <TableTabsTabs
+            data={dataByKey}
+            tabs={tabs}
+            tabKey={tabKey}
+            setTabKey={setTabKey}
+          />
+        }
         onReload={fetchContributionsFunc}
         totalBalance={totalContribution}
       />

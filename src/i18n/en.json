@@ -13,7 +13,7 @@
     "showAll": "Show all",
     "allAccounts": "All Accounts",
     "allAccountsDesc": "All Accounts let you see an aggregated view of all the accounts in your Polkadot.js",
-    "total": "Total",
+    "total": "Total balance: ",
     "connectWallet": "Connect Wallet",
     "networkStatus": "Network Status"
   },
@@ -349,7 +349,7 @@
       "title": "Balances",
       "loading": "Loading account balances...",
       "noData": "No balances found",
-      "checkBoxText": "Show zero balances",
+      "checkBoxText": "Zero balances",
       "refreshText": "Refresh balances",
       "tabs": {
         "all": "All",
