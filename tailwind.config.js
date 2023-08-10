@@ -5,6 +5,9 @@ export const content = ['./src/**/*.{js,ts,jsx,tsx}']
 export const darkMode = 'class'
 export const theme = {
   extend: {
+    backgroundImage: {
+      'staking-bg': 'url(/images/banners/staking-bg.png)',
+    },
     fontFamily: {
       sans: ['var(--source-sans-pro)', ..._fontFamily.sans],
     },
@@ -23,6 +26,7 @@ export const theme = {
       'background-info': 'rgb(var(--background-info) / <alpha-value>)',
       'background-accent': 'rgb(var(--background-accent) / <alpha-value>)',
       'background-red': 'rgb(var(--background-red) / <alpha-value>)',
+      'background-stats-card': 'rgb(var(--background-stats-card) / <alpha-value>)',
 
       text: 'rgb(var(--text) / <alpha-value>)',
       'text-muted': 'rgb(var(--text-muted) / <alpha-value>)',

@@ -1,15 +1,28 @@
 import Head from 'next/head'
+import { PageContent } from '../utils/PageWrapper'
+import Footer from '../footer/Footer'
+import styles from './Main.module.sass'
+import CreatorsStakingWrapper from '../creatorsStaking'
 
 const CreatorStakingPage = () => {
   return (
     <>
-    <Head>
-      <link rel='stylesheet' href='/tailwind.css' />
-    </Head>
-      <div>
-        <div>Creator Staking Page</div>
-        <div className='bg-blue-900 w-4 h-4 flex' ></div>
+      <Head>
+        <link rel='stylesheet' href='/tailwind.css' />
+      </Head>
+      
+      <div className='layout-wrapper'>
+        <PageContent
+          meta={{
+            title: 'Collator Staking',
+          }}
+          className='position-relative'
+          sectionClassName={styles.CreatorStakingSection}
+        >
+          <CreatorsStakingWrapper />
+        </PageContent>
       </div>
+      <Footer />
     </>
   )
 }
