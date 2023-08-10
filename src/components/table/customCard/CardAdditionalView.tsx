@@ -1,4 +1,3 @@
-import { Divider } from 'antd'
 import clsx from 'clsx'
 import React from 'react'
 import { useIsMobileWidthOrDevice } from 'src/components/responsive'
@@ -13,8 +12,7 @@ export default function CardAdditionalView ({ data, custom }: CardAdditionalView
   const isMobile = useIsMobileWidthOrDevice()
   return (
     <div className='d-flex flex-column' onClick={(e) => e.stopPropagation()}>
-      <Divider className='mt-2 mb-2' />
-      <div className={clsx('d-flex flex-column GapMini', isMobile && 'mb-3')}>
+      <div className={clsx('d-flex flex-column mt-2 GapMini', isMobile && 'mb-3')}>
         {data?.map(({ label, value }, idx) => (
           <div key={idx} className='d-flex align-items-start justify-content-between'>
             <MutedDiv>

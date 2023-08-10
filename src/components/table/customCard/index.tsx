@@ -76,8 +76,9 @@ const CustomCard = <T extends TableInfo>({
     showLinks,
   } = value
 
-  const haveChildren = children || cardChildren
+  const haveChildren = (!!children || !!cardChildren) || !isEmptyArray(children || cardChildren)
 
+  console.log(children)
   const links = showLinks?.(true)
 
   const showDivider =
@@ -93,7 +94,7 @@ const CustomCard = <T extends TableInfo>({
         })}
         hoverable={!isMobile}
         bordered={!isMobile}
-        onClick={() => children && setOpen(!open)}
+        onClick={() => haveChildren && setOpen(!open)}
       >
         <div>
           <div className={styles.CardContent}>
@@ -136,7 +137,7 @@ const CustomCard = <T extends TableInfo>({
             <Divider className={clsx(styles.CardDivider, 'MarginTopTiny')} />
           )}
 
-          {(open && children) &&
+          {(open && haveChildren) &&
             (children ? (
               <ChildrenBalances
                 name={name as string}
