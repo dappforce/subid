@@ -83,7 +83,6 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
         key={i}
         icon={icon}
         size={14}
-        style={{ marginLeft: '-4px' }}
       />
     )
   })
@@ -206,7 +205,7 @@ export const parseTokenCentricView = async ({
           key: `${balancesKey}-${j}`,
           chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
           balance: getBalancePart(balance, true),
-          price,
+          price: !isMulti ? price : <></>,
           total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
           totalTokensValue: totalValue,
           icon: imagePath,
@@ -424,7 +423,7 @@ function getChildrenBalances ({
 
     if (balanceValue.isZero()) return
 
-    const { totalValue, balance, price } = getBalances({
+    const { totalValue, balance } = getBalances({
       balanceValue,
       priceValue,
       symbol: tokenId,
@@ -445,7 +444,7 @@ function getChildrenBalances ({
     const accountData = getAccountDataRows({
       ...otherBalancesBN,
       t,
-      price,
+      price: <></>,
       priceValue,
       isMulti,
       tokenId,
@@ -477,7 +476,7 @@ function getChildrenBalances ({
       key: network,
       chain: <div className='ml-5'>{chain}</div>,
       balance: getBalancePart(balance, true),
-      price,
+      price: <></>,
       total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
       totalTokensValue: totalValue,
       icon,
