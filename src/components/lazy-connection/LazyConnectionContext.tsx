@@ -37,6 +37,7 @@ export function LazyConnectionsProvider (props: React.PropsWithChildren<{}>) {
     setIsConnecting(true)
     const { node, wsNode } = chainInfo[network]
 
+
     const provider = new WsProvider(wsNode || node)
     api = new ApiPromise({ provider } as any)
     connections[network] = await api.isReady
