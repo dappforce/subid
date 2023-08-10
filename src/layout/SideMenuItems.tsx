@@ -155,6 +155,12 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       items: validatorStakingItems.filter(isDef),
       hidden: isMulti || !isSignIn,
     },
+    {
+      name: 'Creators Staking',
+      page: [ '/creators' ],
+      icon: <img className='anticon' src='/images/creator-staking-user.svg' />,
+      hidden: isMulti || !isSignIn,
+    },
     Divider,
     {
       name: t('general.networkStatus'),
