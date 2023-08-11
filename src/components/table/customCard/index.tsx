@@ -78,7 +78,6 @@ const CustomCard = <T extends TableInfo>({
 
   const haveChildren = (!!children || !!cardChildren) || !isEmptyArray(children || cardChildren)
 
-  console.log(children)
   const links = showLinks?.(true)
 
   const showDivider =

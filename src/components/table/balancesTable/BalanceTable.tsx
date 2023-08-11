@@ -420,6 +420,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
         storeShowZeroBalance={BALANCE_SHOW_ZERO_BALANCES}
         onReload={fetchBalancesFunc}
         totalBalance={freeChainBalances.plus(lockedChainBalances)}
+        tableTab={balancesVariant}
         tabs={
           <BalanceTableVariantTabs
             balancesVariant={balancesVariant}
