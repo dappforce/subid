@@ -39,6 +39,8 @@ export const theme = {
       'text-red': 'rgb(var(--text-red) / <alpha-value>)',
 
       'border-gray': 'rgb(var(--border-gray) / <alpha-value>)',
+      'border-gray-light': 'rgb(var(--border-gray-light) / <alpha-value>)',
+
     },
   },
 }

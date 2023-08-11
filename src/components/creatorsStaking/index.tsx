@@ -1,11 +1,13 @@
 import Banner from './Banner'
+import CreatorsSection from './Creators'
+import MyStakingSection from './MyStaking'
 
 const CreatorsStakingWrapper = () => {
   return (
     <div className='flex flex-col gap-10'>
       <Banner />
-      <div>My Staking</div>
-      <div>Creators</div>
+      <MyStakingSection />
+      <CreatorsSection />
     </div>
   )
 }
