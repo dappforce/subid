@@ -83,6 +83,7 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
         key={i}
         icon={icon}
         size={14}
+        style={i !== 0 ? { marginLeft: '-4px' } : {}}
       />
     )
   })
@@ -453,7 +454,12 @@ function getChildrenBalances ({
 
     childrenBalances.children = [ ...accountData.reverse() ]
 
-    const chain = <ChainData icon={icon} name={name} avatarSize={'small'} />
+    const chain = <ChainData 
+      icon={icon} 
+      name={name} 
+      avatarSize={'small'} 
+      isBoldName={false} 
+    />
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()

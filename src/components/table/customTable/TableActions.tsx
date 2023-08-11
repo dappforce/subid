@@ -42,7 +42,7 @@ export const TableActions = <T extends TableInfo>({
         <BalanceView value={totalBalance} symbol='$' startWithSymbol />
       </div>
       <div className={clsx('d-flex align-items-center GapSmall')}>
-        {checkBoxText && (
+        {checkBoxText && tableView !== 'pie' && (
           <Col>
             <Checkbox checked={showZeroBalances} onChange={onCheckboxChange}>
               {checkBoxText}

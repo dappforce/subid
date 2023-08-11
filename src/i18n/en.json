@@ -326,13 +326,14 @@
     "crowdloanHAxis": "Locked {{symbol}} in USD equivalent",
     "defaultHAxis": "Value in USD equivalent",
     "nativeTokenVAxis": "Substrate Chain",
+    "nativeTokenVAxisTokens": "Token",
     "crowdloanVAxis": "Parachain",
     "statemineAssetVAxis": "Statemine Asset",
     "defaultVAxis": "Asset",
     "labels": {
       "multiLabel": "Balance (≈ USD)",
       "transferable": "Transferable balance (≈ USD)",
-      "reserved": "Reserved balance (≈ USD)",
+      "reserved": "Non-transferable balance (≈ USD)",
       "locked": "Locked balance (≈ USD)"
     },
     "tabs": {
