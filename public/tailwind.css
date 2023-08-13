@@ -1058,6 +1058,10 @@ video {
   padding-top: 0px;
 }
 
+.pb-3\.5 {
+  padding-bottom: 0.875rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1115,6 +1119,10 @@ video {
 
 .leading-\[22px\] {
   line-height: 22px;
+}
+
+.leading-normal {
+  line-height: 1.5;
 }
 
 .\!text-text {
@@ -1226,6 +1234,11 @@ video {
   left: 0px;
 }
 
+.after\:mt-\[2px\]::after {
+  content: var(--tw-content);
+  margin-top: 2px;
+}
+
 .after\:h-1::after {
   content: var(--tw-content);
   height: 0.25rem;
@@ -1234,6 +1247,26 @@ video {
 .after\:h-\[90\%\]::after {
   content: var(--tw-content);
   height: 90%;
+}
+
+.after\:h-\[98\%\]::after {
+  content: var(--tw-content);
+  height: 98%;
+}
+
+.after\:h-1\/2::after {
+  content: var(--tw-content);
+  height: 50%;
+}
+
+.after\:h-\[4px\]::after {
+  content: var(--tw-content);
+  height: 4px;
+}
+
+.after\:h-\[2px\]::after {
+  content: var(--tw-content);
+  height: 2px;
 }
 
 .after\:w-full::after {
@@ -1280,6 +1313,16 @@ video {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(var(--text-primary) / var(--tw-bg-opacity));
+}
+
+.after\:pt-2::after {
+  content: var(--tw-content);
+  padding-top: 0.5rem;
+}
+
+.after\:pt-\[2px\]::after {
+  content: var(--tw-content);
+  padding-top: 2px;
 }
 
 .after\:opacity-0::after {

@@ -23,7 +23,7 @@ export type TabsProps = ComponentProps<'div'> & {
   }
 }
 
-export default function Tabs({
+export default function Tabs ({
   asContainer,
   tabs,
   panelClassName,
@@ -35,11 +35,11 @@ export default function Tabs({
   manualTabControl,
   ...props
 }: TabsProps) {
-  const [selectedIndex, setSelectedIndex] = useState(defaultTab)
+  const [ selectedIndex, setSelectedIndex ] = useState(defaultTab)
   const selectedTab = manualTabControl?.selectedTab ?? selectedIndex
   const setSelectedTab = manualTabControl?.setSelectedTab ?? setSelectedIndex
 
-  const [isHashLoaded, setIsHashLoaded] = useState(false)
+  const [ isHashLoaded, setIsHashLoaded ] = useState(false)
 
   useEffect(() => {
     if (!withHashIntegration) return
@@ -69,22 +69,25 @@ export default function Tabs({
     >
       <Tab.List
         as={component}
-        className={clsx('flex items-end', props.className)}
+        className={clsx('flex items-end gap-6', props.className)}
       >
         {tabs.map(({ text, id }) => (
           <Tab key={id} as={Fragment}>
             {({ selected }) => (
               <span
                 className={clsx(
-                  'group relative block cursor-pointer rounded-t-2xl px-3 outline-none after:absolute after:bottom-0 after:left-0 after:h-[90%] after:w-full after:rounded-t-2xl after:bg-background-light after:opacity-0 after:transition-opacity',
+                  'group relative block cursor-pointer rounded-t-2xl',
+                  'outline-none after:absolute after:bottom-0 after:left-0 after:h-[90%]',
+                  'after:w-full after:opacity-0 after:transition-opacity',
                   'focus-visible:after:opacity-100'
                 )}
               >
                 <span
                   className={clsx(
-                    'relative z-10 block py-3.5 font-medium text-text-muted transition-colors',
-                    'after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:origin-bottom after:scale-y-0 after:rounded-t-full after:bg-text-primary after:opacity-0 after:transition',
-                    'group-hover:text-text-primary group-hover:after:scale-y-100 group-hover:after:opacity-100',
+                    'relative z-10 block py-2 leading-normal text-text-muted transition-colors',
+                    'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full',
+                    'after:origin-bottom after:scale-y-0 after:bg-text-primary after:opacity-0 after:transition',
+                    'group-hover:text-text-primary after:mt-[2px] group-hover:after:scale-y-100 group-hover:after:opacity-100',
                     selected &&
                       'text-text-primary after:scale-y-100 after:opacity-100'
                   )}
