@@ -1,12 +1,7 @@
 import { useState } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
-
-const CreatorCard = () => {
-  return <div className='p-4 bg-slate-50 rounded-2xl border-2 border-border-gray-light'>
-
-  </div>
-}
+import CreatorCard from './CreatorCard'
 
 const AllCreators = () => {
   const creatorsCards = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map((i) => <CreatorCard key={i}/>)

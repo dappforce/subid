@@ -230,7 +230,7 @@ export const BondInput = ({ form, network, type = 'stake', isModal = false, amou
   const maxBtn = <Button 
     ghost 
     type='link'
-    className='p-0' 
+    className='bs-p-0' 
     onClick={setMaxAmount} 
     disabled={disableButton} 
     size='small'

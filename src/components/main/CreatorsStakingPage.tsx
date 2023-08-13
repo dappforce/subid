@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { PageContent } from '../utils/PageWrapper'
 import Footer from '../footer/Footer'
 import styles from './Main.module.sass'
-import CreatorsStakingWrapper from '../creatorsStaking'
+import CreatorsStaking from '../creatorsStaking'
 
 const CreatorStakingPage = () => {
   return (
@@ -19,7 +19,7 @@ const CreatorStakingPage = () => {
           className='position-relative'
           sectionClassName={styles.CreatorStakingSection}
         >
-          <CreatorsStakingWrapper />
+          <CreatorsStaking />
         </PageContent>
       </div>
       <Footer />

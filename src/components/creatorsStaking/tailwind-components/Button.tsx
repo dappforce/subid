@@ -5,7 +5,7 @@ import Spinner from './Spinner'
 import clsx from 'clsx'
 import { interactionRingStyles } from './utils'
 
-export const buttonStyles = cva('relative rounded-full transition', {
+export const buttonStyles = cva('relative rounded-full transition leading-[22px]', {
   variants: {
     variant: {
       primary:
@@ -17,6 +17,7 @@ export const buttonStyles = cva('relative rounded-full transition', {
       mutedOutline: 'bg-transparent border border-text-muted text-text-muted',
       transparent: 'bg-transparent',
       redOutline: 'bg-transparent border border-text-red',
+      outlined: 'bg-transparent border border-[#D4E2EF]',
     },
     disabledStyle: {
       default: '',
@@ -28,7 +29,7 @@ export const buttonStyles = cva('relative rounded-full transition', {
     size: {
       noPadding: 'p-0',
       circle: 'p-2',
-      sm: 'px-4 py-1.5',
+      sm: 'px-4 py-1',
       md: 'px-6 py-2',
       lg: 'px-8 py-3',
     },

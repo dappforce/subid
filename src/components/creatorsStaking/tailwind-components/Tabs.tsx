@@ -99,7 +99,7 @@ export default function Tabs({
         {tabsRightElement}
       </Tab.List>
       {withDivider && <div className='w-full border border-[#D4E2EF]'></div>}
-      <Tab.Panels as={component} className={clsx('mt-2', panelClassName)}>
+      <Tab.Panels as={component} className={clsx(panelClassName)}>
         {tabs.map(({ id, content }) => (
           <Tab.Panel key={id}>{content(changeTab)}</Tab.Panel>
         ))}

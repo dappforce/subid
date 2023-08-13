@@ -2,7 +2,7 @@ import Banner from './Banner'
 import CreatorsSection from './Creators'
 import MyStakingSection from './MyStaking'
 
-const CreatorsStakingWrapper = () => {
+const CreatorsStaking = () => {
   return (
     <div className='flex flex-col gap-10'>
       <Banner />
@@ -12,4 +12,4 @@ const CreatorsStakingWrapper = () => {
   )
 }
 
-export default CreatorsStakingWrapper
+export default CreatorsStaking

@@ -155,7 +155,7 @@ function CrossChainRouteSelectorContent ({
           onClick={onSwapChain}
           size='large'
           type='link'
-          className='ColorCurrentColor p-0'>
+          className='ColorCurrentColor bs-p-0'>
           <BsArrowLeftRight className='FontMedium d-block' />
         </Button>
       </MutedDiv>
