@@ -117,7 +117,7 @@ const TipCard = () => {
     setSender(defaultSender)
   }, [ defaultSender ])
 
-  return <Form form={form} layout='vertical' className='mt-0 p-3'>
+  return <Form form={form} layout='vertical' className='mt-0 bs-p-3'>
     <div className='d-flex align-items-center mb-3'>
       <div>
         <BaseAvatar address={recipient} avatar={undefined} size={64} />

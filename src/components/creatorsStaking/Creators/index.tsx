@@ -3,6 +3,9 @@ import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
 import Pagination from '../tailwind-components/Pagination'
+import FloatingMenus from '../tailwind-components/floating/FloatingMenus'
+import clsx from 'clsx'
+import { HiChevronDown } from 'react-icons/hi2'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -35,14 +38,61 @@ const AllCreators = () => {
   return (
     <div>
       <div className='grid grid-cols-3 gap-4 px-6'>{creatorsCardsByPage}</div>
-      <Pagination 
+      <Pagination
         defaultCurrent={1}
         current={page}
         pageSize={DEFAULT_PAGE_SIZE}
         total={creatorsCards.length}
         onChange={(page) => setPage(page)}
-        className='px-6' 
+        className='px-6'
       />
+    </div>
+  )
+}
+
+const SortDropdown = () => {
+  const [ sortBy, changeSortBy ] = useState('total stake')
+
+  const menus = [
+    {
+      text: 'Total stake',
+      onClick: () => changeSortBy('total stake'),
+    },
+    {
+      text: 'Stakers',
+      onClick: () => changeSortBy('stakers'),
+    },
+    {
+      text: 'My stake',
+      onClick: () => changeSortBy('my stake'),
+    },
+  ]
+
+  return (
+    <div className='flex items-center gap-2'>
+      <span className='text-text-muted'>Sort by:</span>
+      <FloatingMenus
+        menus={menus}
+        allowedPlacements={[ 'bottom-start' ]}
+        mainAxisOffset={4}
+        panelSize='xs'
+      >
+        {(config) => {
+          const { referenceProps, toggleDisplay, isOpen } = config || {}
+          return (
+            <div
+              {...referenceProps}
+              onClick={toggleDisplay}
+              className='flex cursor-pointer items-center gap-1 text-text-primary'
+            >
+              <span>{sortBy}</span>
+              <HiChevronDown
+                className={clsx('transition-transform', isOpen && 'rotate-180')}
+              />
+            </div>
+          )
+        }}
+      </FloatingMenus>
     </div>
   )
 }
@@ -81,6 +131,7 @@ const CreatorsSection = () => {
           panelClassName='mt-0 px-0'
           tabs={tabs}
           withHashIntegration={false}
+          tabsRightElement={<SortDropdown />}
           hideBeforeHashLoaded
           withDivider
           manualTabControl={{

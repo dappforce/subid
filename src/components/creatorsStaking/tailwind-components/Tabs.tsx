@@ -67,40 +67,42 @@ export default function Tabs ({
       selectedIndex={usedSelectedTab === -1 ? tabs.length : usedSelectedTab}
       onChange={setSelectedTab}
     >
-      <Tab.List
-        as={component}
-        className={clsx('flex items-end gap-6', props.className)}
-      >
-        {tabs.map(({ text, id }) => (
-          <Tab key={id} as={Fragment}>
-            {({ selected }) => (
-              <span
-                className={clsx(
-                  'group relative block cursor-pointer rounded-t-2xl',
-                  'outline-none after:absolute after:bottom-0 after:left-0 after:h-[90%]',
-                  'after:w-full after:opacity-0 after:transition-opacity',
-                  'focus-visible:after:opacity-100'
-                )}
-              >
+      <div className={clsx('flex items-center justify-between gap-4', props.className)}>
+        <Tab.List
+          as={component}
+          className={clsx('flex items-end gap-6')}
+        >
+          {tabs.map(({ text, id }) => (
+            <Tab key={id} as={Fragment}>
+              {({ selected }) => (
                 <span
                   className={clsx(
-                    'relative block py-2 leading-normal text-text-muted transition-colors',
-                    'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full',
-                    'after:origin-bottom after:scale-y-0 after:bg-text-primary after:opacity-0 after:transition',
-                    'group-hover:text-text-primary after:mt-[2px] group-hover:after:scale-y-100 group-hover:after:opacity-100',
-                    selected &&
-                      'text-text-primary after:scale-y-100 after:opacity-100'
+                    'group relative block cursor-pointer rounded-t-2xl',
+                    'outline-none after:absolute after:bottom-0 after:left-0 after:h-[90%]',
+                    'after:w-full after:opacity-0 after:transition-opacity',
+                    'focus-visible:after:opacity-100'
                   )}
                 >
-                  {text}
+                  <span
+                    className={clsx(
+                      'relative block py-2 leading-normal text-text-muted transition-colors',
+                      'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full',
+                      'after:origin-bottom after:scale-y-0 after:bg-text-primary after:opacity-0 after:transition',
+                      'group-hover:text-text-primary after:mt-[2px] group-hover:after:scale-y-100 group-hover:after:opacity-100',
+                      selected &&
+                        'text-text-primary after:scale-y-100 after:opacity-100'
+                    )}
+                  >
+                    {text}
+                  </span>
                 </span>
-              </span>
-            )}
-          </Tab>
-        ))}
-        {usedSelectedTab === -1 && <Tab key='empty' />}
+              )}
+            </Tab>
+          ))}
+          {usedSelectedTab === -1 && <Tab key='empty' />}
+        </Tab.List>
         {tabsRightElement}
-      </Tab.List>
+      </div>
       {withDivider && <div className='w-full border border-[#D4E2EF]'></div>}
       <Tab.Panels as={component} className={clsx(panelClassName)}>
         {tabs.map(({ id, content }) => (
