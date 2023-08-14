@@ -178,9 +178,9 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
   return (<div>
     <Row justify='space-between' className='align-items-center'>
       <Col>
-        <SectionTitle title='NFTs' className={clsx({ ['pr-3 pl-3']: isMobile }, 'mb-0')}/>
+        <SectionTitle title='NFTs' className={clsx({ ['pr-3 pl-3']: isMobile }, 'bs-mb-0')}/>
       </Col>
-      <Col className={`${isMobile ? 'mr-3' : ''} align-self-center`}>
+      <Col className={`${isMobile ? 'bs-mr-3' : ''} align-self-center`}>
         <Tooltip title={t('tooltip.refreshNFTs')}>
           <Button onClick={onReloadClick} disabled={loading}>
             {loading

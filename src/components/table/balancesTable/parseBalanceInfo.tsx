@@ -278,7 +278,7 @@ export const parseBalancesTableInfo = async ({
                   return {
                     key: symbol,
                     chain: <></>,
-                    balance: <span className='mr-4'>{balance}</span>,
+                    balance: <span className='bs-mr-4'>{balance}</span>,
                     price,
                     total,
                     totalValue,
@@ -326,7 +326,7 @@ export const parseBalancesTableInfo = async ({
                       {chain}
                     </MutedDiv>
                   ),
-                  balance: <span className='mr-4'>{balance}</span>,
+                  balance: <span className='bs-mr-4'>{balance}</span>,
                   price,
                   total,
                   totalValue,
@@ -342,7 +342,7 @@ export const parseBalancesTableInfo = async ({
 
             const childrenTokenBalances = getChildrenTokenBalances()
             const getBalancePart = (withMargin?: boolean) => (
-              <div className={clsx('d-grid', withMargin && 'mr-4')}>
+              <div className={clsx('d-grid', withMargin && 'bs-mr-4')}>
                 {balance}
                 {getOtherTokenSymbols(childrenTokenBalances)}
               </div>
@@ -432,7 +432,7 @@ export const parseBalancesTableInfo = async ({
 
         const multiChildrenTokenBalances = getChildrenTokenBalancesMulti()
         const getBalancePart = (withMargin?: boolean) => (
-          <div className={clsx('d-grid', withMargin && 'mr-4')}>
+          <div className={clsx('d-grid', withMargin && 'bs-mr-4')}>
             <span>{balance}</span>
             {getOtherTokenSymbols(multiChildrenTokenBalances)}
           </div>

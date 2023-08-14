@@ -113,7 +113,7 @@ const ModalBody = ({
           <Button onClick={hide}>{t('favoritesAccounts.buttons.cancel')}</Button>
         </Form.Item>
 
-        <Form.Item className='ml-3'>
+        <Form.Item className='bs-ml-3'>
           <Button
             type='primary'
             htmlType='submit'

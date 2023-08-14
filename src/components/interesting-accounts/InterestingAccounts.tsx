@@ -34,7 +34,7 @@ export const PreviewAccountsGrid: FC = () => {
           className={clsx({ ['pr-3 pl-3']: isMobile })}
         />
       </Col>
-      {!isMobile && <Col className={clsx({ ['mr-3']: isMobile }, 'align-self-center')}>
+      {!isMobile && <Col className={clsx({ ['bs-mr-3']: isMobile }, 'align-self-center')}>
         {showAllButton}
       </Col>}
     </Row>

@@ -150,7 +150,7 @@ export const parseCrowdloansTableInfo = ({
         key: key,
         address,
         chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
-        balance: <div className={clsx({ ['mr-4']: isMulti })}><LabelAndDescription label={contribution} desc={<>≈ {total}</>} /></div>,
+        balance: <div className={clsx({ ['bs-mr-4']: isMulti })}><LabelAndDescription label={contribution} desc={<>≈ {total}</>} /></div>,
         balanceValue: contributionValue,
         totalValue,
         refBonus: LINE,
@@ -202,7 +202,7 @@ export const parseCrowdloansTableInfo = ({
     }
 
     let status = (
-      <div className={clsx(styles[statusValue], 'position-relative mr-3')}>
+      <div className={clsx(styles[statusValue], 'position-relative bs-mr-3')}>
         {statusValue}
         {statusColumnTooltip && (
           <MutedDiv className={clsx(styles.StatusTooltip)}>
@@ -297,7 +297,7 @@ export const parseCrowdloansTableInfo = ({
 
       const contributionLabelAndDesc = <LabelAndDescription label={balance} desc={<>≈ {total}</>} />
 
-      const contributionPart = <div className='d-grid mr-4'>
+      const contributionPart = <div className='d-grid bs-mr-4'>
         <span>{contributionLabelAndDesc}</span>
       </div>
 

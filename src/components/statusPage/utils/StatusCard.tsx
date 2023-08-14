@@ -97,7 +97,7 @@ const StatusSection = ({ title, statuses, chainsInfo, className }: StatusSection
   const numberOfColumn = isMobile ? 2 : 3
 
   const sectionTitle =
-    <h2 className={clsx({ ['ml-3']: isMobile })}>{title} networks: {statuses.length} / {supportedNetworks.length}</h2>
+    <h2 className={clsx({ ['bs-ml-3']: isMobile })}>{title} networks: {statuses.length} / {supportedNetworks.length}</h2>
 
   const statusItems = statuses.map(({ status, network }, index) => {
     const chainInfoByNetwork = chainsInfo[network]

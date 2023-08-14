@@ -43,7 +43,7 @@ const UnstakingDetails = ({ network }: UnstakingDetailsProps) => {
   const calculatedUnstakingPeriod = useCalculatedUnstakingPeriod({ network })
   const { t } = useTranslation()
 
-  return <ul className={clsx(styles.UnstakeModalList, 'mb-0 mt-2')}>
+  return <ul className={clsx(styles.UnstakeModalList, 'bs-mb-0 mt-2')}>
     <li>
       <MutedDiv>
         {t('validatorStaking.stakingScreen.modals.stakeMoreOrUnstake.unstakingPeriod', { bondingDuration: calculatedUnstakingPeriod })}

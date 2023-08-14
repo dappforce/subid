@@ -186,7 +186,7 @@ const ManualValidatorsSelect = ({ selectedOpt, network }: ManualValidatorsSelect
   >
     <Panel 
       key='select' 
-      header={<h3 className='mb-0'>
+      header={<h3 className='bs-mb-0'>
         {t('validatorStaking.startNominatingScreen.setValidatorsBlock.selectByYourself.title')}
       </h3>}
     >

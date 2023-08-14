@@ -1,6 +1,7 @@
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
+import StakeButton from './StakeButton';
 
 const address = '5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe'
 
@@ -39,7 +40,11 @@ const CreatorCardTotalValue = ({
   )
 }
 
-const CreatorCard = () => {
+type CreatorCardProps = {
+  isStake: boolean
+}
+
+const CreatorCard = ({ isStake }: CreatorCardProps) => {
   return (
     <div
       className={clsx(
@@ -65,8 +70,8 @@ const CreatorCard = () => {
         </div>
       </div>
       <div className='flex gap-4'>
-        <Button variant='primaryOutline' className='w-full' size='sm'>Increase Stake</Button>
-        <Button variant='outlined' className='w-full' size='sm'>Unstake</Button>
+        <StakeButton isStake={isStake} />
+        {!isStake && <Button variant='outlined' className='w-full' size='sm'>Unstake</Button>}
       </div>
     </div>
   )

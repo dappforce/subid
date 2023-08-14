@@ -60,7 +60,7 @@ export const Loading = ({ label, style, center = true }: LoadingProps) => {
       style={style}
     >
       <LoadingOutlined />
-      {label && <em className='ml-3 text-muted'>{label}</em>}
+      {label && <em className='bs-ml-3 text-muted'>{label}</em>}
     </div>
   )
 }

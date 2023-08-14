@@ -107,7 +107,7 @@ export function TokenAmountFormItem ({
     <div {...containerProps} className={clsx('w-100', containerProps?.className)}>
       <Form.Item
         {...props}
-        className={clsx('mb-0', props.className)}
+        className={clsx('bs-mb-0', props.className)}
         rules={augmentedRules}
       >
         <TokenAmountInput {...inputProps} disableMaxButton={loading || maxTransfer <= 0} onMaxClick={onMaxClick} />

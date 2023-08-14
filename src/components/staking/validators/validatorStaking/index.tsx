@@ -56,7 +56,7 @@ export const ChangeValidatorsScreen = ({ network }: ChangeValidatorsScreenProps)
       <Button type='link' className={styles.BackArrow} onClick={onBackClick}>
         <ArrowLeftOutlined/>
       </Button>
-      <h2 className={clsx(styles.PageTitle, 'mb-0')}>{t('validatorStaking.changeValidatorsScreen.title')}</h2>
+      <h2 className={clsx(styles.PageTitle, 'bs-mb-0')}>{t('validatorStaking.changeValidatorsScreen.title')}</h2>
     </div>
     <MutedDiv className='mb-4'>{t('validatorStaking.changeValidatorsScreen.desc')}</MutedDiv>
     {isBalanceLessThenMinBond && <Alert 

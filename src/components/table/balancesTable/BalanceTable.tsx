@@ -133,7 +133,7 @@ const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
     },
     {
       title: (
-        <h3 className='font-weight-bold FontSmall mr-4'>
+        <h3 className='font-weight-bold FontSmall bs-mr-4'>
           {t('table.labels.balance')}
         </h3>
       ),

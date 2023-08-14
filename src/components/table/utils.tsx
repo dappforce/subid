@@ -174,7 +174,7 @@ export const InnerBalancesTable = <T extends TableInfo>({
               (!expanded
                 ? (record.balance = <>{record.balanceView}</>)
                 : (record.balance = (
-                    <div className='mr-4'>{record.balanceWithoutChildren}</div>
+                    <div className='bs-mr-4'>{record.balanceWithoutChildren}</div>
                   )))
             )
           },

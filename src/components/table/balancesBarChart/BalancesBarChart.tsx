@@ -235,7 +235,7 @@ const InnerBalancesChart = <T extends TableInfo>({ loading, balanceKind, tableDa
 
   return (
     <>
-      <Tabs activeKey={tabKey} onChange={onTabChange} className={`mb-0 ${styles.ChartTabs}`}>
+      <Tabs activeKey={tabKey} onChange={onTabChange} className={`bs-mb-0 ${styles.ChartTabs}`}>
         <TabPane tab={<><BarChartOutlined className={styles.BarChartIcon} />{t('charts.tabs.barChart')}</>} key='bar'>
           <BalancesBarChart data={data} balanceKind={balanceKind} xAxisTitle={xAxisTitle} yAxisTitle={yAxisTitle} />
         </TabPane>

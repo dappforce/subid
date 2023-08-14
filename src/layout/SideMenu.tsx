@@ -78,7 +78,7 @@ function SideMenu () {
             {Object.keys(languages).map(lang => (<Menu.Item key={lang}>{languages[lang]}</Menu.Item>))}
           </Menu>}
         >
-          <Button className={clsx('d-flex align-items-center px-2', styles.LanguageDropdown)} shape='round'>
+          <Button className={clsx('d-flex align-items-center bs-px-2', styles.LanguageDropdown)} shape='round'>
             <GlobalOutlined className='m-0' /> {i18n.language.toUpperCase()} <UpOutlined />
           </Button>
         </Dropdown>

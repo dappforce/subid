@@ -609,7 +609,7 @@ function getAccountDataRows ({
             {chain}
           </MutedDiv>
         ),
-        balance: <span className='mr-4'>{balance}</span>,
+        balance: <span className='bs-mr-4'>{balance}</span>,
         price,
         total,
         totalValue,

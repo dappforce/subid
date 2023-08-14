@@ -118,7 +118,7 @@ export default function TransferModal ({
                 : 'flex-fill d-flex flex-column'
             )}>
             <Tabs
-              className='mb-0'
+              className='bs-mb-0'
               centered
               activeKey={activeTab}
               onChange={(tab) => setActiveTab(tab as Tabs)}>

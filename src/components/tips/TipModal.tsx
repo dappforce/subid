@@ -143,7 +143,7 @@ const TipCard = () => {
 
     <Row>
       <Col span={isMobile ? 24 : 10}>
-        <Form.Item name={fieldName('currency')} label={`${t('donation.currency')}:`} required className={clsx(!isMobile && 'mr-3')}>
+        <Form.Item name={fieldName('currency')} label={`${t('donation.currency')}:`} required className={clsx(!isMobile && 'bs-mr-3')}>
           <Select value={currency} onSelect={(currency: string) => setCurrency(currency)} size='large'>
             {currencyNetworks.map(([ currency, network ]) => {
               const isConnected = chainInfo[network].connected
