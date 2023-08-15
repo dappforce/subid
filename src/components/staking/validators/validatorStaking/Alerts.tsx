@@ -41,7 +41,7 @@ const AlertMessage = ({ title, desc, action }: AlertMessageProps) => {
     >
     <Space direction='vertical' size={8} className='w-100'>
       <div className={clsx('d-flex align-items-center SemiBold', { [styles.MobileView]: isMobile })}>
-        <ExclamationCircleFilled className={clsx('mr-2', styles.AlertIcon)} /> 
+        <ExclamationCircleFilled className={clsx('bs-mr-2', styles.AlertIcon)} /> 
         {title}
       </div>
       {desc && <MutedDiv>{desc}</MutedDiv>}

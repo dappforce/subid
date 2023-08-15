@@ -20,7 +20,7 @@ export const PreviewAccountsGrid: FC = () => {
 
   const interestingAccountsUrl = asPath + (asPath === '/' ? '' : '/') + 'accounts'
 
-  const showAllButton = isClientSide() ? <div className={clsx({ ['pl-3 mb-2']: isMobile })}>
+  const showAllButton = isClientSide() ? <div className={clsx({ ['pl-3 bs-mb-2']: isMobile })}>
     <Link href={interestingAccountsUrl}>
       {t('general.showAll')}
     </Link>
@@ -40,7 +40,7 @@ export const PreviewAccountsGrid: FC = () => {
     </Row>
     {isMobile && showAllButton}
 
-    <div className='mt-2'>
+    <div className='bs-mt-2'>
       {overviewAccounts == undefined || overviewAccounts?.length === 0
         ? <Loading label={'Loading...'} />
         : <Row justify={isMobile ? 'center' : undefined} gutter={{ xs: 18, sm: 25, md: 25, lg: 25, xl: 18 }}>

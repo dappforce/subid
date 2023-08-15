@@ -76,7 +76,7 @@ const AllAccountsMenuItem = ({ withDivider = false, onlyAvatar = false }: AllAcc
           {t('general.allAccounts')}
         </div>}
       </span>
-      {withDivider && <Divider className='m-0 mt-2 mb-2 ml-1' />}
+      {withDivider && <Divider className='m-0 bs-mt-2 bs-mb-2 ml-1' />}
     </>
   )
 }
@@ -144,7 +144,7 @@ export const DropdownItems = (props: MenuProps) => {
             <AllAccountsMenuItem />
           </Menu.Item>}
 
-        {showAllAccounts && <Divider className='m-0 mt-2 mb-2 ml-1' />}
+        {showAllAccounts && <Divider className='m-0 bs-mt-2 bs-mb-2 ml-1' />}
 
 
         {accounts?.map(
@@ -158,7 +158,7 @@ export const DropdownItems = (props: MenuProps) => {
               </Menu.Item>
             )
         )}
-        </Menu.ItemGroup> : <div className='ml-2 bs-mr-3 mb-2'>{noAccountLabel}</div>}
+        </Menu.ItemGroup> : <div className='ml-2 bs-mr-3 bs-mb-2'>{noAccountLabel}</div>}
         {isSignIn && getAddressFromStorage() && (
           <Menu.Item key='signOut' className={styles.MenuItem}>
             <Button type='primary' block ghost onClick={signOut}>

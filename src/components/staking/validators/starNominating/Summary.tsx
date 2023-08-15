@@ -79,7 +79,7 @@ export const Summary = ({ network, txFee }: SummaryProps) => {
         )}
       >
         {title} {rewardDestinationValue 
-          && <AccountPreview className={clsx('ml-2 SemiBold text-right', { ['mt-2']: isMobile })} account={rewardDestinationValue} withAddress={false}/>}
+          && <AccountPreview className={clsx('ml-2 SemiBold text-right', { ['bs-mt-2']: isMobile })} account={rewardDestinationValue} withAddress={false}/>}
       </div>
     </div>
     <div className={clsx(styles.SummaryInfoBlock, 'd-flex justify-content-between align-center')}>

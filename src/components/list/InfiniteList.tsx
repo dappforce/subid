@@ -134,7 +134,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     >
       {isCards ? <Row
         justify={isMobile ? 'center' : undefined}
-        className={clsx({ ['ml-2 mr-2']: isMobile })}
+        className={clsx({ ['ml-2 bs-mr-2']: isMobile })}
         gutter={{ xs: 18, sm: 25, md: 25, lg: 25, xl: 18 }}
         >
         {data.map((x, i) => (
@@ -151,7 +151,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
         />
       }
       {withLoadMoreLink && !loading && hasMore && isServerSide() &&
-        <ButtonLink block {...linkProps} className='mb-2'>Load more</ButtonLink>
+        <ButtonLink block {...linkProps} className='bs-mb-2'>Load more</ButtonLink>
       }
     </InfiniteScroll>
   )

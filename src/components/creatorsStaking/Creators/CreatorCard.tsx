@@ -1,21 +1,37 @@
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
-import StakeButton from './StakeButton';
+import StakeButton from './StakeButton'
 
 const address = '5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe'
 
-const CreatorPreview = () => {
+type CreatorPreviewProps = {
+  title?: string
+  imgSize?: number
+  desc?: React.ReactNode
+  avatar?: string
+  titleClassName?: string
+  descClassName?: string
+}
+
+export const CreatorPreview = ({ 
+  desc, 
+  imgSize = 40, 
+  avatar, 
+  title,
+  titleClassName,
+  descClassName,
+}: CreatorPreviewProps) => {
   return (
     <div className='flex items-center'>
       <BaseAvatar
-        size={40}
+        size={imgSize}
         address={address}
-        avatar={'/images/creator-staking/tmp-image.png'}
+        avatar={avatar}
       />
       <div>
-        <div className='leading-5 font-medium'>Elon Musk</div>
-        <div>social networks</div>
+        <div className={clsx('leading-5 font-medium', titleClassName)}>{title}</div>
+        {desc && <div className={descClassName}>{desc}</div>}
       </div>
     </div>
   )
@@ -31,7 +47,7 @@ const CreatorCardTotalValue = ({
   value,
 }: CreatorCardTotalValueProps) => {
   return (
-    <div className='flex justify-between'>
+    <div className='flex justify-between items-center'>
       <div className='text-text-muted font-normal text-sm leading-6'>
         {label}:
       </div>
@@ -54,7 +70,11 @@ const CreatorCard = ({ isStake }: CreatorCardProps) => {
     >
       <div className='flex flex-col gap-2'>
         <div className='flex justify-between gap-2'>
-          <CreatorPreview />
+          <CreatorPreview 
+            title={'Elon Musk'} 
+            desc='social links' 
+            avatar='/images/creator-staking/tmp-image.png'
+          />
           <Button variant='primaryOutline' size='circle' className='h-fit'>
             <img src='/images/creator-staking/messenger.svg' alt='' />
           </Button>

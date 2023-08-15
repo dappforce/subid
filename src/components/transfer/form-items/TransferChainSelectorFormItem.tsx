@@ -37,7 +37,7 @@ function NetworkOption ({ name, image }: { name: string; image: string }) {
     <div className={clsx('d-flex align-items-center', styles.NetworkOption)}>
       <Avatar
         src={image}
-        className={clsx('mr-2', styles.Avatar)}
+        className={clsx('bs-mr-2', styles.Avatar)}
       />
       <span>{name}</span>
     </div>

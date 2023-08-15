@@ -212,7 +212,7 @@ export default function TransferForm ({
         className={clsx(
           'd-flex justify-content-between align-items-center',
           isMobile && 'flex-column align-items-center',
-          'mt-2 GapMini'
+          'bs-mt-2 GapMini'
         )}>
         {crossChain ? (
           <Form.Item
@@ -249,7 +249,7 @@ export default function TransferForm ({
         {crossChain && (
           <CrossChainRouteSelector
             decodeToken
-            className='mb-4'
+            className='bs-mb-4'
             form={form}
             tokenFieldName={transferFormField('crossChainToken')}
             destChainFieldName={transferFormField('dest')}
@@ -299,7 +299,7 @@ export default function TransferForm ({
           if (!fee.balance) return null
           return (
             <CrossChainFee
-              className='mb-2'
+              className='bs-mb-2'
               amount={fee.balance}
               token={fee.token}
             />

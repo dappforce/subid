@@ -193,7 +193,7 @@ function TokenOption ({
           rightAvatarSize={28}
         />
       ) : (
-        <div className='mr-2'>
+        <div className='bs-mr-2'>
           {tokenImage}
         </div>
       )}

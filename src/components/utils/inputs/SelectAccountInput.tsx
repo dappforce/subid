@@ -154,7 +154,7 @@ export const SelectAccountInput = ({
   }
 
   const avatar = (
-    <div className='mr-2'>
+    <div className='bs-mr-2'>
       {value ? (
         <BaseAvatar
           address={value}
@@ -162,7 +162,7 @@ export const SelectAccountInput = ({
           size={50}
         />
       ) : (
-        <div className={`${styles.Circle} mr-2`}></div>
+        <div className={`${styles.Circle} bs-mr-2`}></div>
       )}
     </div>
   )

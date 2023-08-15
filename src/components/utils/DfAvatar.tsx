@@ -12,7 +12,7 @@ export type BaseAvatarProps = {
   address?: AnyAccountId
 }
 
-const avatarCss = 'DfAvatar ui--IdentityIcon mr-2'
+const avatarCss = 'DfAvatar ui--IdentityIcon bs-mr-2'
 
 export const BaseAvatar = (props: BaseAvatarProps) => {
   const { size = DEFAULT_AVATAR_SIZE, avatar, style, address } = props

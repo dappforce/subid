@@ -62,7 +62,7 @@ const FavoriteAccountsCards = ({ data }: FavoriteAccountsCars) => {
         </div>
       </div>
       <div className={styles.Label}>{notes}</div>
-      {i + 1 !== data.length && <Divider className='mt-2 mb-2' />}
+      {i + 1 !== data.length && <Divider className='bs-mt-2 bs-mb-2' />}
     </a>
   ))
 

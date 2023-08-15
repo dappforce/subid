@@ -207,7 +207,7 @@ const ClaimOrCancelActionButton = ({
   </> : t('staking.tooltips.readyToClaim')
 
   return <div className='d-flex align-items-center'>
-    <Tooltip className='mr-2' title={tooltipTitle}>
+    <Tooltip className='bs-mr-2' title={tooltipTitle}>
       <InfoCircleOutlined className={styles.InfoCircle} />
     </Tooltip>
     {claimButton}

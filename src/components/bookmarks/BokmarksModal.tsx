@@ -86,13 +86,13 @@ const ModalBody = ({
     >
       {showModalDesc && <MutedDiv className={styles.Desc}>{t('favoritesAccounts.modal.desc')}</MutedDiv>}
 
-      <div className={clsx(styles.AccountSection, { ['mt-2']: !showModalDesc })}>
+      <div className={clsx(styles.AccountSection, { ['bs-mt-2']: !showModalDesc })}>
         <div>
           <BaseAvatar address={address} avatar={owner?.image} size={64} />
         </div>
         <div>
           <Name address={address} identities={identities} className={styles.AccountName} />
-          <MutedDiv className='d-flex mr-2 align-items-center'>
+          <MutedDiv className='d-flex bs-mr-2 align-items-center'>
             <img src='/images/wallet.svg' className={styles.Icon} />{' '}
             <span className={styles.Address}>{toShortAddress(address)}</span>
           </MutedDiv>

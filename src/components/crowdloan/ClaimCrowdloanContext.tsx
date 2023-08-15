@@ -59,7 +59,7 @@ function SuccessClaimModal ({ claimedToken, ...props }: CustomModalProps & { cla
       className={clsx('text-center')}
       {...props}
     >
-      <div className='mt-2'>
+      <div className='bs-mt-2'>
         <TwitterMock
           className='w-100'
           url='/'

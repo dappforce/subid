@@ -121,7 +121,7 @@ export function TokenAmountFormItem ({
           const isError = getFieldError(fieldName).length > 0
 
           return (
-            <div className='mb-4'>
+            <div className='bs-mb-4'>
               {!isError && (
                 <ExistentialDepositAlert
                   name={props.name ?? ''}
@@ -204,7 +204,7 @@ function ExistentialDepositAlert ({
   const alertSource = getAlertSource()
 
   return (
-    <div className='mb-4'>
+    <div className='bs-mb-4'>
       {showExistentialDepositHelper && (
         <AlertPanel showDefaultIcon desc={insufficientDestExistential ? alertDest : alertSource} alertType='warning' className='mt-3' />
       )}

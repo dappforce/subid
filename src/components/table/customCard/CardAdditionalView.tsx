@@ -13,7 +13,7 @@ export default function CardAdditionalView ({ data, custom }: CardAdditionalView
   const isMobile = useIsMobileWidthOrDevice()
   return (
     <div className='d-flex flex-column' onClick={(e) => e.stopPropagation()}>
-      <Divider className='mt-2 mb-2' />
+      <Divider className='bs-mt-2 bs-mb-2' />
       <div className={clsx('d-flex flex-column GapMini', isMobile && 'mb-3')}>
         {data?.map(({ label, value }, idx) => (
           <div key={idx} className='d-flex align-items-start justify-content-between'>

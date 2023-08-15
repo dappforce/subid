@@ -34,7 +34,7 @@ type ModalContent = {
 const ModalFooter = () => (
   <div className={styles.ModalFooter}>
     <ExternalLink
-      className='mr-2'
+      className='bs-mr-2'
       url='https://subsocial.network/legal/terms'
       value='Terms of Use'
     />

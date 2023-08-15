@@ -117,8 +117,9 @@ export default function Modal({
                 >
                   {withCloseButton && (
                     <Button
-                      className='absolute right-6 m-1 mr-0 p-0 text-2xl text-text-muted'
+                      className='!absolute right-6 m-1 mr-0 !p-0 text-2xl text-text-muted'
                       variant='transparent'
+                      size={'circle'}
                       onClick={closeModal}
                     >
                       <HiXMark />

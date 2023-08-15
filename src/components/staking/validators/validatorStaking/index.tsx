@@ -58,7 +58,7 @@ export const ChangeValidatorsScreen = ({ network }: ChangeValidatorsScreenProps)
       </Button>
       <h2 className={clsx(styles.PageTitle, 'bs-mb-0')}>{t('validatorStaking.changeValidatorsScreen.title')}</h2>
     </div>
-    <MutedDiv className='mb-4'>{t('validatorStaking.changeValidatorsScreen.desc')}</MutedDiv>
+    <MutedDiv className='bs-mb-4'>{t('validatorStaking.changeValidatorsScreen.desc')}</MutedDiv>
     {isBalanceLessThenMinBond && <Alert 
       message={<>
         You do not meet the minimum nominator stake of {minBond} {symbol}. 

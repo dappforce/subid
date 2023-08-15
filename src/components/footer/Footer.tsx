@@ -74,7 +74,7 @@ export const Footer = ({ className }: FooterProps) => {
   const SocialLinks = () => {
     return <ul className={styles.List}>
       {socialLinks.map((value: any, i) => (
-        <li key={value.linkName} className={clsx({ ['bs-mr-3']: i !== socialLinks.length - 1, ['mt-2']: !isMobile }, styles.LinkIcon)}>
+        <li key={value.linkName} className={clsx({ ['bs-mr-3']: i !== socialLinks.length - 1, ['bs-mt-2']: !isMobile }, styles.LinkIcon)}>
           <ExternalLink url={value.link} value={value.icon} />
         </li>
       ))}

@@ -75,7 +75,7 @@ export const QrModal = ({ trigger, title, address, network, openFromUrl, classNa
         <Row justify='center'>
           <QrCode value={shareAddressLink} />
         </Row>
-        <Row justify='center' className='mt-3 mb-2'>
+        <Row justify='center' className='mt-3 bs-mb-2'>
           <MutedDiv>{currentChainName} {t('general.address')}:</MutedDiv>
         </Row>
         <Row justify='center' className='bs-px-2' style={{ wordBreak: 'break-word' }}>

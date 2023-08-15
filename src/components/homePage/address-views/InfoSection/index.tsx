@@ -42,7 +42,7 @@ export const InfoPanel = ({ title, size = 'small', layout = 'vertical', column =
       {items?.map(({ label, value }, key) => (
         <>
           <Col key={key} span={6} >
-            <MutedDiv className='mb-2'>{label}:</MutedDiv>
+            <MutedDiv className='bs-mb-2'>{label}:</MutedDiv>
           </Col>
           <Col key={key} span={18}>
             <div>{value}</div>

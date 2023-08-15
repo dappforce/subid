@@ -167,7 +167,7 @@ const AccountsLayout = ({ initialAccounts, accountsLength }: InterestingAccounts
               visible={tabVisible}
               onVisibleChange={(v) => setTabVisible(v)}
               placement='bottomLeft'
-              className={clsx('d-flex align-items-center justify-content-start w-auto', { ['mt-2']: isMobile })}
+              className={clsx('d-flex align-items-center justify-content-start w-auto', { ['bs-mt-2']: isMobile })}
               overlay={<MenuItems onTabChange={onTabKeyChange} data={TAB_KEYS} dropdownType='Roles' />}
             >
               <MutedSpan>{roleLabel} <DownOutlined className='ml-1 FontNormal' /></MutedSpan>
@@ -179,7 +179,7 @@ const AccountsLayout = ({ initialAccounts, accountsLength }: InterestingAccounts
             </Tabs>}
         </div>
       </Col>
-      <Col className={clsx('d-flex justify-content-end align-items-center', { ['mt-2']: isMobile })}>
+      <Col className={clsx('d-flex justify-content-end align-items-center', { ['bs-mt-2']: isMobile })}>
         <Dropdown
           trigger={[ 'click' ]}
           visible={chainVisible}
@@ -190,7 +190,7 @@ const AccountsLayout = ({ initialAccounts, accountsLength }: InterestingAccounts
         >
           <div className={styles.SelectedNetwork}>
             <DfBgImg
-              className={`mr-2 ${styles.TabIcon}`}
+              className={`bs-mr-2 ${styles.TabIcon}`}
               src={getIconUrl(resolveSvgIcon(selectedChain))}
               size={18}
               rounded

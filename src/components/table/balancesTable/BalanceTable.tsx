@@ -399,7 +399,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
             : undefined,
           showTabs,
           refreshText: t('table.balances.refreshText'),
-          buttonsClassName: clsx('mt-2 align-items-center'),
+          buttonsClassName: clsx('bs-mt-2 align-items-center'),
         }}
         maxItems={maxItems}
         showZeroBalance={showZeroBalance}

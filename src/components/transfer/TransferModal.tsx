@@ -183,7 +183,7 @@ function SuccessContent ({ data, closeModal }: { data: ExtendedTransferFormData 
         }}
       />
       <div className='d-flex flex-column align-items-stretch GapNormal position-relative'>
-        <div className='d-flex flex-column align-items-center mb-2'>
+        <div className='d-flex flex-column align-items-center bs-mb-2'>
           <span className='FontBig font-weight-semibold'>{amount} {token}</span>
           {tokenAmountInUsd ? (
             <MutedSpan>${toShortMoney({ num: tokenAmountInUsd })}</MutedSpan>
@@ -201,7 +201,7 @@ function SuccessContent ({ data, closeModal }: { data: ExtendedTransferFormData 
             content={secondCardContent}
           />
         )}
-        <Button onClick={closeModal} type='primary' block size='large' className='mt-2'>{t('buttons.gotIt')}</Button>
+        <Button onClick={closeModal} type='primary' block size='large' className='bs-mt-2'>{t('buttons.gotIt')}</Button>
       </div>
     </div>
   )

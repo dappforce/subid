@@ -36,7 +36,7 @@ type TabWithLogoType = {
 
 const TabWithLogo = ({ icon, text, count }: TabWithLogoType) => {
   return <div className='d-flex align-items-center mr-1 ml-1'>
-    {icon && <DfBgImg className='mr-2' src={icon} size={16} rounded />}
+    {icon && <DfBgImg className='bs-mr-2' src={icon} size={16} rounded />}
     <span>{text}</span>
     {count && <MutedSpan className='ml-2'>{count}</MutedSpan>}
   </div>
