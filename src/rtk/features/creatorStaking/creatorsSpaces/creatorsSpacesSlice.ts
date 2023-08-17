@@ -73,7 +73,7 @@ const slice = createSlice({
         state: state as EntityState<CreatorSpaceEntity>,
         reload,
         fieldName: 'space',
-        accounts: ids,
+        ids: ids,
         selector: creatorsSpacesSelector,
       })
       return
@@ -96,7 +96,7 @@ const slice = createSlice({
         reload,
         loading: false,
         fieldName: 'space',
-        accounts: ids,
+        ids: ids,
         selector: creatorsSpacesSelector,
       })
 

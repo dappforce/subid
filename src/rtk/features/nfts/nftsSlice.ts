@@ -76,7 +76,7 @@ const slice = createSlice({
         state: state as EntityState<NftsEntity>,
         reload,
         fieldName: 'nfts',
-        accounts,
+        ids: accounts,
         selector: selectorByAccount
       })
       return

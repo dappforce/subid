@@ -71,8 +71,8 @@ const slice = createSlice({
         state: state as EntityState<ScheduledRequestsEntity>,
         reload,
         fieldName: 'requests',
-        network,
-        accounts,
+        subId: network,
+        ids: accounts,
         selector: scheduledRequestsSelector
       })
 
@@ -90,8 +90,8 @@ const slice = createSlice({
         reload,
         loading: false,
         fieldName: 'state',
-        accounts,
-        network,
+        ids: accounts,
+        subId: network,
         selector: scheduledRequestsSelector
       })
       return

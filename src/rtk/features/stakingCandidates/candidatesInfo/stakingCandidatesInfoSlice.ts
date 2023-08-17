@@ -55,8 +55,8 @@ const slice = createSlice({
         state: state as EntityState<StakingCandidatesInfoEntity>,
         reload,
         fieldName: 'info',
-        network,
-        accounts,
+        subId: network,
+        ids: accounts,
         selector: stakingCadidatesSelector
       })
       return

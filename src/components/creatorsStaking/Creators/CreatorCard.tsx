@@ -4,6 +4,9 @@ import clsx from 'clsx'
 import StakeButton from './StakeButton'
 import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import TruncatedText from '../tailwind-components/TruncateText';
+import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
+import { FormatBalance } from 'src/components/common/balances'
 
 type CreatorPreviewProps = {
   title: string
@@ -39,7 +42,7 @@ export const CreatorPreview = ({
 
 type CreatorCardTotalValueProps = {
   label: string
-  value: string
+  value: React.ReactNode
 }
 
 const CreatorCardTotalValue = ({
@@ -59,18 +62,36 @@ const CreatorCardTotalValue = ({
 type CreatorCardProps = {
   isStake: boolean
   spaceId: string
+  era?: string
 }
 
-const CreatorCard = ({ isStake, spaceId }: CreatorCardProps) => {
+const CreatorCard = ({ isStake, spaceId, era }: CreatorCardProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
+  const eraStake = useEraStakesById(spaceId, era)
+  const chainsInfo = useChainInfo()
+
+  const { tokenDecimals, tokenSymbols, nativeToken } = chainsInfo?.subsocial || {}
+
+  const decimal = tokenDecimals?.[0] || 0
+  const symbol = tokenSymbols?.[0] || nativeToken
 
   const { loading, space } = creatorSpaceEntity || {}
+  const { numberOfStakers, total } = eraStake?.info || {}
 
   if (!loading && !space) return null
 
   const { name, about, ownedByAccount, image } = space || {}
 
   const owner = ownedByAccount?.id
+
+  const totalStake = <FormatBalance 
+    value={total} 
+    decimals={decimal} 
+    currency={symbol} 
+    isGrayDecimal={false}
+    isShort={true}
+  />
+
 
   return (
     <div
@@ -96,9 +117,9 @@ const CreatorCard = ({ isStake, spaceId }: CreatorCardProps) => {
         </div>
         <div className='border-b border-[#D4E2EF]'></div>
         <div className='flex flex-col gap-[2px]'>
-          <CreatorCardTotalValue label='My stake' value='350.40 SUB' />
-          <CreatorCardTotalValue label='Total stake' value='10,320.45 SUB' />
-          <CreatorCardTotalValue label='Stakers' value='4,794' />
+          <CreatorCardTotalValue label='My stake' value='-' />
+          <CreatorCardTotalValue label='Total stake' value={totalStake} />
+          <CreatorCardTotalValue label='Stakers' value={numberOfStakers} />
         </div>
       </div>
       <div className='flex gap-4'>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CardWrapper from '../utils/CardWrapper'
 import Button from '../tailwind-components/Button'
+import { useFetchEraStakes } from '../../../rtk/features/creatorStaking/eraStake/eraStakeHooks';
 
 type RewardCardProps = {
   title: string

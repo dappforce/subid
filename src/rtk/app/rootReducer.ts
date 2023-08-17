@@ -26,6 +26,7 @@ import fees from '../features/fees/feesSlice'
 import creatorsList from '../features/creatorStaking/creatorsList/creatorsListSlice'
 import generalEraInfo from '../features/creatorStaking/generalEraInfo/generalEraInfoSlice'
 import creatorsSpaces from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSlice'
+import eraStake from '../features/creatorStaking/eraStake/eraStakeSlice'
 
 const rootReducer = combineReducers({
   currentAccount,
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   creatorsList,
   generalEraInfo,
   creatorsSpaces,
+  eraStake
 })
 
 export type RootState = ReturnType<typeof rootReducer>

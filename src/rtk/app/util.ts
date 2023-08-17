@@ -188,9 +188,9 @@ export const upsertOneEntity = <T extends UpsertedEntities>({
 }
 
 type UpsertManyEntity<T> = Omit<UpsertOneEntity<T>, 'entity' | 'id'> & {
-  accounts: string[]
+  ids: string[]
   selector: EntitySelectors<T, EntityState<T>>
-  network?: string
+  subId?: string
 }
 
 export const upsertManyEntity = <T extends UpsertedEntities>({
@@ -199,18 +199,18 @@ export const upsertManyEntity = <T extends UpsertedEntities>({
   reload,
   loading = true,
   fieldName,
-  accounts,
+  ids,
   selector,
-  network
+  subId
 }: UpsertManyEntity<T>) => {
 
-  const entities = accounts.map((account) => {
-    const entity = selector.selectById(state, account)
+  const entities = ids.map((id) => {
+    const entity = selector.selectById(state, id)
 
     if (reload || entity?.loading === undefined) {
       const newEntity = entity
         ? { ...entity, loading }
-        : { id: network ? `${account}-${network}` : account, loading, [fieldName]: undefined }
+        : { id: subId ? `${id}-${subId}` : id, loading, [fieldName]: undefined }
       
       return newEntity
     }

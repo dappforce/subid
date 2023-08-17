@@ -8,18 +8,21 @@ import clsx from 'clsx'
 import { HiChevronDown } from 'react-icons/hi2'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
+import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 
 const DEFAULT_PAGE_SIZE = 9
 
 type AllCreatorsProps = {
   spaceIds?: string[]
+  era?: string
 }
 
-const AllCreators = ({ spaceIds }: AllCreatorsProps) => {
+const AllCreators = ({ spaceIds, era }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
 
   const creatorsCards = spaceIds?.map((spaceId, i) => (
-    <CreatorCard key={i} isStake={false} spaceId={spaceId} />
+    <CreatorCard key={i} isStake={false} spaceId={spaceId} era={era} />
   )) || []
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
@@ -92,16 +95,19 @@ const SortDropdown = () => {
 const CreatorsSection = () => {
   const [ tab, setTab ] = useState(0)
   const creatorsList = useCreatorsList()
+  const eraInfo = useGeneralEraInfo()
 
   const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
+  const currentEra = eraInfo?.currentEra
 
   useFetchCreatorsSpaces(creatorsSpaceIds)
+  useFetchEraStakes(creatorsSpaceIds, currentEra)
 
   const tabs: TabsProps['tabs'] = [
     {
       id: 'all-creators',
       text: 'All Creators',
-      content: () => <AllCreators spaceIds={creatorsSpaceIds} />,
+      content: () => <AllCreators spaceIds={creatorsSpaceIds} era={currentEra} />,
     },
     {
       id: 'my-creators',

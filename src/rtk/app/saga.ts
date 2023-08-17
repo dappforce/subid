@@ -38,6 +38,7 @@ import { watchStakingInfo } from '../features/validators/stakingInfo/stakingInfo
 import { watchCreatorsList } from '../features/creatorStaking/creatorsList/creatorsListSaga';
 import { watchGeneralEraInfo } from '../features/creatorStaking/generalEraInfo/generalEraInfoSaga';
 import { watchCreatorsSpaces } from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSaga';
+import { watchEraStake } from '../features/creatorStaking/eraStake/eraStakeSaga';
 
 
 export interface SagaStore extends Store {
@@ -77,7 +78,8 @@ export default function* rootSaga () {
     watchStakingLadgerAndNominators,
     watchCreatorsList,
     watchGeneralEraInfo,
-    watchCreatorsSpaces
+    watchCreatorsSpaces,
+    watchEraStake
   ]
 
   yield all(sagas.map((s) => fork(s)))
