@@ -2,35 +2,35 @@ import BaseAvatar from 'src/components/utils/DfAvatar'
 import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
 import StakeButton from './StakeButton'
-
-const address = '5FToy6nuBv7p6EtTHd2xW8neztzSTpPjtwMevTyBw6j91QKe'
+import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
+import TruncatedText from '../tailwind-components/TruncateText';
 
 type CreatorPreviewProps = {
-  title?: string
+  title: string
   imgSize?: number
   desc?: React.ReactNode
+  owner?: string
   avatar?: string
   titleClassName?: string
   descClassName?: string
 }
 
-export const CreatorPreview = ({ 
-  desc, 
-  imgSize = 40, 
-  avatar, 
+export const CreatorPreview = ({
+  desc,
+  imgSize = 40,
+  avatar,
+  owner,
   title,
   titleClassName,
   descClassName,
 }: CreatorPreviewProps) => {
   return (
     <div className='flex items-center'>
-      <BaseAvatar
-        size={imgSize}
-        address={address}
-        avatar={avatar}
-      />
+      <BaseAvatar size={imgSize} address={owner} avatar={avatar} />
       <div>
-        <div className={clsx('leading-5 font-medium', titleClassName)}>{title}</div>
+        <div className={clsx('leading-5 font-medium', titleClassName)}>
+          {title}
+        </div>
         {desc && <div className={descClassName}>{desc}</div>}
       </div>
     </div>
@@ -58,9 +58,20 @@ const CreatorCardTotalValue = ({
 
 type CreatorCardProps = {
   isStake: boolean
+  spaceId: string
 }
 
-const CreatorCard = ({ isStake }: CreatorCardProps) => {
+const CreatorCard = ({ isStake, spaceId }: CreatorCardProps) => {
+  const creatorSpaceEntity = useCreatorSpaceById(spaceId)
+
+  const { loading, space } = creatorSpaceEntity || {}
+
+  if (!loading && !space) return null
+
+  const { name, about, ownedByAccount, image } = space || {}
+
+  const owner = ownedByAccount?.id
+
   return (
     <div
       className={clsx(
@@ -70,17 +81,18 @@ const CreatorCard = ({ isStake }: CreatorCardProps) => {
     >
       <div className='flex flex-col gap-2'>
         <div className='flex justify-between gap-2'>
-          <CreatorPreview 
-            title={'Elon Musk'} 
-            desc='social links' 
-            avatar='/images/creator-staking/tmp-image.png'
+          <CreatorPreview
+            title={name || '<Unnamed>'}
+            desc='social links'
+            avatar={image}
+            owner={owner}
           />
           <Button variant='primaryOutline' size='circle' className='h-fit'>
             <img src='/images/creator-staking/messenger.svg' alt='' />
           </Button>
         </div>
-        <div className='text-sm text-text-muted leading-[22px] font-normal'>
-          Father of SpaceX and Tesla. Recently adopted Twitter.
+        <div className='flex items-center text-sm text-text-muted leading-[22px] font-normal min-h-[44px]'>
+          <TruncatedText text={about || ''} />
         </div>
         <div className='border-b border-[#D4E2EF]'></div>
         <div className='flex flex-col gap-[2px]'>
@@ -91,7 +103,11 @@ const CreatorCard = ({ isStake }: CreatorCardProps) => {
       </div>
       <div className='flex gap-4'>
         <StakeButton isStake={isStake} />
-        {!isStake && <Button variant='outlined' className='w-full' size='sm'>Unstake</Button>}
+        {!isStake && (
+          <Button variant='outlined' className='w-full' size='sm'>
+            Unstake
+          </Button>
+        )}
       </div>
     </div>
   )

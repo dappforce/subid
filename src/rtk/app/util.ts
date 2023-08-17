@@ -242,7 +242,7 @@ export const getAddressesByDomain = async (addressesOrDomains?: string[]) => {
   return addresses
 }
 
-export const getAccountsThatNeedToFetch = (obj: any, accounts: string[], field?: string) => {
+export const getIdsThatNeedToFetch = (obj: any, accounts: string[], field?: string) => {
   return !isEmptyObj(obj)
     ? Object.entries(obj).map(([ key, value ]) => {
       const objValue = field ? (value as any)[field] : value

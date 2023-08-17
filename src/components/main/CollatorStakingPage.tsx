@@ -39,7 +39,7 @@ export const WarningMessageBox = ({ addresses, network }: WarningMessageBoxType)
       <div className={styles.InnerWarningMessage}>
         <img src='/images/businessman.svg' />
         <div>
-          <span className='mb-3'>{t('staking.warnningSection.title')}</span>
+          <span className='bs-mb-3'>{t('staking.warnningSection.title')}</span>
           <MutedSpan>{t('staking.warnningSection.desc', { network: startWithUpperCase(network) })}</MutedSpan>
         </div>
         <Button

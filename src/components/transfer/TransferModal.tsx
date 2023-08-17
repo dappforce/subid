@@ -136,7 +136,7 @@ export default function TransferModal ({
                 disabled={disableCrossChainTab}
               />
             </Tabs>
-            <MutedSpan className='mb-3'>
+            <MutedSpan className='bs-mb-3'>
               {activeTab === 'same-chain' ? t('transfer.subtitle.sameChain') : t('transfer.subtitle.crossChain')}
             </MutedSpan>
             {formSection}

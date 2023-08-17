@@ -314,7 +314,7 @@ export default function TransferForm ({
           )
           return (
             <TransferFee
-              className='mb-3'
+              className='bs-mb-3'
               token={token}
               dest={destChain}
               source={sourceChain}

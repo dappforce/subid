@@ -259,7 +259,7 @@ export const BondInput = ({ form, network, type = 'stake', isModal = false, amou
       message={<>
         {t('validatorStaking.startNominatingScreen.stakeBlock.bondInput.bondAlert', { amount: minBond, symbol: nativeSymbol })} 
       </>} 
-      className='mb-3'
+      className='bs-mb-3'
       showIcon 
       type='warning' 
     />}

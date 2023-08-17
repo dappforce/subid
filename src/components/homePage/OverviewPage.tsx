@@ -108,7 +108,7 @@ export const AccountInfo = (props: Props) => {
   const actionButtons = <ActionButtons identities={identities} showFollowButton={showFollowButton} address={address} />
 
   return (
-    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'mb-3')}>
+    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'bs-mb-3')}>
       {!isMulti && <BannerSection
         currentAddress={address}
         owner={owner}

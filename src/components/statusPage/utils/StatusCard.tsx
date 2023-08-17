@@ -126,7 +126,7 @@ const StatusCards = () => {
       title='Disconnected'
       statuses={disconnected}
       chainsInfo={chainsInfo}
-      className='mb-3'
+      className='bs-mb-3'
     />
 
     <StatusSection

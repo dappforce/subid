@@ -23,6 +23,9 @@ import stakingProps from '../features/validators/stakingProps/stakingPropsSlice'
 import nominatorInfo from '../features/validators/nominatorInfo/nominatorInfoSlice'
 import stakingReward from '../features/validators/rewards/rewardsSlice'
 import fees from '../features/fees/feesSlice'
+import creatorsList from '../features/creatorStaking/creatorsList/creatorsListSlice'
+import generalEraInfo from '../features/creatorStaking/generalEraInfo/generalEraInfoSlice'
+import creatorsSpaces from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSlice'
 
 const rootReducer = combineReducers({
   currentAccount,
@@ -49,6 +52,9 @@ const rootReducer = combineReducers({
   nominatorInfo,
   stakingReward,
   fees,
+  creatorsList,
+  generalEraInfo,
+  creatorsSpaces,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

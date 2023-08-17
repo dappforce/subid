@@ -2,30 +2,98 @@ import clsx from 'clsx'
 import Button from '../tailwind-components/Button'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import CardWrapper from '../utils/CardWrapper'
+import {
+  useFetchGeneralEraInfo,
+  useGeneralEraInfo,
+} from '../../../rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import Balance from '../utils/Balance'
+import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
+import { convertToBalanceWithDecimal, toShortMoney } from '@subsocial/utils'
 
-const StatsCard = () => {
+type StatsCardProps = {
+  title: string
+  value: React.ReactNode
+  desc?: React.ReactNode
+}
+
+const StatsCard = ({ title, value, desc }: StatsCardProps) => {
   return (
     <CardWrapper className='bg-background-stats-card/20 backdrop-blur-[24.5px]'>
-      <div className='text-white/80'>Total Staked</div>
+      <div className='text-white/80'>{title}</div>
       <div>
-        <div className='text-white text-2xl font-semibold'>1.2B SUB</div>
-        <div className='text-white/80 text-sm'>$194.7M</div>
+        <div className='text-white text-2xl font-semibold'>{value}</div>
+        {desc && <div className='text-white/80 text-sm'>{desc}</div>}
       </div>
     </CardWrapper>
   )
 }
 
+type SubsocialBalanceProps = {
+  value: number | string
+}
+
+const SubsocialBalance = ({ value }: SubsocialBalanceProps) => {
+  const chainsInfo = useChainInfo()
+
+  const { tokenDecimals, tokenSymbols } = chainsInfo?.subsocial || {}
+
+  const decimal = tokenDecimals?.[0]
+  const symbol = tokenSymbols?.[0]
+
+  if (!decimal || !symbol) return null
+
+  const balanceWithDecimal = convertToBalanceWithDecimal(value, decimal)
+
+  return (
+    <Balance
+      value={toShortMoney({ num: balanceWithDecimal.toNumber() })}
+      skeletonClassName='w-28 h-4 mb-3'
+      symbol={symbol}
+      loading={!value}
+    />
+  )
+}
+
 const StatsCards = () => {
+  const generalEraInfo = useGeneralEraInfo()
+  const creatorsList = useCreatorsList()
+
+  const creatorsCount = creatorsList?.length
+
+  const dashboardData = [
+    {
+      title: 'Total Staked',
+      value: <SubsocialBalance value={generalEraInfo?.staked || 0} />,
+      desc: 'There can be your price)',
+    },
+    {
+      title: 'Estimated APR',
+      value: 'SOON',
+    },
+    {
+      title: 'Current Era',
+      value: generalEraInfo?.currentEra || 0,
+      desc: 'SOON',
+    },
+    {
+      title: 'Total Creators',
+      value: creatorsCount || 0,
+    },
+  ]
+
   return (
     <div className='flex gap-6'>
-      {[ 1, 2, 3, 4 ].map((i) => (
-        <StatsCard key={i} />
+      {dashboardData.map((data, i) => (
+        <StatsCard key={i} {...data} />
       ))}
     </div>
   )
 }
 
 const Banner = () => {
+  useFetchGeneralEraInfo()
+
   return (
     <div
       className={clsx(

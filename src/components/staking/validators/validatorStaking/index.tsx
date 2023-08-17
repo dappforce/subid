@@ -64,7 +64,7 @@ export const ChangeValidatorsScreen = ({ network }: ChangeValidatorsScreenProps)
         You do not meet the minimum nominator stake of {minBond} {symbol}. 
         Please stake some funds before nominating.
       </>} 
-      className='mb-3'
+      className='bs-mb-3'
       showIcon 
       type='warning' 
     />}

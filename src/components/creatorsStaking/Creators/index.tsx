@@ -6,29 +6,21 @@ import Pagination from '../tailwind-components/Pagination'
 import FloatingMenus from '../tailwind-components/floating/FloatingMenus'
 import clsx from 'clsx'
 import { HiChevronDown } from 'react-icons/hi2'
+import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 
 const DEFAULT_PAGE_SIZE = 9
 
-const AllCreators = () => {
+type AllCreatorsProps = {
+  spaceIds?: string[]
+}
+
+const AllCreators = ({ spaceIds }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
 
-  const creatorsCards = [
-    false,
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    true,
-    false,
-    false,
-    true,
-    false,
-    false,
-    true,
-    false,
-  ].map((value, i) => <CreatorCard key={i} isStake={value} />)
+  const creatorsCards = spaceIds?.map((spaceId, i) => (
+    <CreatorCard key={i} isStake={false} spaceId={spaceId} />
+  )) || []
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
   const end = start + DEFAULT_PAGE_SIZE
@@ -99,12 +91,17 @@ const SortDropdown = () => {
 
 const CreatorsSection = () => {
   const [ tab, setTab ] = useState(0)
+  const creatorsList = useCreatorsList()
+
+  const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
+
+  useFetchCreatorsSpaces(creatorsSpaceIds)
 
   const tabs: TabsProps['tabs'] = [
     {
       id: 'all-creators',
       text: 'All Creators',
-      content: () => <AllCreators />,
+      content: () => <AllCreators spaceIds={creatorsSpaceIds} />,
     },
     {
       id: 'my-creators',

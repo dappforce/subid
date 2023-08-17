@@ -138,7 +138,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
         gutter={{ xs: 18, sm: 25, md: 25, lg: 25, xl: 18 }}
         >
         {data.map((x, i) => (
-          <Col key={i} className={'mb-3'} >
+          <Col key={i} className={'bs-mb-3'} >
             {renderItem(x, i)}
           </Col>))}
       </Row> :

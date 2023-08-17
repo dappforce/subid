@@ -317,7 +317,7 @@ const StakingCardItem = ({ item, key }: StakingCardItemProps) => {
         </div>
       } key={key}>
         <div className={styles.CardItems}>
-          <div className='d-flex justify-content-between mb-3'>
+          <div className='d-flex justify-content-between bs-mb-3'>
             <Space direction='vertical' size={4}>
               <MutedDiv>My Stake:</MutedDiv>
               <MutedDiv>Self-Stake:</MutedDiv>
