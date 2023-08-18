@@ -1,5 +1,3 @@
-import useMounted from '@/hooks/useMounted'
-import { cx } from '@/utils/class-names'
 import {
   arrow,
   autoUpdate,
@@ -20,6 +18,8 @@ import React, { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { HiXMark } from 'react-icons/hi2'
 import Button from '../Button'
+import clsx from 'clsx'
+import useMounted from './utils'
 
 const panelStyles = cva(
   'absolute z-30 flex max-w-[min(24rem,_95vw)] items-center rounded-3xl text-text-dark shadow-md outline-none',
@@ -37,9 +37,9 @@ const panelStyles = cva(
 )
 
 const panelColors = {
-  warning: cx('bg-background-warning text-text-dark'),
-  default: cx('text-text bg-background-lightest'),
-  info: cx('bg-background-info text-white'),
+  warning: clsx('bg-background-warning text-text-dark'),
+  default: clsx('text-text bg-background-lightest'),
+  info: clsx('bg-background-info text-white'),
 }
 
 export type PopOverProps = VariantProps<typeof panelStyles> & {
@@ -61,7 +61,7 @@ export type PopOverProps = VariantProps<typeof panelStyles> & {
   initialFocus?: Parameters<typeof FloatingFocusManager>[0]['initialFocus']
 }
 
-export default function PopOver({
+export default function PopOver ({
   children,
   trigger,
   asButton = false,
@@ -77,7 +77,7 @@ export default function PopOver({
   manualTrigger,
   initialFocus,
 }: PopOverProps) {
-  const [_isOpen, _setIsOpen] = useState(false)
+  const [ _isOpen, _setIsOpen ] = useState(false)
   const isOpen = manualTrigger?.isOpen ?? _isOpen
   const setIsOpen = manualTrigger?.setIsOpen ?? _setIsOpen
 
@@ -123,7 +123,7 @@ export default function PopOver({
   return (
     <>
       <TriggerElement
-        className={cx('flex items-center', triggerClassName)}
+        className={clsx('flex items-center', triggerClassName)}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
@@ -154,7 +154,7 @@ export default function PopOver({
                   width: 'max-content',
                 }}
                 ref={refs.setFloating}
-                className={cx(
+                className={clsx(
                   panelStyles({ panelSize }),
                   color,
                   popOverClassName
@@ -173,7 +173,7 @@ export default function PopOver({
                 )}
                 {withArrow && (
                   <div
-                    className={cx(
+                    className={clsx(
                       'translate h-5 !w-5 rotate-45',
                       isArrowPlacementOnBottom
                         ? '-translate-y-0.5'

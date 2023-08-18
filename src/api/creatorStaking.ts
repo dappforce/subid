@@ -42,3 +42,18 @@ export const getEraStakesBySpaceIds = async (ids: string[], era: string) =>
     onFaileReturnedValue: undefined,
     onFailedText: 'Failed to fetch general era info',
   })
+
+  export const getStakerInfoBySpaces = async (ids: string[], account: string) =>
+  sendGetRequest({
+    params: {
+      url: 'staking/creator/staker/info',
+      config: {
+        params: {
+          ids: ids.join(','),
+          account
+        },
+      },
+    },
+    onFaileReturnedValue: undefined,
+    onFailedText: 'Failed to fetch staker info by spaces',
+  })

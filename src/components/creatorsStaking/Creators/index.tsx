@@ -10,6 +10,8 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import { useFetchStakerInfoBySpaces } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -22,7 +24,7 @@ const AllCreators = ({ spaceIds, era }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
 
   const creatorsCards = spaceIds?.map((spaceId, i) => (
-    <CreatorCard key={i} isStake={false} spaceId={spaceId} era={era} />
+    <CreatorCard key={i} spaceId={spaceId} era={era} />
   )) || []
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
@@ -94,6 +96,7 @@ const SortDropdown = () => {
 
 const CreatorsSection = () => {
   const [ tab, setTab ] = useState(0)
+  const myAddress = useMyAddress()
   const creatorsList = useCreatorsList()
   const eraInfo = useGeneralEraInfo()
 
@@ -102,6 +105,7 @@ const CreatorsSection = () => {
 
   useFetchCreatorsSpaces(creatorsSpaceIds)
   useFetchEraStakes(creatorsSpaceIds, currentEra)
+  useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
 
   const tabs: TabsProps['tabs'] = [
     {

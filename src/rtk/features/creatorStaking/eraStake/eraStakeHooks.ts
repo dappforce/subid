@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../app/store';
-import { eraStakeActions, selectEraStake } from './eraStakeSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { eraStakeActions, selectEraStake } from './eraStakeSlice'
 
 export const useFetchEraStakes = (ids?: string[], era?: string) => {
   const dispatch = useAppDispatch()

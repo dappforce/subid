@@ -54,7 +54,7 @@ export type MenuListProps = ComponentProps<'div'> &
     menus: Menu[]
   }
 
-export default function MenuList({ menus, size, ...props }: MenuListProps) {
+export default function MenuList ({ menus, size, ...props }: MenuListProps) {
   return (
     <div {...props} className={clsx(menuListStyles({ size }), props.className)}>
       {menus.map(

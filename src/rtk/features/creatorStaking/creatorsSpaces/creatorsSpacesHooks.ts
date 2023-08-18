@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../app/store';
-import { creatorsSpacesActions, selectCreatorSpace, selectManySpaces } from './creatorsSpacesSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { creatorsSpacesActions, selectCreatorSpace, selectManySpaces } from './creatorsSpacesSlice'
 
 export const useFetchCreatorsSpaces = (ids?: string[]) => {
   const dispatch = useAppDispatch()

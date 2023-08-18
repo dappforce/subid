@@ -15,7 +15,7 @@ export type FloatingMenusProps = Omit<FloatingWrapperProps, 'panel'> &
     ) => JSX.Element
   }
 
-export default function FloatingMenus({
+export default function FloatingMenus ({
   children,
   panelClassName,
   panelSize,
@@ -42,7 +42,7 @@ export default function FloatingMenus({
   )
 }
 
-function FloatingMenuPanel({
+function FloatingMenuPanel ({
   menus,
   closeMenu,
   panelClassName,

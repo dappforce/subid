@@ -12,7 +12,7 @@ import {
 } from './eraStakeSlice'
 import { getEraStakesBySpaceIds } from '../../../../api/creatorStaking'
 
-export function* fetchEraStakeWorker(
+export function* fetchEraStakeWorker (
   action: PayloadAction<EraStakeFetchProps>
 ) {
   const { ids, reload = false, era } = action.payload
@@ -28,7 +28,6 @@ export function* fetchEraStakeWorker(
 
     const idsParam: string[] = reload ? ids : needFetch
 
-    console.log(idsParam)
 
     if (!isEmptyArray(idsParam)) {
       const info: Record<string, any> = yield call(getEraStakesBySpaceIds, idsParam, era)
@@ -72,7 +71,7 @@ export function* fetchEraStakeWorker(
   }
 }
 
-export function* watchEraStake() {
+export function* watchEraStake () {
   yield takeEvery(
     eraStakeActions.fetchEraStake.type,
     fetchEraStakeWorker

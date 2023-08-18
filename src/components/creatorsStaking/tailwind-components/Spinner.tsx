@@ -6,7 +6,7 @@ export type SpinnerProps = ComponentProps<'svg'> & {
   spinnerClassName?: string
 }
 
-export default function Spinner({
+export default function Spinner ({
   backgroundClassName,
   spinnerClassName,
   ...props

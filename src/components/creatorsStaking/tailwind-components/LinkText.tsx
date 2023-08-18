@@ -28,7 +28,7 @@ export type LinkTextProps = Omit<ComponentProps<'a'>, 'href'> &
     arrowClassName?: string
   }
 
-const LinkText = forwardRef<any, LinkTextProps>(function LinkText(
+const LinkText = forwardRef<any, LinkTextProps>(function LinkText (
   { href, variant, openInNewTab, withArrow, arrowClassName, ...props },
   ref
 ) {

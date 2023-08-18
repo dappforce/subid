@@ -3,10 +3,12 @@ import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
 import StakeButton from './StakeButton'
 import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
-import TruncatedText from '../tailwind-components/TruncateText';
+import TruncatedText from '../tailwind-components/TruncateText'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
+import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 
 type CreatorPreviewProps = {
   title: string
@@ -60,23 +62,28 @@ const CreatorCardTotalValue = ({
 }
 
 type CreatorCardProps = {
-  isStake: boolean
   spaceId: string
   era?: string
 }
 
-const CreatorCard = ({ isStake, spaceId, era }: CreatorCardProps) => {
+const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
+  const myAddress = useMyAddress()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const eraStake = useEraStakesById(spaceId, era)
   const chainsInfo = useChainInfo()
+  const stakerInfo = useStakerInfo(spaceId, myAddress)
 
-  const { tokenDecimals, tokenSymbols, nativeToken } = chainsInfo?.subsocial || {}
+  const { tokenDecimals, tokenSymbols, nativeToken } =
+    chainsInfo?.subsocial || {}
 
   const decimal = tokenDecimals?.[0] || 0
   const symbol = tokenSymbols?.[0] || nativeToken
 
   const { loading, space } = creatorSpaceEntity || {}
   const { numberOfStakers, total } = eraStake?.info || {}
+  const { totalStaked } = stakerInfo?.info || {}
+
+  const isStake = totalStaked === '0'
 
   if (!loading && !space) return null
 
@@ -84,14 +91,25 @@ const CreatorCard = ({ isStake, spaceId, era }: CreatorCardProps) => {
 
   const owner = ownedByAccount?.id
 
-  const totalStake = <FormatBalance 
-    value={total} 
-    decimals={decimal} 
-    currency={symbol} 
-    isGrayDecimal={false}
-    isShort={true}
-  />
+  const totalStake = (
+    <FormatBalance
+      value={total}
+      decimals={decimal}
+      currency={symbol}
+      isGrayDecimal={false}
+      isShort={true}
+    />
+  )
 
+  const myStake = (
+    <FormatBalance
+      value={totalStaked}
+      decimals={decimal}
+      currency={symbol}
+      isGrayDecimal={false}
+      isShort={true}
+    />
+  )
 
   return (
     <div
@@ -117,7 +135,7 @@ const CreatorCard = ({ isStake, spaceId, era }: CreatorCardProps) => {
         </div>
         <div className='border-b border-[#D4E2EF]'></div>
         <div className='flex flex-col gap-[2px]'>
-          <CreatorCardTotalValue label='My stake' value='-' />
+          <CreatorCardTotalValue label='My stake' value={totalStaked !== '0' ? myStake : '-'} />
           <CreatorCardTotalValue label='Total stake' value={totalStake} />
           <CreatorCardTotalValue label='Stakers' value={numberOfStakers} />
         </div>

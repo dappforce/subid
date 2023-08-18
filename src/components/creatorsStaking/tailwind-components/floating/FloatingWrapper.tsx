@@ -35,7 +35,7 @@ export type FloatingWrapperProps = {
   mainAxisOffset?: number
 }
 
-export default function FloatingWrapper({
+export default function FloatingWrapper ({
   children,
   panel,
   manualMenuController,
@@ -46,7 +46,7 @@ export default function FloatingWrapper({
   mainAxisOffset = 0,
 }: FloatingWrapperProps) {
   const { isMobile } = useResponsiveSize()
-  const [openMenu, setOpenMenu] = useState(false)
+  const [ openMenu, setOpenMenu ] = useState(false)
   const open = manualMenuController?.open ?? openMenu
   const onOpenChange = manualMenuController?.onOpenChange ?? setOpenMenu
 

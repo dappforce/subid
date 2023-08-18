@@ -49,7 +49,7 @@ export type ModalProps = ModalFunctionalityProps &
     withFooter?: boolean
   }
 
-export default function Modal({
+export default function Modal ({
   children,
   titleClassName,
   contentClassName,

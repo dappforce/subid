@@ -36,7 +36,7 @@ const slice = createSlice({
     fetchGeneralEraInfo: (_state, _action: PayloadAction) => {
       return
     },
-    fetchGeneralEraInfoSuccess(
+    fetchGeneralEraInfoSuccess (
       state,
       action: PayloadAction<GeneralErainfoEntity>
     ) {

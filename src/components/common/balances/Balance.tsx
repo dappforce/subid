@@ -7,7 +7,7 @@ import { Compact } from '@polkadot/types'
 const M_LENGTH = 6 + 1
 const K_LENGTH = 3 + 1
 
-function format(
+function format (
   value: Compact<any> | BN | string,
   currency: string,
   decimals: number,
@@ -15,7 +15,7 @@ function format(
   _isShort?: boolean,
   isGrayDecimal?: boolean
 ): React.ReactNode {
-  const [prefix, postfix] = formatBalance(value, {
+  const [ prefix, postfix ] = formatBalance(value, {
     forceUnit: '-',
     decimals,
     withSi: false,
