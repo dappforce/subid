@@ -2,6 +2,15 @@ import { useState } from 'react'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CardWrapper from '../utils/CardWrapper'
 import Button from '../tailwind-components/Button'
+import {
+  useFetchStakerLedgerBySpaces,
+  useStakerLedger,
+} from '../../../rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
+import { convertToBalanceWithDecimal } from '@subsocial/utils'
+import { FormatBalance } from 'src/components/common/balances'
+import store from 'store'
 
 type RewardCardProps = {
   title: string
@@ -17,7 +26,9 @@ const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
       <div className='flex justify-between items-center'>
         <div>
           <div className='text-2xl font-semibold'>{value}</div>
-          {desc && <div className='font-normal text-text-muted text-sm'>{desc}</div>}
+          {desc && (
+            <div className='font-normal text-text-muted text-sm'>{desc}</div>
+          )}
         </div>
         {button}
       </div>
@@ -25,43 +36,94 @@ const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
   )
 }
 
-const cardsOpt = [
-  {
-    title: 'My Stake',
-    value: '3,340.49 SUB',
-    desc: '$1,680.67',
-  },
-  {
-    title: 'Estimated Rewards',
-    value: '150.04 SUB',
-    desc: '48 Eras',
-    button: <Button size={'sm'} variant={'primary'}>Claim</Button>
-  },
-  {
-    title: 'Re-Stake After Claiming',
-    value: <div className='font-semibold'>ON</div>,
-    button: <Button size={'sm'} variant={'primaryOutline'}>Turn off</Button>
-  }
-]
+type RestakeButtonProps = {
+  restake: boolean
+  setRestake: (restake: boolean) => void
+}
 
-const MyRewards = () => {
-  const stakingCards = cardsOpt.map((card, i) => <RewardCard key={i} {...card} />)
+const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
+
+  const onButtonClick = (restake: boolean) => {
+    setRestake(!restake)
+    store.set('RestakeAfterClaim', !restake)
+  }
 
   return (
-    <div className='flex gap-4'>{stakingCards}</div>
+    <Button size={'sm'} variant={'primaryOutline'} onClick={() => onButtonClick(restake)}>
+      {restake ? 'Turn off' : 'Turn on'}
+    </Button>
   )
 }
 
+const MyRewards = () => {
+  const restakeStateFromStorage = store.get('RestakeAfterClaim')
+  const [ restake, setRestake ] = useState(restakeStateFromStorage)
+  const myAddress = useMyAddress()
+  const chainsInfo = useChainInfo()
+
+  const stakerLedger = useStakerLedger(myAddress)
+
+  const { tokenDecimals, tokenSymbols, nativeToken } =
+    chainsInfo?.subsocial || {}
+
+  const decimal = tokenDecimals?.[0] || 0
+  const symbol = tokenSymbols?.[0] || nativeToken
+
+  const { locked } = stakerLedger?.ledger || {}
+
+  const myStake = (
+    <FormatBalance
+      value={locked}
+      decimals={decimal}
+      currency={symbol}
+      isGrayDecimal={false}
+      isShort={true}
+    />
+  )
+
+  const cardsOpt = [
+    {
+      title: 'My Stake',
+      value: myStake,
+      desc: 'SOON',
+    },
+    {
+      title: 'Estimated Rewards',
+      value: 'SOON',
+      desc: 'SOON',
+      button: (
+        <Button disabled size={'sm'} variant={'primary'}>
+          Claim
+        </Button>
+      ),
+    },
+    {
+      title: 'Re-Stake After Claiming',
+      value: <div className='font-semibold'>{restake ? 'ON' : 'OFF'}</div>,
+      button: (
+        <RestakeButton restake={restake} setRestake={setRestake} />
+      ),
+    },
+  ]
+
+  const stakingCards = cardsOpt.map((card, i) => (
+    <RewardCard key={i} {...card} />
+  ))
+
+  return <div className='flex gap-4'>{stakingCards}</div>
+}
+
 const MyStakingSection = () => {
+  const myAddress = useMyAddress()
   const [ tab, setTab ] = useState(0)
+
+  useFetchStakerLedgerBySpaces(myAddress)
 
   const tabs: TabsProps['tabs'] = [
     {
       id: 'my-rewards',
       text: 'My Rewards',
-      content: () => (
-        <MyRewards />
-      ),
+      content: () => <MyRewards />,
     },
     {
       id: 'unstaking',
