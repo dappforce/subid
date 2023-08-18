@@ -8,8 +8,8 @@ import { useFetchAssetsBalances } from '../features/assetsBalances/assetsBalance
 import { useDotsamaContributions } from '../features/contributions/contributionsHooks'
 import { relayChains } from '../../components/table/utils'
 import { isValidAddress } from '../../components/utils/index'
-import { GenericAccountId } from '@polkadot/types'
-import registry from '@subsocial/types/substrate/registry'
+// import { GenericAccountId } from '@polkadot/types'
+// import registry from '@subsocial/types/substrate/registry'
 import {
   FETCH_CHIAN_INFO_WITH_PRICES,
   FETCH_DOTSAMA_CROWDLOAN_INFO,
@@ -45,7 +45,8 @@ export const toGenericAccountId = (account?: string) => {
   if (account && isEthereumAddress(account)) return account
 
   return account && isValidAddress(account)
-    ? new GenericAccountId(registry, account).toString()
+  ? account
+    // ? new GenericAccountId(registry, account).toString()
     : ''
 }
 

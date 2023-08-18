@@ -8,8 +8,8 @@ const isFinishedStepsDefault = {
 
 export type RewardDestinationKey = 'Staked' | 'Account'
 
-export type RewardDestination = Record<RewardDestinationKey, string | null>
 
+export type RewardDestination = Record<RewardDestinationKey, string | null>
 const rewardDestinationDefault = { Staked: null } as RewardDestination
 
 export enum NominatingStepsEnum {

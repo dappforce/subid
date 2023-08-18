@@ -11,7 +11,7 @@ import { useMyAddress } from '../../../providers/MyExtensionAccountsContext'
 import { useStakingContext, StakingStepsEnum } from '../contexts/StakingScreenContext'
 import { useLazyConnectionsContext } from '../../../lazy-connection/LazyConnectionContext'
 import { useAppDispatch } from '../../../../rtk/app/store'
-import { getBalanceWithDecimal } from '../../../common/balances/utils'
+// import { getBalanceWithDecimal } from '../../../common/balances/utils'
 import { toGenericAccountId } from '../../../../rtk/app/util'
 import { stakingNominatorInfoActions } from '../../../../rtk/features/validators/nominatorInfo/nominatorInfoSlice'
 import { balancesActions } from '../../../../rtk/features/balances/balancesSlice'
@@ -99,28 +99,28 @@ export const SummaryCollapseSection = ({ network }: SummaryCollapseSectionProps)
   const { bond, selectedValidators, rewardDestination } = useNominatingStakingContext()
   const { setCurrentStakingStep } = useStakingContext()
   const { getApiByNetwork } = useLazyConnectionsContext()
-  const chainsInfo = useChainInfo()
+  // const chainsInfo = useChainInfo()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 
-  const { tokenDecimals } = chainsInfo[network] || {}
+  // const { tokenDecimals } = chainsInfo[network] || {}
 
-  const decimal = tokenDecimals?.[0] || 0
+  // const decimal = tokenDecimals?.[0] || 0
 
   const getParams = async () => {
     if(!myAddress) return []
 
     const api = await getApiByNetwork(network)
 
-    const stashToSubmit = {
-      Id: myAddress,
-    }
+    // const stashToSubmit = {
+    //   Id: myAddress,
+    // }
 
     const targetsToSubmit = selectedValidators.map((item: any) => ({ Id: item }))
 
     const txs = [
       [
-        api.tx.staking.bond(stashToSubmit, getBalanceWithDecimal(bond || '0', decimal).toString(), rewardDestination),
+        // api.tx.staking.bond(stashToSubmit, getBalanceWithDecimal(bond || '0', decimal).toString(), rewardDestination),
         api.tx.staking.nominate(targetsToSubmit),
       ]
     ]

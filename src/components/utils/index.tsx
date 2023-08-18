@@ -5,7 +5,7 @@ import { GenericAccountId, Option, Text } from '@polkadot/types'
 import { AnyAccountId, CID } from '@subsocial/types'
 import store from 'store'
 import { IconBaseProps } from '@ant-design/icons/lib/components/Icon'
-import registry from '@subsocial/types/substrate/registry'
+// import registry from '@subsocial/types/substrate/registry'
 import { memoize } from 'lodash'
 import { encodeAddress, isEthereumAddress } from '@polkadot/util-crypto'
 import config from 'src/config'
@@ -232,8 +232,8 @@ export const isValidAddress = (
     if (acceptFormat.eth && isEthereumAddress(address)) return true
 
     if (!acceptFormat.substrate) return false
-    const genericAddress = new GenericAccountId(registry, address)
-    return !!genericAddress
+    // const genericAddress = new GenericAccountId(registry, address)
+    return !!address
   } catch {
     return false
   }
