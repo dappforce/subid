@@ -112,15 +112,11 @@ export const SummaryCollapseSection = ({ network }: SummaryCollapseSectionProps)
 
     const api = await getApiByNetwork(network)
 
-    const stashToSubmit = {
-      Id: myAddress,
-    }
-
     const targetsToSubmit = selectedValidators.map((item: any) => ({ Id: item }))
 
     const txs = [
       [
-        api.tx.staking.bond(stashToSubmit, getBalanceWithDecimal(bond || '0', decimal).toString(), rewardDestination),
+        api.tx.staking.bond(getBalanceWithDecimal(bond || '0', decimal).toString(), rewardDestination),
         api.tx.staking.nominate(targetsToSubmit),
       ]
     ]

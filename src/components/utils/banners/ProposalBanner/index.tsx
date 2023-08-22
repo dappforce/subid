@@ -6,23 +6,22 @@ import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
 
-const BANNER_STORAGE_KEY = 'df.proposal_banner'
-
-const bannersKind = [ 'orange', 'pink' ]
+const BANNER_STORAGE_KEY = 'df.open_comm_banner'
 
 export const ProposalBannerSection = () => {
   const { isMobile } = useResponsiveSize()
 
   const bannerFromStorage = store.get(BANNER_STORAGE_KEY)
 
-  const [ showBanner, setShowBanner ] = useState(bannerFromStorage !== undefined ? bannerFromStorage : true)
+  const [ showBanner, setShowBanner ] = useState(
+    bannerFromStorage !== undefined ? bannerFromStorage : true
+  )
 
   if (!showBanner) return null
 
-  const kindIndex = new Date().getTime() % 2
-  const kind = bannersKind[kindIndex]
-
-  const backgroundImage = `/images/banners/proposal-${kind}-${isMobile ? 'mobile' : 'desktop'}.png`
+  const backgroundImage = `/images/banners/open-comm-${
+    isMobile ? 'mobile' : 'desktop'
+  }.svg`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault()
@@ -30,25 +29,22 @@ export const ProposalBannerSection = () => {
     store.set(BANNER_STORAGE_KEY, false)
   }
 
-  const closeButton = <CloseOutlined
-    className={styles.DfCloseButton}
-    onClick={closeBanner}
-  />
+  const closeButton = (
+    <CloseOutlined className={styles.DfCloseButton} onClick={closeBanner} />
+  )
 
   return (
     <div
       className={clsx(styles.Banner, { [styles.MobileBannerMargin]: isMobile })}
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: !isMobile ? 'center' : 'inherit'
-      }}
-    >{closeButton}</div>
+    >
+      <img src={backgroundImage} alt='Banner image' className={styles.BannerImg} />
+      {closeButton}
+    </div>
   )
 }
 
 const ProposalBanner = () => (
-  <Link href='https://kusama.subsquare.io/referenda/referendum/198'>
+  <Link href='https://polkadot.polkassembly.io/referenda/119'>
     <a target='_blank' rel='noreferrer'>
       <ProposalBannerSection />
     </a>
