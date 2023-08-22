@@ -49,7 +49,6 @@
     "typescript": "4.4.2"
   },
   "resolutions": {
-    "node-sass": "^6.x.x",
     "@types/react": "^17.x.x"
   },
   "dependencies": {
@@ -64,7 +63,6 @@
     "@subsocial/api": "0.6.8",
     "@subsocial/grill-widget": "^0.0.7",
     "@subsocial/utils": "^0.6.8",
-    "@webdeb/next-styles": "^1.1.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "antd": "4.12.3",
