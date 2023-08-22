@@ -1,5 +1,5 @@
 import React, { useEffect, FC,/* , useMemo */ 
-useMemo} from 'react'
+useMemo } from 'react'
 import {
   getAddressFromStorage } from '../utils/index'
 import { PageContent, HeadMeta } from './PageWrapper'

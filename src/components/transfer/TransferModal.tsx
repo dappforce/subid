@@ -18,7 +18,7 @@ import { useTokenAmountInUsd } from 'src/rtk/features/prices/pricesHooks'
 import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-import { isTokenBridgeable } from './configs/cross-chain'
+// import { isTokenBridgeable } from './configs/cross-chain'
 import styles from './TokenSelector.module.sass'
 
 type TransferModalProps = CustomModalProps & {
@@ -89,9 +89,9 @@ export default function TransferModal ({
     }
   }
 
-  const disableCrossChainTab = !isTokenBridgeable(
-    defaultSelectedToken?.token ?? ''
-  )
+  // const disableCrossChainTab = !isTokenBridgeable(
+  //   defaultSelectedToken?.token ?? ''
+  // )
   const isFormVisible = currentState === 'form'
 
   return (

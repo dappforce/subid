@@ -6,7 +6,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
 
-const BANNER_STORAGE_KEY = 'df.proposal_banner'
+const BANNER_STORAGE_KEY = 'df.open_comm_banner'
 
 export const ProposalBannerSection = () => {
   const { isMobile } = useResponsiveSize()
