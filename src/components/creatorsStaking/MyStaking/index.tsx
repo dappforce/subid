@@ -3,12 +3,11 @@ import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CardWrapper from '../utils/CardWrapper'
 import Button from '../tailwind-components/Button'
 import {
-  useFetchStakerLedgerBySpaces,
+  useFetchStakerLedger,
   useStakerLedger,
 } from '../../../rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { convertToBalanceWithDecimal } from '@subsocial/utils'
 import { FormatBalance } from 'src/components/common/balances'
 import store from 'store'
 
@@ -77,7 +76,6 @@ const MyRewards = () => {
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
-      isShort={true}
     />
   )
 
@@ -117,7 +115,7 @@ const MyStakingSection = () => {
   const myAddress = useMyAddress()
   const [ tab, setTab ] = useState(0)
 
-  useFetchStakerLedgerBySpaces(myAddress)
+  useFetchStakerLedger(myAddress)
 
   const tabs: TabsProps['tabs'] = [
     {

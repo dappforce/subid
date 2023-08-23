@@ -2,6 +2,16 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { eraStakeActions, selectEraStake } from './eraStakeSlice'
 
+export const fetchEraStakes = (dispatch: any, ids: string[], era: string) => {
+  dispatch(
+    eraStakeActions.fetchEraStake({
+      ids,
+      era,
+      reload: true,
+    })
+  )
+}
+
 export const useFetchEraStakes = (ids?: string[], era?: string) => {
   const dispatch = useAppDispatch()
 

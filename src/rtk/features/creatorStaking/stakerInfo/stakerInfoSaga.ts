@@ -11,7 +11,6 @@ import {
   stakerInfoActions,
 } from './stakerInfoSlice'
 import { getStakerInfoBySpaces } from '../../../../api/creatorStaking'
-import BN from 'bignumber.js'
 
 export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) {
   const { ids, reload = false, account } = action.payload
@@ -39,13 +38,9 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
         return
       }
 
-      const candidatesInfo: StakerInfoEntity[] = Object.entries(info).map(
-        ([ id, item ]) => {
-          let totalStaked = new BN(0)
-          
-          item.stakes.forEach((stake: any) => {
-            totalStaked = totalStaked.plus(new BN(stake.staked))
-          })
+      const candidatesInfo: StakerInfoEntity[] = idsParam.map(
+        (id) => {
+          const item = info[id]
 
           const entityId = `${id}-${account}`
 
@@ -54,7 +49,7 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
             loading: false,
             info: {
               id: entityId,
-              totalStaked: totalStaked.toString(),
+              totalStaked: item?.staked.toString() || '0',
             },
           }
         }

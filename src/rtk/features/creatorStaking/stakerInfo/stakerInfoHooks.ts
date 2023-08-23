@@ -2,6 +2,16 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { selectStakerInfo, stakerInfoActions } from './stakerInfoSlice'
 
+export const fetchStakerInfo = (dispatch: any, ids: string[], account: string) => {
+  dispatch(
+    stakerInfoActions.fetchStakerInfo({
+      ids,
+      account,
+      reload: true,
+    })
+  )
+}
+
 export const useFetchStakerInfoBySpaces = (ids?: string[], account?: string) => {
   const dispatch = useAppDispatch()
 

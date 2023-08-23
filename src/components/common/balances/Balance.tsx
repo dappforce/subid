@@ -35,11 +35,11 @@ function format (
   return (
     <>
       {prefix}
-      {!isShort && (
+      {!isShort && postfix !== '0000' && (
         <>
           .
           <span className={isGrayDecimal ? 'DfBalanceDecimals' : ''}>
-            {postfix || '0000'}
+            {postfix ? postfix.replace(/0+$/, '') : '0000'}
           </span>
         </>
       )}

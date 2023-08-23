@@ -186,6 +186,7 @@ function LazyTxButton ({
   }
 
   const sendSignedTx = async () => {
+    console.log('sendSignedTx')
     if (!accountId) {
       throw new Error('No account id provided')
     }
@@ -243,6 +244,7 @@ function LazyTxButton ({
   // TODO can optimize this fn by wrapping it with useCallback. See TxButton from Apps.
   const sendTx = async () => {
     unsubscribe()
+
 
     if (isFunction(onValidate) && !(await onValidate())) {
       log.warn('Cannot send a tx because onValidate() returned false')

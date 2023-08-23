@@ -12,6 +12,7 @@ import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraS
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useFetchStakerInfoBySpaces } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -106,6 +107,7 @@ const CreatorsSection = () => {
   useFetchCreatorsSpaces(creatorsSpaceIds)
   useFetchEraStakes(creatorsSpaceIds, currentEra)
   useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
+  useFetchBalanceByNetwork('subsocial', myAddress)
 
   const tabs: TabsProps['tabs'] = [
     {
@@ -123,7 +125,7 @@ const CreatorsSection = () => {
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex justify-between items-center px-6'>
-        <div className='text-2xl UnboundedFont'>My Staking</div>
+        <div className='text-2xl UnboundedFont'>Creators</div>
         <div className='flex gap-4 items-center'>
           <div>Are you a creator?</div>
           <Button variant='primaryOutline' size={'sm'}>

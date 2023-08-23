@@ -2,7 +2,16 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { selectStakerLedger, stakerLedgerActions } from './stakerLedgerSlice'
 
-export const useFetchStakerLedgerBySpaces = (account?: string) => {
+export const fetchStakingLedger = (dispatch: any, account: string) => {
+  dispatch(
+    stakerLedgerActions.fetchStakerLedger({
+      account,
+      reload: true,
+    })
+  )
+}
+
+export const useFetchStakerLedger = (account?: string) => {
   const dispatch = useAppDispatch()
 
   

@@ -69,5 +69,5 @@ export const getStakerLedger = async (account: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch staker info by spaces',
+    onFailedText: 'Failed to fetch staker ledger',
   })
