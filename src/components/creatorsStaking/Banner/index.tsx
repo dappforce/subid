@@ -48,7 +48,7 @@ const SubsocialBalance = ({ value }: SubsocialBalanceProps) => {
   return (
     <Balance
       value={toShortMoney({ num: balanceWithDecimal.toNumber() })}
-      skeletonClassName='w-28 h-4 mb-3'
+      skeletonClassName='w-28 h-[20px] mb-3'
       symbol={symbol}
       loading={!value}
     />

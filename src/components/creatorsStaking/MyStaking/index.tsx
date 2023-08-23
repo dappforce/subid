@@ -1,119 +1,80 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
-import CardWrapper from '../utils/CardWrapper'
-import Button from '../tailwind-components/Button'
 import {
+  fetchStakerLedger,
   useFetchStakerLedger,
   useStakerLedger,
 } from '../../../rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { FormatBalance } from 'src/components/common/balances'
-import store from 'store'
+import MyRewards from './MyRewards'
+import Unstaking from './Unstaking'
+import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
+import Button from '../tailwind-components/Button'
+import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import BN from 'bignumber.js'
+import { isEmptyArray } from '@subsocial/utils'
+import { useAppDispatch } from 'src/rtk/app/store'
+import { fetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 
-type RewardCardProps = {
-  title: string
-  value: React.ReactNode
-  desc?: string
-  button?: React.ReactNode
-}
+const WithdrawTxButton = () => {
+  const myAddress = useMyAddress()
+  const stakerLedger = useStakerLedger(myAddress)
+  const eraInfo = useGeneralEraInfo()
+  const dispatch = useAppDispatch()
 
-const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
-  return (
-    <CardWrapper className='bg-slate-50'>
-      <div className='text-text-muted font-normal'>{title}</div>
-      <div className='flex justify-between items-center'>
-        <div>
-          <div className='text-2xl font-semibold'>{value}</div>
-          {desc && (
-            <div className='font-normal text-text-muted text-sm'>{desc}</div>
-          )}
-        </div>
-        {button}
-      </div>
-    </CardWrapper>
-  )
-}
+  const { ledger } = stakerLedger || {}
+  const { currentEra } = eraInfo || {}
 
-type RestakeButtonProps = {
-  restake: boolean
-  setRestake: (restake: boolean) => void
-}
+  const unlockingChunks = ledger?.unbondingInfo.unlockingChunks
 
-const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
+  const disableButton = useMemo(() => {
+    if(!currentEra || !unlockingChunks || isEmptyArray(unlockingChunks)) return true
 
-  const onButtonClick = (restake: boolean) => {
-    setRestake(!restake)
-    store.set('RestakeAfterClaim', !restake)
+    return unlockingChunks?.some((item) => {
+      const { unlockEra } = item
+
+      return new BN(currentEra).lt(new BN(unlockEra))
+    })
+  }, [!!unlockingChunks, currentEra])
+
+  const onSuccess = () => {
+    fetchStakerLedger(dispatch, myAddress || '')
+    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
   }
 
-  return (
-    <Button size={'sm'} variant={'primaryOutline'} onClick={() => onButtonClick(restake)}>
-      {restake ? 'Turn off' : 'Turn on'}
+  const onFailed = () => {
+    console.log('Failed')
+  }
+
+  const Component: React.FunctionComponent<{ onClick?: () => void }> = (
+    compProps
+  ) => (
+    <Button {...compProps} variant={'primary'} size={'sm'}>
+      Withdraw available
     </Button>
   )
-}
 
-const MyRewards = () => {
-  const restakeStateFromStorage = store.get('RestakeAfterClaim')
-  const [ restake, setRestake ] = useState(restakeStateFromStorage)
-  const myAddress = useMyAddress()
-  const chainsInfo = useChainInfo()
-
-  const stakerLedger = useStakerLedger(myAddress)
-
-  const { tokenDecimals, tokenSymbols, nativeToken } =
-    chainsInfo?.subsocial || {}
-
-  const decimal = tokenDecimals?.[0] || 0
-  const symbol = tokenSymbols?.[0] || nativeToken
-
-  const { locked } = stakerLedger?.ledger || {}
-
-  const myStake = (
-    <FormatBalance
-      value={locked}
-      decimals={decimal}
-      currency={symbol}
-      isGrayDecimal={false}
+  return (
+    <LazyTxButton
+      network='subsocial'
+      accountId={myAddress}
+      tx={'creatorStaking.withdrawUnstaked'}
+      disabled={disableButton}
+      component={Component}
+      onFailed={onFailed}
+      onSuccess={onSuccess}
     />
   )
-
-  const cardsOpt = [
-    {
-      title: 'My Stake',
-      value: myStake,
-      desc: 'SOON',
-    },
-    {
-      title: 'Estimated Rewards',
-      value: 'SOON',
-      desc: 'SOON',
-      button: (
-        <Button disabled size={'sm'} variant={'primary'}>
-          Claim
-        </Button>
-      ),
-    },
-    {
-      title: 'Re-Stake After Claiming',
-      value: <div className='font-semibold'>{restake ? 'ON' : 'OFF'}</div>,
-      button: (
-        <RestakeButton restake={restake} setRestake={setRestake} />
-      ),
-    },
-  ]
-
-  const stakingCards = cardsOpt.map((card, i) => (
-    <RewardCard key={i} {...card} />
-  ))
-
-  return <div className='flex gap-4'>{stakingCards}</div>
 }
 
 const MyStakingSection = () => {
   const myAddress = useMyAddress()
   const [ tab, setTab ] = useState(0)
+  const stakerLedger = useStakerLedger(myAddress)
+
+  const { ledger } = stakerLedger || {}
+
+  const unlockingChunks = ledger?.unbondingInfo.unlockingChunks 
 
   useFetchStakerLedger(myAddress)
 
@@ -125,8 +86,9 @@ const MyStakingSection = () => {
     },
     {
       id: 'unstaking',
-      text: 'Unstaking',
-      content: () => <></>,
+      text: `Unstaking (${unlockingChunks?.length || 0})`,
+      content: () => <Unstaking />,
+      disabled: isEmptyArray(unlockingChunks),
     },
   ]
 
@@ -141,6 +103,7 @@ const MyStakingSection = () => {
           tabs={tabs}
           withHashIntegration={false}
           hideBeforeHashLoaded
+          tabsRightElement={tab === 1 ? <WithdrawTxButton /> : null}
           manualTabControl={{
             selectedTab: tab,
             setSelectedTab: (selectedTab) => setTab(selectedTab),

@@ -186,7 +186,6 @@ function LazyTxButton ({
   }
 
   const sendSignedTx = async () => {
-    console.log('sendSignedTx')
     if (!accountId) {
       throw new Error('No account id provided')
     }

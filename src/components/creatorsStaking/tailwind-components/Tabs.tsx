@@ -7,6 +7,7 @@ type Tab = {
   id: string
   text: string
   content: (changeTab: (selectedTab: number) => void) => JSX.Element
+  disabled?: boolean
 }
 export type TabsProps = ComponentProps<'div'> & {
   asContainer?: boolean
@@ -67,30 +68,37 @@ export default function Tabs ({
       selectedIndex={usedSelectedTab === -1 ? tabs.length : usedSelectedTab}
       onChange={setSelectedTab}
     >
-      <div className={clsx('flex items-center justify-between gap-4', props.className)}>
-        <Tab.List
-          as={component}
-          className={clsx('flex items-end gap-6')}
-        >
-          {tabs.map(({ text, id }) => (
-            <Tab key={id} as={Fragment}>
+      <div
+        className={clsx(
+          'flex items-center justify-between gap-4',
+          props.className
+        )}
+      >
+        <Tab.List as={component} className={clsx('flex items-end gap-6')}>
+          {tabs.map(({ text, id, disabled }) => (
+            <Tab
+              key={id}
+              disabled={disabled}
+              className='focus-visible:outline-none'
+            >
               {({ selected }) => (
                 <span
-                  className={clsx(
-                    'group relative block cursor-pointer rounded-t-2xl',
-                    'outline-none after:absolute after:bottom-0 after:left-0 after:h-[90%]',
-                    'after:w-full after:opacity-0 after:transition-opacity',
-                    'focus-visible:after:opacity-100'
-                  )}
+                  className={clsx('group relative block rounded-t-2xl', {
+                    ['cursor-pointer']: !disabled,
+                  })}
                 >
                   <span
                     className={clsx(
                       'relative block py-2 leading-normal text-text-muted transition-colors',
                       'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full',
                       'after:origin-bottom after:scale-y-0 after:bg-text-primary after:opacity-0 after:transition',
-                      'group-hover:text-text-primary after:mt-[2px] group-hover:after:scale-y-100 group-hover:after:opacity-100',
-                      selected &&
-                        'text-text-primary after:scale-y-100 after:opacity-100'
+                      {
+                        ['group-hover:text-text-primary group-hover:after:scale-y-100 group-hover:after:opacity-100']:
+                          !disabled,
+                        ['text-text-primary after:scale-y-100 after:opacity-100']:
+                          selected,
+                        ['text-text-muted/20']: disabled,
+                      }
                     )}
                   >
                     {text}

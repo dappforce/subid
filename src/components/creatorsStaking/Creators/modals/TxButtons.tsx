@@ -10,7 +10,7 @@ import BN from 'bn.js'
 import { useAppDispatch } from 'src/rtk/app/store'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { fetchStakingLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 
 type CommonTxButtonProps = {
   amount: string
@@ -43,7 +43,7 @@ const StakingTxButton = ({
     fetchStakerInfo(dispatch, [spaceId], myAddress || '')
     fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
     fetchEraStakes(dispatch, [spaceId], eraInfo?.currentEra || '0')
-    fetchStakingLedger(dispatch, myAddress || '')
+    fetchStakerLedger(dispatch, myAddress || '')
 
     closeModal()
   }

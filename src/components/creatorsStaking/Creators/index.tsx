@@ -142,7 +142,6 @@ const CreatorsSection = () => {
           withHashIntegration={false}
           tabsRightElement={<SortDropdown />}
           hideBeforeHashLoaded
-          withDivider
           manualTabControl={{
             selectedTab: tab,
             setSelectedTab: (selectedTab) => setTab(selectedTab),
