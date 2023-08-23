@@ -18,7 +18,18 @@ export default function ChatFloatingModal () {
     if (!isOpen) return
 
     if (!hasOpened.current) {
-      grill.init({ hub: { id: 'polka' }, theme: 'light' })
+      grill.init({
+        hub: { id: 'polka' },
+        channel: {
+          id: '754',
+          type: 'channel',
+          settings: {
+            enableInputAutofocus: true,
+            enableBackButton: false,
+          }
+        },
+        theme: 'light'
+      })
     }
     hasOpened.current = true
   }, [ isOpen ])
