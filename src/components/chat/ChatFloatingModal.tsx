@@ -26,6 +26,7 @@ export default function ChatFloatingModal () {
           settings: {
             enableInputAutofocus: true,
             enableBackButton: false,
+            enableLoginButton: false
           }
         },
         theme: 'light'
