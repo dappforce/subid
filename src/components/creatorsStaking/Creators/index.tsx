@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
@@ -10,9 +10,14 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { useFetchStakerInfoBySpaces } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import {
+  useFetchStakerInfoBySpaces,
+  useStakerInfoBySpaces,
+} from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
+import BN from 'bignumber.js'
+import { isEmptyObj } from '@subsocial/utils'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -21,12 +26,13 @@ type AllCreatorsProps = {
   era?: string
 }
 
-const AllCreators = ({ spaceIds, era }: AllCreatorsProps) => {
+const CreatorsCards = ({ spaceIds, era }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
 
-  const creatorsCards = spaceIds?.map((spaceId, i) => (
-    <CreatorCard key={i} spaceId={spaceId} era={era} />
-  )) || []
+  const creatorsCards =
+    spaceIds?.map((spaceId, i) => (
+      <CreatorCard key={i} spaceId={spaceId} era={era} />
+    )) || []
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
   const end = start + DEFAULT_PAGE_SIZE
@@ -48,9 +54,12 @@ const AllCreators = ({ spaceIds, era }: AllCreatorsProps) => {
   )
 }
 
-const SortDropdown = () => {
-  const [ sortBy, changeSortBy ] = useState('total stake')
+type SortDropdownProps = {
+  sortBy: string
+  changeSortBy: (sortBy: string) => void
+}
 
+const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
   const menus = [
     {
       text: 'Total stake',
@@ -95,30 +104,41 @@ const SortDropdown = () => {
   )
 }
 
-const CreatorsSection = () => {
+type CreatorsSectionInnerProps = {
+  spaceIds?: string[]
+  era?: string
+}
+
+const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
+  const [ sortBy, changeSortBy ] = useState('total stake')
   const myAddress = useMyAddress()
-  const creatorsList = useCreatorsList()
-  const eraInfo = useGeneralEraInfo()
 
-  const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
-  const currentEra = eraInfo?.currentEra
+  const stakerInfo = useStakerInfoBySpaces(spaceIds, myAddress)
 
-  useFetchCreatorsSpaces(creatorsSpaceIds)
-  useFetchEraStakes(creatorsSpaceIds, currentEra)
-  useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
-  useFetchBalanceByNetwork('subsocial', myAddress)
+  console.log('stakerInfo', stakerInfo)
+
+  const myCreatorsIds = useMemo(() => {
+    if (!stakerInfo || isEmptyObj(stakerInfo)) return []
+
+    const stakerInfoEntries = Object.entries(stakerInfo)
+
+    return stakerInfoEntries
+      .filter(([ _, info ]) => !new BN(info.totalStaked).isZero())
+      .map(([ key ]) => key)
+  }, [ isEmptyObj(stakerInfo) ])
 
   const tabs: TabsProps['tabs'] = [
     {
       id: 'all-creators',
       text: 'All Creators',
-      content: () => <AllCreators spaceIds={creatorsSpaceIds} era={currentEra} />,
+      content: () => <CreatorsCards spaceIds={spaceIds} era={era} />,
     },
     {
       id: 'my-creators',
-      text: 'My Creators',
-      content: () => <></>,
+      text: `My Creators (${myCreatorsIds.length || 0})`,
+      content: () => <CreatorsCards spaceIds={myCreatorsIds} era={era} />,
+      disabled: myCreatorsIds.length === 0,
     },
   ]
 
@@ -140,7 +160,9 @@ const CreatorsSection = () => {
           panelClassName='mt-0 px-0'
           tabs={tabs}
           withHashIntegration={false}
-          tabsRightElement={<SortDropdown />}
+          tabsRightElement={
+            <SortDropdown sortBy={sortBy} changeSortBy={changeSortBy} />
+          }
           hideBeforeHashLoaded
           manualTabControl={{
             selectedTab: tab,
@@ -150,6 +172,22 @@ const CreatorsSection = () => {
       </div>
     </div>
   )
+}
+
+const CreatorsSection = () => {
+  const myAddress = useMyAddress()
+  const creatorsList = useCreatorsList()
+  const eraInfo = useGeneralEraInfo()
+
+  const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
+  const currentEra = eraInfo?.currentEra
+
+  useFetchCreatorsSpaces(creatorsSpaceIds)
+  useFetchEraStakes(creatorsSpaceIds, currentEra)
+  useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
+  useFetchBalanceByNetwork('subsocial', myAddress)
+
+  return <CreatorsSectionInner spaceIds={creatorsSpaceIds} era={currentEra} />
 }
 
 export default CreatorsSection

@@ -1,5 +1,5 @@
 import { Tab } from '@headlessui/react'
-import { ComponentProps, Fragment, ReactNode, useEffect, useState } from 'react'
+import { ComponentProps, ReactNode, useEffect, useState } from 'react'
 import Container from './Container'
 import clsx from 'clsx'
 

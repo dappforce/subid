@@ -43,8 +43,7 @@ export const selectStakerInfoBySpaces = (state: RootState, ids?: string[], accou
 
   ids.forEach((id) => {
     if (!isEmptyStr(id)) {
-      const entityId = `${id}-${account}`
-      const stakerInfoEtity = selectStakerInfo(state, entityId)
+      const stakerInfoEtity = selectStakerInfo(state, id, account)
 
       const info = stakerInfoEtity?.info
 

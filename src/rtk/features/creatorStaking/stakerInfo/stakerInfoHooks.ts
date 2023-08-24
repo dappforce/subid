@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { selectStakerInfo, stakerInfoActions } from './stakerInfoSlice'
+import { selectStakerInfo, selectStakerInfoBySpaces, stakerInfoActions } from './stakerInfoSlice'
 
 export const fetchStakerInfo = (dispatch: any, ids: string[], account: string) => {
   dispatch(
@@ -33,4 +33,8 @@ export const useFetchStakerInfoBySpaces = (ids?: string[], account?: string) => 
 
 export const useStakerInfo = (id?: string, account?: string) => {
   return useAppSelector((state) => selectStakerInfo(state, id, account))
+}
+
+export const useStakerInfoBySpaces = (ids?: string[], account?: string) => {
+  return useAppSelector((state) => selectStakerInfoBySpaces(state, ids, account))
 }
