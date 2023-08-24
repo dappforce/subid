@@ -1,29 +1,28 @@
-import { useState } from 'react'
 import Button from '../tailwind-components/Button'
-import StakingModal, { StakingModalVariant } from './modals/StakeModal'
+import { StakingModalVariant } from './modals/StakeModal'
 
 type StakeButtonProps = {
   isStake: boolean
-  spaceId: string
   buttonsSize?: 'sm' | 'lg' | 'md'
+  openModal: () => void
+  setModalVariant: (variant: StakingModalVariant) => void
   onClick?: () => void
 }
 
 const StakeActionButtons = ({ 
   isStake, 
-  spaceId, 
   buttonsSize = 'sm', 
-  onClick 
+  openModal,
+  setModalVariant,
+  onClick
 }: StakeButtonProps) => {
-  const [ open, setOpen ] = useState(false)
-  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const label = !isStake ? 'Increase Stake' : 'Stake'
 
   const onButtonClick = (modalVariant: StakingModalVariant) => {
     onClick?.()
     setModalVariant(modalVariant)
-    setOpen(true)
+    openModal()
   }
 
   return (
@@ -48,12 +47,6 @@ const StakeActionButtons = ({
           </Button>
         )}
       </div>
-      <StakingModal
-        open={open}
-        closeModal={() => setOpen(false)}
-        spaceId={spaceId}
-        modalVariant={modalVariant}
-      />
     </>
   )
 }

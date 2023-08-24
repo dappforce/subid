@@ -2,6 +2,8 @@ import { useCreatorSpaceById } from 'src/rtk/features/creatorStaking/creatorsSpa
 import Modal from '../../tailwind-components/Modal'
 import { CreatorPreview } from '../CreatorCard'
 import StakeActionButtons from '../StakeButton'
+import StakingModal, { StakingModalVariant } from './StakeModal'
+import { useState } from 'react'
 
 type AboutModalProps = {
   open: boolean
@@ -10,8 +12,15 @@ type AboutModalProps = {
   isStake: boolean
 }
 
-const AboutModal = ({ open, closeModal, spaceId, isStake }: AboutModalProps) => {
+const AboutModal = ({
+  open,
+  closeModal,
+  spaceId,
+  isStake,
+}: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
+  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const { space } = creatorSpaceEntity || {}
 
@@ -48,12 +57,20 @@ const AboutModal = ({ open, closeModal, spaceId, isStake }: AboutModalProps) => 
 
           <StakeActionButtons
             isStake={isStake}
-            spaceId={spaceId}
             buttonsSize='lg'
+            openModal={() => setOpenStakeModal(true)}
+            setModalVariant={setModalVariant}
             onClick={() => closeModal()}
+
           />
         </div>
       </Modal>
+      <StakingModal
+        open={openStakeModal}
+        closeModal={() => setOpenStakeModal(false)}
+        spaceId={spaceId}
+        modalVariant={modalVariant}
+      />
     </>
   )
 }

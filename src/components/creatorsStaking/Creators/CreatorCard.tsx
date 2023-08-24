@@ -11,6 +11,7 @@ import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContex
 import { useGetDecimalsAndSymbolByNetwork } from '../utils'
 import AboutModal from './modals/AboutModal'
 import { useState } from 'react'
+import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 
 type CreatorPreviewProps = {
   title: string
@@ -80,6 +81,8 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const stakerInfo = useStakerInfo(spaceId, myAddress)
   const [ opneAboutModal, setOpenAboutModal ] = useState(false)
+  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const { space } = creatorSpaceEntity || {}
   const { numberOfStakers, total } = eraStake?.info || {}
@@ -155,14 +158,21 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
       </div>
       <StakeActionButtons
         isStake={isStake}
-        spaceId={spaceId}
         buttonsSize='sm'
+        openModal={() => setOpenStakeModal(true)}
+        setModalVariant={setModalVariant}
       />
       <AboutModal
         open={opneAboutModal}
         closeModal={() => setOpenAboutModal(false)}
         spaceId={spaceId}
         isStake={isStake}
+      />
+      <StakingModal
+        open={openStakeModal}
+        closeModal={() => setOpenStakeModal(false)}
+        spaceId={spaceId}
+        modalVariant={modalVariant}
       />
     </div>
   )
