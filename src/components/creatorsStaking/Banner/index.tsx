@@ -65,7 +65,7 @@ const StatsCards = () => {
     {
       title: 'Total Staked',
       value: <SubsocialBalance value={generalEraInfo?.staked || 0} />,
-      desc: 'There can be your price)',
+      desc: 'Here can be your price)',
     },
     {
       title: 'Estimated APR',

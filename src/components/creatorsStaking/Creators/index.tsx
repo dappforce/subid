@@ -8,7 +8,10 @@ import clsx from 'clsx'
 import { HiChevronDown } from 'react-icons/hi2'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
-import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import {
+  useEraStakesByIds,
+  useFetchEraStakes,
+} from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import {
   useFetchStakerInfoBySpaces,
@@ -18,19 +21,54 @@ import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContex
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import BN from 'bignumber.js'
 import { isEmptyObj } from '@subsocial/utils'
+import { StakerInfoRecord } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoSlice'
+import { EraStakesBySpaceIdsRecord } from 'src/rtk/features/creatorStaking/eraStake/eraStakeSlice'
 
 const DEFAULT_PAGE_SIZE = 9
+
+const sortValues = <T extends StakerInfoRecord | EraStakesBySpaceIdsRecord>(
+  data: T,
+  field: keyof T[string]
+) => {
+  const entries = Object.entries(data)
+
+  return entries
+    .sort(([ _, a ], [ __, b ]) => new BN(b[field]).minus(a[field]).toNumber())
+    .map(([ key ]) => key)
+}
+
+const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => {
+  const myAddress = useMyAddress()
+  const stakersInfo = useStakerInfoBySpaces(spaceIds, myAddress)
+  const eraStakes = useEraStakesByIds(spaceIds, era)
+
+  const sortedSpaceIds = useMemo(() => {
+    if (!stakersInfo || !eraStakes) return spaceIds
+
+    if (sortBy === 'total stake') {
+      return sortValues(eraStakes, 'total')
+    } else if (sortBy === 'stakers') {
+      return sortValues(eraStakes, 'numberOfStakers')
+    } else {
+      return sortValues(stakersInfo, 'totalStaked')
+    }
+  }, [ sortBy, stakersInfo, eraStakes, myAddress ])
+
+  return sortedSpaceIds
+}
 
 type AllCreatorsProps = {
   spaceIds?: string[]
   era?: string
+  sortBy: string
 }
 
-const CreatorsCards = ({ spaceIds, era }: AllCreatorsProps) => {
+const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
+  const sortedSpaceIds = useSortBy(sortBy, spaceIds, era)
 
   const creatorsCards =
-    spaceIds?.map((spaceId, i) => (
+    sortedSpaceIds?.map((spaceId, i) => (
       <CreatorCard key={i} spaceId={spaceId} era={era} />
     )) || []
 
@@ -116,8 +154,6 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
 
   const stakerInfo = useStakerInfoBySpaces(spaceIds, myAddress)
 
-  console.log('stakerInfo', stakerInfo)
-
   const myCreatorsIds = useMemo(() => {
     if (!stakerInfo || isEmptyObj(stakerInfo)) return []
 
@@ -132,12 +168,16 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
     {
       id: 'all-creators',
       text: 'All Creators',
-      content: () => <CreatorsCards spaceIds={spaceIds} era={era} />,
+      content: () => (
+        <CreatorsCards spaceIds={spaceIds} era={era} sortBy={sortBy} />
+      ),
     },
     {
       id: 'my-creators',
       text: `My Creators (${myCreatorsIds.length || 0})`,
-      content: () => <CreatorsCards spaceIds={myCreatorsIds} era={era} />,
+      content: () => (
+        <CreatorsCards spaceIds={myCreatorsIds} era={era} sortBy={sortBy} />
+      ),
       disabled: myCreatorsIds.length === 0,
     },
   ]
