@@ -792,6 +792,10 @@ video {
   height: 1.25rem;
 }
 
+.h-\[16px\] {
+  height: 16px;
+}
+
 .h-\[20px\] {
   height: 20px;
 }
@@ -823,6 +827,10 @@ video {
 
 .\!w-5 {
   width: 1.25rem !important;
+}
+
+.w-24 {
+  width: 6rem;
 }
 
 .w-28 {

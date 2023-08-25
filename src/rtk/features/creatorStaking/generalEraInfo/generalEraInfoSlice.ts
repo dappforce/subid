@@ -9,6 +9,7 @@ export const eraInfoId = 'eraInfo'
 export type GeneralEraInfo = {
   currentEra: string
   nextEraBlock: string
+  blockPerEra: string
   rewards: {
     stakers: string
     creators: string

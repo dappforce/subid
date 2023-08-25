@@ -41,31 +41,6 @@ const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
   )
 }
 
-type StakedValueProps = {
-  spaceId: string
-}
-
-const StakedValue = ({ spaceId }: StakedValueProps) => {
-  const myAddress = useMyAddress()
-  const stakerInfo = useStakerInfo(spaceId, myAddress)
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
-  
-  const { info } = stakerInfo || {}
-
-  const { totalStaked } = info || {}
-
-  const currentStake = (
-    <FormatBalance
-      value={totalStaked}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  )
-
-  return <>{currentStake}</>
-}
-
 export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
 
 const modalData = {

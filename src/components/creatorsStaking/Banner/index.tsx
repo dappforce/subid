@@ -10,6 +10,7 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import Balance from '../utils/Balance'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { convertToBalanceWithDecimal, toShortMoney } from '@subsocial/utils'
+import { NextEraStartDate } from '../utils'
 
 type StatsCardProps = {
   title: string
@@ -74,7 +75,7 @@ const StatsCards = () => {
     {
       title: 'Current Era',
       value: generalEraInfo?.currentEra || 0,
-      desc: 'SOON',
+      desc: <span className='flex items-center gap-1'>ETA:<NextEraStartDate /></span>,
     },
     {
       title: 'Total Creators',
