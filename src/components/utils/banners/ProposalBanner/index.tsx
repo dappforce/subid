@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
+import { useBuildSendGaUserEvent, useSendGaUserEvent } from '../../../../ga'
 
 const BANNER_STORAGE_KEY = 'df.open_comm_banner'
 
@@ -43,12 +44,14 @@ export const ProposalBannerSection = () => {
   )
 }
 
-const ProposalBanner = () => (
-  <Link href='https://polkadot.polkassembly.io/referenda/119'>
-    <a target='_blank' rel='noreferrer'>
+const ProposalBanner = () => {
+  const sendEvent = useBuildSendGaUserEvent('click_opencomm_banner')
+
+  return <Link href='https://polkadot.polkassembly.io/referenda/119'>
+    <a target='_blank' rel='noreferrer' onClick={sendEvent}>
       <ProposalBannerSection />
     </a>
   </Link>
-)
+}
 
 export default ProposalBanner
