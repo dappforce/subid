@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
-import { useBuildSendGaUserEvent, useSendGaUserEvent } from '../../../../ga'
+import { useBuildSendGaUserEvent } from 'src/ga'
 
 const BANNER_STORAGE_KEY = 'df.open_comm_banner'
 
