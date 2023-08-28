@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import styles from './ChatFloatingModal.module.sass'
 import { Button } from 'antd'
-import clsx from 'clsx'
-import grill from '@subsocial/grill-widget'
 import { useSendGaUserEvent } from '../../ga'
+import ChatIframe from './ChatIframe'
+import clsx from 'clsx'
 
 export default function ChatFloatingModal () {
   const [ isOpen, setIsOpen ] = useState(false)
@@ -14,32 +14,11 @@ export default function ChatFloatingModal () {
     setIsOpen((prev) => !prev)
   }
   const hasOpened = useRef(false)
-  useEffect(() => {
-    if (!isOpen) return
-
-    if (!hasOpened.current) {
-      grill.init({
-        hub: { id: 'polka' },
-        channel: {
-          id: '754',
-          type: 'channel',
-          settings: {
-            enableInputAutofocus: true,
-            enableBackButton: false,
-            enableLoginButton: false
-          }
-        },
-        theme: 'light'
-      })
-    }
-    hasOpened.current = true
-  }, [ isOpen ])
 
   return (
     <div className={styles.ChatFloatingModal}>
       {(isOpen || hasOpened.current) && (
-        <div
-          id='grill'
+        <ChatIframe
           className={clsx(
             styles.ChatFloatingIframe,
             !isOpen && styles.ChatFloatingIframeHidden
