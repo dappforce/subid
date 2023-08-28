@@ -16,13 +16,16 @@ interface Props {
 }
 
 const HomeNav = () => {
-  const { state: { collapsed } } = useSidebarCollapsed()
+  const { state: { collapsed }, hide, show } = useSidebarCollapsed()
 
   return <Sider
     className='DfSider'
     width='230'
     trigger={null}
+    collapsible
     collapsed={collapsed}
+    onMouseOver={() => show()}
+    onMouseLeave={() => hide()}
   >
     <Menu />
   </Sider>

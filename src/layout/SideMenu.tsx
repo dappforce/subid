@@ -11,6 +11,7 @@ import styles from './Sider.module.sass'
 import clsx from 'clsx'
 import { useIsAllNetworksConnected } from '../components/statusPage/utils/StatusCard'
 import { isServerSide } from 'src/components/utils'
+import { useSidebarCollapsed } from 'src/components/providers/SideBarCollapsedContext'
 
 const renderPageLink = (item: PageLink) => {
   const { items, icon, isExternalLink } = item
@@ -47,6 +48,7 @@ function SideMenu () {
   const [ visible, setVisible ] = useState(false)
   const { t } = useTranslation()
   const status = useIsAllNetworksConnected()
+  const { state: { collapsed } } = useSidebarCollapsed()
 
   const menuItems = DefaultMenu(t, status)
 
@@ -64,25 +66,27 @@ function SideMenu () {
           : renderPageLink(item)
         )}
       </Menu>
-      <div className={clsx('mx-4 my-4 my-lg-3')}>
-        <Dropdown
-          trigger={[ 'click' ]}
-          visible={visible}
-          onVisibleChange={setVisible}
-          placement='topCenter'
-          getPopupContainer={trigger => (trigger?.parentNode as HTMLElement) || document.body}
-          overlay={<Menu onClick={(item: any) => {
-            i18n.changeLanguage(item.key)
-            setVisible(false)
-          }}>
-            {Object.keys(languages).map(lang => (<Menu.Item key={lang}>{languages[lang]}</Menu.Item>))}
-          </Menu>}
-        >
-          <Button className={clsx('d-flex align-items-center px-2', styles.LanguageDropdown)} shape='round'>
-            <GlobalOutlined className='m-0' /> {i18n.language.toUpperCase()} <UpOutlined />
-          </Button>
-        </Dropdown>
-      </div>
+      {!collapsed && (
+        <div className={clsx('mx-4 my-4 my-lg-3')}>
+          <Dropdown
+            trigger={[ 'click' ]}
+            visible={visible}
+            onVisibleChange={setVisible}
+            placement='topCenter'
+            getPopupContainer={trigger => (trigger?.parentNode as HTMLElement) || document.body}
+            overlay={<Menu onClick={(item: any) => {
+              i18n.changeLanguage(item.key)
+              setVisible(false)
+            }}>
+              {Object.keys(languages).map(lang => (<Menu.Item key={lang}>{languages[lang]}</Menu.Item>))}
+            </Menu>}
+          >
+            <Button className={clsx('d-flex align-items-center px-2', styles.LanguageDropdown)} shape='round'>
+              <GlobalOutlined className='m-0' /> {i18n.language.toUpperCase()} <UpOutlined />
+            </Button>
+          </Dropdown>
+        </div>
+      )}
     </div>
   )
 }
