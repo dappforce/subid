@@ -9,6 +9,7 @@ import { BN_ZERO } from '@polkadot/util'
 import {
   balanceWithDecimal,
   convertToBalanceWithDecimal,
+  pluralize,
 } from '@subsocial/utils'
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { FormatBalance } from 'src/components/common/balances'
@@ -98,17 +99,20 @@ export const StakeOrIncreaseStakeAmountInput = (
 }
 
 const formatTime = (seconds: number) => {
-  if (seconds < 60) {
-    return seconds + ' seconds'
-  } else if (seconds < 3600) {
-    const minutes = Math.floor(seconds / 60)
-    return minutes + ' minutes'
-  } else if (seconds < 86400) {
-    const hours = Math.floor(seconds / 3600)
-    return hours + ' hours'
-  } else {
-    const days = Math.floor(seconds / 86400)
-    return days + ' days'
+  const timeUnits = [
+    { divisor: 86400, label: 'day' },
+    { divisor: 3600, label: 'hour' },
+    { divisor: 60, label: 'minute' },
+    { divisor: 1, label: 'second' }
+  ]
+
+  for (const unit of timeUnits) {
+    const { divisor, label } = unit
+
+    if (seconds >= divisor) {
+      const value = Math.floor(seconds / divisor)
+      return pluralize({ count: value, singularText: label })
+    }
   }
 }
 
