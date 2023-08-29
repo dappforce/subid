@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
+import ChatSidePanel from 'src/components/chat/ChatSidePanel'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
@@ -75,6 +76,7 @@ export const Navigation = (props: Props): JSX.Element => {
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
+      <ChatSidePanel />
     </Layout>
   </Layout>
 }
