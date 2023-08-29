@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import {
   fetchStakerLedger,
@@ -16,7 +16,11 @@ import { isEmptyArray } from '@subsocial/utils'
 import { useAppDispatch } from 'src/rtk/app/store'
 import { fetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 
-const WithdrawTxButton = () => {
+type WithdrawTxButtonProps = {
+  switchToFirstTab: () => void
+}
+
+const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const myAddress = useMyAddress()
   const stakerLedger = useStakerLedger(myAddress)
   const eraInfo = useGeneralEraInfo()
@@ -27,6 +31,12 @@ const WithdrawTxButton = () => {
 
   const unlockingChunks = ledger?.unbondingInfo.unlockingChunks
 
+  useEffect(() => {
+    if(unlockingChunks?.length === 0) {
+      switchToFirstTab()
+    }
+  }, [unlockingChunks?.length])
+
   const disableButton = useMemo(() => {
     if(!currentEra || !unlockingChunks || isEmptyArray(unlockingChunks)) return true
 
@@ -35,7 +45,7 @@ const WithdrawTxButton = () => {
 
       return new BN(currentEra).lt(new BN(unlockEra))
     })
-  }, [!!unlockingChunks, currentEra])
+  }, [!!unlockingChunks?.length, currentEra])
 
   const onSuccess = () => {
     fetchStakerLedger(dispatch, myAddress || '')
@@ -103,7 +113,7 @@ const MyStakingSection = () => {
           tabs={tabs}
           withHashIntegration={false}
           hideBeforeHashLoaded
-          tabsRightElement={tab === 1 ? <WithdrawTxButton /> : null}
+          tabsRightElement={tab === 1 ? <WithdrawTxButton switchToFirstTab={() => setTab(0)} /> : null}
           manualTabControl={{
             selectedTab: tab,
             setSelectedTab: (selectedTab) => setTab(selectedTab),
