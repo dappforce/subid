@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
 import ChatSidePanel from 'src/components/chat/ChatSidePanel'
+import { useResponsiveSize } from 'src/components/responsive'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
@@ -55,6 +56,7 @@ const DefaultNav: FunctionComponent = () => {
 export const Navigation = (props: Props): JSX.Element => {
   const { children } = props
   const { state: { asDrawer } } = useSidebarCollapsed()
+  const { isLargeDesktop } = useResponsiveSize()
   const { asPath } = useRouter()
 
   const currentAccount = useCurrentAccount()
@@ -76,7 +78,7 @@ export const Navigation = (props: Props): JSX.Element => {
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
-      <ChatSidePanel />
+      {isLargeDesktop && <ChatSidePanel />}
     </Layout>
   </Layout>
 }
