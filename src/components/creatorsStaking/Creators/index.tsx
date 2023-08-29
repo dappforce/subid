@@ -121,6 +121,7 @@ const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
         allowedPlacements={[ 'bottom-start' ]}
         mainAxisOffset={4}
         panelSize='xs'
+        panelClassName='w-32'
       >
         {(config) => {
           const { referenceProps, toggleDisplay, isOpen } = config || {}

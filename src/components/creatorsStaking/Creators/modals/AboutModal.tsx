@@ -4,6 +4,11 @@ import { CreatorPreview } from '../CreatorCard'
 import StakeActionButtons from '../StakeButton'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
+import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import { pluralize } from '@subsocial/utils'
+import { useGetDecimalsAndSymbolByNetwork } from '../../utils'
+import { FormatBalance } from 'src/components/common/balances'
 
 type AboutModalProps = {
   open: boolean
@@ -19,14 +24,41 @@ const AboutModal = ({
   isStake,
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
+  const generalEraInfo = useGeneralEraInfo()
+  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+
+  const { currentEra } = generalEraInfo || {}
+
+  const eraStake = useEraStakesById(spaceId, currentEra)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const { space } = creatorSpaceEntity || {}
+  const { info } = eraStake || {}
 
   const { name, ownedByAccount, image, about } = space || {}
+  const { numberOfStakers, total } = info || {}
 
   const owner = ownedByAccount?.id
+
+  const totalValue = (
+    <FormatBalance
+      value={total}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  const desc = (
+    <>
+      {pluralize({
+        count: numberOfStakers || '0',
+        singularText: 'staker',
+      })}{' '}
+      · {totalValue} staked
+    </>
+  )
 
   return (
     <>
@@ -42,7 +74,7 @@ const AboutModal = ({
         <div className='flex flex-col gap-6'>
           <CreatorPreview
             title={name || '<Unnamed>'}
-            desc='2,794 stakers · 7,320.45 SUB staked'
+            desc={desc}
             imgSize={80}
             avatar={image}
             owner={owner}
@@ -61,7 +93,6 @@ const AboutModal = ({
             openModal={() => setOpenStakeModal(true)}
             setModalVariant={setModalVariant}
             onClick={() => closeModal()}
-
           />
         </div>
       </Modal>

@@ -11,14 +11,18 @@ import { useAppDispatch } from 'src/rtk/app/store'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { StakingModalVariant } from './StakeModal'
 
-type CommonTxButtonProps = {
+export type CommonTxButtonProps = {
   amount: string
   spaceId: string
   decimal: number
   label: string
   tokenSymbol: string
   closeModal: () => void
+  modalVariant?: StakingModalVariant
+  setModalVariant?: (variant: StakingModalVariant) => void
+  inputError?: string
 }
 
 type StakingTxButtonProps = CommonTxButtonProps & {
@@ -33,7 +37,10 @@ const StakingTxButton = ({
   label,
   disabled,
   tx,
-  closeModal
+  closeModal,
+  modalVariant,
+  setModalVariant,
+  inputError,
 }: StakingTxButtonProps) => {
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
@@ -45,7 +52,11 @@ const StakingTxButton = ({
     fetchEraStakes(dispatch, [spaceId], eraInfo?.currentEra || '0')
     fetchStakerLedger(dispatch, myAddress || '')
 
-    closeModal()
+    if(modalVariant === 'stake') {
+      setModalVariant && setModalVariant('success')
+    } else {
+      closeModal()
+    }
   }
 
   const onFailed = () => {
@@ -71,7 +82,7 @@ const StakingTxButton = ({
     </Button>
   )
   
-  const disableButton = !myAddress || amount === '0' || disabled
+  const disableButton = !myAddress || !amount || amount === '0' || !!inputError || disabled
 
   return (
     <LazyTxButton

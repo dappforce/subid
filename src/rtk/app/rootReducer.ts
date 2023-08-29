@@ -29,6 +29,7 @@ import creatorsSpaces from '../features/creatorStaking/creatorsSpaces/creatorsSp
 import eraStake from '../features/creatorStaking/eraStake/eraStakeSlice'
 import stakerInfo from '../features/creatorStaking/stakerInfo/stakerInfoSlice'
 import stakerLedger from '../features/creatorStaking/stakerLedger/stakerLedgerSlice'
+import creatorStakingConsts from '../features/creatorStaking/stakingConsts/stakingConstsSlice'
 
 const rootReducer = combineReducers({
   currentAccount,
@@ -60,7 +61,8 @@ const rootReducer = combineReducers({
   creatorsSpaces,
   eraStake,
   stakerInfo,
-  stakerLedger
+  stakerLedger,
+  creatorStakingConsts
 })
 
 export type RootState = ReturnType<typeof rootReducer>

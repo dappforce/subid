@@ -173,6 +173,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         closeModal={() => setOpenStakeModal(false)}
         spaceId={spaceId}
         modalVariant={modalVariant}
+        setModalVariant={setModalVariant}
       />
     </div>
   )

@@ -71,3 +71,12 @@ export const getStakerLedger = async (account: string) =>
     onFaileReturnedValue: undefined,
     onFailedText: 'Failed to fetch staker ledger',
   })
+
+export const getStakingConsts = async () =>
+  sendGetRequest({
+    params: {
+      url: 'staking/creator/consts',
+    },
+    onFaileReturnedValue: undefined,
+    onFailedText: 'Failed to fetch staking consts',
+  })
