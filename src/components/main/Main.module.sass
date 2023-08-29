@@ -1,9 +1,10 @@
 @import 'src/styles/subsocial-vars.scss'
 
 .CreatorStakingSection
-  min-width: 1088px !important
-  max-width: 1088px !important
-  width: 1088px !important
+  margin-right: 1rem
+  margin-left: 1rem
+  \:global .DfSectionOuter
+    max-width: calc(1088px + #{$space_normal} * 2) !important
 
 .WarningMessage
   display: flex

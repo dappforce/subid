@@ -104,7 +104,7 @@ const MyRewards = () => {
     <RewardCard key={i} {...card} />
   ))
 
-  return <div className='flex gap-4'>{stakingCards}</div>
+  return <div className='flex md:flex-row flex-col gap-4'>{stakingCards}</div>
 }
 
 export default MyRewards

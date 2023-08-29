@@ -106,7 +106,7 @@ const MyStakingSection = () => {
     <div className='flex flex-col gap-4'>
       <div className='text-2xl UnboundedFont px-6'>My Staking</div>
 
-      <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] p-6'>
+      <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:p-6 p-4'>
         <Tabs
           className='px-0'
           panelClassName='mt-0 px-0'

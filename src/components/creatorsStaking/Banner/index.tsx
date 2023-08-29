@@ -20,7 +20,7 @@ type StatsCardProps = {
 
 const StatsCard = ({ title, value, desc }: StatsCardProps) => {
   return (
-    <CardWrapper className='bg-background-stats-card/20 backdrop-blur-[24.5px]'>
+    <CardWrapper className='bg-background-stats-card/20 min-h-[116px] backdrop-blur-[24.5px]'>
       <div className='text-white/80'>{title}</div>
       <div>
         <div className='text-white text-2xl font-semibold'>{value}</div>
@@ -83,7 +83,7 @@ const StatsCards = () => {
   ]
 
   return (
-    <div className='flex gap-6'>
+    <div className='grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-4'>
       {dashboardData.map((data, i) => (
         <StatsCard key={i} {...data} />
       ))}
@@ -98,10 +98,10 @@ const Banner = () => {
     <div
       className={clsx(
         'bg-staking-bg bg-no-repeat bg-cover',
-        'w-full flex gap-6 flex-col p-6 rounded-[20px]'
+        'w-full flex gap-6 flex-col md:p-6 p-4 rounded-[20px]'
       )}
     >
-      <div className='flex justify-between w-full items-start'>
+      <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
         <div className='flex flex-col gap-2 text-white'>
           <div className='text-4xl UnboundedFont'>Create2Earn</div>
           <div className='text-[20px]'>An innovative way to stake</div>

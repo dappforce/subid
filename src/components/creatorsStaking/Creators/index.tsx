@@ -6,6 +6,7 @@ import Pagination from '../tailwind-components/Pagination'
 import FloatingMenus from '../tailwind-components/floating/FloatingMenus'
 import clsx from 'clsx'
 import { HiChevronDown } from 'react-icons/hi2'
+import { HiOutlineSwitchVertical } from 'react-icons/hi'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import {
@@ -23,6 +24,7 @@ import BN from 'bignumber.js'
 import { isEmptyObj } from '@subsocial/utils'
 import { StakerInfoRecord } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoSlice'
 import { EraStakesBySpaceIdsRecord } from 'src/rtk/features/creatorStaking/eraStake/eraStakeSlice'
+import { useResponsiveSize } from 'src/components/responsive'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -79,14 +81,16 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
 
   return (
     <div>
-      <div className='grid grid-cols-3 gap-4 px-6'>{creatorsCardsByPage}</div>
+      <div className='grid md:grid-cols-3 grid-cols-1 gap-4 md:px-6 px-4'>
+        {creatorsCardsByPage}
+      </div>
       <Pagination
         defaultCurrent={1}
         current={page}
         pageSize={DEFAULT_PAGE_SIZE}
         total={creatorsCards.length}
         onChange={(page) => setPage(page)}
-        className='px-6'
+        className='md:px-6 p-4'
       />
     </div>
   )
@@ -98,6 +102,7 @@ type SortDropdownProps = {
 }
 
 const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
+  const { isMobile } = useResponsiveSize()
   const menus = [
     {
       text: 'Total stake',
@@ -115,7 +120,7 @@ const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
 
   return (
     <div className='flex items-center gap-2'>
-      <span className='text-text-muted'>Sort by:</span>
+      {!isMobile && <span className='text-text-muted'>Sort by:</span>}
       <FloatingMenus
         menus={menus}
         allowedPlacements={[ 'bottom-start' ]}
@@ -125,7 +130,13 @@ const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
       >
         {(config) => {
           const { referenceProps, toggleDisplay, isOpen } = config || {}
-          return (
+          return isMobile ? (
+            <Button
+              variant='outlined'
+              size='circle'
+              onClick={toggleDisplay}
+            ><HiOutlineSwitchVertical /></Button>
+          ) : (
             <div
               {...referenceProps}
               onClick={toggleDisplay}
@@ -185,7 +196,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex justify-between items-center px-6'>
+      <div className='flex md:flex-row flex-col justify-between md:items-center items-start gap-4 px-6'>
         <div className='text-2xl UnboundedFont'>Creators</div>
         <div className='flex gap-4 items-center'>
           <div>Are you a creator?</div>
@@ -195,7 +206,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
         </div>
       </div>
 
-      <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] py-6'>
+      <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:py-6 py-4'>
         <Tabs
           className='px-6'
           panelClassName='mt-0 px-0'
