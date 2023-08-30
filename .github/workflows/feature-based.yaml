@@ -16,7 +16,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "name=$(echo ${GITHUB_REF#refs/heads/} | sed 's/^deploy\///')" >> $GITHUB_ENV
-        id: extract_branch   
+        id: extract_branch
 
       - name: Set up Docker Buildx
         id: buildx
@@ -47,8 +47,8 @@ jobs:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
           file: docker/Dockerfile
-          push: true          
-          build-args: |                  
+          push: true
+          build-args: |
                   GH_BACKEND_URL=https://${{ github.event.inputs.back-address }}
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
@@ -82,7 +82,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_STAGING }}
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 c7e84602-9029-40ed-9f95-6c113f6693ee
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_STAGING }}
 
       - name: Update docker image name
         run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-front:'${TAG}'|' $GITHUB_WORKSPACE/deployment/features/deployment.yaml
