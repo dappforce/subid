@@ -73,12 +73,14 @@ export const Navigation = (props: Props): JSX.Element => {
 
   const sideMenu = asDrawer ? <DefaultNav /> : <HomeNav />
 
+  const isHomePage = asPath === '/' || asPath.startsWith('/#')
+
   return <Layout className='min-vh-100'>
-    {asPath !== '/' && !asPath.startsWith('/#') ? <TopMenu /> : null}
+    {!isHomePage ? <TopMenu /> : null}
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
-      {isLargeDesktop && <ChatSidePanel />}
+      {!isHomePage && isLargeDesktop && <ChatSidePanel />}
     </Layout>
   </Layout>
 }
