@@ -13,7 +13,7 @@ import {
 } from '@floating-ui/react'
 import { Transition } from '@headlessui/react'
 import { MouseEvent, MouseEventHandler, useRef, useState } from 'react'
-import { useResponsiveSize } from 'src/components/responsive'
+import { isTouchDevice } from 'src/components/responsive'
 
 type ReferenceProps = Record<string, unknown>
 export type FloatingWrapperProps = {
@@ -35,7 +35,7 @@ export type FloatingWrapperProps = {
   mainAxisOffset?: number
 }
 
-export default function FloatingWrapper ({
+export default function FloatingWrapper({
   children,
   panel,
   manualMenuController,
@@ -45,8 +45,7 @@ export default function FloatingWrapper ({
   useClickPointAsAnchor,
   mainAxisOffset = 0,
 }: FloatingWrapperProps) {
-  const { isMobile } = useResponsiveSize()
-  const [ openMenu, setOpenMenu ] = useState(false)
+  const [openMenu, setOpenMenu] = useState(false)
   const open = manualMenuController?.open ?? openMenu
   const onOpenChange = manualMenuController?.onOpenChange ?? setOpenMenu
 
@@ -73,7 +72,7 @@ export default function FloatingWrapper ({
 
   const hover = useHover(context, {
     handleClose: safePolygon(),
-    enabled: !isMobile && !!showOnHover,
+    enabled: !isTouchDevice() && !!showOnHover,
   })
   const dismiss = useDismiss(context, {
     bubbles: false,
@@ -85,6 +84,7 @@ export default function FloatingWrapper ({
   ])
 
   const toggleDisplay = (e?: MouseEvent<Element, globalThis.MouseEvent>) => {
+    console.log(e?.clientX, e?.clientY)
     if (!open && e && useClickPointAsAnchor) {
       clientClickX.current = e.clientX
       clientClickY.current = e.clientY
@@ -94,7 +94,7 @@ export default function FloatingWrapper ({
 
   const closeMenu = () => onOpenChange(false)
   const onClick: MouseEventHandler<Element> = (e) => {
-    if (isMobile) toggleDisplay(e)
+    if (isTouchDevice()) toggleDisplay(e)
     else closeMenu()
   }
 
@@ -121,7 +121,7 @@ export default function FloatingWrapper ({
           {...getFloatingProps()}
           appear
           show={open}
-          className='transition-opacity'
+          className='z-30 transition-opacity'
           enter='ease-out duration-150'
           enterFrom='opacity-0'
           enterTo='opacity-100'

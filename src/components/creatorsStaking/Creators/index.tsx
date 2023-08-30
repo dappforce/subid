@@ -3,10 +3,6 @@ import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
 import Pagination from '../tailwind-components/Pagination'
-import FloatingMenus from '../tailwind-components/floating/FloatingMenus'
-import clsx from 'clsx'
-import { HiChevronDown } from 'react-icons/hi2'
-import { HiOutlineSwitchVertical } from 'react-icons/hi'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import {
@@ -24,7 +20,7 @@ import BN from 'bignumber.js'
 import { isEmptyObj } from '@subsocial/utils'
 import { StakerInfoRecord } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoSlice'
 import { EraStakesBySpaceIdsRecord } from 'src/rtk/features/creatorStaking/eraStake/eraStakeSlice'
-import { useResponsiveSize } from 'src/components/responsive'
+import SortByDropDown from './SortByDropDown'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -96,64 +92,6 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
   )
 }
 
-type SortDropdownProps = {
-  sortBy: string
-  changeSortBy: (sortBy: string) => void
-}
-
-const SortDropdown = ({ sortBy, changeSortBy }: SortDropdownProps) => {
-  const { isMobile } = useResponsiveSize()
-  const menus = [
-    {
-      text: 'Total stake',
-      onClick: () => changeSortBy('total stake'),
-    },
-    {
-      text: 'Stakers',
-      onClick: () => changeSortBy('stakers'),
-    },
-    {
-      text: 'My stake',
-      onClick: () => changeSortBy('my stake'),
-    },
-  ]
-
-  return (
-    <div className='flex items-center gap-2'>
-      {!isMobile && <span className='text-text-muted'>Sort by:</span>}
-      <FloatingMenus
-        menus={menus}
-        allowedPlacements={[ 'bottom-start' ]}
-        mainAxisOffset={4}
-        panelSize='xs'
-        panelClassName='w-32'
-      >
-        {(config) => {
-          const { referenceProps, toggleDisplay, isOpen } = config || {}
-          return isMobile ? (
-            <Button
-              variant='outlined'
-              size='circle'
-              onClick={toggleDisplay}
-            ><HiOutlineSwitchVertical /></Button>
-          ) : (
-            <div
-              {...referenceProps}
-              onClick={toggleDisplay}
-              className='flex cursor-pointer items-center gap-1 text-text-primary'
-            >
-              <span>{sortBy}</span>
-              <HiChevronDown
-                className={clsx('transition-transform', isOpen && 'rotate-180')}
-              />
-            </div>
-          )
-        }}
-      </FloatingMenus>
-    </div>
-  )
-}
-
 type CreatorsSectionInnerProps = {
   spaceIds?: string[]
   era?: string
@@ -161,7 +99,7 @@ type CreatorsSectionInnerProps = {
 
 const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
-  const [ sortBy, changeSortBy ] = useState('total stake')
+  const [ sortBy, changeSortBy ] = useState('total-stake')
   const myAddress = useMyAddress()
 
   const stakerInfo = useStakerInfoBySpaces(spaceIds, myAddress)
@@ -213,7 +151,13 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
           tabs={tabs}
           withHashIntegration={false}
           tabsRightElement={
-            <SortDropdown sortBy={sortBy} changeSortBy={changeSortBy} />
+            <SortByDropDown 
+              sortBy={sortBy}
+              changeSortBy={changeSortBy}
+              panelSize='xs'
+              panelClassName='!w-32' 
+              itemClassName='my-[2px]'
+            />
           }
           hideBeforeHashLoaded
           manualTabControl={{
