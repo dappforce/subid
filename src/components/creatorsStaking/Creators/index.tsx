@@ -77,7 +77,7 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
 
   return (
     <div>
-      <div className='grid md:grid-cols-3 grid-cols-1 gap-4 md:px-6 px-4'>
+      <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 md:px-6 px-4'>
         {creatorsCardsByPage}
       </div>
       <Pagination
