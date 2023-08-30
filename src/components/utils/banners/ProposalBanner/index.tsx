@@ -22,7 +22,7 @@ export const ProposalBannerSection = () => {
 
   const backgroundImage = `/images/banners/open-comm-${
     isMobile ? 'mobile' : 'desktop'
-  }.svg`
+  }.png`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault()

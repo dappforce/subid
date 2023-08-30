@@ -101,7 +101,7 @@ jobs:
 
       - name: CF deploy
         continue-on-error: true
-        run: curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE }}/dns_records"      -H "X-Auth-Email:${{ secrets.CF_MAIL }}"      -H "Authorization:Bearer ${{ secrets.CF_TOKEN }}"      -H "Content-Type:application/json"      --data '{"type":"A","name":"${{ env.name }}-subid.subsocial.network","content":"${{ secrets.CF_STAGING_IP }}","ttl":3600,"priority":10,"proxied":true}'
+        run: curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE }}/dns_records"      -H "X-Auth-Email:${{ secrets.CF_MAIL }}"      -H "Authorization:Bearer ${{ secrets.CF_TOKEN }}"      -H "Content-Type:application/json"      --data '{"type":"A","name":"${{ env.name }}-subid.subsocial.network","content":"174.138.105.155","ttl":3600,"priority":10,"proxied":true}'
 
       - run: mkdir -p domain
 
