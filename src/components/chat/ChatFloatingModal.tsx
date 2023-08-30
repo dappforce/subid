@@ -11,6 +11,7 @@ import { useResponsiveSize } from '../responsive'
 export default function ChatFloatingModal () {
   const { isLargeDesktop } = useResponsiveSize()
 
+  const [ unreadCount, setUnreadCount ] = useState(0)
   const [ isOpen, setIsOpen ] = useState(false)
   const sendEvent = useSendGaUserEvent()
 
@@ -34,7 +35,7 @@ export default function ChatFloatingModal () {
             <div className={clsx(styles.ChatControl)}>
               <Button onClick={toggleChat}><HiChevronDown /></Button>
             </div>
-            {(isOpen || hasOpened.current) && <ChatIframe className={styles.ChatIframe} />}
+            <ChatIframe setUnreadCount={setUnreadCount} className={styles.ChatIframe} />
           </div>
         </div>,
         document.body
@@ -45,6 +46,7 @@ export default function ChatFloatingModal () {
         <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
           <img src='/images/grillchat.svg' alt='GrillChat' />
           <span>Polkadot Chat</span>
+          {!!unreadCount && <span className={styles.ChatUnreadCount}>{unreadCount}</span>}
         </Button>,
         document.body
       )}
