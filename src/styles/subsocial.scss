@@ -1076,6 +1076,10 @@ hr {
     .DfSectionOuter {
       width: 100%;
     }
+
+    &.DfSectionOuterHomePage {
+      max-width: $max_width_content_home;
+    }
   }
 
   .DfPageWrapper {

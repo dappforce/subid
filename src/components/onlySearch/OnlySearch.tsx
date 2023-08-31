@@ -64,7 +64,7 @@ const OnlySearch = () => {
         </div> : <></>}
       </div>
       <div className={styles.BodyWrapper}>
-        <div className={'DfSectionOuter'}>
+        <div className={'DfSectionOuter DfSectionOuterHomePage'}>
           <PreviewAccountsGrid />
         </div>
       </div>
