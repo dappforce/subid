@@ -64,6 +64,7 @@ const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
   totalRewards: string
+  restake: boolean
 }
 
 const ClaimRewardsTxButton = ({
@@ -111,8 +112,7 @@ const ClaimRewardsTxButton = ({
 
 const MyRewards = () => {
   const restakeStateFromStorage = store.get('RestakeAfterClaim')
-  const [ restake, setRestake ] = useState(restakeStateFromStorage)
-  // const [ rewards, setRewards ] = useState<Rewards>()
+  const [ restake, setRestake ] = useState<boolean>(restakeStateFromStorage)
   const myAddress = useMyAddress()
   const chainsInfo = useChainInfo()
   const creatorsList = useCreatorsList()
@@ -169,6 +169,7 @@ const MyRewards = () => {
         <ClaimRewardsTxButton
           rewardsSpaceIds={spaceIds || []}
           totalRewards={totalRewards || '0'}
+          restake={restake}
         />
       ),
     },
