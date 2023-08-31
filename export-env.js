@@ -9,6 +9,7 @@ const varsToExport = [
   'IPFS_URL',
   'DEV_MODE',
   'GA_ID',
+  'AMP_ID',
 ]
 
 function getSerializedVal (varName) {
