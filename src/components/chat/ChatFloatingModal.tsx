@@ -40,8 +40,6 @@ export default function ChatFloatingModal () {
         </div>,
         document.body
       )}
-      {/* {(isOpen || hasOpened.current) && (
-      )} */}
       {createPortal(
         <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
           <img src='/images/grillchat.svg' alt='GrillChat' />
