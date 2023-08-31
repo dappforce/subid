@@ -52,6 +52,7 @@
     "@types/react": "^17.x.x"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.2.2",
     "@ant-design/charts": "^1.2.14",
     "@ant-design/icons": "^4.6.2",
     "@blazity/next-image-proxy": "^1.0.2",
