@@ -44,24 +44,26 @@ export function HeadMeta (props: HeadMetaProps) {
   const optimizedTitle = forceTitle ? title : optimizeTitle(title)
 
   return (
-    <Head>
-      <title>{optimizedTitle}</title>
-      <meta name='description' content={summary} />
-      {nonEmptyArr(tags) && (
-        <meta name='keywords' content={tags?.join(', ')} />
-      )}
+    <div>
+      <Head>
+        <title>{optimizedTitle}</title>
+        <meta name='description' content={summary} />
+        {nonEmptyArr(tags) && (
+          <meta name='keywords' content={tags?.join(', ')} />
+        )}
 
-      <meta property='og:site_name' content={metaTags.siteName} />
-      <meta property='og:image' content={img} />
-      <meta property='og:title' content={optimizedTitle} />
-      <meta property='og:description' content={summary} />
+        <meta property='og:site_name' content={metaTags.siteName} />
+        <meta property='og:image' content={img} />
+        <meta property='og:title' content={optimizedTitle} />
+        <meta property='og:description' content={summary} />
 
-      <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:site' content={metaTags.siteName} />
-      <meta name='twitter:image' content={img} />
-      <meta name='twitter:title' content={optimizedTitle} />
-      <meta name='twitter:description' content={summary} />
-    </Head>
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:site' content={metaTags.siteName} />
+        <meta name='twitter:image' content={img} />
+        <meta name='twitter:title' content={optimizedTitle} />
+        <meta name='twitter:description' content={summary} />
+      </Head>
+    </div>
   )
 }
 
