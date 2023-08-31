@@ -21,7 +21,6 @@ export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProp
         settings: {
           enableInputAutofocus: true,
           enableBackButton: false,
-          enableLoginButton: false
         }
       },
       theme: 'light'
