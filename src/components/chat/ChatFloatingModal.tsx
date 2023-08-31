@@ -7,9 +7,11 @@ import ChatIframe from './ChatIframe'
 import clsx from 'clsx'
 import { createPortal } from 'react-dom'
 import { useResponsiveSize } from '../responsive'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 export default function ChatFloatingModal () {
   const { isLargeDesktop } = useResponsiveSize()
+  const sendAmpEvent = useSendEvent()
 
   const [ unreadCount, setUnreadCount ] = useState(0)
   const [ isOpen, setIsOpen ] = useState(false)
@@ -17,7 +19,12 @@ export default function ChatFloatingModal () {
 
   const hasOpened = useRef(false)
   const toggleChat = () => {
-    sendEvent('open_grill_iframe')
+    let event
+    if (isOpen) event = 'close_grill_iframe'
+    else event = 'open_grill_iframe'
+    sendEvent(event)
+    sendAmpEvent(event)
+
     setIsOpen((prev) => !prev)
     hasOpened.current = true
   }

@@ -1,12 +1,15 @@
 import clsx from 'clsx'
 import { ComponentProps, useEffect } from 'react'
 import grill from '@subsocial/grill-widget'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 export type ChatIframeProps = ComponentProps<'div'> & {
   setUnreadCount?: (count: number) => void
 }
 
 export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProps) {
+  const sendEvent = useSendEvent()
+
   useEffect(() => {
     const listener = setUnreadCount ? ((count: number) => setUnreadCount(count)) : undefined
     if (listener) {
@@ -23,7 +26,16 @@ export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProp
           enableBackButton: false,
         }
       },
-      theme: 'light'
+      theme: 'light',
+      onWidgetCreated: (iframe) => {
+        iframe.onerror = () => {
+          sendEvent('chat_widget_error')
+        }
+        iframe.onmouseenter = () => {
+          sendEvent('chat_widget_mouse_enter')
+        }
+        return iframe
+      }
     })
 
     return () => {

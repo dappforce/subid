@@ -1,8 +1,7 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
+import React, { useState, createContext, useContext, useEffect, useMemo, useRef } from 'react'
 import { BrowserClient, BaseEvent } from '@amplitude/analytics-types'
 import { createInstance } from '@amplitude/analytics-browser'
 import { ampId } from 'src/config/env'
-import { useMemo, useRef } from 'hoist-non-react-statics/node_modules/@types/react'
 
 type AnalyticContextState = {
   amp: BrowserClient | null
