@@ -18,6 +18,7 @@ import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/staker
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useStakingContext } from 'src/components/staking/collators/StakingContext'
+import { StakingModalVariant } from './StakeModal'
 
 type CommonAmountInputProps = {
   setAmount: (amount: string) => void
@@ -29,6 +30,7 @@ type CommonAmountInputProps = {
   label: string
   balanceLabel: string
   spaceId: string
+  modalVariant: StakingModalVariant
 }
 
 type AmountInputProps = CommonAmountInputProps & {
@@ -40,7 +42,7 @@ type AmountInputProps = CommonAmountInputProps & {
 export const StakeOrIncreaseStakeAmountInput = (
   props: CommonAmountInputProps
 ) => {
-  const { tokenSymbol, decimals, setInputError } = props
+  const { tokenSymbol, decimals, setInputError, modalVariant } = props
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
 
@@ -75,6 +77,7 @@ export const StakeOrIncreaseStakeAmountInput = (
     if (
       minimumStakingAmount &&
       amountWithDecimals.lt(new BN(minimumStakingAmount))
+      && modalVariant === 'stake'
     ) {
       const minimumStakingAmountWithDecimals = convertToBalanceWithDecimal(
         minimumStakingAmount,

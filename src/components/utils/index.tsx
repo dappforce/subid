@@ -378,11 +378,13 @@ export const showParsedErrorMessage = (result: SubmittableResult | null) => {
       : undefined
 
   if (dispatchErrorModuleData) {
-    const { docs } =
+    const { docs, method } =
       failedEvent?.registry?.findMetaError(dispatchErrorModuleData) || {}
 
-    if (docs) {
+    if (docs && !isEmptyArray(docs)) {
       errorMessage = docs[0]
+    } else {
+      errorMessage = errorMessage + ` ${method}`
     }
   }
 

@@ -6,6 +6,14 @@ import { useStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/st
 import { FormatBalance } from 'src/components/common/balances'
 import Button from '../tailwind-components/Button'
 import store from 'store'
+import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
+import BN from 'bignumber.js'
+import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
+import { showParsedErrorMessage } from 'src/components/utils'
+import { ApiPromise } from '@polkadot/api'
+import { fetchStakerRewards, useFetchStakerRewards, useStakerRewards } from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+import { useAppDispatch } from 'src/rtk/app/store'
 
 type RewardCardProps = {
   title: string
@@ -37,26 +45,91 @@ type RestakeButtonProps = {
 }
 
 const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
-
   const onButtonClick = (restake: boolean) => {
     setRestake(!restake)
     store.set('RestakeAfterClaim', !restake)
   }
 
   return (
-    <Button size={'sm'} variant={'primaryOutline'} onClick={() => onButtonClick(restake)}>
+    <Button
+      size={'sm'}
+      variant={'primaryOutline'}
+      onClick={() => onButtonClick(restake)}
+    >
       {restake ? 'Turn off' : 'Turn on'}
     </Button>
+  )
+}
+
+type ClaimRewardsTxButtonProps = {
+  rewardsSpaceIds: string[]
+  totalRewards: string
+}
+
+const ClaimRewardsTxButton = ({
+  rewardsSpaceIds,
+  totalRewards,
+}: ClaimRewardsTxButtonProps) => {
+  const dispatch = useAppDispatch()
+  const myAddress = useMyAddress()
+
+  const onSuccess = () => {
+    fetchStakerRewards(dispatch, myAddress || '', rewardsSpaceIds)
+  }
+
+  const buildParams = (api: ApiPromise) => {
+    const txs = rewardsSpaceIds.map((spaceId) =>
+      api.tx.creatorStaking.claimStakerReward(spaceId, false)
+    )
+
+    return [ txs ]
+  }
+
+  const Component: React.FunctionComponent<{ onClick?: () => void }> = (
+    compProps
+  ) => (
+    <Button {...compProps} variant={'primary'} size={'sm'}>
+      Claim
+    </Button>
+  )
+
+  const disableButton = !myAddress || new BN(totalRewards).isZero()
+
+  return (
+    <LazyTxButton
+      network='subsocial'
+      accountId={myAddress}
+      tx={'utility.batch'}
+      disabled={disableButton}
+      component={Component}
+      params={buildParams}
+      onFailed={showParsedErrorMessage}
+      onSuccess={onSuccess}
+    />
   )
 }
 
 const MyRewards = () => {
   const restakeStateFromStorage = store.get('RestakeAfterClaim')
   const [ restake, setRestake ] = useState(restakeStateFromStorage)
+  // const [ rewards, setRewards ] = useState<Rewards>()
   const myAddress = useMyAddress()
   const chainsInfo = useChainInfo()
+  const creatorsList = useCreatorsList()
+
+  const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
+
+  const myCreatorsIds = useGetMyCreatorsIds(creatorsSpaceIds)
+
+  useFetchStakerRewards(myAddress, myCreatorsIds)
 
   const stakerLedger = useStakerLedger(myAddress)
+
+  const stakerRewards = useStakerRewards(myAddress)
+
+  const { rewards } = stakerRewards || {}
+
+  const { spaceIds, totalRewards } = rewards || {}
 
   const { tokenDecimals, tokenSymbols, nativeToken } =
     chainsInfo?.subsocial || {}
@@ -75,28 +148,34 @@ const MyRewards = () => {
     />
   )
 
+  const myRewards = (
+    <FormatBalance
+      value={rewards?.totalRewards.toString() || '0'}
+      decimals={decimal}
+      currency={symbol}
+      isGrayDecimal={false}
+    />
+  )
+
   const cardsOpt = [
     {
       title: 'My Stake',
       value: myStake,
-      desc: 'SOON',
     },
     {
       title: 'Estimated Rewards',
-      value: 'SOON',
-      desc: 'SOON',
+      value: myRewards,
       button: (
-        <Button disabled size={'sm'} variant={'primary'}>
-          Claim
-        </Button>
+        <ClaimRewardsTxButton
+          rewardsSpaceIds={spaceIds || []}
+          totalRewards={totalRewards || '0'}
+        />
       ),
     },
     {
       title: 'Re-Stake After Claiming',
       value: <div className='font-semibold'>{restake ? 'ON' : 'OFF'}</div>,
-      button: (
-        <RestakeButton restake={restake} setRestake={setRestake} />
-      ),
+      button: <RestakeButton restake={restake} setRestake={setRestake} />,
     },
   ]
 

@@ -84,7 +84,6 @@ export default function FloatingWrapper({
   ])
 
   const toggleDisplay = (e?: MouseEvent<Element, globalThis.MouseEvent>) => {
-    console.log(e?.clientX, e?.clientY)
     if (!open && e && useClickPointAsAnchor) {
       clientClickX.current = e.clientX
       clientClickY.current = e.clientY

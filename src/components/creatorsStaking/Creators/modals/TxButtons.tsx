@@ -12,6 +12,7 @@ import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStak
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { StakingModalVariant } from './StakeModal'
+import { showParsedErrorMessage } from 'src/components/utils'
 
 export type CommonTxButtonProps = {
   amount: string
@@ -59,10 +60,6 @@ const StakingTxButton = ({
     }
   }
 
-  const onFailed = () => {
-    console.log('Failed')
-  }
-
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
 
@@ -92,7 +89,7 @@ const StakingTxButton = ({
       disabled={disableButton}
       component={Component}
       params={buildParams}
-      onFailed={onFailed}
+      onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
     />
   )

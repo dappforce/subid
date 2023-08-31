@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
@@ -6,54 +6,19 @@ import Pagination from '../tailwind-components/Pagination'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import {
-  useEraStakesByIds,
   useFetchEraStakes,
 } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import {
   useFetchStakerInfoBySpaces,
-  useStakerInfoBySpaces,
 } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
-import BN from 'bignumber.js'
-import { isEmptyObj } from '@subsocial/utils'
-import { StakerInfoRecord } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoSlice'
-import { EraStakesBySpaceIdsRecord } from 'src/rtk/features/creatorStaking/eraStake/eraStakeSlice'
 import SortByDropDown from './SortByDropDown'
+import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
+import { useSortBy } from '../hooks/useSortCreators'
 
 const DEFAULT_PAGE_SIZE = 9
-
-const sortValues = <T extends StakerInfoRecord | EraStakesBySpaceIdsRecord>(
-  data: T,
-  field: keyof T[string]
-) => {
-  const entries = Object.entries(data)
-
-  return entries
-    .sort(([ _, a ], [ __, b ]) => new BN(b[field]).minus(a[field]).toNumber())
-    .map(([ key ]) => key)
-}
-
-const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => {
-  const myAddress = useMyAddress()
-  const stakersInfo = useStakerInfoBySpaces(spaceIds, myAddress)
-  const eraStakes = useEraStakesByIds(spaceIds, era)
-
-  const sortedSpaceIds = useMemo(() => {
-    if (!stakersInfo || !eraStakes) return spaceIds
-
-    if (sortBy === 'total stake') {
-      return sortValues(eraStakes, 'total')
-    } else if (sortBy === 'stakers') {
-      return sortValues(eraStakes, 'numberOfStakers')
-    } else {
-      return sortValues(stakersInfo, 'totalStaked')
-    }
-  }, [ sortBy, stakersInfo, eraStakes, myAddress ])
-
-  return sortedSpaceIds
-}
 
 type AllCreatorsProps = {
   spaceIds?: string[]
@@ -100,19 +65,7 @@ type CreatorsSectionInnerProps = {
 const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
   const [ sortBy, changeSortBy ] = useState('total-stake')
-  const myAddress = useMyAddress()
-
-  const stakerInfo = useStakerInfoBySpaces(spaceIds, myAddress)
-
-  const myCreatorsIds = useMemo(() => {
-    if (!stakerInfo || isEmptyObj(stakerInfo)) return []
-
-    const stakerInfoEntries = Object.entries(stakerInfo)
-
-    return stakerInfoEntries
-      .filter(([ _, info ]) => !new BN(info.totalStaked).isZero())
-      .map(([ key ]) => key)
-  }, [ isEmptyObj(stakerInfo) ])
+  const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
 
   const tabs: TabsProps['tabs'] = [
     {

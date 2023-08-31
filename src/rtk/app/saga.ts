@@ -41,7 +41,8 @@ import { watchCreatorsSpaces } from '../features/creatorStaking/creatorsSpaces/c
 import { watchEraStake } from '../features/creatorStaking/eraStake/eraStakeSaga'
 import { watchStakerInfo } from '../features/creatorStaking/stakerInfo/stakerInfoSaga'
 import { watchStakerLedger } from '../features/creatorStaking/stakerLedger/stakerLedgerSaga'
-import { watchCreatorStakingConsts } from '../features/creatorStaking/stakingConsts/stakingConstsSaga';
+import { watchCreatorStakingConsts } from '../features/creatorStaking/stakingConsts/stakingConstsSaga'
+import { watchStakerRewards } from '../features/creatorStaking/stakerRewards/stakerRewardsSaga'
 
 export interface SagaStore extends Store {
   sagaTask?: Task
@@ -84,7 +85,8 @@ export default function* rootSaga () {
     watchEraStake,
     watchStakerInfo,
     watchStakerLedger,
-    watchCreatorStakingConsts
+    watchCreatorStakingConsts,
+    watchStakerRewards
   ]
 
   yield all(sagas.map((s) => fork(s)))

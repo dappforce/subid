@@ -21,8 +21,8 @@ import { getCurrentWallet } from '../utils/index'
 import { DAPP_NAME } from '../providers/utils'
 const log = newLogger('TxButton')
 
-export type GetTxParamsFn = () => any[]
-export type GetTxParamsAsyncFn = () => Promise<any[]>
+export type GetTxParamsFn = (api: ApiPromise) => any[]
+export type GetTxParamsAsyncFn = (api: ApiPromise) => Promise<any[]>
 
 export type TxCallback = (status: SubmittableResult) => void
 export type TxFailedCallback = (status: SubmittableResult | null) => void
@@ -70,7 +70,7 @@ export const getExtrinsicByApi = async (
 
   let resultParams = (params || []) as any[]
   if (isFunction(params)) {
-    resultParams = await params()
+    resultParams = await params(api)
   }
 
   return api.tx[pallet][method](...(resultParams))

@@ -214,6 +214,7 @@ const StakingModal = ({
               label={inputLabel}
               spaceId={spaceId}
               balanceLabel={balanceLabel}
+              modalVariant={modalVariant}
             />
           </>
         )}

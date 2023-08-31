@@ -80,3 +80,18 @@ export const getStakingConsts = async () =>
     onFaileReturnedValue: undefined,
     onFailedText: 'Failed to fetch staking consts',
   })
+
+export const getStakerRewards = async (account: string, spaceIds: string[]) =>
+  sendGetRequest({
+    params: {
+      url: 'staking/creator/staker/rewards',
+      config: {
+        params: {
+          account,
+          ids: spaceIds.join(','),
+        },
+      },
+    },
+    onFaileReturnedValue: undefined,
+    onFailedText: 'Failed to fetch staker rewards',
+  })
