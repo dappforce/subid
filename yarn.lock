@@ -4697,10 +4697,10 @@
     "@polkadot/api" latest
     lodash.camelcase "^4.3.0"
 
-"@subsocial/grill-widget@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@subsocial/grill-widget/-/grill-widget-0.0.7.tgz#f6b9f448b9c702a2edcbc5ef8de4d8077e756239"
-  integrity sha512-HL8+qHVuPhOaoEYIFeLO63wxmX7zjv2aIqSFVGKl4DZ4SXAH9Db8Pkr1MuR1kvGCqOmwbNwKwVEKuti9QXaarQ==
+"@subsocial/grill-widget@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@subsocial/grill-widget/-/grill-widget-0.0.10.tgz#1960995c0b230d58982a18562d09ef72ea6a994c"
+  integrity sha512-/788CniImRW6X5ZDajvunMQdPJbBY9aa27Gxtwe1xbQdc6praJvT4tP8PptQh/HZGD/hOvt+iS5WDLN+JFwqsg==
 
 "@subsocial/types@0.6.8":
   version "0.6.8"

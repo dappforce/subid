@@ -14,6 +14,7 @@ export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProp
     }
     grill.init({
       hub: { id: '1025' },
+      rootFontSize: '0.875rem',
       channel: {
         id: '7120',
         type: 'channel',
