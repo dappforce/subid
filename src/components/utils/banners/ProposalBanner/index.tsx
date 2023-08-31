@@ -21,8 +21,8 @@ export const ProposalBannerSection = () => {
   if (!showBanner) return null
 
   const backgroundImage = `/images/banners/open-comm-${
-    isMobile ? 'mobile' : 'desktop'
-  }.png`
+    isMobile ? 'mobile.png' : 'desktop.jpg'
+  }`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault()
