@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { CloseOutlined } from '@ant-design/icons'
 import store from 'store'
 import clsx from 'clsx'
-import { useBuildSendGaUserEvent } from 'src/ga'
+import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 
 const BANNER_STORAGE_KEY = 'df.open_comm_banner'
 
@@ -45,7 +45,7 @@ export const ProposalBannerSection = () => {
 }
 
 const ProposalBanner = () => {
-  const sendEvent = useBuildSendGaUserEvent('click_opencomm_banner')
+  const sendEvent = useBuildSendEvent('click_opencomm_banner')
 
   return <Link href='https://polkadot.polkassembly.io/referenda/119'>
     <a target='_blank' rel='noreferrer' onClick={sendEvent}>

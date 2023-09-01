@@ -2,7 +2,6 @@ import { MenuOutlined, CloseCircleOutlined, SearchOutlined, CloseOutlined } from
 import { InjectedAccount } from '@polkadot/extension-inject/types'
 import { Button, Divider, Dropdown, Menu, Tooltip } from 'antd'
 import { useState } from 'react'
-import { sendGuestGaEvent, sendSignedInGaEvent } from '../../ga/events'
 import Name from '../homePage/address-views/Name'
 import { ExternalLink } from '../identity/utils'
 import {
@@ -33,6 +32,7 @@ import { useSidebarCollapsed } from '../providers/SideBarCollapsedContext'
 import { AccountIdentities } from '../identity/types'
 import { isEmptyArray } from '@subsocial/utils'
 import { useMyAddress } from '../providers/MyExtensionAccountsContext'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 type AccountPreviewProps = {
   address?: string
@@ -95,6 +95,7 @@ export const DropdownItems = (props: MenuProps) => {
   const { accounts, isSignIn, hideSignInModal, closeDropdown } = props
   const { setMyAddress, signOut, setIsMulti } = useMyExtensionAccount()
   const addressFromStorage = getAddressFromStorage()
+  const sendEvent = useSendEvent()
 
   const addresses = accounts?.map(account => account.address)
 
@@ -104,7 +105,7 @@ export const DropdownItems = (props: MenuProps) => {
     const key = item.key
 
     if (key !== 'signOut') {
-      sendSignedInGaEvent('Switch account')
+      sendEvent('Switch account')
 
       setMyAddress(key)
       setIsMulti(checkIsMulti(key))
@@ -117,7 +118,7 @@ export const DropdownItems = (props: MenuProps) => {
         router.push({ pathname, query: query })
       }
     } else {
-      sendSignedInGaEvent('Sign out')
+      sendEvent('Sign out')
       signOut()
       router.push('/', '')
     }
@@ -186,6 +187,7 @@ const TopMenu = () => {
   const [ show, setShow ] = useState(false)
   const { toggle, state: { collapsed } } = useSidebarCollapsed()
   const currentAddress = useCurrentAccount()
+  const sendEvent = useSendEvent()
 
   const isMulti = checkIsMulti(addressFromStorage)
 
@@ -199,7 +201,7 @@ const TopMenu = () => {
   const accountIdentities = addressFromStorage && identities && !isMulti ? identities[addressFromStorage] : undefined
 
   const onClick = () => {
-    sendGuestGaEvent('Click on the Sing In button on top menu')
+    sendEvent('Click on the Sing In button on top menu')
     openModal()
   }
   const subsocialIdentity = getSubsocialIdentity(accountIdentities)

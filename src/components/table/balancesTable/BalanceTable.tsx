@@ -30,7 +30,6 @@ import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { TransferFormDefaultToken } from 'src/components/transfer/TransferForm'
-import { useBuildSendGaUserEvent, useSendGaUserEvent } from 'src/ga'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
 import {
   ParseBalanceTableInfoProps,
@@ -41,6 +40,7 @@ import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
 import BN from 'bignumber.js'
 import store from 'store'
+import { useBuildSendEvent, useSendEvent } from 'src/components/providers/AnalyticContext'
 
 const TransferModal = dynamic(
   () => import('src/components/transfer/TransferModal'),
@@ -61,11 +61,11 @@ const BalanceTableVariantTabs = ({
   balancesVariant,
   setBalancesVariant,
 }: BalanceTableVariantTabsProps) => {
-  const sendGaEvent = useSendGaUserEvent()
+  const sendEvent = useSendEvent()
 
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
-    sendGaEvent(`Change balance table variant to ${newTableView}`)
+    sendEvent(`Change balance table variant to ${newTableView}`)
     setBalancesVariant(newTableView)
     store.set(BALANCE_TABLE_VARIANT, newTableView)
   }
@@ -261,7 +261,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
     t,
     i18n: { language },
   } = useTranslation()
-  const sendGaTransferEvent = useBuildSendGaUserEvent(
+  const sendTransferEvent = useBuildSendEvent(
     'Click on Transfer button'
   )
 
@@ -314,7 +314,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
             type: 'OPEN',
             payload: { token, network, tokenId },
           })
-          sendGaTransferEvent()
+          sendTransferEvent()
         },
         t,
       }

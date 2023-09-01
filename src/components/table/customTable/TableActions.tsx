@@ -5,7 +5,6 @@ import { useResponsiveSize } from 'src/components/responsive'
 import { SectionTitle } from 'src/components/utils'
 import { useTableContext } from './TableContext'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
-import { useSendGaUserEvent } from 'src/ga'
 import { tailsViewOpt } from '../utils'
 import { MAX_ITEMS_FOR_TABLE } from 'src/components/homePage/OverviewSection'
 import { TableInfo } from '../types'
@@ -13,6 +12,7 @@ import { useMyAddresses } from 'src/components/providers/MyExtensionAccountsCont
 import { useTranslation } from 'react-i18next'
 import { TableActionsProps } from './types'
 import styles from '../Table.module.sass'
+import { useSendEvent } from 'src/components/providers/AnalyticContext'
 
 export const TableActions = <T extends TableInfo>({
   title,
@@ -22,12 +22,12 @@ export const TableActions = <T extends TableInfo>({
   const { isMobile } = useResponsiveSize()
   const { tableView, showZeroBalances, setTableView, setShowZeroBalances } =
     useTableContext()
-  const sendGaEvent = useSendGaUserEvent()
+  const sendEvent = useSendEvent()
   const { t } = useTranslation()
 
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
-    sendGaEvent(`Change ${title} table view to ${newTableView}`)
+    sendEvent(`Change ${title} table view to ${newTableView}`)
     setTableView(newTableView)
   }
 

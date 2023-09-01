@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect, useMemo, useRef } from 'react'
+import React, { useState, createContext, useContext, useEffect, useMemo, useRef, useCallback } from 'react'
 import { BrowserClient, BaseEvent } from '@amplitude/analytics-types'
 import { createInstance } from '@amplitude/analytics-browser'
 import { ampId } from 'src/config/env'
@@ -84,6 +84,14 @@ export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
 
 export function useSendEvent () {
   return useContext(AnalyticContext).sendEvent
+}
+
+export function useBuildSendEvent (eventName: string) {
+  const sendEvent = useSendEvent()
+
+  return useCallback(() => {
+    sendEvent(eventName)
+  }, [ eventName ])
 }
 
 export default AnalyticProvider
