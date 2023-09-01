@@ -20,6 +20,7 @@ export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIfram
     }
     grill.init({
       hub: { id: 'polka' },
+      rootFontSize: '1rem',
       channel: {
         id: '754',
         type: 'channel',
