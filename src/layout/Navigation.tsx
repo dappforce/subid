@@ -18,29 +18,25 @@ interface Props {
 }
 
 const HomeNav = () => {
-  const { state: { collapsed }, hide, show } = useSidebarCollapsed()
-
   return <Sider
     className='DfSider'
     width='230'
     trigger={null}
     collapsible
-    collapsed={collapsed}
-    onMouseOver={() => show()}
-    onMouseLeave={() => hide()}
+    collapsed={true}
   >
     <Menu />
   </Sider>
 }
 
-const DefaultNav: FunctionComponent = () => {
+const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) => {
   const { state: { collapsed }, hide } = useSidebarCollapsed()
   const { asPath } = useRouter()
 
   useEffect(() => hide(), [ asPath ])
 
   return <Drawer
-    className='DfSideBar h-100'
+    className={clsx('DfSideBar h-100', className)}
     bodyStyle={{ padding: 0 }}
     placement='left'
     closable={false}
@@ -71,7 +67,7 @@ export const Navigation = (props: Props): JSX.Element => {
     </Content>, [ children ]
   )
 
-  const sideMenu = asDrawer ? <DefaultNav /> : <HomeNav />
+  const sideMenu = asDrawer ? <DefaultNav /> : <><HomeNav /><DefaultNav className='DfDesktopDrawer' /></>
 
   const isHomePage = asPath === '/' || asPath.startsWith('/#')
 

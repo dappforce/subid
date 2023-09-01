@@ -228,7 +228,7 @@ const TopMenu = () => {
       ) : (
         <div className='DfTopBar'>
           <div className='DfTopBar--leftContent'>
-            {!isEmptyArray(currentAddress) && !isDesktop && !isAccountsPage() && !isFavorites() && (collapsed
+            {!isEmptyArray(currentAddress) && !isAccountsPage() && !isFavorites() && (collapsed
               ? <MenuOutlined style={{ fontSize: '20px' }} onClick={toggle} className='DfBurgerIcon mr-1' />
               : <CloseOutlined style={{ fontSize: '20px' }} onClick={toggle} className='DfBurgerIcon mr-1' />)}
             <Link href={homePageLink}>
