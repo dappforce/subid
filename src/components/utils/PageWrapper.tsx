@@ -89,7 +89,7 @@ export const PageContent: FC<Props> = ({
     <>
       <HeadMeta {...meta} />
 
-      <section className='DfSectionOuter DfSectionHeight d-flex w-100 p-0'>
+      <section className='DfSectionOuter DfPageWrapper DfSectionHeight d-flex w-100'>
         <Section>
           <Section className={`${className}`} level={level} title={title}>
             {children}

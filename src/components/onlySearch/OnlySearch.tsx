@@ -3,19 +3,20 @@ import SearchInput from '../search/SearchInput'
 import { Button } from 'antd'
 import styles from './OnlySearch.module.sass'
 import { useMyExtensionAccount } from '../providers/MyExtensionAccountsContext'
-import { sendGuestGaEvent } from '../../ga/events'
 import { useResponsiveSize } from '../responsive'
 import { PreviewAccountsGrid } from '../interesting-accounts/InterestingAccounts'
 import { useTranslation } from 'react-i18next'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 const OnlySearch = () => {
   const { openModal } = useMyExtensionAccount()
   const { t } = useTranslation()
   const { isMobile } = useResponsiveSize()
+  const sendEvent = useSendEvent()
 
   const onClick = () => {
     openModal()
-    sendGuestGaEvent('Click on the Sing In link on home page')
+    sendEvent('Click on the Sing In link on home page')
   }
 
   const connectWalletButton = <Button
@@ -64,7 +65,7 @@ const OnlySearch = () => {
         </div> : <></>}
       </div>
       <div className={styles.BodyWrapper}>
-        <div className={'DfSectionOuter'}>
+        <div className={'DfSectionOuter DfSectionOuterHomePage'}>
           <PreviewAccountsGrid />
         </div>
       </div>

@@ -61,7 +61,9 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const banner = useMemo(() => <ProposalBanner />, [])
     
   if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
-    <HeadMeta title='' />
+    <section>
+      <HeadMeta title='' />
+    </section>
 
     <div className='layout-wrapper'>
       <OnlySearch />

@@ -6,6 +6,7 @@ export type ResponsiveSizeState = {
   isMobile: boolean
   isTablet: boolean
   isDesktop: boolean
+  isLargeDesktop: boolean
   isNotMobile: boolean
   isNotDesktop: boolean
 }
@@ -15,13 +16,15 @@ const contextStub: ResponsiveSizeState = {
   isMobile: false,
   isNotMobile: false,
   isTablet: false,
-  isNotDesktop: false
+  isNotDesktop: false,
+  isLargeDesktop: false
 }
 
 export const ResponsiveSizeContext = createContext<ResponsiveSizeState>(contextStub)
 
 export function ResponsiveSizeProvider (props: React.PropsWithChildren<any>) {
   const value = {
+    isLargeDesktop: useMediaQuery({ minWidth: 1200 }),
     isDesktop: useMediaQuery({ minWidth: 992 }),
     isTablet: useMediaQuery({ minWidth: 768, maxWidth: 991 }),
     isMobile: useMediaQuery({ maxWidth: 767 }),
