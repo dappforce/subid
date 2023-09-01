@@ -2291,6 +2291,11 @@ hr {
 .DfBurgerIcon {
   color: $color_muted;
 }
+.DfBurgerIconDesktop {
+  padding: 0 $space_normal;
+  position: relative;
+  left: -2px;
+}
 
 @media (max-width: $max_mobile_width) {
   .ant-affix {

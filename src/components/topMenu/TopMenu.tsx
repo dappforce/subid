@@ -229,8 +229,8 @@ const TopMenu = () => {
         <div className='DfTopBar'>
           <div className='DfTopBar--leftContent'>
             {!isEmptyArray(currentAddress) && !isAccountsPage() && !isFavorites() && (collapsed
-              ? <MenuOutlined style={{ fontSize: '20px' }} onClick={toggle} className='DfBurgerIcon mr-1' />
-              : <CloseOutlined style={{ fontSize: '20px' }} onClick={toggle} className='DfBurgerIcon mr-1' />)}
+              ? <MenuOutlined style={{ fontSize: '20px' }} onClick={toggle} className={clsx('DfBurgerIcon mr-1', isDesktop && 'DfBurgerIconDesktop')} />
+              : <CloseOutlined style={{ fontSize: '20px' }} onClick={toggle} className={clsx('DfBurgerIcon mr-1', isDesktop && 'DfBurgerIconDesktop')} />)}
             <Link href={homePageLink}>
               <a className='DfBrand mt-1'>
                 <img src={!isMobile ? appLogo : mobileAppLogo} alt='SubId' />
