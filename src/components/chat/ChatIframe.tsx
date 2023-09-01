@@ -11,7 +11,10 @@ export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProp
   const sendEvent = useSendEvent()
 
   useEffect(() => {
-    const listener = setUnreadCount ? ((count: number) => setUnreadCount(count)) : undefined
+    const listener = setUnreadCount ? ((count: number) => {
+      console.log('unread count', count)
+      setUnreadCount(count)
+    }) : undefined
     if (listener) {
       grill.addUnreadCountListener(listener)
     }
