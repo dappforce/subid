@@ -1,20 +1,10 @@
 @import 'src/styles/subsocial-vars.scss'
 
-.ChatFloatingButton
+.ChatFloatingWrapper
   z-index: 10
   position: fixed
   bottom: $space_huge
   right: $space_normal
-  padding: $space_small $space_normal
-  border-radius: 32px
-  font-size: 1rem
-  color: white !important
-  display: flex
-  justify-content: center
-  height: auto
-  align-items: center
-  background: linear-gradient(95.39deg, #C43333 9.79%, #F9A11E 135.53%) !important
-  gap: $space_tiny
 
   .ChatUnreadCount
     position: absolute
@@ -25,13 +15,26 @@
     background: red
     border-radius: 32px
     transform: translate(25%, -25%)
+    color: white
 
-  &:hover, &:focus
-    filter: brightness(1.1)
+  .ChatFloatingButton
+    padding: $space_small $space_normal
+    border-radius: 32px
+    font-size: 1rem
+    color: white !important
+    display: flex
+    justify-content: center
+    height: auto
+    align-items: center
+    background: linear-gradient(95.39deg, #C43333 9.79%, #F9A11E 135.53%) !important
+    gap: $space_tiny
 
-  img
-    display: block
-    height: 1.1rem
+    &:hover, &:focus
+      filter: brightness(1.1)
+
+    img
+      display: block
+      height: 1.1rem
 
 .ChatContainer
   z-index: 1010

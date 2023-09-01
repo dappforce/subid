@@ -21,7 +21,10 @@ export default function ChatFloatingModal () {
   const toggleChat = () => {
     let event
     if (isOpen) event = 'close_grill_iframe'
-    else event = 'open_grill_iframe'
+    else {
+      event = 'open_grill_iframe'
+      setUnreadCount(0)
+    }
     sendEvent(event)
     sendAmpEvent(event)
 
@@ -48,11 +51,13 @@ export default function ChatFloatingModal () {
         document.body
       )}
       {createPortal(
-        <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-          <img src='/images/grillchat.svg' alt='GrillChat' />
-          <span>Polkadot Chat</span>
+        <div className={styles.ChatFloatingWrapper}>
+          <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
+            <img src='/images/grillchat.svg' alt='GrillChat' />
+            <span>Polkadot Chat</span>
+          </Button>
           {!!unreadCount && <span className={styles.ChatUnreadCount}>{unreadCount}</span>}
-        </Button>,
+        </div>,
         document.body
       )}
     </>
