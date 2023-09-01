@@ -52,6 +52,7 @@ jobs:
                   GH_BACKEND_URL=https://${{ github.event.inputs.back-address }}
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
+                  GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache
