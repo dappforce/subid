@@ -19,10 +19,10 @@ export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIfram
       grill.addUnreadCountListener(listener)
     }
     grill.init({
-      hub: { id: '1025' },
+      hub: { id: 'polka' },
       rootFontSize: '0.875rem',
       channel: {
-        id: '7120',
+        id: '754',
         type: 'channel',
         settings: {
           enableInputAutofocus: true,
