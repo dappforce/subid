@@ -20,7 +20,6 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import { getDecimalsAndSymbol } from '../../utils'
 import styles from '../StakingTable.module.sass'
 import { ApiPromise } from '@polkadot/api'
-import { useBuildSendGaUserEvent, useSendGaUserEvent } from 'src/ga'
 import { useStakingContext } from '../../../staking/collators/StakingContext'
 
 type ActionButtonProps = {
@@ -37,8 +36,6 @@ export const ActionButtons = ({ address, network }: ActionButtonProps) => {
   const myAddress = useMyAddress()
   const { t } = useTranslation()
   const { getApiByNetwork, isConnecting } = useLazyConnectionsContext()
-
-  const sendGaEvent = useSendGaUserEvent()
 
   const myGenericAddress = toGenericAccountId(myAddress)
   const genericCandidateAddress = toGenericAccountId(address)
@@ -61,7 +58,6 @@ export const ActionButtons = ({ address, network }: ActionButtonProps) => {
   const onActionButtonClick = (action: Action) => {
     setAction(action)
     setOpen(true)
-    sendGaEvent(`Click on ${action} button`)
   }
 
   const commonButtonProps: ButtonProps = {
@@ -246,7 +242,6 @@ export const ActionTxButton = ({
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { tx, label, buildOnSuccessActions, onSuccessMessage } = getParamsByAction(t)[action]
-  const sendGaStakingEvent = useBuildSendGaUserEvent(`Click on staking modal action button: ${action}`)
 
   const decimals = chainInfo?.tokenDecimals[0]
 
@@ -282,6 +277,5 @@ export const ActionTxButton = ({
     size={size}
     block={block}
     ghost={ghost}
-    onClick={sendGaStakingEvent}
   />
 }

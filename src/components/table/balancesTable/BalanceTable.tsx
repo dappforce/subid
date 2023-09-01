@@ -30,7 +30,6 @@ import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { TransferFormDefaultToken } from 'src/components/transfer/TransferForm'
-import { useBuildSendGaUserEvent, useSendGaUserEvent } from 'src/ga'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
 import {
   ParseBalanceTableInfoProps,
@@ -61,11 +60,8 @@ const BalanceTableVariantTabs = ({
   balancesVariant,
   setBalancesVariant,
 }: BalanceTableVariantTabsProps) => {
-  const sendGaEvent = useSendGaUserEvent()
-
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
-    sendGaEvent(`Change balance table variant to ${newTableView}`)
     setBalancesVariant(newTableView)
     store.set(BALANCE_TABLE_VARIANT, newTableView)
   }
@@ -261,9 +257,6 @@ export const BalancesTable = (props: BalanceTableProps) => {
     t,
     i18n: { language },
   } = useTranslation()
-  const sendGaTransferEvent = useBuildSendGaUserEvent(
-    'Click on Transfer button'
-  )
 
   const [ transferModalState, transferModalDispatch ] = useReducer(
     transferModalReducer,
@@ -314,7 +307,6 @@ export const BalancesTable = (props: BalanceTableProps) => {
             type: 'OPEN',
             payload: { token, network, tokenId },
           })
-          sendGaTransferEvent()
         },
         t,
       }

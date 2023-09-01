@@ -2,7 +2,6 @@ import { MenuOutlined, CloseCircleOutlined, SearchOutlined, CloseOutlined } from
 import { InjectedAccount } from '@polkadot/extension-inject/types'
 import { Button, Divider, Dropdown, Menu, Tooltip } from 'antd'
 import { useState } from 'react'
-import { sendGuestGaEvent, sendSignedInGaEvent } from '../../ga/events'
 import Name from '../homePage/address-views/Name'
 import { ExternalLink } from '../identity/utils'
 import {
@@ -104,8 +103,6 @@ export const DropdownItems = (props: MenuProps) => {
     const key = item.key
 
     if (key !== 'signOut') {
-      sendSignedInGaEvent('Switch account')
-
       setMyAddress(key)
       setIsMulti(checkIsMulti(key))
       setAddressToStorage(key)
@@ -117,7 +114,6 @@ export const DropdownItems = (props: MenuProps) => {
         router.push({ pathname, query: query })
       }
     } else {
-      sendSignedInGaEvent('Sign out')
       signOut()
       router.push('/', '')
     }
@@ -199,7 +195,6 @@ const TopMenu = () => {
   const accountIdentities = addressFromStorage && identities && !isMulti ? identities[addressFromStorage] : undefined
 
   const onClick = () => {
-    sendGuestGaEvent('Click on the Sing In button on top menu')
     openModal()
   }
   const subsocialIdentity = getSubsocialIdentity(accountIdentities)

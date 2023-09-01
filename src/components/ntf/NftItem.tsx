@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next'
 import { getAddressFromStorage } from '../utils/index'
 import { CheckOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
-import { useBuildSendGaUserEvent } from 'src/ga'
 import { SubsocialProfile } from '../identity/types'
 
 const createIpfsContent = (value: IpfsCid) => ({ IPFS: value })
@@ -50,7 +49,6 @@ type NftItemTxButtonProps = NftItemProps & {
 
 const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftItemTxButtonProps) => {
   const [ IpfsCid, setIpfsCid ] = useState<IpfsCid>()
-  const sendUpdateNftBannerEvent = useBuildSendGaUserEvent('Update NFT Banner')
 
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
@@ -98,7 +96,6 @@ const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftIt
 
   const onClick = () => {
     props.onCardClick?.()
-    sendUpdateNftBannerEvent()
   }
 
   return <LazyTxButton
@@ -118,7 +115,6 @@ const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftIt
 
 const NftItem = ({ withConnection = false, owner, hasProfile, hasTokens, nft, hide, ...props }: NftItemProps) => {
   const { t } = useTranslation()
-  const sendOpenNftEvent = useBuildSendGaUserEvent('Open NFT Link')
 
   const { banner } = owner?.content as ExtendedSpaceContent | undefined || {}
 
@@ -143,7 +139,7 @@ const NftItem = ({ withConnection = false, owner, hasProfile, hasTokens, nft, hi
         {...props}
       />
     </div>
-    : <Component onClick={sendOpenNftEvent} />
+    : <Component />
 }
 
 export default NftItem

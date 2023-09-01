@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from 'antd'
 import { SizeType } from 'antd/lib/config-provider/SizeContext'
-import { useSendGaUserEvent } from '../../ga/events'
 import { useRouter } from 'next/router'
 import { useIsMyAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
@@ -25,8 +24,6 @@ const SearchInput = ({ size = 'middle', hideSearch, autoFocus = false, className
 
   const isMyAddress = useIsMyAddress(addressFromUrl)
 
-  const sendGAEvent = useSendGaUserEvent()
-
   const defaultSearchValue = addressFromUrl && !isMyAddress ? addressFromUrl : ''
 
   const [ searchValue, setSearchValue ] = useState<string>(defaultSearchValue)
@@ -37,8 +34,6 @@ const SearchInput = ({ size = 'middle', hideSearch, autoFocus = false, className
   }, [ addressFromUrl ])
 
   const onSearch = (value: string) => {
-    sendGAEvent(`Search for ${value}`)
-
     value && router.push(`/${value}`)
   }
 

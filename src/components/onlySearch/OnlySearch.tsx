@@ -3,7 +3,6 @@ import SearchInput from '../search/SearchInput'
 import { Button } from 'antd'
 import styles from './OnlySearch.module.sass'
 import { useMyExtensionAccount } from '../providers/MyExtensionAccountsContext'
-import { sendGuestGaEvent } from '../../ga/events'
 import { useResponsiveSize } from '../responsive'
 import { PreviewAccountsGrid } from '../interesting-accounts/InterestingAccounts'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +14,6 @@ const OnlySearch = () => {
 
   const onClick = () => {
     openModal()
-    sendGuestGaEvent('Click on the Sing In link on home page')
   }
 
   const connectWalletButton = <Button

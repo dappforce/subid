@@ -1,7 +1,6 @@
 import { RelayChain } from '../../../types/index'
 import { CrowdloanInfo } from '../../identity/types'
 import { isEmptyArray, nonEmptyArr, isDef, pluralize } from '@subsocial/utils'
-import { sendGuestGaEvent } from '../../../ga/events'
 import {
   getBalanceWithDecimals,
   getCrowdloanStatus,
@@ -186,8 +185,6 @@ export const parseCrowdloansTableInfo = ({
       ? getCrowdloanStatus(isCapped, isWinner, isEnded) 
       : 'Ended'
 
-    const contributeEvent = () => sendGuestGaEvent(`Contribute to ${networkNameByParaId}`)
-
     const contribByRelayChain = contributionInfoByRelayChain[relayChain]
 
     const contribInfo: ContributionInfo = contribByRelayChain[networkNameByParaId] || {}
@@ -217,8 +214,8 @@ export const parseCrowdloansTableInfo = ({
     const isDisabledButton = disableContributionButton.includes(networkNameByParaId)
 
     if (statusValue === 'Active') {
-      status = details ? <ContributeDetailsModal details={details} sendEvent={contributeEvent} network={networkNameByParaId} /> : (
-        <Button className={styles.ActiveCrowdloan} disabled={isDisabledButton} onClick={contributeEvent} shape='round'>
+      status = details ? <ContributeDetailsModal details={details} network={networkNameByParaId} /> : (
+        <Button className={styles.ActiveCrowdloan} disabled={isDisabledButton} shape='round'>
           <ExternalLink url={contribLink} value={t('buttons.contribute')} />
         </Button>
       )

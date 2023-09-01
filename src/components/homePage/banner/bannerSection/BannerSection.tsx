@@ -14,7 +14,6 @@ import { PriceWithDecimal } from '../../../ntf/NftView'
 import { useChainInfo } from '../../../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
-import { useBuildSendGaUserEvent } from 'src/ga'
 import { SubsocialProfile } from '../../../identity/types'
 
 type BannerSectionProps = {
@@ -31,7 +30,6 @@ const BannerSection = ({ currentAddress, owner }: BannerSectionProps) => {
   const { t } = useTranslation()
 
   const myAddress = useMyAddress()
-  const sendGaEditBannerEvent = useBuildSendGaUserEvent('Click on Edit Banner')
 
   const isMyAddress = myAddress === currentAddress
 
@@ -75,7 +73,6 @@ const BannerSection = ({ currentAddress, owner }: BannerSectionProps) => {
   </>
 
   const onClickChangeBanner = () => {
-    sendGaEditBannerEvent()
     setShowBannerModal(true)
   }
 

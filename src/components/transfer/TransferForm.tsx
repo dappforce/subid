@@ -21,7 +21,6 @@ import { toGenericAccountId } from 'src/rtk/app/util'
 import { CrossChainFee, TransferFee } from './TransferFee'
 import { TransferFormData, getCrossChainFee, getTransferFormData, transferFormField } from './utils'
 import { useTransferTxBuilder } from './hooks/useTransferTxBuilder'
-import { useSendGaUserEvent } from 'src/ga'
 
 export type ExtendedTransferFormData = TransferFormData & {
   sourceChainName: string
@@ -62,7 +61,6 @@ export default function TransferForm ({
   const isMobile = useIsMobileWidthOrDevice()
   const submittedData = useRef<ExtendedTransferFormData | null>(null)
   const chainsInfo = useChainInfo()
-  const sendGaEvent = useSendGaUserEvent()
 
   const myAddress = useMyAddress()
   useFetchBalances(myAddress ? [ myAddress ] : [])
@@ -167,11 +165,6 @@ export default function TransferForm ({
     const data = getExtendedTransferData()
     onTransferClick?.(data)
     submittedData.current = data
-    if (data.destChain) {
-      sendGaEvent(`Cross Chain Transfer from ${data.sourceChain} to ${data.destChain}`)
-    } else {
-      sendGaEvent(`Same Chain Transfer in ${data.sourceChain}`)
-    }
   }
 
   const onSuccess = () => {
