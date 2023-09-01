@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from './ChatFloatingModal.module.sass'
 import { Button } from 'antd'
 import { useSendGaUserEvent } from '../../ga'
@@ -17,6 +17,13 @@ export default function ChatFloatingModal () {
   const [ isOpen, setIsOpen ] = useState(false)
   const sendEvent = useSendGaUserEvent()
 
+  useEffect(() => {
+    const unreadCountFromStorage = parseInt(localStorage.getItem('unreadCount') ?? '')
+    if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
+      setUnreadCount(unreadCountFromStorage)
+    }
+  }, [])
+
   const hasOpened = useRef(false)
   const toggleChat = () => {
     let event
@@ -24,6 +31,7 @@ export default function ChatFloatingModal () {
     else {
       event = 'open_grill_iframe'
       setUnreadCount(0)
+      localStorage.setItem('unreadCount', '0')
     }
     sendEvent(event)
     sendAmpEvent(event)
@@ -36,6 +44,13 @@ export default function ChatFloatingModal () {
     return null
   }
 
+  const onUnreadCountChange = (count: number) => {
+    if (count > 0) {
+      setUnreadCount(count)
+      localStorage.setItem('unreadCount', count.toString())
+    }
+  }
+
   return (
     <>
       {createPortal(
@@ -45,7 +60,7 @@ export default function ChatFloatingModal () {
             <div className={clsx(styles.ChatControl)}>
               <Button onClick={toggleChat}><HiChevronDown /></Button>
             </div>
-            <ChatIframe setUnreadCount={setUnreadCount} className={styles.ChatIframe} />
+            <ChatIframe onUnreadCountChange={onUnreadCountChange} className={styles.ChatIframe} />
           </div>
         </div>,
         document.body

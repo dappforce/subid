@@ -4,16 +4,16 @@ import grill from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 
 export type ChatIframeProps = ComponentProps<'div'> & {
-  setUnreadCount?: (count: number) => void
+  onUnreadCountChange?: (count: number) => void
 }
 
-export default function ChatIframe ({ setUnreadCount, ...props }: ChatIframeProps) {
+export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIframeProps) {
   const sendEvent = useSendEvent()
 
   useEffect(() => {
-    const listener = setUnreadCount ? ((count: number) => {
+    const listener = onUnreadCountChange ? ((count: number) => {
       console.log('unread count', count)
-      setUnreadCount(count)
+      onUnreadCountChange(count)
     }) : undefined
     if (listener) {
       grill.addUnreadCountListener(listener)
