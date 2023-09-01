@@ -11,6 +11,7 @@ import { getChainsNamesForCoinGecko } from '../rtk/features/prices/pricesHooks'
 import { useChainInfo } from '../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { MINUTES } from '../components/utils/index'
 import dynamic from 'next/dynamic'
+import AnalyticProvider from 'src/components/providers/AnalyticContext'
 
 const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
   ssr: false
@@ -40,18 +41,20 @@ const NextLayout: React.FunctionComponent = (props) => {
 
   return (
     <ResponsiveSizeProvider>
-      <ExtensionAccountProvider>
-        <SidebarCollapsedProvider>
-          <LazyConnectionsProvider>
-            <ClaimCrowdloanProvider>
-              <Navigation>
-                <Page {...props} />
-              </Navigation>
-              <ChatFloatingModal />
-            </ClaimCrowdloanProvider>
-          </LazyConnectionsProvider>
-        </SidebarCollapsedProvider>
-      </ExtensionAccountProvider>
+      <AnalyticProvider>
+        <ExtensionAccountProvider>
+          <SidebarCollapsedProvider>
+            <LazyConnectionsProvider>
+              <ClaimCrowdloanProvider>
+                <Navigation>
+                  <Page {...props} />
+                </Navigation>
+                <ChatFloatingModal />
+              </ClaimCrowdloanProvider>
+            </LazyConnectionsProvider>
+          </SidebarCollapsedProvider>
+        </ExtensionAccountProvider>
+      </AnalyticProvider>
     </ResponsiveSizeProvider>
   )
 }

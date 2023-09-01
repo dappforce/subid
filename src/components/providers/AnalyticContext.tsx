@@ -35,7 +35,7 @@ export async function createAmplitudeInstance () {
 }
 
 
-export function SidebarCollapsedProvider (props: React.PropsWithChildren<{}>) {
+export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
   const [ state, setState ] = useState(initialState)
   const [ queuedEvents, setQueuedEvents ] = useState<BaseEvent[]>([])
   const isInited = useRef(false)
@@ -86,4 +86,4 @@ export function useSendEvent () {
   return useContext(AnalyticContext).sendEvent
 }
 
-export default SidebarCollapsedProvider
+export default AnalyticProvider
