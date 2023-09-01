@@ -6,6 +6,7 @@ import BookmarksModal from '../bookmarks/BokmarksModal'
 import { StarOutlined, StarFilled } from '@ant-design/icons'
 import styles from './address-views/utils/index.module.sass'
 import clsx from 'clsx'
+import { useBuildSendGaUserEvent } from '../../ga/events'
 import { accountIdToSubsocialAddress } from '../utils'
 import { useState } from 'react'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
@@ -35,6 +36,12 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
   const isInFavorites = Object.keys(favoriteAccounts).find((value) => value === address)
   const subsocialIdentity = getSubsocialIdentity(identities)
 
+  const sendGaFollowEvent = useBuildSendGaUserEvent(
+    'Click on the Follow button'
+  )
+  const sendGaEditEvent = useBuildSendGaUserEvent('Click on the Edit button')
+  const sendGaDonateEvent = useBuildSendGaUserEvent('Click on the Donate button')
+
   const onAddButtonClick = () => {
     setRefresh(true)
   }
@@ -45,6 +52,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         type='primary'
         onClick={() => {
           setOpenTransferModal(true)
+          sendGaDonateEvent()
         }}
         className={styles.FollowButton}
       >
@@ -56,6 +64,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         <Button
           type='primary'
           ghost
+          onClick={sendGaFollowEvent}
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink
@@ -69,6 +78,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         <Button
           type='primary'
           ghost
+          onClick={sendGaEditEvent}
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink

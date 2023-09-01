@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './ChatFloatingModal.module.sass'
 import { Button } from 'antd'
+import { useSendGaUserEvent } from '../../ga'
 import { HiChevronDown } from 'react-icons/hi2'
 import ChatIframe from './ChatIframe'
 import clsx from 'clsx'
@@ -10,10 +11,11 @@ import { useSendEvent } from '../providers/AnalyticContext'
 
 export default function ChatFloatingModal () {
   const { isLargeDesktop } = useResponsiveSize()
-  const sendEvent = useSendEvent()
+  const sendAmpEvent = useSendEvent()
 
   const [ unreadCount, setUnreadCount ] = useState(0)
   const [ isOpen, setIsOpen ] = useState(false)
+  const sendEvent = useSendGaUserEvent()
 
   useEffect(() => {
     const unreadCountFromStorage = parseInt(localStorage.getItem('unreadCount') ?? '')
@@ -32,6 +34,7 @@ export default function ChatFloatingModal () {
       localStorage.setItem('unreadCount', '0')
     }
     sendEvent(event)
+    sendAmpEvent(event)
 
     setIsOpen((prev) => !prev)
     hasOpened.current = true

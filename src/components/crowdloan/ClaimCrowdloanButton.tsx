@@ -13,6 +13,7 @@ import { formatBalance } from '@polkadot/util'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import { useClaimCrowdloanContext } from './ClaimCrowdloanContext'
+import { useBuildSendGaUserEvent } from 'src/ga'
 
 export type ClaimCrowdloanButtonProps = Omit<TxButtonProps, 'tx' | 'accountId'> & {
   address: string
@@ -25,6 +26,7 @@ export default function ClaimCrowdloanButton ({ address, label, containerProps, 
   const { t } = useTranslation()
   const { loadingTx, setLoadingTx, openModal } = useClaimCrowdloanContext()
   const claimedToken = useRef('')
+  const sendGaClaimCrowdloanEvent = useBuildSendGaUserEvent(`Click claim crowdloan in ${props.network}`)
 
   const chainInfo = useChainInfoByNetwork(props.network)
   const { tokenDecimals, tokenSymbols, nativeToken, vestingMethod } = chainInfo || {}
@@ -44,6 +46,7 @@ export default function ClaimCrowdloanButton ({ address, label, containerProps, 
   }, [ claimableAmt ])
 
   const onClick = () => {
+    sendGaClaimCrowdloanEvent()
     const parsedAmt = getBalanceWithDecimals({ totalBalance: (claimableAmt || '0').toString(), decimals: tokenDecimal })
     const floatAmt = parsedAmt.toNumber().toFixed(4)
     claimedToken.current = `${floatAmt} ${tokenSymbol}`

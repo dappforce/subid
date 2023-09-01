@@ -46,7 +46,7 @@ export const DetailsModal = ({ trigger, title, details }: DetailsModalProps) => 
 type ContributeDetailsModal = {
   network: string
   details: React.ReactNode
-  sendEvent?: VoidFunction
+  sendEvent: VoidFunction
 }
 
 export const ContributeDetailsModal = ({ network, details, sendEvent }: ContributeDetailsModal) => {
@@ -55,7 +55,7 @@ export const ContributeDetailsModal = ({ network, details, sendEvent }: Contribu
   const DetailsButton = ({ onClick: clk, ...props }: ButtonProps) => {
     const click = (e: React.MouseEvent<any>) => {
       clk && clk(e)
-      sendEvent?.()
+      sendEvent()
     }
 
     return <Button {...props as any} onClick={click} className={styles.ActiveCrowdloan} shape='round'>{t('buttons.contribute')}</Button>

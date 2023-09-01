@@ -5,6 +5,7 @@ import { useResponsiveSize } from 'src/components/responsive'
 import { SectionTitle } from 'src/components/utils'
 import { useTableContext } from './TableContext'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
+import { useSendGaUserEvent } from 'src/ga'
 import { tailsViewOpt } from '../utils'
 import { MAX_ITEMS_FOR_TABLE } from 'src/components/homePage/OverviewSection'
 import { TableInfo } from '../types'
@@ -21,10 +22,12 @@ export const TableActions = <T extends TableInfo>({
   const { isMobile } = useResponsiveSize()
   const { tableView, showZeroBalances, setTableView, setShowZeroBalances } =
     useTableContext()
+  const sendGaEvent = useSendGaUserEvent()
   const { t } = useTranslation()
 
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
+    sendGaEvent(`Change ${title} table view to ${newTableView}`)
     setTableView(newTableView)
   }
 
