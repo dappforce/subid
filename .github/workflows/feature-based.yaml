@@ -16,7 +16,7 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: echo "name=$(echo ${GITHUB_REF#refs/heads/} | sed 's/^deploy\///')" >> $GITHUB_ENV
-        id: extract_branch   
+        id: extract_branch
 
       - name: Set up Docker Buildx
         id: buildx
@@ -42,16 +42,17 @@ jobs:
           echo "image=dappforce/subid-front:${{ env.name }}-$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
 
       - name: Build front image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
           file: docker/Dockerfile
-          push: true          
-          build-args: |                  
+          push: true
+          build-args: |
                   GH_BACKEND_URL=https://${{ github.event.inputs.back-address }}
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
+                  GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -82,7 +83,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_STAGING }}
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 c7e84602-9029-40ed-9f95-6c113f6693ee
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_STAGING }}
 
       - name: Update docker image name
         run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-front:'${TAG}'|' $GITHUB_WORKSPACE/deployment/features/deployment.yaml
@@ -101,7 +102,7 @@ jobs:
 
       - name: CF deploy
         continue-on-error: true
-        run: curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE }}/dns_records"      -H "X-Auth-Email:${{ secrets.CF_MAIL }}"      -H "Authorization:Bearer ${{ secrets.CF_TOKEN }}"      -H "Content-Type:application/json"      --data '{"type":"A","name":"${{ env.name }}-subid.subsocial.network","content":"${{ secrets.CF_STAGING_IP }}","ttl":3600,"priority":10,"proxied":true}'
+        run: curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE }}/dns_records"      -H "X-Auth-Email:${{ secrets.CF_MAIL }}"      -H "Authorization:Bearer ${{ secrets.CF_TOKEN }}"      -H "Content-Type:application/json"      --data '{"type":"A","name":"${{ env.name }}-subid.subsocial.network","content":"174.138.105.155","ttl":3600,"priority":10,"proxied":true}'
 
       - run: mkdir -p domain
 

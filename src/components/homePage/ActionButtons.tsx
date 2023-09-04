@@ -6,7 +6,6 @@ import BookmarksModal from '../bookmarks/BokmarksModal'
 import { StarOutlined, StarFilled } from '@ant-design/icons'
 import styles from './address-views/utils/index.module.sass'
 import clsx from 'clsx'
-import { useBuildSendGaUserEvent } from '../../ga/events'
 import { accountIdToSubsocialAddress } from '../utils'
 import { useState } from 'react'
 import { useGetFavoritesAccounts } from '../bookmarks/utils'
@@ -14,6 +13,7 @@ import { AccountIdentities } from '../identity/types'
 import { useTranslation } from 'react-i18next'
 import dynamic from 'next/dynamic'
 import { getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
+import { useBuildSendEvent } from '../providers/AnalyticContext'
 
 type ActionButtonsProps = {
   address?: string
@@ -36,11 +36,11 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
   const isInFavorites = Object.keys(favoriteAccounts).find((value) => value === address)
   const subsocialIdentity = getSubsocialIdentity(identities)
 
-  const sendGaFollowEvent = useBuildSendGaUserEvent(
+  const sendFollowEvent = useBuildSendEvent(
     'Click on the Follow button'
   )
-  const sendGaEditEvent = useBuildSendGaUserEvent('Click on the Edit button')
-  const sendGaDonateEvent = useBuildSendGaUserEvent('Click on the Donate button')
+  const sendEditEvent = useBuildSendEvent('Click on the Edit button')
+  const sendDonateEvent = useBuildSendEvent('Click on the Donate button')
 
   const onAddButtonClick = () => {
     setRefresh(true)
@@ -52,7 +52,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         type='primary'
         onClick={() => {
           setOpenTransferModal(true)
-          sendGaDonateEvent()
+          sendDonateEvent()
         }}
         className={styles.FollowButton}
       >
@@ -64,7 +64,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         <Button
           type='primary'
           ghost
-          onClick={sendGaFollowEvent}
+          onClick={sendFollowEvent}
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink
@@ -78,7 +78,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         <Button
           type='primary'
           ghost
-          onClick={sendGaEditEvent}
+          onClick={sendEditEvent}
           className={`${styles.FollowButton} ml-2`}
         >
           <ExternalLink

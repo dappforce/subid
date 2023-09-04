@@ -33,6 +33,7 @@ export type CustomTableProps<T> = BalanceTableProps & {
   onReload: () => void
   totalBalance?: BigNumber
   actionsConfig: ActionsConfig
+  tableTab?: string
 }
 
 export type TableActionsProps<T> = ActionsConfig & {

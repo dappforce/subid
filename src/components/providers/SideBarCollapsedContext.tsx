@@ -49,7 +49,7 @@ function functionStub () {
 const initialState = {
   inited: false,
   asDrawer: false,
-  collapsed: undefined
+  collapsed: true
 }
 
 export type SidebarCollapsedContextProps = {
@@ -81,10 +81,6 @@ export function SidebarCollapsedProvider (props: React.PropsWithChildren<{}>) {
       dispatch({ type: 'reload' })
     }
   }, [ state.inited ]) // Don't call this effect if `invited` is not changed
-
-  useEffect(() => {
-    dispatch({ type: 'setSidebarState', collapsed: !isDesktop || isHomePage() || isAccountsPage() || isFavorites() })
-  }, [ isDesktop, isHomePage(), isAccountsPage(), isFavorites() ])
 
   const contextValue = {
     state: { ...state, asDrawer },

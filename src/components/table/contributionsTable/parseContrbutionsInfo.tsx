@@ -1,7 +1,6 @@
 import { RelayChain } from '../../../types/index'
 import { CrowdloanInfo } from '../../identity/types'
 import { isEmptyArray, nonEmptyArr, isDef, pluralize } from '@subsocial/utils'
-import { sendGuestGaEvent } from '../../../ga/events'
 import {
   getBalanceWithDecimals,
   getCrowdloanStatus,
@@ -48,6 +47,7 @@ type ParseCrowdloanTableInfoProps = {
   balances?: ContributionsRecord
   isMulti?: boolean
   t: TFunction
+  sendEvent: (event: string) => void
 }
 
 const LINE = <MutedDiv>−</MutedDiv>
@@ -92,7 +92,8 @@ export const parseCrowdloansTableInfo = ({
   balances,
   networkByParaId,
   isMulti,
-  t
+  t,
+  sendEvent
 }: ParseCrowdloanTableInfoProps): CrowdloansTableInfo[] => {
   const { tokenDecimals, tokenSymbols, name: relayChainName } = chainsInfo[relayChain]
 
@@ -186,7 +187,7 @@ export const parseCrowdloansTableInfo = ({
       ? getCrowdloanStatus(isCapped, isWinner, isEnded) 
       : 'Ended'
 
-    const contributeEvent = () => sendGuestGaEvent(`Contribute to ${networkNameByParaId}`)
+    const contributeEvent = () => sendEvent(`Contribute to ${networkNameByParaId}`)
 
     const contribByRelayChain = contributionInfoByRelayChain[relayChain]
 

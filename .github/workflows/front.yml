@@ -44,7 +44,7 @@ jobs:
 
       - if: ${{ github.ref == 'refs/heads/staging' }}
         name: Build staging image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
@@ -55,6 +55,7 @@ jobs:
                   GH_BACKEND_URL=https://staging.sub.id
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
+                  GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -62,7 +63,7 @@ jobs:
 
       - if: ${{ github.ref == 'refs/heads/main' }}
         name: Build production image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
@@ -72,6 +73,7 @@ jobs:
                   GH_BACKEND_URL=https://sub.id
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=G-B4P7CHL1YE
+                  GH_AMP_ID=d9f7a97f3cdc1eb7b4298af4f17c202b
           tags: |
                   ${{ env.image }}
                   docker.io/dappforce/subid-frontend:main-latest

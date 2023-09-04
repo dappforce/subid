@@ -1,42 +1,77 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from './ChatFloatingModal.module.sass'
 import { Button } from 'antd'
+import { HiChevronDown } from 'react-icons/hi2'
+import ChatIframe from './ChatIframe'
 import clsx from 'clsx'
-import grill from '@subsocial/grill-widget'
-import { useSendGaUserEvent } from '../../ga'
+import { createPortal } from 'react-dom'
+import { useResponsiveSize } from '../responsive'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 export default function ChatFloatingModal () {
+  const { isLargeDesktop } = useResponsiveSize()
+  const sendEvent = useSendEvent()
+
+  const [ unreadCount, setUnreadCount ] = useState(0)
   const [ isOpen, setIsOpen ] = useState(false)
-  const sendEvent = useSendGaUserEvent()
 
-  const toggleChat = () => {
-    sendEvent('open_grill_iframe')
-    setIsOpen((prev) => !prev)
-  }
-  const hasOpened = useRef(false)
   useEffect(() => {
-    if (!isOpen) return
-
-    if (!hasOpened.current) {
-      grill.init({ hub: { id: 'polka' }, theme: 'light' })
+    const unreadCountFromStorage = parseInt(localStorage.getItem('unreadCount') ?? '')
+    if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
+      setUnreadCount(unreadCountFromStorage)
     }
+  }, [])
+
+  const hasOpened = useRef(false)
+  const toggleChat = () => {
+    let event
+    if (isOpen) event = 'close_grill_iframe'
+    else {
+      event = 'open_grill_iframe'
+      setUnreadCount(0)
+      localStorage.setItem('unreadCount', '0')
+    }
+    sendEvent(event)
+
+    setIsOpen((prev) => !prev)
     hasOpened.current = true
-  }, [ isOpen ])
+  }
+
+  if (isLargeDesktop) {
+    return null
+  }
+
+  const onUnreadCountChange = (count: number) => {
+    if (count > 0) {
+      setUnreadCount(count)
+      localStorage.setItem('unreadCount', count.toString())
+    }
+  }
 
   return (
-    <div className={styles.ChatFloatingModal}>
-      {(isOpen || hasOpened.current) && (
-        <div
-          id='grill'
-          className={clsx(
-            styles.ChatFloatingIframe,
-            !isOpen && styles.ChatFloatingIframeHidden
-          )}
-        />
+    <>
+      {createPortal(
+        <div className={clsx(styles.ChatContainer, !isOpen && styles.ChatContainerHidden)}>
+          <div className={clsx(styles.ChatOverlay)} onClick={() => setIsOpen(false)} />
+          <div className={clsx(styles.ChatContent)}>
+            <div className={clsx(styles.ChatControl)}>
+              <Button onClick={toggleChat}><HiChevronDown /></Button>
+            </div>
+            <ChatIframe onUnreadCountChange={onUnreadCountChange} className={styles.ChatIframe} />
+          </div>
+        </div>,
+        document.body
       )}
-      <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-        <img src='/images/grillchat.svg' alt='GrillChat' />
-      </Button>
-    </div>
+      {createPortal(
+        <div className={styles.ChatFloatingWrapper}>
+          <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
+            <img src='/images/grillchat.svg' alt='GrillChat' />
+            <span>Polkadot Chat</span>
+          </Button>
+          {!!unreadCount && <span className={styles.ChatUnreadCount}>{unreadCount}</span>}
+        </div>,
+        document.body
+      )}
+    </>
   )
 }

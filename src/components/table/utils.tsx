@@ -91,6 +91,7 @@ export type BalancePartType<T> = {
   storeShowZeroBalance: string
   noData: string
   relayChain?: RelayChain
+  tableTab?: string
 }
 
 export const fieldSkeleton = (
@@ -296,6 +297,7 @@ export const BalancePart = <T extends TableInfo>({
   showCheckBox,
   noData,
   relayChain,
+  tableTab
 }: BalancePartType<T>) => {
   const { isMobile } = useResponsiveSize()
 
@@ -344,6 +346,7 @@ export const BalancePart = <T extends TableInfo>({
           tableData={tableData}
           noData={noData}
           relayChain={relayChain}
+          tableTab={tableTab}
         />
       )
     default:
@@ -372,6 +375,7 @@ type ChainProps = {
   isMonosizedFont?: boolean
   withQr?: boolean
   desc?: JSX.Element
+  isBoldName?: boolean
 }
 
 type AvatarOrSkeletonProps = BareProps & {
@@ -424,6 +428,7 @@ export const ChainData = ({
   halfLength = 6,
   isMonosizedFont = true,
   withQr = true,
+  isBoldName = true,
   desc,
 }: ChainProps) => {
   const { isMobile } = useResponsiveSize()
@@ -449,7 +454,11 @@ export const ChainData = ({
           className='bs-mr-2 align-items-start flex-shrink-none'
         />
         <div>
-          {name && <div className='font-weight-bold FontNormal'>{name}</div>}
+          {name && (
+            <div className={clsx({ ['font-weight-bold']: isBoldName }, 'FontNormal')}>
+              {name}
+            </div>
+          )}
           {(!isMobile || avatarSize === 'large') && address}
           {desc}
         </div>

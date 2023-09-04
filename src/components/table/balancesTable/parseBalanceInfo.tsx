@@ -375,7 +375,7 @@ export const parseBalancesTableInfo = async ({
               key: key,
               chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
               balance: getBalancePart(true),
-              price,
+              price: !isMulti ? price : <></>,
               total: (
                 <BalanceView
                   value={totalTokensValue}

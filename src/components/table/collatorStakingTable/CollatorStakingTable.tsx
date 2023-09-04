@@ -1,16 +1,25 @@
 import { ColumnsType } from 'antd/lib/table'
 import { useEffect, useMemo, useState } from 'react'
 import { CollatorStakingInfo } from '../types'
-import { fieldSkeleton, InnerBalancesTable, isDataLoading, TableTabsTabs, TableLoading } from '../utils'
+import {
+  fieldSkeleton,
+  InnerBalancesTable,
+  isDataLoading,
+  TableTabsTabs,
+  TableLoading,
+} from '../utils'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import parseStakingInfo from './parseStakingInfo'
 import { useIdentitiesByAccounts } from '../../../rtk/features/identities/identitiesHooks'
-import { useMyAddresses, useMyAddress } from '../../providers/MyExtensionAccountsContext'
+import {
+  useMyAddresses,
+  useMyAddress,
+} from '../../providers/MyExtensionAccountsContext'
 import {
   useStakingCandidatesListByNetwork,
   useStakingCandidatesInfoByNetwork,
-  useSelectedCandidatesByNetwork
+  useSelectedCandidatesByNetwork,
 } from '../../../rtk/features/stakingCandidates/stakingCandidatesHooks'
 import { useChainInfo } from '../../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { useStakingDelegatorsStateByNetwork } from '../../../rtk/features/stakingDelegators/stakingDelegatorHooks'
@@ -20,9 +29,10 @@ import {
   filterStakingDataByTabKey,
   StakingTab,
   StakingTabKey,
-  filterStakingData
+  filterStakingData,
 } from './utils'
 import styles from './StakingTable.module.sass'
+import tableStyles from '../Table.module.sass'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { MobileStakingCards, MyStakeCount } from './utils'
 import clsx from 'clsx'
@@ -47,56 +57,76 @@ const getTabKeys = (t: TFunction): StakingTab[] => [
   { key: 'waiting', label: t('staking.tabs.waiting') },
 ]
 
-const getColumns = (t: TFunction, tabKey: string, chainInfo: ChainInfo): ColumnsType<any> => {
+const getColumns = (
+  t: TFunction,
+  tabKey: string,
+  chainInfo: ChainInfo
+): ColumnsType<any> => {
   const { tokenSymbols, nativeToken } = chainInfo || {}
 
   const nativeSymbol = nativeToken || tokenSymbols[0]
 
   return [
     {
-      title: <h3 className='font-weight-bold FontSmall'>{tabKey === 'active' ? 'Collator' : 'Candidate'}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          {tabKey === 'active' ? 'Collator' : 'Candidate'}
+        </h3>
+      ),
       dataIndex: 'name',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <div>{t('staking.table.myStake')}</div>
-        <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <div>{t('staking.table.myStake')}</div>
+          <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
+        </h3>
+      ),
       dataIndex: 'staked',
-      align: 'right'
+      align: 'right',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <div>{t('staking.table.myUnstake')}</div>
-        <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <div>{t('staking.table.myUnstake')}</div>
+          <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
+        </h3>
+      ),
       dataIndex: 'unstaked',
-      align: 'right'
+      align: 'right',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <div>{t('staking.table.selfStake')}</div>
-        <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <div>{t('staking.table.selfStake')}</div>
+          <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
+        </h3>
+      ),
       dataIndex: 'selfStake',
-      align: 'right'
+      align: 'right',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>
-        <div>{t('staking.table.total')}</div>
-        <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
-      </h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          <div>{t('staking.table.total')}</div>
+          <MutedDiv className={styles.TokenSymbol}>({nativeSymbol})</MutedDiv>
+        </h3>
+      ),
       dataIndex: 'total',
-      align: 'right'
+      align: 'right',
     },
     {
-      title: <h3 className='font-weight-bold FontSmall'>{t('staking.table.stakers')}</h3>,
+      title: (
+        <h3 className='font-weight-bold FontSmall'>
+          {t('staking.table.stakers')}
+        </h3>
+      ),
       dataIndex: 'stakers',
-      align: 'right'
+      align: 'right',
     },
     {
       dataIndex: 'actions',
-      align: 'right'
+      align: 'right',
     },
   ]
 }
@@ -105,14 +135,19 @@ type CollatorStakingTableProps = {
   network: string
 }
 
-export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => {
+export const CollatorStakingTable = ({
+  network,
+}: CollatorStakingTableProps) => {
   const [ loading, setLoading ] = useState<boolean>(false)
   const { isMobile } = useResponsiveSize()
   const addresses = useMyAddresses()
   const [ showMyStake, setShowMyStake ] = useState<boolean>(false)
   const [ tabKey, setTabKey ] = useState<StakingTabKey>('active')
   const chainsInfo = useChainInfo()
-  const { t, i18n: { language } } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const [ firstLoad, setFirstLoad ] = useState(true)
 
   const address = useMyAddress()
@@ -122,20 +157,34 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
 
   useFetchStakingDataByNetwork(network, stakingCandidates, addresses)
 
-  const stakingInfoEntities = useStakingCandidatesInfoByNetwork(network, stakingCandidates)
-  const stakingDelegatorStateEntities = useStakingDelegatorsStateByNetwork(network, addresses)
+  const stakingInfoEntities = useStakingCandidatesInfoByNetwork(
+    network,
+    stakingCandidates
+  )
+  const stakingDelegatorStateEntities = useStakingDelegatorsStateByNetwork(
+    network,
+    addresses
+  )
 
   const stakingInfoLoading = isDataLoading(stakingInfoEntities)
-  const stakingDelegatorStateLoading = isDataLoading(stakingDelegatorStateEntities)
+  const stakingDelegatorStateLoading = isDataLoading(
+    stakingDelegatorStateEntities
+  )
 
   const identities = useIdentitiesByAccounts(stakingCandidates)
 
   useEffect(() => {
-    setLoading(!stakingInfoEntities || !stakingDelegatorStateEntities
-      ? true
-      : !!stakingInfoLoading || !!stakingDelegatorStateLoading)
-  }, [ stakingInfoLoading, stakingDelegatorStateLoading, network, addresses?.join(',') ])
-
+    setLoading(
+      !stakingInfoEntities || !stakingDelegatorStateEntities
+        ? true
+        : !!stakingInfoLoading || !!stakingDelegatorStateLoading
+    )
+  }, [
+    stakingInfoLoading,
+    stakingDelegatorStateLoading,
+    network,
+    addresses?.join(','),
+  ])
 
   const tabs = getTabKeys(t)
 
@@ -148,7 +197,7 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
       stakingInfoEntities,
       stakingDelegatorStateEntities,
       selectedCandidatesByNetwork,
-      identities
+      identities,
     })
 
     const filteredDataByTabKey = filterStakingDataByTabKey(tabs, parsedData)
@@ -160,30 +209,43 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
     setShowMyStake(checked)
   }
 
-  const filteredData = filterStakingData({ data: filteredDataByTabKey, tabKey, showMyStake })
+  const filteredData = filterStakingData({
+    data: filteredDataByTabKey,
+    tabKey,
+    showMyStake,
+  })
 
   useEffect(() => {
     setFirstLoad(true)
   }, [ address, network ])
 
   useEffect(() => {
-    if(
-      stakingDelegatorStateLoading === true || 
+    if (
+      stakingDelegatorStateLoading === true ||
       isEmptyArray(filteredDataByTabKey.active)
-    ) return
+    )
+      return
 
-    if(firstLoad) {
-      const myStake = filterStakingData({ data: filteredDataByTabKey, tabKey, showMyStake: true })
+    if (firstLoad) {
+      const myStake = filterStakingData({
+        data: filteredDataByTabKey,
+        tabKey,
+        showMyStake: true,
+      })
 
       setShowMyStake(myStake.length > 0)
       setFirstLoad(false)
     }
   }, [ firstLoad, filteredDataByTabKey, address, network ])
 
-  return loading || isEmptyArray(parsedData)
-    ? <TableLoading loadingLabel={t('staking.loadingLabel')} />
-    : <div>
-      <Row justify='space-between' className={clsx({ ['pl-3 pr-3']: isMobile }, 'align-items-center')}>
+  return loading || isEmptyArray(parsedData) ? (
+    <TableLoading loadingLabel={t('staking.loadingLabel')} />
+  ) : (
+    <div>
+      <Row
+        justify='space-between'
+        className={clsx({ ['pl-3 pr-3']: isMobile }, 'align-items-center')}
+      >
         <Col>
           <TableTabsTabs
             className={styles.StakingTableTabs}
@@ -195,20 +257,26 @@ export const CollatorStakingTable = ({ network }: CollatorStakingTableProps) => 
         </Col>
         <Col className='d-flex align-items-center'>
           <Switch checked={showMyStake} onChange={onSwitchChange} />
-          <div className='ml-2'>{t('staking.table.myStake')} <MyStakeCount data={filteredData} /></div>
+          <div className='ml-2'>
+            {t('staking.table.myStake')} <MyStakeCount data={filteredData} />
+          </div>
         </Col>
       </Row>
 
-      {isMobile
-        ? <MobileStakingCards data={filteredData} />
-        : <InnerBalancesTable
-          loading={loading}
-          columns={getColumns(t, tabKey, chainsInfo[network])}
-          tableData={filteredData}
-          noData={t('staking.noData')}
-        />}
+      {isMobile ? (
+        <MobileStakingCards data={filteredData} />
+      ) : (
+        <div className={tableStyles.BalanceBlock}>
+          <InnerBalancesTable
+            loading={loading}
+            columns={getColumns(t, tabKey, chainsInfo[network])}
+            tableData={filteredData}
+            noData={t('staking.noData')}
+          />
+        </div>
+      )}
     </div>
-
+  )
 }
 
 export default CollatorStakingTable

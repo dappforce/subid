@@ -34,6 +34,7 @@ export const InnerCustomTable = <T extends TableInfo>(
     showAllPage,
     totalBalance,
     actionsConfig,
+    tableTab
   } = props
   const { t } = useTranslation()
   const { tableView, showZeroBalances } = useTableContext()
@@ -101,6 +102,7 @@ export const InnerCustomTable = <T extends TableInfo>(
           storeTableView={storeTableView}
           storeShowZeroBalance={storeShowZeroBalance}
           noData={noData}
+          tableTab={tableTab}
         />
 
         {tableView !== 'pie' && isHomePage && (

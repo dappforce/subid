@@ -1,17 +1,24 @@
-import { Button, Tabs } from 'antd'
+import { Button, Tabs, Tooltip } from 'antd'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import CustomModal, { CustomModalProps } from '../utils/CustomModal'
-import TransferForm, { TransferFormDefaultToken, ExtendedTransferFormData, DEFAULT_TOKEN } from './TransferForm'
+import TransferForm, {
+  TransferFormDefaultToken,
+  ExtendedTransferFormData,
+  DEFAULT_TOKEN,
+} from './TransferForm'
 import LoadingTransaction from '../utils/LoadingTransaction'
 import { toShortAddress } from '../utils'
 import { MutedSpan } from '../utils/MutedText'
-import { DfCardSideBySideContent, DfCardSideBySideContentProps } from '../utils/DfCard'
+import {
+  DfCardSideBySideContent,
+  DfCardSideBySideContentProps,
+} from '../utils/DfCard'
 import { useTokenAmountInUsd } from 'src/rtk/features/prices/pricesHooks'
 import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-import { isTokenBridgeable } from './configs/cross-chain'
+// import { isTokenBridgeable } from './configs/cross-chain'
 import styles from './TokenSelector.module.sass'
 
 type TransferModalProps = CustomModalProps & {
@@ -52,7 +59,12 @@ export default function TransferModal ({
       <strong>
         {transferData?.amount} {transferData?.token}
       </strong>{' '}
-      to <strong>{isSendingToSelf ? t('transfer.yourAccount') : toShortAddress(transferData?.recipient ?? '')}</strong>{' '}
+      to{' '}
+      <strong>
+        {isSendingToSelf
+          ? t('transfer.yourAccount')
+          : toShortAddress(transferData?.recipient ?? '')}
+      </strong>{' '}
       {transferData?.destChainName ? (
         <span>
           from <strong>{transferData.sourceChainName}</strong> to{' '}
@@ -77,7 +89,9 @@ export default function TransferModal ({
     }
   }
 
-  const disableCrossChainTab = !isTokenBridgeable(defaultSelectedToken?.token ?? '')
+  // const disableCrossChainTab = !isTokenBridgeable(
+  //   defaultSelectedToken?.token ?? ''
+  // )
   const isFormVisible = currentState === 'form'
 
   return (
@@ -91,7 +105,8 @@ export default function TransferModal ({
       onTransferSuccess={() => setCurrentState('success')}
       className='flex-fill'
       defaultSelectedToken={defaultSelectedToken}
-      crossChain={activeTab === getTabKey('cross-chain')}>
+      crossChain={activeTab === getTabKey('cross-chain')}
+    >
       {(formSection, buttonSection) => (
         <CustomModal
           fullHeight={currentState !== 'success'}
@@ -99,7 +114,9 @@ export default function TransferModal ({
           noScroll={currentState === 'success'}
           title={t('transfer.title')}
           subtitle={subtitle}
-          className={clsx(className, { [styles.CustomSuccessModalContainer]: currentState === 'success' }) }
+          className={clsx(className, {
+            [styles.CustomSuccessModalContainer]: currentState === 'success',
+          })}
           footer={isFormVisible ? buttonSection : undefined}
           {...props}
         >
@@ -113,15 +130,15 @@ export default function TransferModal ({
           )}
           <div
             className={clsx(
-              !isFormVisible
-                ? 'd-none'
-                : 'flex-fill d-flex flex-column'
-            )}>
+              !isFormVisible ? 'd-none' : 'flex-fill d-flex flex-column'
+            )}
+          >
             <Tabs
               className='bs-mb-0'
               centered
               activeKey={activeTab}
-              onChange={(tab) => setActiveTab(tab as Tabs)}>
+              onChange={(tab) => setActiveTab(tab as Tabs)}
+            >
               <Tabs.TabPane
                 key={getTabKey('same-chain')}
                 tab={
@@ -131,9 +148,11 @@ export default function TransferModal ({
               <Tabs.TabPane
                 key={getTabKey('cross-chain')}
                 tab={
-                  <span className='FontMedium'>{t('transfer.crossChain')}</span>
+                  <Tooltip title='Will be availible soon'>
+                    <span className='FontMedium'>{t('transfer.crossChain')}</span>
+                  </Tooltip>
                 }
-                disabled={disableCrossChainTab}
+                disabled={true /* disableCrossChainTab */}
               />
             </Tabs>
             <MutedSpan className='bs-mb-3'>
@@ -147,10 +166,19 @@ export default function TransferModal ({
   )
 }
 
-function SuccessContent ({ data, closeModal }: { data: ExtendedTransferFormData | undefined; closeModal?: (e: any) => void }) {
+function SuccessContent ({
+  data,
+  closeModal,
+}: {
+  data: ExtendedTransferFormData | undefined
+  closeModal?: (e: any) => void
+}) {
   const { t } = useTranslation()
   const isSendingToSelf = useIsMyConnectedAddress(data?.recipient ?? '')
-  const tokenAmountInUsd = useTokenAmountInUsd(data?.token ?? '', parseFloat(data?.amount || '0'))
+  const tokenAmountInUsd = useTokenAmountInUsd(
+    data?.token ?? '',
+    parseFloat(data?.amount || '0')
+  )
   const cacheInvalidationTime = useRef(Date.now())
 
   const cardClassName = clsx('DfBgColor')
@@ -159,14 +187,22 @@ function SuccessContent ({ data, closeModal }: { data: ExtendedTransferFormData 
   const { amount, recipient, sourceChainName, token, destChainName } = data
 
   const firstCardContent: DfCardSideBySideContentProps['content'] = [
-    { label: t('transfer.recipient'), value: isSendingToSelf ? t('transfer.yourAccount') : (toShortAddress(recipient) ?? '') }
+    {
+      label: t('transfer.recipient'),
+      value: isSendingToSelf
+        ? t('transfer.yourAccount')
+        : toShortAddress(recipient) ?? '',
+    },
   ]
   if (!destChainName) {
-    firstCardContent.push({ label: t('transfer.source'), value: sourceChainName ?? '' })
+    firstCardContent.push({
+      label: t('transfer.source'),
+      value: sourceChainName ?? '',
+    })
   }
   const secondCardContent: DfCardSideBySideContentProps['content'] = [
     { label: t('transfer.source'), value: sourceChainName ?? '' },
-    { label: t('transfer.dest'), value: destChainName ?? '' }
+    { label: t('transfer.dest'), value: destChainName ?? '' },
   ]
 
   return (
@@ -179,7 +215,7 @@ function SuccessContent ({ data, closeModal }: { data: ExtendedTransferFormData 
           // date is added to make the gif animation runs every time
           backgroundImage: `url(/images/confetti.gif?d=${cacheInvalidationTime.current})`,
           backgroundSize: 'cover',
-          pointerEvents: 'none'
+          pointerEvents: 'none',
         }}
       />
       <div className='d-flex flex-column align-items-stretch GapNormal position-relative'>

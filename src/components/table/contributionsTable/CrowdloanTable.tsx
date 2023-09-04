@@ -34,6 +34,7 @@ import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { fetchVestingData } from 'src/rtk/features/vesting/vestingHooks'
 import { BIGNUMBER_ZERO } from '../../../config/app/consts'
+import { useSendEvent } from 'src/components/providers/AnalyticContext'
 
 const getTabKeys = (t: TFunction) => [
   { key: 'All', label: t('table.balances.tabs.all') },
@@ -254,6 +255,7 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
 
   const isMyAddress = useIsMyConnectedAddress(addresses?.[0])
   const identities = useIdentitiesByAccounts(addresses)
+  const sendEvent = useSendEvent()
 
   const crowdloansInfo = useCrowdloanInfo(relayChain)
 
@@ -294,6 +296,7 @@ export const CrowdloansTable = (props: CrowdloanTableProps) => {
         networkByParaId,
         isMulti,
         t,
+        sendEvent,
       })
 
       if (tableInfo) {

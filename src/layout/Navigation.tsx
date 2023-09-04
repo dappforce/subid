@@ -6,6 +6,8 @@ import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
+import ChatSidePanel from 'src/components/chat/ChatSidePanel'
+import { useResponsiveSize } from 'src/components/responsive'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
@@ -16,26 +18,25 @@ interface Props {
 }
 
 const HomeNav = () => {
-  const { state: { collapsed } } = useSidebarCollapsed()
-
   return <Sider
     className='DfSider'
     width='230'
     trigger={null}
-    collapsed={collapsed}
+    collapsible
+    collapsed={true}
   >
     <Menu />
   </Sider>
 }
 
-const DefaultNav: FunctionComponent = () => {
+const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) => {
   const { state: { collapsed }, hide } = useSidebarCollapsed()
   const { asPath } = useRouter()
 
   useEffect(() => hide(), [ asPath ])
 
   return <Drawer
-    className='DfSideBar h-100'
+    className={clsx('DfSideBar h-100', className)}
     bodyStyle={{ padding: 0 }}
     placement='left'
     closable={false}
@@ -51,6 +52,7 @@ const DefaultNav: FunctionComponent = () => {
 export const Navigation = (props: Props): JSX.Element => {
   const { children } = props
   const { state: { asDrawer } } = useSidebarCollapsed()
+  const { isLargeDesktop } = useResponsiveSize()
   const { asPath } = useRouter()
 
   const currentAccount = useCurrentAccount()
@@ -65,13 +67,16 @@ export const Navigation = (props: Props): JSX.Element => {
     </Content>, [ children ]
   )
 
-  const sideMenu = asDrawer ? <DefaultNav /> : <HomeNav />
+  const sideMenu = asDrawer ? <DefaultNav /> : <><HomeNav /><DefaultNav className='DfDesktopDrawer' /></>
+
+  const isHomePage = asPath === '/' || asPath.startsWith('/#')
 
   return <Layout className='min-vh-100'>
-    {asPath !== '/' && !asPath.startsWith('/#') ? <TopMenu /> : null}
+    {!isHomePage ? <TopMenu /> : null}
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
+      {!isHomePage && isLargeDesktop && <ChatSidePanel />}
     </Layout>
   </Layout>
 }

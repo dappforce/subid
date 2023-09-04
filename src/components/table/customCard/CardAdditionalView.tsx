@@ -1,4 +1,3 @@
-import { Divider } from 'antd'
 import clsx from 'clsx'
 import React from 'react'
 import { useIsMobileWidthOrDevice } from 'src/components/responsive'
