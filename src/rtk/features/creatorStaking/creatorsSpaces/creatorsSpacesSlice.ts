@@ -21,6 +21,8 @@ type CreatorSpace = {
   hidden: boolean
   name: string
   about: string
+  links: string[]
+  email: string
   ownedByAccount: {
     id: string
   }

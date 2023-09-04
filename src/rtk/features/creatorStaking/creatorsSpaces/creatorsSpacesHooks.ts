@@ -5,7 +5,6 @@ import { creatorsSpacesActions, selectCreatorSpace, selectManySpaces } from './c
 export const useFetchCreatorsSpaces = (ids?: string[]) => {
   const dispatch = useAppDispatch()
 
-  
   useEffect(() => {
     if(!ids) return
 

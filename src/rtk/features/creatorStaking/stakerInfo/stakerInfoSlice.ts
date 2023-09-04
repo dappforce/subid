@@ -19,6 +19,7 @@ export type StakerInfoProps = {
 type StakerInfo = {
   id: string
   totalStaked: string
+  stakes: any[]
 }
 
 export type StakerInfoEntity = {

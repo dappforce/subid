@@ -28,7 +28,6 @@ export function* fetchEraStakeWorker (
 
     const idsParam: string[] = reload ? ids : needFetch
 
-
     if (!isEmptyArray(idsParam)) {
       const info: Record<string, any> = yield call(getEraStakesBySpaceIds, idsParam, era)
 

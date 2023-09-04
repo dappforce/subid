@@ -104,11 +104,11 @@ const MyStakingSection = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='text-2xl UnboundedFont px-6'>My Staking</div>
+      <div className='text-2xl UnboundedFont md:px-6 px-0'>My Staking</div>
 
       <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:p-6 p-4'>
         <Tabs
-          className='px-0'
+          className='px-0 md:flex-row flex-col md:items-center !items-start'
           panelClassName='mt-0 px-0'
           tabs={tabs}
           withHashIntegration={false}

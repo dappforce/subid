@@ -1,7 +1,7 @@
 import { useCreatorSpaceById } from 'src/rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import Modal from '../../tailwind-components/Modal'
 import { CreatorPreview } from '../CreatorCard'
-import StakeActionButtons from '../StakeButton'
+import StakeActionButtons from '../StakeActionButtons'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
@@ -88,6 +88,7 @@ const AboutModal = ({
           </div>
 
           <StakeActionButtons
+            spaceId={spaceId}
             isStake={isStake}
             buttonsSize='lg'
             openModal={() => setOpenStakeModal(true)}

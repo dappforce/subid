@@ -7,7 +7,7 @@ import {
   useGeneralEraInfo,
 } from '../../../rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
-import Balance from '../utils/Balance'
+import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { convertToBalanceWithDecimal, toShortMoney } from '@subsocial/utils'
 import { NextEraStartDate } from '../utils'
@@ -47,10 +47,9 @@ const SubsocialBalance = ({ value }: SubsocialBalanceProps) => {
   const balanceWithDecimal = convertToBalanceWithDecimal(value, decimal)
 
   return (
-    <Balance
-      value={toShortMoney({ num: balanceWithDecimal.toNumber() })}
+    <ValueOrSkeleton
+      value={<>{toShortMoney({ num: balanceWithDecimal.toNumber() })} {symbol}</>}
       skeletonClassName='w-28 h-[20px] mb-3'
-      symbol={symbol}
       loading={!value}
     />
   )
@@ -73,12 +72,12 @@ const StatsCards = () => {
     },
     {
       title: 'Current Era',
-      value: generalEraInfo?.currentEra || 0,
+      value: <ValueOrSkeleton value={generalEraInfo?.currentEra} skeletonClassName='w-28 h-[20px] mb-1'/>,
       desc: <span className='flex items-center gap-1'>ETA:<NextEraStartDate /></span>,
     },
     {
       title: 'Total Creators',
-      value: creatorsCount || 0,
+      value: <ValueOrSkeleton value={creatorsCount} skeletonClassName='w-28 h-[20px] mb-1'/>,
     },
   ]
 
@@ -102,7 +101,7 @@ const Banner = () => {
       )}
     >
       <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
-        <div className='flex flex-col gap-2 text-white'>
+        <div className='flex flex-col gap-2 text-white md:items-start items-center'>
           <div className='text-4xl UnboundedFont'>Create2Earn</div>
           <div className='text-[20px]'>An innovative way to stake</div>
         </div>

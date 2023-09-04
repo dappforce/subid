@@ -59,7 +59,7 @@ const TimeRemaining = ({ unlockEra }: TimeRemainingProps) => {
   const isNotAvailable = new BN(unlockEra).gt(new BN(currentEra))
 
   return (
-    <>{isNotAvailable ? SubDate.formatDate(time.toNumber()) : 'Available'}</>
+    <>{isNotAvailable ? SubDate.formatDate(time.toNumber()).replace('in', '') : 'Available'}</>
   )
 }
 

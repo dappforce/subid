@@ -1,7 +1,7 @@
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
-import StakeActionButtons from './StakeButton'
+import StakeActionButtons from './StakeActionButtons'
 import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import TruncatedText from '../tailwind-components/TruncateText'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
@@ -12,6 +12,8 @@ import { useGetDecimalsAndSymbolByNetwork } from '../utils'
 import AboutModal from './modals/AboutModal'
 import { useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
+import ValueOrSkeleton from '../utils/ValueOrSkeleton'
+import { ContactInfo } from '../utils/socialLinks'
 
 type CreatorPreviewProps = {
   title: string
@@ -21,6 +23,7 @@ type CreatorPreviewProps = {
   avatar?: string
   titleClassName?: string
   descClassName?: string
+  infoClassName?: string
 }
 
 export const CreatorPreview = ({
@@ -31,6 +34,7 @@ export const CreatorPreview = ({
   title,
   titleClassName,
   descClassName,
+  infoClassName
 }: CreatorPreviewProps) => {
   return (
     <div className='flex items-center'>
@@ -40,7 +44,7 @@ export const CreatorPreview = ({
         address={owner}
         avatar={avatar}
       />
-      <div>
+      <div className={infoClassName}>
         <div className={clsx('leading-5 font-medium', titleClassName)}>
           {title}
         </div>
@@ -53,18 +57,26 @@ export const CreatorPreview = ({
 type CreatorCardTotalValueProps = {
   label: string
   value: React.ReactNode
+  loading?: boolean
 }
 
 const CreatorCardTotalValue = ({
   label,
   value,
+  loading,
 }: CreatorCardTotalValueProps) => {
   return (
     <div className='flex justify-between items-center'>
       <div className='text-text-muted font-normal text-sm leading-6'>
         {label}:
       </div>
-      <div className='text-sm font-medium leading-6'>{value}</div>
+      <div className='text-sm font-medium leading-6'>
+        <ValueOrSkeleton
+          value={value}
+          loading={loading}
+          skeletonClassName='w-28 h-[16px]'
+        />
+      </div>
     </div>
   )
 }
@@ -84,15 +96,16 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
-  const { space } = creatorSpaceEntity || {}
-  const { numberOfStakers, total } = eraStake?.info || {}
-  const { totalStaked } = stakerInfo?.info || {}
+  const { space, loading: spaceLoading } = creatorSpaceEntity || {}
+  const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
+  const { info, loading: stakerInfoLoading } = stakerInfo || {}
+
+  const { numberOfStakers, total } = eraStakeInfo || {}
+  const { totalStaked } = info || {}
 
   const isStake = totalStaked === '0'
 
-  if (!space) return null
-
-  const { name, about, ownedByAccount, image } = space || {}
+  const { name, about, ownedByAccount, image, links, email } = space || {}
 
   const owner = ownedByAccount?.id
 
@@ -114,6 +127,8 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     />
   )
 
+  const contactInfo = { email, links }
+
   return (
     <div
       className={clsx(
@@ -126,9 +141,10 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
           <div className='flex justify-between gap-2'>
             <CreatorPreview
               title={name || '<Unnamed>'}
-              desc='social links'
+              desc={<ContactInfo {...contactInfo} />}
               avatar={image}
               owner={owner}
+              infoClassName='flex flex-col gap-1'
             />
             <Button
               onClick={(e) => {
@@ -150,13 +166,23 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         <div className='flex flex-col gap-[2px]'>
           <CreatorCardTotalValue
             label='My stake'
-            value={totalStaked !== '0' ? myStake : '-'}
+            value={myStake}
+            loading={stakerInfoLoading}
           />
-          <CreatorCardTotalValue label='Total stake' value={totalStake} />
-          <CreatorCardTotalValue label='Stakers' value={numberOfStakers} />
+          <CreatorCardTotalValue
+            label='Total stake'
+            value={totalStake}
+            loading={eraStakeLoading}
+          />
+          <CreatorCardTotalValue
+            label='Stakers'
+            value={numberOfStakers}
+            loading={eraStakeLoading}
+          />
         </div>
       </div>
       <StakeActionButtons
+        spaceId={spaceId}
         isStake={isStake}
         buttonsSize='sm'
         openModal={() => setOpenStakeModal(true)}

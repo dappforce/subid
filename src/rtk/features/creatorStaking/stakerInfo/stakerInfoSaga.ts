@@ -49,7 +49,8 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
             loading: false,
             info: {
               id: entityId,
-              totalStaked: item?.staked.toString() || '0',
+              totalStaked: item?.[0]?.staked.toString() || '0',
+              stakes: item
             },
           }
         }

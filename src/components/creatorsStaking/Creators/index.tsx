@@ -87,7 +87,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex md:flex-row flex-col justify-between md:items-center items-start gap-4 px-6'>
+      <div className='flex md:flex-row flex-col justify-between md:items-center items-start gap-4 md:px-6 px-0'>
         <div className='text-2xl UnboundedFont'>Creators</div>
         <div className='flex gap-4 items-center'>
           <div>Are you a creator?</div>

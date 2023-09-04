@@ -72,7 +72,7 @@ const slice = createSlice({
         adapter: eraStakeAdapter,
         state: state as EntityState<EraStakeEntity>,
         reload,
-        fieldName: 'space',
+        fieldName: 'info',
         ids: ids,
         subId: era,
         selector: eraStakeSelector,

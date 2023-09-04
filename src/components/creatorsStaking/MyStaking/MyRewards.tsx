@@ -12,8 +12,13 @@ import BN from 'bignumber.js'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import { showParsedErrorMessage } from 'src/components/utils'
 import { ApiPromise } from '@polkadot/api'
-import { fetchStakerRewards, useFetchStakerRewards, useStakerRewards } from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+import {
+  fetchStakerRewards,
+  useFetchStakerRewards,
+  useStakerRewards,
+} from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
 import { useAppDispatch } from 'src/rtk/app/store'
+import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 
 type RewardCardProps = {
   title: string
@@ -26,7 +31,7 @@ const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
   return (
     <CardWrapper className='bg-slate-50'>
       <div className='text-text-muted font-normal'>{title}</div>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center gap-2'>
         <div>
           <div className='text-2xl font-semibold'>{value}</div>
           {desc && (
@@ -70,6 +75,7 @@ type ClaimRewardsTxButtonProps = {
 const ClaimRewardsTxButton = ({
   rewardsSpaceIds,
   totalRewards,
+  restake,
 }: ClaimRewardsTxButtonProps) => {
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
@@ -80,7 +86,7 @@ const ClaimRewardsTxButton = ({
 
   const buildParams = (api: ApiPromise) => {
     const txs = rewardsSpaceIds.map((spaceId) =>
-      api.tx.creatorStaking.claimStakerReward(spaceId, false)
+      api.tx.creatorStaking.claimStakerReward(spaceId, restake)
     )
 
     return [ txs ]
@@ -127,17 +133,17 @@ const MyRewards = () => {
 
   const stakerRewards = useStakerRewards(myAddress)
 
-  const { rewards } = stakerRewards || {}
+  const { rewards, loading: rewardsLoading } = stakerRewards || {}
+  const { ledger, loading: ledgerLoading } = stakerLedger || {}
 
   const { spaceIds, totalRewards } = rewards || {}
+  const { locked } = ledger || {}
 
   const { tokenDecimals, tokenSymbols, nativeToken } =
     chainsInfo?.subsocial || {}
 
   const decimal = tokenDecimals?.[0] || 0
   const symbol = tokenSymbols?.[0] || nativeToken
-
-  const { locked } = stakerLedger?.ledger || {}
 
   const myStake = (
     <FormatBalance
@@ -160,11 +166,23 @@ const MyRewards = () => {
   const cardsOpt = [
     {
       title: 'My Stake',
-      value: myStake,
+      value: (
+        <ValueOrSkeleton
+          value={myStake}
+          loading={ledgerLoading}
+          skeletonClassName='w-32 h-[24px]'
+        />
+      ),
     },
     {
       title: 'Estimated Rewards',
-      value: myRewards,
+      value: (
+        <ValueOrSkeleton
+          value={myRewards}
+          loading={rewardsLoading}
+          skeletonClassName='w-32 h-[24px]'
+        />
+      ),
       button: (
         <ClaimRewardsTxButton
           rewardsSpaceIds={spaceIds || []}
@@ -184,7 +202,9 @@ const MyRewards = () => {
     <RewardCard key={i} {...card} />
   ))
 
-  return <div className='flex md:flex-row flex-col gap-4'>{stakingCards}</div>
+  return (
+    <div className='flex normal:flex-row flex-col gap-4'>{stakingCards}</div>
+  )
 }
 
 export default MyRewards

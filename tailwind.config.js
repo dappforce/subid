@@ -4,6 +4,20 @@ import { fontFamily as _fontFamily } from 'tailwindcss/defaultTheme'
 export const content = ['./src/**/*.{js,ts,jsx,tsx}']
 export const darkMode = 'class'
 export const theme = {
+  screens: {
+    sm: '640px',
+    // => @media (min-width: 640px) { ... }
+    md: '768px',
+    // => @media (min-width: 768px) { ... }
+    normal: '910px',
+    // => @media (min-width: 910px) { ... }
+    lg: '1024px',
+    // => @media (min-width: 1024px) { ... }
+    xl: '1280px',
+    // => @media (min-width: 1280px) { ... }
+    '2xl': '1536px',
+    // => @media (min-width: 1536px) { ... }
+  },
   extend: {
     backgroundImage: {
       'staking-bg': 'url(/images/banners/staking-bg.png)',
@@ -21,17 +35,20 @@ export const theme = {
       'background-lighter': 'rgb(var(--background-lighter) / <alpha-value>)',
       'background-lightest': 'rgb(var(--background-lightest) / <alpha-value>)',
       'background-primary': 'rgb(var(--background-primary) / <alpha-value>)',
-      'background-primary-light': 'rgb(var(--background-primary-light) / <alpha-value>)',
+      'background-primary-light':
+        'rgb(var(--background-primary-light) / <alpha-value>)',
       'background-warning': 'rgb(var(--background-warning) / <alpha-value>)',
       'background-info': 'rgb(var(--background-info) / <alpha-value>)',
       'background-accent': 'rgb(var(--background-accent) / <alpha-value>)',
       'background-red': 'rgb(var(--background-red) / <alpha-value>)',
-      'background-stats-card': 'rgb(var(--background-stats-card) / <alpha-value>)',
+      'background-stats-card':
+        'rgb(var(--background-stats-card) / <alpha-value>)',
 
       text: 'rgb(var(--text) / <alpha-value>)',
       'text-muted': 'rgb(var(--text-muted) / <alpha-value>)',
       'text-on-primary': 'rgb(var(--text-on-primary) / <alpha-value>)',
-      'text-muted-on-primary': 'rgb(var(--text-muted-on-primary) / <alpha-value>)',
+      'text-muted-on-primary':
+        'rgb(var(--text-muted-on-primary) / <alpha-value>)',
       'text-primary': 'rgb(var(--text-primary) / <alpha-value>)',
       'text-secondary': 'rgb(var(--text-secondary) / <alpha-value>)',
       'text-dark': 'rgb(var(--text-dark) / <alpha-value>)',
@@ -40,7 +57,6 @@ export const theme = {
 
       'border-gray': 'rgb(var(--border-gray) / <alpha-value>)',
       'border-gray-light': 'rgb(var(--border-gray-light) / <alpha-value>)',
-
     },
   },
 }
