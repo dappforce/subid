@@ -60,8 +60,10 @@ const OnlySearch = () => {
         </div>
       </div>
       <div>
-        {!isMobile ? <div className={styles.SearchInput}>
-          <SearchInput size='large' className={`h-75 ${styles.SearchInputBox}`} autoFocus={true} />
+        {!isMobile ? <div className={styles.SearchInputWrapper}>
+          <div className={styles.SearchInput}>
+            <SearchInput size='large' className={`h-75 ${styles.SearchInputBox}`} autoFocus={true} />
+          </div>
         </div> : <></>}
       </div>
       <div className={styles.BodyWrapper}>
