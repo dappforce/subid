@@ -5,7 +5,7 @@ import {
   EntityState,
 } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { RootState } from '../../../app/rootReducer';
+import { RootState } from '../../../app/rootReducer'
 import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
 
 export type StakerRewards = {

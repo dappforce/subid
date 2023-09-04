@@ -30,7 +30,7 @@ const slice = createSlice({
   initialState: stakingConstsAdapter.getInitialState(),
   reducers: {
     fetchStakingConsts: stubFn,
-    fetchStakingConstsSuccess(state, action: PayloadAction<StakingConstsEntity>) {
+    fetchStakingConstsSuccess (state, action: PayloadAction<StakingConstsEntity>) {
       stakingConstsAdapter.upsertOne(state, action.payload)
     },
     fetchStakingConstsFailed: stubFn,

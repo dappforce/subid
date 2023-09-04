@@ -35,7 +35,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
     if(unlockingChunks?.length === 0) {
       switchToFirstTab()
     }
-  }, [unlockingChunks?.length])
+  }, [ unlockingChunks?.length ])
 
   const disableButton = useMemo(() => {
     if(!currentEra || !unlockingChunks || isEmptyArray(unlockingChunks)) return true
@@ -45,11 +45,11 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
 
       return new BN(currentEra).lt(new BN(unlockEra))
     })
-  }, [!!unlockingChunks?.length, currentEra])
+  }, [ !!unlockingChunks?.length, currentEra ])
 
   const onSuccess = () => {
     fetchStakerLedger(dispatch, myAddress || '')
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
   }
 
   const onFailed = () => {

@@ -8,7 +8,7 @@ import clsx from 'clsx'
 export type InputProps = Omit<ComponentProps<'input'>, 'size'> &
   RequiredFieldWrapperProps
 
-const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+const Input = forwardRef<HTMLInputElement, InputProps>(function Input (
   props: InputProps,
   ref
 ) {

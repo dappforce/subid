@@ -77,13 +77,13 @@ const socialLinksRegExp: Record<SocialBrand, RegExp[]> = {
     newSocialLinkRegExp('fb.com'),
     newSocialLinkRegExp('facebook.me'),
   ],
-  Twitter: [newSocialLinkRegExp('twitter.com')],
-  Medium: [newSocialLinkRegExp('medium.com')],
-  LinkedIn: [newSocialLinkRegExp('linkedin.com'), newSocialLinkRegExp('linked.in')],
-  GitHub: [newSocialLinkRegExp('github.com')],
-  Instagram: [newSocialLinkRegExp('instagram.com'), newSocialLinkRegExp('instagr.am')],
-  YouTube: [newSocialLinkRegExp('youtube.com'), newSocialLinkRegExp('youtu.be')],
-  Telegram: [newSocialLinkRegExp('t.me'), newSocialLinkRegExp('telegram.me')],
+  Twitter: [ newSocialLinkRegExp('twitter.com') ],
+  Medium: [ newSocialLinkRegExp('medium.com') ],
+  LinkedIn: [ newSocialLinkRegExp('linkedin.com'), newSocialLinkRegExp('linked.in') ],
+  GitHub: [ newSocialLinkRegExp('github.com') ],
+  Instagram: [ newSocialLinkRegExp('instagram.com'), newSocialLinkRegExp('instagr.am') ],
+  YouTube: [ newSocialLinkRegExp('youtube.com'), newSocialLinkRegExp('youtu.be') ],
+  Telegram: [ newSocialLinkRegExp('t.me'), newSocialLinkRegExp('telegram.me') ],
 }
 
 const isSocialBrandLink = (brand: SocialBrand, link: string): boolean => {

@@ -4,7 +4,6 @@ import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContex
 import { useMemo } from 'react'
 import {
   useGetDecimalsAndSymbolByNetwork,
-  NextEraStartDate,
   useGetNextEraTime,
 } from '../utils/index'
 import { FormatBalance } from 'src/components/common/balances'
@@ -92,7 +91,7 @@ const Unstaking = () => {
         timeRemaining: <TimeRemaining unlockEra={item.unlockEra} />,
       }
     })
-  }, [!!ledger, loading])
+  }, [ !!ledger, loading ])
 
   return (
     <>

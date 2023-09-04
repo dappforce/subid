@@ -96,7 +96,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
-  const { space, loading: spaceLoading } = creatorSpaceEntity || {}
+  const { space, loading: _spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: stakerInfoLoading } = stakerInfo || {}
 

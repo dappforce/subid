@@ -64,7 +64,7 @@ export interface FieldWrapperProps extends RequiredFieldWrapperProps {
   children: (commonClassNames: string) => JSX.Element
 }
 
-export default function FieldWrapper({
+export default function FieldWrapper ({
   containerClassName,
   inputParentClassName,
   label,
@@ -157,7 +157,7 @@ export default function FieldWrapper({
   )
 }
 
-export function getCleanedInputProps<T extends RequiredFieldWrapperProps>(
+export function getCleanedInputProps<T extends RequiredFieldWrapperProps> (
   props: T
 ) {
   const {

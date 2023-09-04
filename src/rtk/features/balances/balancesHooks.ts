@@ -41,11 +41,11 @@ export const useFetchBalanceByNetwork = (network: string, address?: string) => {
     if (!address) return
 
     const getBalanceByNetwork = () => {
-      fetchBalanceByNetwork(dispatch, [address], network)
+      fetchBalanceByNetwork(dispatch, [ address ], network)
     }
 
     getBalanceByNetwork()
-  }, [address])
+  }, [ address ])
 }
 
 export const useFetchBalances = (addressesToFetch?: string[]) => {
@@ -63,7 +63,7 @@ export const useFetchBalances = (addressesToFetch?: string[]) => {
     }
 
     getBalances()
-  }, [addresses?.join(',')])
+  }, [ addresses?.join(',') ])
 }
 
 export const useBalances = (address?: string) =>

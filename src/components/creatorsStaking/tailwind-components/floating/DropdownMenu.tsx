@@ -24,7 +24,6 @@ import {
   useTypeahead,
 } from '@floating-ui/react'
 import * as React from 'react'
-import { ButtonProps } from '../Button'
 import MenuList, { MenuListProps } from '../MenuList'
 import clsx from 'clsx'
 
@@ -82,8 +81,8 @@ export const MenuComponent = React.forwardRef<
     },
     forwardedRef
   ) => {
-    const [hasFocusInside, setHasFocusInside] = React.useState(false)
-    const [activeIndex, setActiveIndex] = React.useState<number | null>(null)
+    const [ hasFocusInside, setHasFocusInside ] = React.useState(false)
+    const [ activeIndex, setActiveIndex ] = React.useState<number | null>(null)
 
     const elementsRef = React.useRef<Array<HTMLButtonElement | null>>([])
     const labelsRef = React.useRef<Array<string | null>>([])
@@ -99,7 +98,7 @@ export const MenuComponent = React.forwardRef<
       open: isOpen,
       onOpenChange: setIsOpen,
       placement: 'bottom-start',
-      middleware: [offset({ mainAxis: 4, alignmentAxis: 0 }), flip(), shift()],
+      middleware: [ offset({ mainAxis: 4, alignmentAxis: 0 }), flip(), shift() ],
       whileElementsMounted: autoUpdate,
     })
 
@@ -128,16 +127,16 @@ export const MenuComponent = React.forwardRef<
     })
 
     const { getReferenceProps, getFloatingProps, getItemProps } =
-      useInteractions([hover, click, role, dismiss, listNavigation, typeahead])
+      useInteractions([ hover, click, role, dismiss, listNavigation, typeahead ])
 
     React.useEffect(() => {
       if (!tree) return
 
-      function handleTreeClick() {
+      function handleTreeClick () {
         setIsOpen(false)
       }
 
-      function onSubMenuOpen(event: { nodeId: string; parentId: string }) {
+      function onSubMenuOpen (event: { nodeId: string; parentId: string }) {
         if (event.nodeId !== nodeId && event.parentId === parentId) {
           setIsOpen(false)
         }
@@ -150,22 +149,22 @@ export const MenuComponent = React.forwardRef<
         tree.events.off('click', handleTreeClick)
         tree.events.off('menuopen', onSubMenuOpen)
       }
-    }, [tree, nodeId, parentId])
+    }, [ tree, nodeId, parentId ])
 
     React.useEffect(() => {
       if (isOpen && tree) {
         tree.events.emit('menuopen', { parentId, nodeId })
       }
-    }, [tree, isOpen, nodeId, parentId])
+    }, [ tree, isOpen, nodeId, parentId ])
 
     return (
       <FloatingNode id={nodeId}>
         {children({
-          ref: useMergeRefs([refs.setReference, item.ref, forwardedRef]),
+          ref: useMergeRefs([ refs.setReference, item.ref, forwardedRef ]),
           referenceProps: getReferenceProps(
             parent.getItemProps({
               ...props,
-              onFocus(event: React.FocusEvent<HTMLButtonElement>) {
+              onFocus (event: React.FocusEvent<HTMLButtonElement>) {
                 props.onFocus?.(event)
                 setHasFocusInside(false)
                 parent.setHasFocusInside(true)

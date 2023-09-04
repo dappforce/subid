@@ -4,7 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj } from '@subsocial/utils'
 import { getStakerRewards } from '../../../../api/creatorStaking'
 import { FetchStakerRewardsProps, StakerRewardsEntity, selectStakerRewards, stakerRewardsActions } from './stakerRewardsSlice'
-import BN from 'bignumber.js';
+import BN from 'bignumber.js'
 
 function* fetchStakerRewardsWorker (
   action: PayloadAction<FetchStakerRewardsProps>

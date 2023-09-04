@@ -48,9 +48,9 @@ const StakingTxButton = ({
   const eraInfo = useGeneralEraInfo()
 
   const onSuccess = () => {
-    fetchStakerInfo(dispatch, [spaceId], myAddress || '')
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
-    fetchEraStakes(dispatch, [spaceId], eraInfo?.currentEra || '0')
+    fetchStakerInfo(dispatch, [ spaceId ], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.currentEra || '0')
     fetchStakerLedger(dispatch, myAddress || '')
 
     if(modalVariant === 'stake') {

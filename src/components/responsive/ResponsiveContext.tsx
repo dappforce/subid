@@ -48,7 +48,7 @@ export function useIsMobileWidthOrDevice () {
   return isMobileDevice || isMobile
 }
 
-export function isTouchDevice() {
+export function isTouchDevice () {
   if (typeof window === 'undefined') return false
   return (
     'ontouchstart' in window ||

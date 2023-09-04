@@ -124,7 +124,7 @@ const StakingModal = ({
       setAmount('0')
       inputError && setInputError(undefined)
     }
-  }, [open])
+  }, [ open ])
 
   const generalEraInfo = useGeneralEraInfo()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
