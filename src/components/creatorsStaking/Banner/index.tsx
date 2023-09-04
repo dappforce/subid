@@ -73,7 +73,7 @@ const StatsCards = () => {
     {
       title: 'Current Era',
       value: <ValueOrSkeleton value={generalEraInfo?.currentEra} skeletonClassName='w-28 h-[20px] mb-1'/>,
-      desc: <span className='flex items-center gap-1'>ETA:<NextEraStartDate /></span>,
+      desc: <span className='flex items-center gap-1'>Next era<NextEraStartDate /></span>,
     },
     {
       title: 'Total Creators',
