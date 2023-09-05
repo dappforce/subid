@@ -16,7 +16,7 @@ const OnlySearch = () => {
 
   const onClick = () => {
     openModal()
-    sendEvent('Click on the Sing In link on home page')
+    sendEvent('click_on_the_sign_in_link_on_home_page')
   }
 
   const connectWalletButton = <Button

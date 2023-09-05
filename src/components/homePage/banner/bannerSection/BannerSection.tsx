@@ -31,7 +31,7 @@ const BannerSection = ({ currentAddress, owner }: BannerSectionProps) => {
   const { t } = useTranslation()
 
   const myAddress = useMyAddress()
-  const sendEditBannerEvent = useBuildSendEvent('Click on Edit Banner')
+  const sendEditBannerEvent = useBuildSendEvent('click_on_edit_banner')
 
   const isMyAddress = myAddress === currentAddress
 

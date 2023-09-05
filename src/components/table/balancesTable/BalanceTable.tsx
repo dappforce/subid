@@ -65,7 +65,7 @@ const BalanceTableVariantTabs = ({
 
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
-    sendEvent(`Change balance table variant to ${newTableView}`)
+    sendEvent('change_balance_table_variant', { newTableView })
     setBalancesVariant(newTableView)
     store.set(BALANCE_TABLE_VARIANT, newTableView)
   }
@@ -262,7 +262,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
     i18n: { language },
   } = useTranslation()
   const sendTransferEvent = useBuildSendEvent(
-    'Click on Transfer button'
+    'click_on_transfer_button'
   )
 
   const [ transferModalState, transferModalDispatch ] = useReducer(

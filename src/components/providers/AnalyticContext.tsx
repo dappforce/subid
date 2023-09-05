@@ -14,7 +14,7 @@ const initialState: AnalyticContextState = {
 }
 
 export type AnalyticContextProps = {
-  sendEvent: (name: string) => void
+  sendEvent: (name: string, properties?: Record<string, any>) => void
 }
 
 const propsStub = { sendEvent: () => undefined }
@@ -65,10 +65,11 @@ export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
 
   const contextValue: AnalyticContextProps = useMemo(() => {
     return {
-      sendEvent: (name: string) => {
+      sendEvent: (name: string, properties?: Record<string, any>) => {
         const eventProps = {
           event_type: name,
           device_id: state.deviceId,
+          event_properties: properties,
         }
         if (!state.amp) {
           setQueuedEvents((prev) => [ ...prev, eventProps ])
@@ -89,8 +90,8 @@ export function useSendEvent () {
 export function useBuildSendEvent (eventName: string) {
   const sendEvent = useSendEvent()
 
-  return useCallback(() => {
-    sendEvent(eventName)
+  return useCallback((properties?: Record<string, any>) => {
+    sendEvent(eventName, properties)
   }, [ eventName ])
 }
 

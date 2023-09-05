@@ -105,7 +105,7 @@ export const DropdownItems = (props: MenuProps) => {
     const key = item.key
 
     if (key !== 'signOut') {
-      sendEvent('Switch account')
+      sendEvent('switch_account')
 
       setMyAddress(key)
       setIsMulti(checkIsMulti(key))
@@ -118,7 +118,7 @@ export const DropdownItems = (props: MenuProps) => {
         router.push({ pathname, query: query })
       }
     } else {
-      sendEvent('Sign out')
+      sendEvent('sign_out')
       signOut()
       router.push('/', '')
     }
@@ -201,7 +201,7 @@ const TopMenu = () => {
   const accountIdentities = addressFromStorage && identities && !isMulti ? identities[addressFromStorage] : undefined
 
   const onClick = () => {
-    sendEvent('Click on the Sing In button on top menu')
+    sendEvent('click_on_the_sign_in_button_on_top_menu')
     openModal()
   }
   const subsocialIdentity = getSubsocialIdentity(accountIdentities)

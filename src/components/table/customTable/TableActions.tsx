@@ -27,7 +27,7 @@ export const TableActions = <T extends TableInfo>({
 
   const onRadioTilesChange = (e: any) => {
     const newTableView = e.target.value
-    sendEvent(`Change ${title} table view to ${newTableView}`)
+    sendEvent('change_table_view', { title, newTableView })
     setTableView(newTableView)
   }
 

@@ -37,7 +37,7 @@ const SearchInput = ({ size = 'middle', hideSearch, autoFocus = false, className
   }, [ addressFromUrl ])
 
   const onSearch = (value: string) => {
-    sendEvent(`Search for ${value}`)
+    sendEvent('search', { value })
 
     value && router.push(`/${value}`)
   }
