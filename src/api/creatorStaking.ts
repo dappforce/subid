@@ -25,7 +25,7 @@ export const getCreatorsSpaces = async (ids: string[]) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch general era info',
+    onFailedText: 'Failed to fetch creators spaces',
   })
 
 export const getEraStakesBySpaceIds = async (ids: string[], era: string) =>
@@ -40,7 +40,7 @@ export const getEraStakesBySpaceIds = async (ids: string[], era: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch general era info',
+    onFailedText: `Failed to fetch era stakes by space ids: ${ids.join(',')}`,
   })
 
 export const getStakerInfoBySpaces = async (ids: string[], account: string) =>
@@ -55,7 +55,7 @@ export const getStakerInfoBySpaces = async (ids: string[], account: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch staker info by spaces',
+    onFailedText: `Failed to fetch staker info by spaces: ${ids.join(',')}`,
   })
 
 export const getStakerLedger = async (account: string) =>
@@ -69,7 +69,7 @@ export const getStakerLedger = async (account: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch staker ledger',
+    onFailedText: `Failed to fetch staker ledger: ${account}`,
   })
 
 export const getStakingConsts = async () =>
