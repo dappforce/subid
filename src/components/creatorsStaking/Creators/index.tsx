@@ -46,7 +46,6 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
         {creatorsCardsByPage}
       </div>
       <Pagination
-        defaultCurrent={1}
         current={page}
         pageSize={DEFAULT_PAGE_SIZE}
         total={creatorsCards.length}

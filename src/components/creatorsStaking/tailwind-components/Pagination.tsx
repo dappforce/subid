@@ -4,7 +4,6 @@ import { PiArrowRight, PiArrowLeft } from 'react-icons/pi'
 
 type PaginationProps = {
   className?: string
-  defaultCurrent?: number
   current?: number
   total: number
   pageSize: number
@@ -14,7 +13,6 @@ type PaginationProps = {
 
 const Pagination = ({
   className,
-  defaultCurrent,
   current,
   total,
   pageSize,

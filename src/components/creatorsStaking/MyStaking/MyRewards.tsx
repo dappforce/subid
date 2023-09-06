@@ -8,17 +8,12 @@ import Button from '../tailwind-components/Button'
 import store from 'store'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
-import BN from 'bignumber.js'
-import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
-import { showParsedErrorMessage } from 'src/components/utils'
-import { ApiPromise } from '@polkadot/api'
 import {
-  fetchStakerRewards,
   useFetchStakerRewards,
   useStakerRewards,
 } from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
-import { useAppDispatch } from 'src/rtk/app/store'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
+import ClaimRewardsTxButton from './ClaimRewardsTxButton'
 
 type RewardCardProps = {
   title: string
@@ -63,56 +58,6 @@ const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
     >
       {restake ? 'Turn off' : 'Turn on'}
     </Button>
-  )
-}
-
-type ClaimRewardsTxButtonProps = {
-  rewardsSpaceIds: string[]
-  totalRewards: string
-  restake: boolean
-}
-
-const ClaimRewardsTxButton = ({
-  rewardsSpaceIds,
-  totalRewards,
-  restake,
-}: ClaimRewardsTxButtonProps) => {
-  const dispatch = useAppDispatch()
-  const myAddress = useMyAddress()
-
-  const onSuccess = () => {
-    fetchStakerRewards(dispatch, myAddress || '', rewardsSpaceIds)
-  }
-
-  const buildParams = (api: ApiPromise) => {
-    const txs = rewardsSpaceIds.map((spaceId) =>
-      api.tx.creatorStaking.claimStakerReward(spaceId, restake)
-    )
-
-    return [ txs ]
-  }
-
-  const Component: React.FunctionComponent<{ onClick?: () => void }> = (
-    compProps
-  ) => (
-    <Button {...compProps} variant={'primary'} size={'sm'}>
-      Claim
-    </Button>
-  )
-
-  const disableButton = !myAddress || new BN(totalRewards).isZero()
-
-  return (
-    <LazyTxButton
-      network='subsocial'
-      accountId={myAddress}
-      tx={'utility.batch'}
-      disabled={disableButton}
-      component={Component}
-      params={buildParams}
-      onFailed={showParsedErrorMessage}
-      onSuccess={onSuccess}
-    />
   )
 }
 

@@ -7,8 +7,8 @@ import { useState } from 'react'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { pluralize } from '@subsocial/utils'
-import { useGetDecimalsAndSymbolByNetwork } from '../../utils'
 import { FormatBalance } from 'src/components/common/balances'
+import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type AboutModalProps = {
   open: boolean
@@ -73,7 +73,7 @@ const AboutModal = ({
       >
         <div className='flex flex-col gap-6'>
           <CreatorPreview
-            title={name || '<Unnamed>'}
+            title={name}
             desc={desc}
             imgSize={80}
             avatar={image}

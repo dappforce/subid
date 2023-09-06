@@ -5,7 +5,6 @@ import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContex
 import { StakeOrIncreaseStakeAmountInput, UnstakeAmountInput } from './AmountInput'
 import { useEffect, useState } from 'react'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
-import { useGetDecimalsAndSymbolByNetwork } from '../../utils'
 import { FormatBalance } from 'src/components/common/balances'
 import {
   CommonTxButtonProps,
@@ -18,6 +17,7 @@ import { twitterShareUrl } from 'src/components/urls/social-share'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { pluralize } from '@subsocial/utils'
+import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type CurrentStakeProps = {
   spaceId: string

@@ -8,15 +8,15 @@ import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraSt
 import { FormatBalance } from 'src/components/common/balances'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useGetDecimalsAndSymbolByNetwork } from '../utils'
 import AboutModal from './modals/AboutModal'
 import { useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
+import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type CreatorPreviewProps = {
-  title: string
+  title?: string
   imgSize?: number
   desc?: React.ReactNode
   owner?: string
@@ -46,7 +46,7 @@ export const CreatorPreview = ({
       />
       <div className={infoClassName}>
         <div className={clsx('leading-5 font-medium', titleClassName)}>
-          {title}
+          {title || '<Unnamed>'}
         </div>
         {desc && <div className={descClassName}>{desc}</div>}
       </div>

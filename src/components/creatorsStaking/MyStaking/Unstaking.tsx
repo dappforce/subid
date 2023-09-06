@@ -2,16 +2,14 @@ import Table, { Column } from '../tailwind-components/Table'
 import { useStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useMemo } from 'react'
-import {
-  useGetDecimalsAndSymbolByNetwork,
-  useGetNextEraTime,
-} from '../utils/index'
 import { FormatBalance } from 'src/components/common/balances'
 import { SubDate } from '@subsocial/utils'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import BN from 'bignumber.js'
 import { useStakingContext } from 'src/components/staking/collators/StakingContext'
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
+import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
 
 const columns: Column[] = [
   {

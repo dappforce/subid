@@ -122,7 +122,6 @@ export const UnstakeTxButton = (props: CommonTxButtonProps) => {
 
   const { totalStaked } = info || {}
 
-
   return <StakingTxButton 
     {...props}
     disabled={!totalStaked || new BN(totalStaked).isZero()}

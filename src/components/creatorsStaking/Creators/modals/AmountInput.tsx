@@ -9,16 +9,14 @@ import { BN_ZERO } from '@polkadot/util'
 import {
   balanceWithDecimal,
   convertToBalanceWithDecimal,
-  pluralize,
 } from '@subsocial/utils'
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { FormatBalance } from 'src/components/common/balances'
 import BN from 'bignumber.js'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
-import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { useStakingContext } from 'src/components/staking/collators/StakingContext'
 import { StakingModalVariant } from './StakeModal'
+import DaystoWithDraw from '../../utils/DaysToWithdraw'
 
 type CommonAmountInputProps = {
   setAmount: (amount: string) => void
@@ -76,8 +74,8 @@ export const StakeOrIncreaseStakeAmountInput = (
 
     if (
       minimumStakingAmount &&
-      amountWithDecimals.lt(new BN(minimumStakingAmount))
-      && modalVariant === 'stake'
+      amountWithDecimals.lt(new BN(minimumStakingAmount)) &&
+      modalVariant === 'stake'
     ) {
       const minimumStakingAmountWithDecimals = convertToBalanceWithDecimal(
         minimumStakingAmount,
@@ -99,46 +97,6 @@ export const StakeOrIncreaseStakeAmountInput = (
       validateInput={validateInput}
     />
   )
-}
-
-const formatTime = (seconds: number) => {
-  const timeUnits = [
-    { divisor: 86400, label: 'day' },
-    { divisor: 3600, label: 'hour' },
-    { divisor: 60, label: 'minute' },
-    { divisor: 1, label: 'second' }
-  ]
-
-  for (const unit of timeUnits) {
-    const { divisor, label } = unit
-
-    if (seconds >= divisor) {
-      const value = Math.floor(seconds / divisor)
-      return pluralize({ count: value, singularText: label })
-    }
-  }
-}
-
-type DaysToUnstakeProps = {
-  unbondingPeriodInEras?: string
-}
-
-const DaysToUnstake = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
-  const eraInfo = useGeneralEraInfo()
-  const { blockTime } = useStakingContext()
-
-  const { blockPerEra } = eraInfo || {}
-
-  const timeInEra =
-    blockPerEra && blockTime
-      ? new BN(blockPerEra).multipliedBy(new BN(blockTime).dividedBy(1000))
-      : undefined
-
-  const unbondingPeriodInDays = timeInEra?.multipliedBy(
-    unbondingPeriodInEras || '0'
-  )
-
-  return <>{formatTime(unbondingPeriodInDays?.toNumber() || 0)}</>
 }
 
 export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
@@ -202,8 +160,8 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
       <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]'>
         ℹ️ Unstaking takes about{' '}
-        <DaysToUnstake unbondingPeriodInEras={unbondingPeriodInEras} />
-        {' '}before you can withdraw
+        <DaystoWithDraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
+        you can withdraw
       </div>
     </div>
   )
