@@ -60,7 +60,7 @@ type CreatorCardTotalValueProps = {
   loading?: boolean
 }
 
-const CreatorCardTotalValue = ({
+const CreatorCardValue = ({
   label,
   value,
   loading,
@@ -164,17 +164,17 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         </div>
         <div className='border-b border-[#D4E2EF]'></div>
         <div className='flex flex-col gap-[2px]'>
-          <CreatorCardTotalValue
+          <CreatorCardValue
             label='My stake'
             value={myStake}
             loading={stakerInfoLoading}
           />
-          <CreatorCardTotalValue
+          <CreatorCardValue
             label='Total stake'
             value={totalStake}
             loading={eraStakeLoading}
           />
-          <CreatorCardTotalValue
+          <CreatorCardValue
             label='Stakers'
             value={numberOfStakers}
             loading={eraStakeLoading}

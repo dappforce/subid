@@ -4,6 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj } from '@subsocial/utils'
 import { StakerLedger, StakerLedgerEntity, FetchStakerLedgerProps, stakerLedgerActions, selectStakerLedger } from './stakerLedgerSlice'
 import { getStakerLedger } from '../../../../api/creatorStaking'
+import BN from 'bignumber.js';
 
 function* fetchStakerLedgerWorker (
   action: PayloadAction<FetchStakerLedgerProps>
@@ -20,11 +21,22 @@ function* fetchStakerLedgerWorker (
         yield put(stakerLedgerActions.fetchStakerLedgerFailed({ account }))
         return
       }
+
+      let lockedBN = new BN(result.locked)
+      
+      result.unbondingInfo.unlockingChunks.forEach(({ amount }) => {
+        lockedBN = lockedBN.minus(amount)
+      })
+
+      const stakerLedger = {
+        ...result,
+        locked: lockedBN.toString(),
+      }
       
       yield put(stakerLedgerActions.fetchStakerLedgerSuccess({
         id: account,
         loading: false,
-        ledger: result
+        ledger: stakerLedger
       }))
     }
   } catch (error) {

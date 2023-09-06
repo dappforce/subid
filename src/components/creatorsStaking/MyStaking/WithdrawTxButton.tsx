@@ -51,8 +51,6 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
     })
   }, [ !!unlockingChunks?.length, currentEra, loading ])
 
-  console.log(isSomeAvailable)
-
   const onSuccess = () => {
     const address = myAddress || ''
     

@@ -5,18 +5,16 @@ import CreatorCard from './CreatorCard'
 import Pagination from '../tailwind-components/Pagination'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
-import {
-  useFetchEraStakes,
-} from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import {
-  useFetchStakerInfoBySpaces,
-} from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useFetchStakerInfoBySpaces } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import SortByDropDown from './SortByDropDown'
 import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
 import { useSortBy } from '../hooks/useSortCreators'
+import { isEmptyArray } from '@subsocial/utils'
+import Loading from '../tailwind-components/Loading'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -30,10 +28,19 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
   const sortedSpaceIds = useSortBy(sortBy, spaceIds, era)
 
-  const creatorsCards =
-    sortedSpaceIds?.map((spaceId, i) => (
-      <CreatorCard key={i} spaceId={spaceId} era={era} />
-    )) || []
+  const ids =
+    sortedSpaceIds && !isEmptyArray(sortedSpaceIds) ? sortedSpaceIds : spaceIds
+
+  if (!ids || isEmptyArray(ids))
+    return (
+      <div className='h-[261px] flex items-center justify-center'>
+        <Loading />
+      </div>
+    )
+
+  const creatorsCards = ids.map((spaceId, i) => (
+    <CreatorCard key={i} spaceId={spaceId} era={era} />
+  ))
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
   const end = start + DEFAULT_PAGE_SIZE
@@ -103,11 +110,11 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
           tabs={tabs}
           withHashIntegration={false}
           tabsRightElement={
-            <SortByDropDown 
+            <SortByDropDown
               sortBy={sortBy}
               changeSortBy={changeSortBy}
               panelSize='xs'
-              panelClassName='!w-32' 
+              panelClassName='!w-32'
               itemClassName='my-[2px]'
             />
           }

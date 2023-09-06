@@ -822,6 +822,22 @@ video {
   height: fit-content;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
+.h-24 {
+  height: 6rem;
+}
+
+.h-\[\] {
+  height: ;
+}
+
+.h-\[261px\] {
+  height: 261px;
+}
+
 .max-h-48 {
   max-height: 12rem;
 }
@@ -1141,6 +1157,10 @@ video {
 
 .border-t-2 {
   border-top-width: 2px;
+}
+
+.border-b-2 {
+  border-bottom-width: 2px;
 }
 
 .border-none {

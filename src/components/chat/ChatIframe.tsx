@@ -12,7 +12,6 @@ export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIfram
 
   useEffect(() => {
     const listener = onUnreadCountChange ? ((count: number) => {
-      console.log('unread count', count)
       onUnreadCountChange(count)
     }) : undefined
     if (listener) {

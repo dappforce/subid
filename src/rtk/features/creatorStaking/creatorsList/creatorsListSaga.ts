@@ -15,12 +15,13 @@ function* fetchCreatorsListWorker () {
   try {
     const creatorsList: CreatorsListEntity[] = yield select(selectCreatorsList)
 
+    
     if (!isEmptyArray(creatorsList)) return
-
+    
     const response: RegisteredCreator[] = yield call(getCreatorsList)
-
+    
     if (isEmptyArray(response)) return
-
+    
     const creatorsEntities = response.map((creator) => {
       return {
         id: creator.spaceId,
