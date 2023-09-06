@@ -36,7 +36,7 @@ export function* fetchEraStakeWorker (
         return
       }
 
-      const candidatesInfo: EraStakeEntity[] = idsParam.map(
+      const eraStakesEntities: EraStakeEntity[] = idsParam.map(
         (id) => {
           const item = info[id]
 
@@ -62,7 +62,7 @@ export function* fetchEraStakeWorker (
       )
 
       yield put(
-        eraStakeActions.fetchEraStakeSuccess(candidatesInfo)
+        eraStakeActions.fetchEraStakeSuccess(eraStakesEntities)
       )
     }
   } catch (error) {

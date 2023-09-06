@@ -10,12 +10,12 @@ export function* fetchCreatorsSpacesWorker (action: PayloadAction<SpacesFetchPro
   const { ids, reload = false } = action.payload
 
   try {
-    const identitesEntityByAccounts: CreatorsSpacesRecord = yield select(
+    const creatorsSpaces: CreatorsSpacesRecord = yield select(
       selectManySpaces,
       ids
     )
 
-    const needFetch = getIdsThatNeedToFetch(identitesEntityByAccounts, ids)
+    const needFetch = getIdsThatNeedToFetch(creatorsSpaces, ids)
 
     const idsParam: string[] = reload ? ids : needFetch
     
@@ -32,7 +32,7 @@ export function* fetchCreatorsSpacesWorker (action: PayloadAction<SpacesFetchPro
         return
       }
 
-      const candidatesInfo: CreatorSpaceEntity[] = Object.entries(info).map(([ _, item ]) => {
+      const creatorSpacesEntities: CreatorSpaceEntity[] = Object.entries(info).map(([ _, item ]) => {
         return {
           id: item.id,
           loading: false,
@@ -42,7 +42,7 @@ export function* fetchCreatorsSpacesWorker (action: PayloadAction<SpacesFetchPro
 
 
       yield put(
-        creatorsSpacesActions.fetchCreatorsSpacesSuccess(candidatesInfo)
+        creatorsSpacesActions.fetchCreatorsSpacesSuccess(creatorSpacesEntities)
       )
     }
   } catch (error) {

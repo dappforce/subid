@@ -38,7 +38,7 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
         return
       }
 
-      const candidatesInfo: StakerInfoEntity[] = idsParam.map(
+      const stakerInfoEntities: StakerInfoEntity[] = idsParam.map(
         (id) => {
           const item = info[id]
 
@@ -56,7 +56,7 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
         }
       )
 
-      yield put(stakerInfoActions.fetchStakerInfoSuccess(candidatesInfo))
+      yield put(stakerInfoActions.fetchStakerInfoSuccess(stakerInfoEntities))
     }
   } catch (error) {
     log.error('Failed to fetch staker info', error)

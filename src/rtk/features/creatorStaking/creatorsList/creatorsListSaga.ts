@@ -13,9 +13,9 @@ import { getCreatorsList } from '../../../../api/creatorStaking'
 function* fetchCreatorsListWorker () {
 
   try {
-    const candidates: CreatorsListEntity[] = yield select(selectCreatorsList)
+    const creatorsList: CreatorsListEntity[] = yield select(selectCreatorsList)
 
-    if (!isEmptyArray(candidates)) return
+    if (!isEmptyArray(creatorsList)) return
 
     const response: RegisteredCreator[] = yield call(getCreatorsList)
 
@@ -32,7 +32,7 @@ function* fetchCreatorsListWorker () {
       creatorsListActions.fetchCreatorsListSuccess(creatorsEntities)
     )
   } catch (error) {
-    log.error('Failed to fetch staking candidates list', error)
+    log.error('Failed to fetch staking creators list', error)
   }
 }
 
