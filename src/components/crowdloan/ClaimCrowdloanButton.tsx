@@ -26,7 +26,7 @@ export default function ClaimCrowdloanButton ({ address, label, containerProps, 
   const { t } = useTranslation()
   const { loadingTx, setLoadingTx, openModal } = useClaimCrowdloanContext()
   const claimedToken = useRef('')
-  const sendClaimCrowdloanEvent = useBuildSendEvent(`Click claim crowdloan in ${props.network}`)
+  const sendClaimCrowdloanEvent = useBuildSendEvent('click_claim_crowdloan')
 
   const chainInfo = useChainInfoByNetwork(props.network)
   const { tokenDecimals, tokenSymbols, nativeToken, vestingMethod } = chainInfo || {}
@@ -46,7 +46,7 @@ export default function ClaimCrowdloanButton ({ address, label, containerProps, 
   }, [ claimableAmt ])
 
   const onClick = () => {
-    sendClaimCrowdloanEvent()
+    sendClaimCrowdloanEvent({ network: props.network })
     const parsedAmt = getBalanceWithDecimals({ totalBalance: (claimableAmt || '0').toString(), decimals: tokenDecimal })
     const floatAmt = parsedAmt.toNumber().toFixed(4)
     claimedToken.current = `${floatAmt} ${tokenSymbol}`

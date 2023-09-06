@@ -50,7 +50,7 @@ type NftItemTxButtonProps = NftItemProps & {
 
 const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftItemTxButtonProps) => {
   const [ IpfsCid, setIpfsCid ] = useState<IpfsCid>()
-  const sendUpdateNftBannerEvent = useBuildSendEvent('Update NFT Banner')
+  const sendUpdateNftBannerEvent = useBuildSendEvent('update_nft_banner')
 
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
@@ -118,7 +118,7 @@ const NftItemTxButton = ({ owner, hasProfile, Component, hide, ...props }: NftIt
 
 const NftItem = ({ withConnection = false, owner, hasProfile, hasTokens, nft, hide, ...props }: NftItemProps) => {
   const { t } = useTranslation()
-  const sendOpenNftEvent = useBuildSendEvent('Open NFT Link')
+  const sendOpenNftEvent = useBuildSendEvent('open_nft_link')
 
   const { banner } = owner?.content as ExtendedSpaceContent | undefined || {}
 
