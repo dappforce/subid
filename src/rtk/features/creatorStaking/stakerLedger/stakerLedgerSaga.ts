@@ -4,7 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj } from '@subsocial/utils'
 import { StakerLedger, StakerLedgerEntity, FetchStakerLedgerProps, stakerLedgerActions, selectStakerLedger } from './stakerLedgerSlice'
 import { getStakerLedger } from '../../../../api/creatorStaking'
-import BN from 'bignumber.js';
+import BN from 'bignumber.js'
 
 function* fetchStakerLedgerWorker (
   action: PayloadAction<FetchStakerLedgerProps>

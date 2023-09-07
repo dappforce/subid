@@ -1,8 +1,10 @@
 import { useCreatorSpaceById } from 'src/rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import Modal from '../../tailwind-components/Modal'
-import { CreatorPreview } from '../CreatorCard'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { StakeOrIncreaseStakeAmountInput, UnstakeAmountInput } from './AmountInput'
+import {
+  StakeOrIncreaseStakeAmountInput,
+  UnstakeAmountInput,
+} from './AmountInput'
 import { useEffect, useState } from 'react'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
@@ -18,6 +20,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { pluralize } from '@subsocial/utils'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { CreatorPreview } from '../../utils/CreatorPreview'
 
 type CurrentStakeProps = {
   spaceId: string
@@ -120,7 +123,7 @@ const StakingModal = ({
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    if(open) {
+    if (open) {
       setAmount('0')
       inputError && setInputError(undefined)
     }
@@ -141,8 +144,14 @@ const StakingModal = ({
 
   const owner = ownedByAccount?.id
 
-  const { title, inputLabel, balanceLabel, modalButton, actionButton, amountInput } =
-    modalData[modalVariant]
+  const {
+    title,
+    inputLabel,
+    balanceLabel,
+    modalButton,
+    actionButton,
+    amountInput,
+  } = modalData[modalVariant]
 
   const totalValue = (
     <FormatBalance
@@ -167,6 +176,9 @@ const StakingModal = ({
 
   const AmountInput = amountInput
 
+  const description =
+    modalVariant === 'success' ? <>My stake: 100 SOON</> : desc
+
   return (
     <Modal
       isOpen={open}
@@ -178,29 +190,17 @@ const StakingModal = ({
       }}
     >
       <div className='flex flex-col gap-6'>
-        {modalVariant === 'success' ? (
+        <CreatorPreview
+          title={name}
+          desc={description}
+          imgSize={80}
+          avatar={image}
+          owner={owner}
+          titleClassName='ml-2 mb-4 text-2xl'
+          descClassName='text-base ml-2 text-text-muted leading-5'
+        />
+        {modalVariant !== 'success' && (
           <>
-            <CreatorPreview
-              title={name || '<Unnamed>'}
-              desc={<>My stake: 100 SOON</>}
-              imgSize={80}
-              avatar={image}
-              owner={owner}
-              titleClassName='ml-2 mb-4 text-2xl'
-              descClassName='text-base ml-2 text-text-muted leading-5'
-            />
-          </>
-        ) : (
-          <>
-            <CreatorPreview
-              title={name || '<Unnamed>'}
-              desc={desc}
-              imgSize={80}
-              avatar={image}
-              owner={owner}
-              titleClassName='ml-2 mb-4 text-2xl'
-              descClassName='text-base ml-2 text-text-muted leading-5'
-            />
             {modalVariant === 'increaseStake' && (
               <CurrentStake spaceId={spaceId} />
             )}

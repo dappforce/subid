@@ -12,6 +12,7 @@ export type StakingConsts = {
   minimumRemainingAmount: string
   maxNumberOfStakersPerCreator: string
   maxEraStakeValues: string
+  currentAnnualInflation: string
 }
 
 type StakingConstsEntity = StakingConsts & {

@@ -1,6 +1,5 @@
 import { useCreatorSpaceById } from 'src/rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import Modal from '../../tailwind-components/Modal'
-import { CreatorPreview } from '../CreatorCard'
 import StakeActionButtons from '../StakeActionButtons'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
@@ -9,6 +8,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import { pluralize } from '@subsocial/utils'
 import { FormatBalance } from 'src/components/common/balances'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { CreatorPreview } from '../../utils/CreatorPreview'
 
 type AboutModalProps = {
   open: boolean

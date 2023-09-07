@@ -9,10 +9,24 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { StatsCard, TotalStakedBalance } from './utils'
+import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
+import BN from 'bignumber.js'
+import { useMemo } from 'react'
+
+const skeletonClassName = 'w-28 h-[20px] mb-1'
 
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
   const creatorsList = useCreatorsList()
+  const stakingConsts = useStakingConsts()
+
+  const { currentAnnualInflation } = stakingConsts || {}
+
+  const apr = useMemo(() => {
+    if (!currentAnnualInflation) return undefined
+
+    return new BN(currentAnnualInflation).dividedBy(2).toString()
+  }, [ currentAnnualInflation ])
 
   const creatorsCount = creatorsList?.length
 
@@ -23,14 +37,19 @@ const StatsCards = () => {
     },
     {
       title: 'Estimated APR',
-      value: 'SOON',
+      value: (
+        <ValueOrSkeleton
+          value={apr ? `${apr}%` : undefined}
+          skeletonClassName={skeletonClassName}
+        />
+      ),
     },
     {
       title: 'Current Era',
       value: (
         <ValueOrSkeleton
           value={generalEraInfo?.currentEra}
-          skeletonClassName='w-28 h-[20px] mb-1'
+          skeletonClassName={skeletonClassName}
         />
       ),
       desc: (
@@ -45,7 +64,7 @@ const StatsCards = () => {
       value: (
         <ValueOrSkeleton
           value={creatorsCount}
-          skeletonClassName='w-28 h-[20px] mb-1'
+          skeletonClassName={skeletonClassName}
         />
       ),
     },

@@ -1,5 +1,3 @@
-import BaseAvatar from 'src/components/utils/DfAvatar'
-import Button from '../tailwind-components/Button'
 import clsx from 'clsx'
 import StakeActionButtons from './StakeActionButtons'
 import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
@@ -14,45 +12,7 @@ import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
-
-type CreatorPreviewProps = {
-  title?: string
-  imgSize?: number
-  desc?: React.ReactNode
-  owner?: string
-  avatar?: string
-  titleClassName?: string
-  descClassName?: string
-  infoClassName?: string
-}
-
-export const CreatorPreview = ({
-  desc,
-  imgSize = 40,
-  avatar,
-  owner,
-  title,
-  titleClassName,
-  descClassName,
-  infoClassName
-}: CreatorPreviewProps) => {
-  return (
-    <div className='flex items-center'>
-      <BaseAvatar
-        style={{ cursor: 'pointer' }}
-        size={imgSize}
-        address={owner}
-        avatar={avatar}
-      />
-      <div className={infoClassName}>
-        <div className={clsx('leading-5 font-medium', titleClassName)}>
-          {title || '<Unnamed>'}
-        </div>
-        {desc && <div className={descClassName}>{desc}</div>}
-      </div>
-    </div>
-  )
-}
+import { CreatorPreview } from '../utils/CreatorPreview'
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -96,7 +56,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
-  const { space, loading: _spaceLoading } = creatorSpaceEntity || {}
+  const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: stakerInfoLoading } = stakerInfo || {}
 
@@ -127,6 +87,16 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     />
   )
 
+  const aboutText = (
+    <div className='flex items-center text-sm text-text-muted leading-[22px] font-normal min-h-[44px]'>
+      <ValueOrSkeleton
+        value={<TruncatedText text={about || ''} />}
+        loading={spaceLoading}
+        skeletonClassName='w-28 h-[16px]'
+      />
+    </div>
+  )
+
   const contactInfo = { email, links }
 
   return (
@@ -140,13 +110,20 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         <div className='cursor-pointer' onClick={() => setOpenAboutModal(true)}>
           <div className='flex justify-between gap-2'>
             <CreatorPreview
-              title={name || '<Unnamed>'}
+              title={
+                <ValueOrSkeleton
+                  value={name}
+                  loading={spaceLoading}
+                  skeletonClassName='w-28 h-[16px]'
+                />
+              }
               desc={<ContactInfo {...contactInfo} />}
               avatar={image}
               owner={owner}
               infoClassName='flex flex-col gap-1'
             />
-            <Button
+
+            {/* <Button
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
@@ -156,11 +133,9 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
               className='h-fit'
             >
               <img src='/images/creator-staking/messenger.svg' alt='' />
-            </Button>
+            </Button> */}
           </div>
-          <div className='flex items-center text-sm text-text-muted leading-[22px] font-normal min-h-[44px]'>
-            <TruncatedText text={about || ''} />
-          </div>
+          {aboutText}
         </div>
         <div className='border-b border-[#D4E2EF]'></div>
         <div className='flex flex-col gap-[2px]'>

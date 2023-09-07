@@ -3,7 +3,7 @@ import { ComponentProps } from 'react'
 
 export type ChatLoadingProps = ComponentProps<'div'>
 
-export default function Loading({ ...props }: ChatLoadingProps) {
+export default function Loading ({ ...props }: ChatLoadingProps) {
   return (
     <div
       {...props}
