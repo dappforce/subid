@@ -17,6 +17,7 @@ import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/staker
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { StakingModalVariant } from './StakeModal'
 import DaystoWithDraw from '../../utils/DaysToWithdraw'
+import { useLazyConnectionsContext } from '../../../lazy-connection/LazyConnectionContext'
 
 type CommonAmountInputProps = {
   setAmount: (amount: string) => void
@@ -33,8 +34,8 @@ type CommonAmountInputProps = {
 
 type AmountInputProps = CommonAmountInputProps & {
   balanceValue: JSX.Element
-  maxAmount: BN
   validateInput: (amountValue: string) => void
+  onMaxAmountClick?: () => void
 }
 
 export const StakeOrIncreaseStakeAmountInput = (
@@ -43,8 +44,9 @@ export const StakeOrIncreaseStakeAmountInput = (
   const { tokenSymbol, decimals, setInputError, modalVariant } = props
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
+  const { getApiByNetwork } = useLazyConnectionsContext()
 
-  const { minimumStakingAmount } = stakingConsts || {}
+  const { minimumStakingAmount, minimumRemainingAmount } = stakingConsts || {}
 
   const balancesByCurrency = useBalancesByNetwork({
     address: myAddress,
@@ -56,9 +58,31 @@ export const StakeOrIncreaseStakeAmountInput = (
     ? getTransferableBalance(balancesByCurrency)
     : BN_ZERO
 
-  const maxAmount = decimals
-    ? convertToBalanceWithDecimal(availableBalance.toString(), decimals)
-    : BIGNUMBER_ZERO
+  const onMaxAmountClick = async () => {
+    const api = await getApiByNetwork('subsocial')
+
+    const tx = await api.tx.creatorStaking.stake(
+      props.spaceId,
+      availableBalance.toString()
+    )
+
+    const paymentInfo = myAddress ? await tx.paymentInfo(myAddress) : undefined
+
+    const partialFee = paymentInfo?.partialFee
+
+    const balance = partialFee
+      ? new BN(availableBalance.toString())
+          .minus(new BN(partialFee.toString()))
+          .minus(new BN(minimumRemainingAmount || 0))
+      : BIGNUMBER_ZERO
+
+    const maxAmount =
+      partialFee && decimals
+        ? convertToBalanceWithDecimal(balance.toString(), decimals)
+        : BIGNUMBER_ZERO
+
+    props.setAmount(maxAmount.toString())
+  }
 
   const balanceValue = (
     <FormatBalance
@@ -92,7 +116,7 @@ export const StakeOrIncreaseStakeAmountInput = (
   return (
     <AmountInput
       {...props}
-      maxAmount={maxAmount}
+      onMaxAmountClick={onMaxAmountClick}
       balanceValue={balanceValue}
       validateInput={validateInput}
     />
@@ -112,10 +136,14 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
   const { totalStaked } = info || {}
 
-  const maxAmount =
-    decimals && totalStaked
-      ? convertToBalanceWithDecimal(totalStaked, decimals)
-      : BIGNUMBER_ZERO
+  const onMaxAmountClick = () => {
+    const maxAmount =
+      decimals && totalStaked
+        ? convertToBalanceWithDecimal(totalStaked, decimals)
+        : BIGNUMBER_ZERO
+
+    props.setAmount(maxAmount.toString())
+  }
 
   const balanceValue = (
     <FormatBalance
@@ -150,15 +178,15 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
   }
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className="flex flex-col gap-6">
       <AmountInput
         {...props}
         balanceValue={balanceValue}
-        maxAmount={maxAmount}
+        onMaxAmountClick={onMaxAmountClick}
         validateInput={validateInput}
       />
 
-      <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]'>
+      <div className="px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]">
         ℹ️ Unstaking takes about{' '}
         <DaystoWithDraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
         you can withdraw
@@ -173,8 +201,8 @@ const AmountInput = ({
   inputError,
   balanceLabel,
   label,
-  maxAmount,
   balanceValue,
+  onMaxAmountClick,
   validateInput,
 }: AmountInputProps) => {
   const onInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -187,7 +215,7 @@ const AmountInput = ({
 
   return (
     <div>
-      <div className='mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted'>
+      <div className="mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted">
         <div>{label}</div>
         <div>
           {balanceLabel}:{' '}
@@ -206,18 +234,18 @@ const AmountInput = ({
         rightElement={() => (
           <div>
             <Button
-              variant='transparent'
+              variant="transparent"
               className={clsx(
                 '!absolute bottom-0 right-3 top-0 my-auto !p-1 text-indigo-400',
                 'hover:text-indigo-500 hover:ring-0'
               )}
-              onClick={() => maxAmount && setAmount(maxAmount.toString())}
+              onClick={() => onMaxAmountClick && onMaxAmountClick()}
             >
               Max
             </Button>
           </div>
         )}
-        type='number'
+        type="number"
         className={clsx(
           'h-[54px] pr-16 text-base leading-6 ring-1 ring-inset ring-gray-500',
           'focus:outline-none focus:ring-1 focus:ring-gray-400',

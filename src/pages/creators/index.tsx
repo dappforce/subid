@@ -1,4 +1,4 @@
-import CreatorsStakingPage from 'src/components/main/CreatorsStakingPage'
+import CreatorsStakingPage from 'src/components/main/CreatorStakingPage'
 import { getInitialPropsWithRedux } from 'src/rtk/app/nextHelpers'
 import { fetchCreatorsList } from '../../rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { FETCH_CHIAN_INFO_WITH_PRICES } from 'src/rtk/app/actions'

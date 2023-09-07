@@ -18,7 +18,7 @@ export function* fetchCreatorsSpacesWorker (action: PayloadAction<SpacesFetchPro
     const needFetch = getIdsThatNeedToFetch(creatorsSpaces, ids)
 
     const idsParam: string[] = reload ? ids : needFetch
-    
+
     if (!isEmptyArray(idsParam)) {
       const info: Record<string, any> = yield call(
         getCreatorsSpaces,
@@ -47,6 +47,10 @@ export function* fetchCreatorsSpacesWorker (action: PayloadAction<SpacesFetchPro
     }
   } catch (error) {
     log.error('Failed to fetch creators spaces', error)
+
+    yield put(
+      creatorsSpacesActions.fetchCreatorsSpacesFailed({ ids })
+    )
   }
 }
 

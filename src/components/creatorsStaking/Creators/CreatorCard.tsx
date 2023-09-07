@@ -112,7 +112,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             <CreatorPreview
               title={
                 <ValueOrSkeleton
-                  value={name}
+                  value={name || '<Unnamed>'}
                   loading={spaceLoading}
                   skeletonClassName='w-28 h-[16px]'
                 />
