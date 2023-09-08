@@ -22,7 +22,7 @@ const CreatorStakingPage = () => {
       <div className={clsx('layout-wrapper', styles.CreatorStakingSection)}>
         <PageContent
           meta={{
-            title: 'Collator Staking',
+            title: 'Creator Staking',
           }}
           className='position-relative'
         >

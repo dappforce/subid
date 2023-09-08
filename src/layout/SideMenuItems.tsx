@@ -156,7 +156,7 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       hidden: isMulti || !isSignIn,
     },
     {
-      name: 'Creators Staking',
+      name: 'Creator Staking',
       page: [ '/creators' ],
       icon: <img className='anticon' src='/images/creator-staking-user.svg' />,
       hidden: isMulti || !isSignIn,
