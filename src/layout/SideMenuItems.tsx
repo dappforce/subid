@@ -28,6 +28,7 @@ import {
 import { MultiChainInfo } from 'src/rtk/features/multiChainInfo/types'
 import { validatorStakingNetworks } from '../config/app/network'
 import { SiOpencollective } from 'react-icons/si'
+import clsx from 'clsx'
 
 const issuesUrl = 'https://forms.clickup.com/9008022125/f/8ceq0kd-7261/7PAH62P0XTHM9UIV4Q'
 
@@ -168,7 +169,7 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       icon: isAllNetworksConnected ? (
         <WifiOutlined />
       ) : (
-        <Badge dot status='warning' className={styles.ConnectionStatusDot}>
+        <Badge dot status='warning' className={clsx(styles.ConnectionStatusDot, 'anticon')}>
           <WifiOutlined />
         </Badge>
       ),

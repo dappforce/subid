@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { ComponentProps, useEffect } from 'react'
 import grill from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
+import useWrapInRef from '../../hooks/useWrapInRef'
 
 export type ChatIframeProps = ComponentProps<'div'> & {
   onUnreadCountChange?: (count: number) => void
@@ -9,6 +10,7 @@ export type ChatIframeProps = ComponentProps<'div'> & {
 
 export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIframeProps) {
   const sendEvent = useSendEvent()
+  const sendEventRef = useWrapInRef(sendEvent)
 
   useEffect(() => {
     const listener = onUnreadCountChange ? ((count: number) => {
@@ -32,10 +34,10 @@ export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIfram
       theme: 'light',
       onWidgetCreated: (iframe) => {
         iframe.onerror = () => {
-          sendEvent('chat_widget_error')
+          sendEventRef.current('chat_widget_error')
         }
         iframe.onmouseenter = () => {
-          sendEvent('chat_widget_mouse_enter')
+          sendEventRef.current('chat_widget_mouse_enter')
         }
         return iframe
       }

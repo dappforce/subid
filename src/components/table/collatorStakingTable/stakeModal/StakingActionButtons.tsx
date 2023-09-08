@@ -1,5 +1,5 @@
 import { Button, FormInstance, ButtonProps, Tooltip } from 'antd'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useAppDispatch } from '../../../../rtk/app/store'
 import { buildTxPatamsByAction, TimeToClaim, getParamsByAction, UnstakedBalances } from '../utils'
 import { showSuccessMessage } from '../../../utils/Message'
@@ -61,7 +61,7 @@ export const ActionButtons = ({ address, network }: ActionButtonProps) => {
   const onActionButtonClick = (action: Action) => {
     setAction(action)
     setOpen(true)
-    sendEvent(`Click on ${action} button`)
+    sendEvent('click_on_staking_action_button', { action })
   }
 
   const commonButtonProps: ButtonProps = {
@@ -246,7 +246,11 @@ export const ActionTxButton = ({
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { tx, label, buildOnSuccessActions, onSuccessMessage } = getParamsByAction(t)[action]
-  const sendStakingEvent = useBuildSendEvent(`Click on staking modal action button: ${action}`)
+  const sendStakingEvent = useBuildSendEvent('click_on_staking_modal_action_button')
+  const sendStakingEventTx = useCallback(() =>
+    sendStakingEvent({ action }),
+    [ action, sendStakingEvent ]
+  )
 
   const decimals = chainInfo?.tokenDecimals[0]
 
@@ -282,6 +286,6 @@ export const ActionTxButton = ({
     size={size}
     block={block}
     ghost={ghost}
-    onClick={sendStakingEvent}
+    onClick={sendStakingEventTx}
   />
 }

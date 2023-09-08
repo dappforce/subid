@@ -66,7 +66,7 @@ export default function ChatFloatingModal () {
       {createPortal(
         <div className={styles.ChatFloatingWrapper}>
           <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
-            <img src='/images/grillchat.svg' alt='GrillChat' />
+            <img src='/images/grillchat-white.svg' alt='GrillChat' />
             <span>Polkadot Chat</span>
           </Button>
           {!!unreadCount && <span className={styles.ChatUnreadCount}>{unreadCount}</span>}

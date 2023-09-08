@@ -16,7 +16,7 @@ const OnlySearch = () => {
 
   const onClick = () => {
     openModal()
-    sendEvent('Click on the Sing In link on home page')
+    sendEvent('click_on_the_sign_in_link_on_home_page')
   }
 
   const connectWalletButton = <Button
@@ -60,8 +60,10 @@ const OnlySearch = () => {
         </div>
       </div>
       <div>
-        {!isMobile ? <div className={styles.SearchInput}>
-          <SearchInput size='large' className={`h-75 ${styles.SearchInputBox}`} autoFocus={true} />
+        {!isMobile ? <div className={styles.SearchInputWrapper}>
+          <div className={styles.SearchInput}>
+            <SearchInput size='large' className={`h-75 ${styles.SearchInputBox}`} autoFocus={true} />
+          </div>
         </div> : <></>}
       </div>
       <div className={styles.BodyWrapper}>

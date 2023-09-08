@@ -47,7 +47,7 @@ type ParseCrowdloanTableInfoProps = {
   balances?: ContributionsRecord
   isMulti?: boolean
   t: TFunction
-  sendEvent: (event: string) => void
+  sendEvent: (event: string, properties?: Record<string, any>) => void
 }
 
 const LINE = <MutedDiv>−</MutedDiv>
@@ -187,7 +187,7 @@ export const parseCrowdloansTableInfo = ({
       ? getCrowdloanStatus(isCapped, isWinner, isEnded) 
       : 'Ended'
 
-    const contributeEvent = () => sendEvent(`Contribute to ${networkNameByParaId}`)
+    const contributeEvent = () => sendEvent('contribute', { networkNameByParaId })
 
     const contribByRelayChain = contributionInfoByRelayChain[relayChain]
 

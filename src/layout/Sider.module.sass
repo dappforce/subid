@@ -15,9 +15,19 @@
   color: $color_muted !important
 
 .ConnectionStatusDot
+  position: relative
+  top: 2px
+
+  // For adjusting icon in sider with badge
+  *
+    display: block !important
+
+  :global(.anticon)
+    margin-right: 0
+
   \:global .ant-badge-dot
-    top: 13px !important
-    right: 12px !important
+    top: 3px
+    right: 2px
     width: 8px
     height: 8px
     border: 1px solid #fff

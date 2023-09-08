@@ -168,9 +168,9 @@ export default function TransferForm ({
     onTransferClick?.(data)
     submittedData.current = data
     if (data.destChain) {
-      sendEvent(`Cross Chain Transfer from ${data.sourceChain} to ${data.destChain}`)
+      sendEvent('cross_chain_transfer', { from: data.sourceChain, to: data.destChain })
     } else {
-      sendEvent(`Same Chain Transfer in ${data.sourceChain}`)
+      sendEvent('same_chain_transfer', { from: data.sourceChain })
     }
   }
 

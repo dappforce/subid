@@ -37,10 +37,10 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
   const subsocialIdentity = getSubsocialIdentity(identities)
 
   const sendFollowEvent = useBuildSendEvent(
-    'Click on the Follow button'
+    'click_on_the_follow_button'
   )
-  const sendEditEvent = useBuildSendEvent('Click on the Edit button')
-  const sendDonateEvent = useBuildSendEvent('Click on the Donate button')
+  const sendEditEvent = useBuildSendEvent('click_on_the_edit_button')
+  const sendDonateEvent = useBuildSendEvent('click_on_the_donate_button')
 
   const onAddButtonClick = () => {
     setRefresh(true)
