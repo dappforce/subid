@@ -45,7 +45,7 @@ export const PreviewAccountsGrid: FC = () => {
         ? <Loading label={'Loading...'} />
         : <Row justify={isMobile ? 'center' : undefined} gutter={18}>
           {overviewAccounts.map((x, _) => (
-            <Col key={x.account + x.type + x.relayChain} span={!isMobile ? 6 : undefined} className={'mb-3'} >
+            <Col key={x.account + x.type + x.relayChain} span={!isMobile ? 6 : undefined} className={'bs-mb-3'} >
               <AccountCard accountData={x} />
             </Col>))}
         </Row>}
