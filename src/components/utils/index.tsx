@@ -37,7 +37,7 @@ export type AnyAddress =
   | Option<AccountId>
   | Option<GenericAccountId>
 
-function toString<DFT> (
+function toString<DFT>(
   value?: { toString: () => string },
   _default?: DFT
 ): string | DFT | undefined {
@@ -60,14 +60,14 @@ export const Loading = ({ label, style, center = true }: LoadingProps) => {
       style={style}
     >
       <LoadingOutlined />
-      {label && <em className='bs-ml-3 text-muted'>{label}</em>}
+      {label && <em className="bs-ml-3 text-muted">{label}</em>}
     </div>
   )
 }
 
 type MaybeAccAddr = undefined | AnyAccountId
 
-export function equalAddresses (
+export function equalAddresses(
   addr1: MaybeAccAddr,
   addr2: MaybeAccAddr
 ): boolean {
@@ -152,7 +152,7 @@ export type HasAddress = {
   address: AnyAccountId
 }
 
-export function stringifyAny<DFT> (
+export function stringifyAny<DFT>(
   value?: any,
   _default?: DFT
 ): string | DFT | undefined {
@@ -165,30 +165,33 @@ export function stringifyAny<DFT> (
   return _default
 }
 
-export function stringifyText<DFT extends string> (
+export function stringifyText<DFT extends string>(
   value?: AnyText,
   _default?: DFT
 ): string | DFT | undefined {
   return stringifyAny(value, _default)
 }
 
-export function stringifyAddress<DFT> (
+export function stringifyAddress<DFT>(
   value?: AnyAddress,
   _default?: DFT
 ): string | DFT | undefined {
   return stringifyAny(value, _default)
 }
 
-export function isServerSide (): boolean {
+export function isServerSide(): boolean {
   return typeof window === 'undefined'
 }
 
-export function isClientSide (): boolean {
+export function isClientSide(): boolean {
   return !isServerSide()
 }
 
 export const isHomePage = (): boolean =>
   isClientSide() && window.location.pathname === '/'
+
+export const isCreatorStakingPage = (): boolean =>
+  isClientSide() && window.location.pathname === '/creators'
 
 export const isAccountsPage = (): boolean =>
   isClientSide() &&
@@ -220,7 +223,7 @@ type SubIconProps = IconBaseProps & {
   Icon: (props: any) => JSX.Element
 }
 
-export function SubIcon ({ Icon, className, ...props }: SubIconProps) {
+export function SubIcon({ Icon, className, ...props }: SubIconProps) {
   return <Icon className={`anticon ${className}`} {...props} />
 }
 
@@ -305,7 +308,7 @@ export const checkIsMulti = (accounts?: string) =>
 export const parseAddressFromUrl = (address: string | string[]) =>
   address?.toString().split(',')
 
-const browsers = [ 'Chrome', 'Firefox' ]
+const browsers = ['Chrome', 'Firefox']
 
 export const detectBrowser = () => {
   let browser = 'Unknown'
@@ -351,7 +354,7 @@ export const PriceView = ({ value, network }: PriceViewProps) => {
   )
 }
 
-export function checkSameAttributesValues<T> (
+export function checkSameAttributesValues<T>(
   obj1: T,
   obj2: T,
   keysToCheck: (keyof T)[]
@@ -408,7 +411,7 @@ export const PageTitle = ({ title, desc, link, className }: PageTitleProps) => (
       <h2>{title}</h2>
       {link && link}
     </div>
-    {desc && <div className='FontNormal'>{desc}</div>}
+    {desc && <div className="FontNormal">{desc}</div>}
   </div>
 )
 

@@ -8,6 +8,7 @@ import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
 import ChatSidePanel from 'src/components/chat/ChatSidePanel'
 import { useResponsiveSize } from 'src/components/responsive'
+import { isCreatorStakingPage } from 'src/components/utils'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
@@ -76,7 +77,7 @@ export const Navigation = (props: Props): JSX.Element => {
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
-      {!isHomePage && isLargeDesktop && <ChatSidePanel />}
+      {!isHomePage && !isCreatorStakingPage() && isLargeDesktop && <ChatSidePanel />}
     </Layout>
   </Layout>
 }

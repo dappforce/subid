@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { createPortal } from 'react-dom'
 import { useResponsiveSize } from '../responsive'
 import { useSendEvent } from '../providers/AnalyticContext'
+import { isCreatorStakingPage } from '../utils'
 
 export default function ChatFloatingModal () {
   const { isLargeDesktop } = useResponsiveSize()
@@ -37,7 +38,7 @@ export default function ChatFloatingModal () {
     hasOpened.current = true
   }
 
-  if (isLargeDesktop) {
+  if (isLargeDesktop && !isCreatorStakingPage()) {
     return null
   }
 
