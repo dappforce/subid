@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { ComponentProps, useEffect } from 'react'
-import grill from '@subsocial/grill-widget'
+import grill, { GrillEventListener } from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 import useWrapInRef from '../../hooks/useWrapInRef'
 
@@ -13,13 +13,12 @@ export default function ChatIframe ({ onUnreadCountChange, ...props }: ChatIfram
   const sendEventRef = useWrapInRef(sendEvent)
 
   useEffect(() => {
-    const listener = onUnreadCountChange ? ((count: number) => {
-      console.log('unread count', count)
-      onUnreadCountChange(count)
-    }) : undefined
-    if (listener) {
-      grill.addUnreadCountListener(listener)
+    const listener: GrillEventListener | undefined = (name, value) => {
+      const parsedValue = parseInt(value) ?? 0
+      if (name === 'unread') onUnreadCountChange?.(parsedValue)
     }
+    grill.addUnreadCountListener(listener)
+
     grill.init({
       hub: { id: 'polka' },
       rootFontSize: '1rem',

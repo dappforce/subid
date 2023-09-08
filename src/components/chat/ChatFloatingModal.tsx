@@ -8,6 +8,8 @@ import { createPortal } from 'react-dom'
 import { useResponsiveSize } from '../responsive'
 import { useSendEvent } from '../providers/AnalyticContext'
 
+const storageName = 'grill:unreadCount'
+
 export default function ChatFloatingModal () {
   const { isLargeDesktop } = useResponsiveSize()
   const sendEvent = useSendEvent()
@@ -16,7 +18,7 @@ export default function ChatFloatingModal () {
   const [ isOpen, setIsOpen ] = useState(false)
 
   useEffect(() => {
-    const unreadCountFromStorage = parseInt(localStorage.getItem('unreadCount') ?? '')
+    const unreadCountFromStorage = parseInt(localStorage.getItem(storageName) ?? '')
     if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
       setUnreadCount(unreadCountFromStorage)
     }
@@ -29,7 +31,7 @@ export default function ChatFloatingModal () {
     else {
       event = 'open_grill_iframe'
       setUnreadCount(0)
-      localStorage.setItem('unreadCount', '0')
+      localStorage.setItem(storageName, '0')
     }
     sendEvent(event)
 
@@ -44,7 +46,7 @@ export default function ChatFloatingModal () {
   const onUnreadCountChange = (count: number) => {
     if (count > 0) {
       setUnreadCount(count)
-      localStorage.setItem('unreadCount', count.toString())
+      localStorage.setItem(storageName, count.toString())
     }
   }
 
