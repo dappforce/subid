@@ -15,6 +15,8 @@ import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
 import { useSortBy } from '../hooks/useSortCreators'
 import { isEmptyArray } from '@subsocial/utils'
 import Loading from '../tailwind-components/Loading'
+import { ModalContextWrapper, useModalContext } from '../contexts/ModalContext'
+import SuccessModal from './modals/SuccessModal'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -24,7 +26,12 @@ type AllCreatorsProps = {
   sortBy: string
 }
 
-const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
+const CreatorsCards = ({
+  spaceIds,
+  era,
+  sortBy,
+  ...modalProps
+}: AllCreatorsProps) => {
   const [ page, setPage ] = useState(1)
   const sortedSpaceIds = useSortBy(sortBy, spaceIds, era)
 
@@ -39,7 +46,7 @@ const CreatorsCards = ({ spaceIds, era, sortBy }: AllCreatorsProps) => {
     )
 
   const creatorsCards = ids.map((spaceId, i) => (
-    <CreatorCard key={i} spaceId={spaceId} era={era} />
+    <CreatorCard key={i} spaceId={spaceId} era={era} {...modalProps} />
   ))
 
   const start = (page - 1) * DEFAULT_PAGE_SIZE
@@ -71,6 +78,8 @@ type CreatorsSectionInnerProps = {
 const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
   const [ sortBy, changeSortBy ] = useState('total-stake')
+  const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } = useModalContext()
+
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
 
   const tabs: TabsProps['tabs'] = [
@@ -125,6 +134,13 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
           }}
         />
       </div>
+      <SuccessModal
+        open={showSuccessModal}
+        closeModal={() => setShowSuccessModal(false)}
+        spaceId={stakedSpaceId || '0'}
+        tokenSymbol={'SOON'}
+        amount={amount}
+      />
     </div>
   )
 }
@@ -142,7 +158,11 @@ const CreatorsSection = () => {
   useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
   useFetchBalanceByNetwork('subsocial', myAddress)
 
-  return <CreatorsSectionInner spaceIds={creatorsSpaceIds} era={currentEra} />
+  return (
+    <ModalContextWrapper>
+      <CreatorsSectionInner spaceIds={creatorsSpaceIds} era={currentEra} />
+    </ModalContextWrapper>
+  )
 }
 
 export default CreatorsSection

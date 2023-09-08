@@ -13,6 +13,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { StakingModalVariant } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
+import { useModalContext } from '../../contexts/ModalContext'
 
 export type CommonTxButtonProps = {
   amount: string
@@ -22,7 +23,6 @@ export type CommonTxButtonProps = {
   tokenSymbol: string
   closeModal: () => void
   modalVariant?: StakingModalVariant
-  setModalVariant?: (variant: StakingModalVariant) => void
   inputError?: string
 }
 
@@ -40,12 +40,12 @@ const StakingTxButton = ({
   tx,
   closeModal,
   modalVariant,
-  setModalVariant,
   inputError,
 }: StakingTxButtonProps) => {
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
   const eraInfo = useGeneralEraInfo()
+  const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
     fetchStakerInfo(dispatch, [ spaceId ], myAddress || '')
@@ -54,7 +54,9 @@ const StakingTxButton = ({
     fetchStakerLedger(dispatch, myAddress || '')
 
     if(modalVariant === 'stake') {
-      setModalVariant && setModalVariant('success')
+      setStakedSpaceId(spaceId)
+      setShowSuccessModal(true)
+      
     } else {
       closeModal()
     }

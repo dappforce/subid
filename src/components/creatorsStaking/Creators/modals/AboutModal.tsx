@@ -15,6 +15,8 @@ type AboutModalProps = {
   closeModal: () => void
   spaceId: string
   isStake: boolean
+  amount: string
+  setAmount: (amount: string) => void
 }
 
 const AboutModal = ({
@@ -22,6 +24,8 @@ const AboutModal = ({
   closeModal,
   spaceId,
   isStake,
+  amount,
+  setAmount,
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const generalEraInfo = useGeneralEraInfo()
@@ -102,6 +106,8 @@ const AboutModal = ({
         closeModal={() => setOpenStakeModal(false)}
         spaceId={spaceId}
         modalVariant={modalVariant}
+        amount={amount}
+        setAmount={setAmount}
       />
     </>
   )

@@ -17,5 +17,5 @@ export const useGetMyCreatorsIds = (spaceIds?: string[]) => {
     return stakerInfoEntries
       .filter(([ _, info ]) => !new BN(info.totalStaked).isZero())
       .map(([ key ]) => key)
-  }, [ isEmptyObj(stakerInfo), spaceIds?.length ])
+  }, [ JSON.stringify(stakerInfo || {}), spaceIds?.length ])
 }

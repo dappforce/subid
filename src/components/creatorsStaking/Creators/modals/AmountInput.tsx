@@ -61,7 +61,7 @@ export const StakeOrIncreaseStakeAmountInput = (
   const onMaxAmountClick = async () => {
     const api = await getApiByNetwork('subsocial')
 
-    const tx = await api.tx.creatorStaking.stake(
+    const tx = api.tx.creatorStaking.stake(
       props.spaceId,
       availableBalance.toString()
     )
@@ -136,12 +136,12 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
   const { totalStaked } = info || {}
 
-  const onMaxAmountClick = () => {
-    const maxAmount =
-      decimals && totalStaked
-        ? convertToBalanceWithDecimal(totalStaked, decimals)
-        : BIGNUMBER_ZERO
+  const maxAmount =
+    decimals && totalStaked
+      ? convertToBalanceWithDecimal(totalStaked, decimals)
+      : BIGNUMBER_ZERO
 
+  const onMaxAmountClick = () => {
     props.setAmount(maxAmount.toString())
   }
 
@@ -163,22 +163,25 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
         .minus(amountWithDecimals)
         .gte(new BN(minimumStakingAmount || 0))
 
-    if (minimumStakingAmount && amountValue && !canUnstake) {
+    if (
+      (minimumStakingAmount && amountValue && canUnstake) ||
+      amountWithDecimals.eq(totalStaked || '0')
+    ) {
+      setInputError(undefined)
+    } else {
       const minimumStakingAmountWithDecimals = convertToBalanceWithDecimal(
-        minimumStakingAmount,
+        minimumStakingAmount || '0',
         decimals || 0
       )
 
       setInputError(
         `${minimumStakingAmountWithDecimals} ${tokenSymbol} minimum stake, please leave ${minimumStakingAmountWithDecimals}+ ${tokenSymbol} or unstake all`
       )
-    } else {
-      setInputError(undefined)
     }
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className='flex flex-col gap-6'>
       <AmountInput
         {...props}
         balanceValue={balanceValue}
@@ -186,7 +189,7 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
         validateInput={validateInput}
       />
 
-      <div className="px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]">
+      <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]'>
         ℹ️ Unstaking takes about{' '}
         <DaystoWithDraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
         you can withdraw
@@ -215,7 +218,7 @@ const AmountInput = ({
 
   return (
     <div>
-      <div className="mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted">
+      <div className='mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted'>
         <div>{label}</div>
         <div>
           {balanceLabel}:{' '}
@@ -234,10 +237,10 @@ const AmountInput = ({
         rightElement={() => (
           <div>
             <Button
-              variant="transparent"
+              variant='transparent'
               className={clsx(
                 '!absolute bottom-0 right-3 top-0 my-auto !p-1 text-indigo-400',
-                'hover:text-indigo-500 hover:ring-0'
+                'hover:!text-indigo-500 hover:!ring-0'
               )}
               onClick={() => onMaxAmountClick && onMaxAmountClick()}
             >
@@ -245,7 +248,7 @@ const AmountInput = ({
             </Button>
           </div>
         )}
-        type="number"
+        type='number'
         className={clsx(
           'h-[54px] pr-16 text-base leading-6 ring-1 ring-inset ring-gray-500',
           'focus:outline-none focus:ring-1 focus:ring-gray-400',

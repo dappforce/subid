@@ -9,13 +9,9 @@ import { useEffect, useState } from 'react'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import {
-  CommonTxButtonProps,
   StakeOrIncreaseTxButton,
   UnstakeTxButton,
 } from './TxButtons'
-import Button from '../../tailwind-components/Button'
-import { openNewWindow } from 'src/components/utils'
-import { twitterShareUrl } from 'src/components/urls/social-share'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { pluralize } from '@subsocial/utils'
@@ -52,13 +48,7 @@ const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
   )
 }
 
-const twitterText = 'I just staked on @SubIDapp!\nYou can try it here:'
-
-export type StakingModalVariant =
-  | 'stake'
-  | 'unstake'
-  | 'increaseStake'
-  | 'success'
+export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
 
 const modalData = {
   stake: {
@@ -85,22 +75,6 @@ const modalData = {
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
   },
-  success: {
-    title: '🎉 Success',
-    inputLabel: '',
-    balanceLabel: '',
-    modalButton: '',
-    amountInput: () => null,
-    actionButton: (_props: CommonTxButtonProps) => (
-      <Button
-        variant={'primary'}
-        className='w-full'
-        onClick={() => openNewWindow(twitterShareUrl('/creators', twitterText))}
-      >
-        Tweet about it!
-      </Button>
-    ),
-  },
 }
 
 type StakeModalProps = {
@@ -108,7 +82,8 @@ type StakeModalProps = {
   open: boolean
   spaceId: string
   modalVariant: StakingModalVariant
-  setModalVariant?: (variant: StakingModalVariant) => void
+  amount: string
+  setAmount: (amount: string) => void
 }
 
 const StakingModal = ({
@@ -116,10 +91,11 @@ const StakingModal = ({
   closeModal,
   spaceId,
   modalVariant,
-  setModalVariant,
+  setAmount,
+  amount,
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const [ amount, setAmount ] = useState('0')
+
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -155,7 +131,7 @@ const StakingModal = ({
 
   const totalValue = (
     <FormatBalance
-      value={total}
+      value={total || '0'}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -176,9 +152,6 @@ const StakingModal = ({
 
   const AmountInput = amountInput
 
-  const description =
-    modalVariant === 'success' ? <>My stake: 100 SOON</> : desc
-
   return (
     <Modal
       isOpen={open}
@@ -192,32 +165,26 @@ const StakingModal = ({
       <div className='flex flex-col gap-6'>
         <CreatorPreview
           title={name}
-          desc={description}
+          desc={desc}
           imgSize={80}
           avatar={image}
           owner={owner}
           titleClassName='ml-2 mb-4 text-2xl'
           descClassName='text-base ml-2 text-text-muted leading-5'
         />
-        {modalVariant !== 'success' && (
-          <>
-            {modalVariant === 'increaseStake' && (
-              <CurrentStake spaceId={spaceId} />
-            )}
-            <AmountInput
-              amount={amount}
-              setAmount={setAmount}
-              tokenSymbol={tokenSymbol}
-              decimals={decimal}
-              setInputError={setInputError}
-              inputError={inputError}
-              label={inputLabel}
-              spaceId={spaceId}
-              balanceLabel={balanceLabel}
-              modalVariant={modalVariant}
-            />
-          </>
-        )}
+        {modalVariant === 'increaseStake' && <CurrentStake spaceId={spaceId} />}
+        <AmountInput
+          amount={amount}
+          setAmount={setAmount}
+          tokenSymbol={tokenSymbol}
+          decimals={decimal}
+          setInputError={setInputError}
+          inputError={inputError}
+          label={inputLabel}
+          spaceId={spaceId}
+          balanceLabel={balanceLabel}
+          modalVariant={modalVariant}
+        />
         <StakingTxButton
           amount={amount}
           decimal={decimal}
@@ -226,7 +193,6 @@ const StakingModal = ({
           tokenSymbol={tokenSymbol}
           closeModal={closeModal}
           modalVariant={modalVariant}
-          setModalVariant={setModalVariant}
           inputError={inputError}
         />
       </div>

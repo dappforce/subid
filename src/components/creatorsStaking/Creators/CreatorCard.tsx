@@ -13,6 +13,7 @@ import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../utils/CreatorPreview'
+import { useModalContext } from '../contexts/ModalContext'
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -48,6 +49,7 @@ type CreatorCardProps = {
 
 const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const myAddress = useMyAddress()
+  const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
@@ -71,7 +73,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const totalStake = (
     <FormatBalance
-      value={total}
+      value={total || '0'}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -80,7 +82,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const myStake = (
     <FormatBalance
-      value={totalStaked}
+      value={totalStaked || '0'}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -100,30 +102,34 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const contactInfo = { email, links }
 
   return (
-    <div
-      className={clsx(
-        'p-4 bg-slate-50 rounded-2xl border-2 border-border-gray-light',
-        'flex flex-col justify-between gap-4'
-      )}
-    >
-      <div className='flex flex-col gap-2'>
-        <div className='cursor-pointer' onClick={() => setOpenAboutModal(true)}>
-          <div className='flex justify-between gap-2'>
-            <CreatorPreview
-              title={
-                <ValueOrSkeleton
-                  value={name || '<Unnamed>'}
-                  loading={spaceLoading}
-                  skeletonClassName='w-28 h-[16px]'
-                />
-              }
-              desc={<ContactInfo {...contactInfo} />}
-              avatar={image}
-              owner={owner}
-              infoClassName='flex flex-col gap-1'
-            />
+    <>
+      <div
+        className={clsx(
+          'p-4 bg-slate-50 rounded-2xl border-2 border-border-gray-light',
+          'flex flex-col justify-between gap-4'
+        )}
+      >
+        <div className='flex flex-col gap-2'>
+          <div
+            className='cursor-pointer'
+            onClick={() => setOpenAboutModal(true)}
+          >
+            <div className='flex justify-between gap-2'>
+              <CreatorPreview
+                title={
+                  <ValueOrSkeleton
+                    value={name || '<Unnamed>'}
+                    loading={spaceLoading}
+                    skeletonClassName='w-28 h-[16px]'
+                  />
+                }
+                desc={<ContactInfo {...contactInfo} />}
+                avatar={image}
+                owner={owner}
+                infoClassName='flex flex-col gap-1'
+              />
 
-            {/* <Button
+              {/* <Button
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
@@ -134,49 +140,54 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             >
               <img src='/images/creator-staking/messenger.svg' alt='' />
             </Button> */}
+            </div>
+            {aboutText}
           </div>
-          {aboutText}
+          <div className='border-b border-[#D4E2EF]'></div>
+          <div className='flex flex-col gap-[2px]'>
+            <CreatorCardValue
+              label='My stake'
+              value={myStake}
+              loading={stakerInfoLoading}
+            />
+            <CreatorCardValue
+              label='Total stake'
+              value={totalStake}
+              loading={eraStakeLoading}
+            />
+            <CreatorCardValue
+              label='Stakers'
+              value={numberOfStakers || '0'}
+              loading={eraStakeLoading}
+            />
+          </div>
         </div>
-        <div className='border-b border-[#D4E2EF]'></div>
-        <div className='flex flex-col gap-[2px]'>
-          <CreatorCardValue
-            label='My stake'
-            value={myStake}
-            loading={stakerInfoLoading}
-          />
-          <CreatorCardValue
-            label='Total stake'
-            value={totalStake}
-            loading={eraStakeLoading}
-          />
-          <CreatorCardValue
-            label='Stakers'
-            value={numberOfStakers}
-            loading={eraStakeLoading}
-          />
-        </div>
+        <StakeActionButtons
+          spaceId={spaceId}
+          isStake={isStake}
+          buttonsSize='sm'
+          openModal={() => setOpenStakeModal(true)}
+          setModalVariant={setModalVariant}
+        />
       </div>
-      <StakeActionButtons
-        spaceId={spaceId}
-        isStake={isStake}
-        buttonsSize='sm'
-        openModal={() => setOpenStakeModal(true)}
-        setModalVariant={setModalVariant}
-      />
       <AboutModal
         open={opneAboutModal}
         closeModal={() => setOpenAboutModal(false)}
         spaceId={spaceId}
         isStake={isStake}
+        amount={amount}
+        setAmount={setAmount}
       />
       <StakingModal
         open={openStakeModal}
         closeModal={() => setOpenStakeModal(false)}
         spaceId={spaceId}
         modalVariant={modalVariant}
-        setModalVariant={setModalVariant}
+        amount={amount}
+        setAmount={setAmount}
       />
-    </div>
+      
+    </>
   )
 }
 
