@@ -80,14 +80,16 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     />
   )
 
-  const myStake = (
+  console.log(totalStaked)
+
+  const myStake = totalStaked && !isStake ? (
     <FormatBalance
-      value={totalStaked || '0'}
+      value={totalStaked}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
     />
-  )
+  ) : <>-</>
 
   const aboutText = (
     <div className='flex items-center text-sm text-text-muted leading-[22px] font-normal min-h-[44px]'>

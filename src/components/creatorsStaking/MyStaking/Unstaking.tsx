@@ -10,41 +10,30 @@ import { useStakingContext } from 'src/components/staking/collators/StakingConte
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
-
-const columns: Column[] = [
-  {
-    index: 'batch',
-    name: 'Batch',
-  },
-  {
-    index: 'unstakingAmount',
-    name: 'Unstaking Amount',
-    align: 'right',
-  },
-  {
-    index: 'timeRemaining',
-    name: 'Time Remaining',
-    align: 'right',
-  },
-]
+import { useResponsiveSize } from 'src/components/responsive'
 
 type TimeRemainingProps = {
   unlockEra: string
+  className?: string
 }
 
-const TimeRemaining = ({ unlockEra }: TimeRemainingProps) => {
+const TimeRemaining = ({ unlockEra, className }: TimeRemainingProps) => {
   const eraInfo = useGeneralEraInfo()
   const { currentBlockNumber } = useStakingContext()
   const { currentEra, blockPerEra, nextEraBlock } = eraInfo || {}
-  
+
   const blocksToNextEra = new BN(nextEraBlock || '0').minus(
     new BN(currentBlockNumber || '0')
   )
 
-  const erasToUnlock = new BN(unlockEra || '0').minus(new BN(1)).minus(new BN(currentEra || '0'))
+  const erasToUnlock = new BN(unlockEra || '0')
+    .minus(new BN(1))
+    .minus(new BN(currentEra || '0'))
 
-  const blocksToUnlock = (erasToUnlock.multipliedBy(new BN(blockPerEra || '0'))).plus(blocksToNextEra)
-  
+  const blocksToUnlock = erasToUnlock
+    .multipliedBy(new BN(blockPerEra || '0'))
+    .plus(blocksToNextEra)
+
   const unlockBlockNumber = blocksToUnlock
     .plus(currentBlockNumber || BIGNUMBER_ZERO)
     .toString()
@@ -56,13 +45,38 @@ const TimeRemaining = ({ unlockEra }: TimeRemainingProps) => {
   const isNotAvailable = new BN(unlockEra).gt(new BN(currentEra))
 
   return (
-    <>{isNotAvailable ? SubDate.formatDate(time.toNumber()).replace('in', '') : 'Available'}</>
+    <div className={className}>
+      {isNotAvailable
+        ? SubDate.formatDate(time.toNumber()).replace('in', '')
+        : 'Available'}
+    </div>
   )
 }
 
 const Unstaking = () => {
   const myAddress = useMyAddress()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { isMobile } = useResponsiveSize()
+
+  const columns: Column[] = [
+    {
+      index: 'batch',
+      name: 'Batch',
+    },
+    {
+      index: 'unstakingAmount',
+      name: 'Unstaking Amount',
+      align: 'right',
+    },
+  ]
+
+  if (!isMobile) {
+    columns.push({
+      index: 'timeRemaining',
+      name: 'Time Remaining',
+      align: 'right',
+    })
+  }
 
   const stakerLedger = useStakerLedger(myAddress)
 
@@ -83,13 +97,22 @@ const Unstaking = () => {
         />
       )
 
+      const unstakingAmount = isMobile ? (
+        <div>
+          <div>{amount}</div>
+          <TimeRemaining className='text-sm text-text-muted' unlockEra={item.unlockEra} />
+        </div>
+      ) : (
+        amount
+      )
+
       return {
         batch: i + 1,
-        unstakingAmount: amount,
+        unstakingAmount,
         timeRemaining: <TimeRemaining unlockEra={item.unlockEra} />,
       }
     })
-  }, [ !!ledger, loading ])
+  }, [!!ledger, loading, isMobile])
 
   return (
     <>

@@ -40,13 +40,13 @@ const SuccessModal = ({
         closeModal()
       }}
     >
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-col md:gap-6 gap-4'>
         <CreatorPreview
           title={name}
           desc={
-            <>
-              My stake: {amount} {tokenSymbol}
-            </>
+            <span>
+              My stake: <span className='font-bold text-black'>{amount} {tokenSymbol}</span>
+            </span>
           }
           imgSize={80}
           avatar={image}
