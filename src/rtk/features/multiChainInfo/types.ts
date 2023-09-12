@@ -84,6 +84,7 @@ export const supportedNetworks = [
   'picasso',
   'polkadex',
   'zeitgeist',
+  'joystream',
   'hydra',
   'turing',
   'sora',
