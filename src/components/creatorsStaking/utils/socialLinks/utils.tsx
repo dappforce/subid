@@ -6,12 +6,11 @@ import {
   BiLogoLinkedin,
   BiLogoGithub,
   BiLogoInstagram,
-  BiLogoYoutube
+  BiLogoYoutube,
+  BiLogoTelegram
 } from 'react-icons/bi'
 
 import { AiOutlineGlobal, AiFillMediumCircle } from 'react-icons/ai'
-
-import { FaTelegram } from 'react-icons/fa'
 
 type SocialBrand =
   | 'Facebook'
@@ -56,7 +55,7 @@ export const getLinkIcon = (brand?: LinkLabel, className?: string) => {
     case 'YouTube':
       return <BiLogoYoutube className={className} />
     case 'Telegram':
-      return <FaTelegram className={className} />
+      return <BiLogoTelegram className={className} />
     case 'Website':
       return <AiOutlineGlobal className={className} />
     default:

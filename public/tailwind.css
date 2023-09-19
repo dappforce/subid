@@ -1038,6 +1038,10 @@ video {
   align-items: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -1652,6 +1656,10 @@ video {
 .text-text-secondary {
   --tw-text-opacity: 1;
   color: rgb(var(--text-secondary) / var(--tw-text-opacity));
+}
+
+.text-text-success {
+  color: rgb(var(--text-success));
 }
 
 .text-white {

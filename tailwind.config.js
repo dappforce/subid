@@ -54,6 +54,7 @@ export const theme = {
       'text-dark': 'rgb(var(--text-dark) / <alpha-value>)',
       'text-warning': 'rgb(var(--text-warning) / <alpha-value>)',
       'text-red': 'rgb(var(--text-red) / <alpha-value>)',
+      'text-success': 'rgb(var(--text-success))',
 
       'border-gray': 'rgb(var(--border-gray) / <alpha-value>)',
       'border-gray-light': 'rgb(var(--border-gray-light) / <alpha-value>)',

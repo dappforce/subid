@@ -11,6 +11,9 @@ import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
 import { useResponsiveSize } from 'src/components/responsive'
+import { AiOutlineCheckCircle } from 'react-icons/ai'
+import { BiTimeFive } from 'react-icons/bi'
+import clsx from 'clsx'
 
 type TimeRemainingProps = {
   unlockEra: string
@@ -45,10 +48,18 @@ const TimeRemaining = ({ unlockEra, className }: TimeRemainingProps) => {
   const isNotAvailable = new BN(unlockEra).gt(new BN(currentEra))
 
   return (
-    <div className={className}>
-      {isNotAvailable
-        ? SubDate.formatDate(time.toNumber()).replace('in', '')
-        : 'Available'}
+    <div className={clsx('flex items-center justify-end gap-2', className)}>
+      {isNotAvailable ? (
+        <>
+          {SubDate.formatDate(time.toNumber()).replace('in', '')}{' '}
+          <BiTimeFive className='text-text-muted' size={20} />
+        </>
+      ) : (
+        <>
+          Available{' '}
+          <AiOutlineCheckCircle className='text-text-success' size={20} />
+        </>
+      )}
     </div>
   )
 }
@@ -100,7 +111,10 @@ const Unstaking = () => {
       const unstakingAmount = isMobile ? (
         <div>
           <div>{amount}</div>
-          <TimeRemaining className='text-sm text-text-muted' unlockEra={item.unlockEra} />
+          <TimeRemaining
+            className='text-sm text-text-muted'
+            unlockEra={item.unlockEra}
+          />
         </div>
       ) : (
         amount
@@ -112,7 +126,7 @@ const Unstaking = () => {
         timeRemaining: <TimeRemaining unlockEra={item.unlockEra} />,
       }
     })
-  }, [!!ledger, loading, isMobile])
+  }, [ !!ledger, loading, isMobile ])
 
   return (
     <>
