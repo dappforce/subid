@@ -53,8 +53,8 @@ const StatsCards = () => {
         />
       ),
       desc: (
-        <span className='flex items-center gap-1'>
-          Next era
+        <span className='flex md:items-center items-start md:flex-row flex-col gap-1'>
+          <span>Next era</span>
           <NextEraStartDate />
         </span>
       ),

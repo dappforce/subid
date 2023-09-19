@@ -16,7 +16,7 @@ import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import ClaimRewardsTxButton from './ClaimRewardsTxButton'
 
 type RewardCardProps = {
-  title: string
+  title: React.ReactNode
   value: React.ReactNode
   desc?: string
   button?: React.ReactNode
@@ -96,6 +96,7 @@ const MyRewards = () => {
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
+      withCurrency={false}
     />
   )
 
@@ -105,12 +106,13 @@ const MyRewards = () => {
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
+      withCurrency={false}
     />
   )
 
   const cardsOpt = [
     {
-      title: 'My Stake',
+      title: <>My Stake, {symbol}</>,
       value: (
         <ValueOrSkeleton
           value={myStake}
@@ -120,7 +122,7 @@ const MyRewards = () => {
       ),
     },
     {
-      title: 'Estimated Rewards',
+      title: <>Estimated Rewards, {symbol }</>,
       value: (
         <ValueOrSkeleton
           value={myRewards}

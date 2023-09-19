@@ -107,7 +107,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     <>
       <div
         className={clsx(
-          'p-4 bg-slate-50 rounded-2xl border-2 border-border-gray-light',
+          'p-4 bg-slate-50 rounded-2xl border-2 border-slate-50 hover:border-border-gray-light',
           'flex flex-col justify-between gap-4'
         )}
       >

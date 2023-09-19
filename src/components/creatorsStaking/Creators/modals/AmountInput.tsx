@@ -231,6 +231,7 @@ const AmountInput = ({
         step={0.1}
         min={0}
         value={amount}
+        placeholder='0'
         autoFocus
         onChange={onInputChange}
         error={inputError}

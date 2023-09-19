@@ -114,7 +114,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
 
       <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:py-6 py-4'>
         <Tabs
-          className='px-6'
+          className='md:px-6 px-4'
           panelClassName='mt-0 px-0'
           tabs={tabs}
           withHashIntegration={false}

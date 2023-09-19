@@ -100,7 +100,7 @@ const StakingModal = ({
 
   useEffect(() => {
     if (open) {
-      setAmount('0')
+      setAmount('')
       inputError && setInputError(undefined)
     }
   }, [ open ])

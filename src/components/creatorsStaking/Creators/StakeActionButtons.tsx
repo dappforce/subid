@@ -47,7 +47,7 @@ const StakeActionButtons = ({
     stakes.length >= parseInt(maxEraStakeValues) - 1
 
   const buttons = (
-    <div className='flex gap-4'>
+    <div className='flex gap-4 md:flex-row flex-col'>
       <Button
         onClick={() => onButtonClick(isStake ? 'stake' : 'increaseStake')}
         variant='primaryOutline'

@@ -8,7 +8,7 @@ const CardWrapper = ({ children, className }: CardWrapperProps) => {
     <div
       className={clsx(
         'w-full',
-        'flex flex-col gap-2 px-6 !py-4 rounded-2xl',
+        'flex flex-col gap-2 md:px-6 px-4 !py-4 rounded-2xl',
         className
       )}
     >

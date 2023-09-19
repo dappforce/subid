@@ -129,7 +129,7 @@ export default function Modal ({
                     <Dialog.Title
                       as='h3'
                       className={clsx(
-                        'mb-2 text-2xl md:mb-4',
+                        'mb-2 text-2xl md:mb-4 text-[#222]',
                         withCloseButton && 'pr-8',
                         titleClassName
                       )}

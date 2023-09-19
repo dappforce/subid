@@ -29,7 +29,7 @@ export const SocialLink = ({ link, label, className }: SocialLinkProps) => {
       target='_blank'
       className={clsx(
         className,
-        'p-[5px] text-[10px]'
+        'p-[3px] text-[16px]'
       )}
       onClick={(e) => e.stopPropagation()}
     >
@@ -65,7 +65,7 @@ export const EmailLink = ({ link, label, className }: SocialLinkProps) => (
   <Button
     className={clsx(
       className, 
-      'p-[5px] text-[10px]'
+      'p-[4px] text-[14px]'
     )}
     size={'noPadding'}
     href={`mailto:${link}`}

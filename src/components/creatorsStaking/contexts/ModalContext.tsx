@@ -14,7 +14,7 @@ const ModalContext = createContext<StakingContextState>({} as any)
 export const ModalContextWrapper: React.FC = ({
   children,
 }) => {
-  const [ amount, setAmount ] = useState('0')
+  const [ amount, setAmount ] = useState('')
   const [ stakedSpaceId, setStakedSpaceId ] = useState<string | undefined>()
   const [ showSuccessModal, setShowSuccessModal ] = useState<boolean>(false)
 

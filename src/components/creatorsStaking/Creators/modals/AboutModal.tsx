@@ -9,6 +9,7 @@ import { pluralize } from '@subsocial/utils'
 import { FormatBalance } from 'src/components/common/balances'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
+import { useResponsiveSize } from 'src/components/responsive'
 
 type AboutModalProps = {
   open: boolean
@@ -30,6 +31,7 @@ const AboutModal = ({
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const generalEraInfo = useGeneralEraInfo()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { isMobile } = useResponsiveSize()
 
   const { currentEra } = generalEraInfo || {}
 
@@ -75,21 +77,23 @@ const AboutModal = ({
           closeModal()
         }}
       >
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col md:gap-6 gap-4'>
           <CreatorPreview
             title={name}
             desc={desc}
-            imgSize={80}
+            imgSize={isMobile ? 60 : 80}
             avatar={image}
             owner={owner}
-            titleClassName='ml-2 mb-4 text-2xl'
+            titleClassName='ml-2 md:mb-4 mb-2 md:text-2xl text-xl'
             descClassName='text-base ml-2 text-text-muted leading-5'
           />
 
-          <div className='flex flex-col gap-1 p-4 bg-gray-50 rounded-2xl'>
-            <div className='text-text-muted text-sm'>Description</div>
-            <div className='max-h-48 overflow-y-auto'>{about}</div>
-          </div>
+          {about && (
+            <div className='flex flex-col gap-1 p-4 bg-gray-50 rounded-2xl'>
+              <div className='text-text-muted text-sm'>Description</div>
+              <div className='max-h-48 overflow-y-auto'>{about}</div>
+            </div>
+          )}
 
           <StakeActionButtons
             spaceId={spaceId}

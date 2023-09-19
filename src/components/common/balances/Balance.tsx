@@ -13,7 +13,8 @@ function format (
   decimals: number,
   withSi?: boolean,
   _isShort?: boolean,
-  isGrayDecimal?: boolean
+  isGrayDecimal?: boolean,
+  withCurrency?: boolean
 ): React.ReactNode {
   const [ prefix, postfix ] = formatBalance(value, {
     forceUnit: '-',
@@ -27,7 +28,7 @@ function format (
     const balance = formatBalance(value, { decimals, withUnit: false })
     return (
       <>
-        {balance}&nbsp;{currency}
+        {balance}{withCurrency && <>&nbsp;{currency}</>}
       </>
     )
   }
@@ -43,7 +44,7 @@ function format (
           </span>
         </>
       )}
-      &nbsp;{currency}
+      {withCurrency && <>&nbsp;{currency}</>}
     </>
   )
 }
@@ -54,6 +55,7 @@ type FormatBalanceProps = {
   currency?: string
   isShort?: boolean
   isGrayDecimal?: boolean
+  withCurrency?: boolean
 }
 
 export const FormatBalance = ({
@@ -62,6 +64,7 @@ export const FormatBalance = ({
   currency,
   isShort,
   isGrayDecimal = true,
+  withCurrency = true,
   ...bareProps
 }: FormatBalanceProps) => {
   if (!value) return null
@@ -75,7 +78,8 @@ export const FormatBalance = ({
     decimals || defaultDecimal,
     isShort,
     isShort,
-    isGrayDecimal
+    isGrayDecimal,
+    withCurrency
   )
 
   return <span {...bareProps}>{balance}</span>
