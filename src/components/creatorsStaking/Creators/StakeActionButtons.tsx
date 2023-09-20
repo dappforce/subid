@@ -32,7 +32,7 @@ const StakeActionButtons = ({
 
   const { maxEraStakeValues } = stakingConsts || {}
 
-  const label = !isStake ? 'Increase Stake' : 'Stake'
+  const label = !isStake && myAddress ? 'Increase Stake' : 'Stake'
 
   const onButtonClick = (modalVariant: StakingModalVariant) => {
     onClick?.()
@@ -57,7 +57,7 @@ const StakeActionButtons = ({
       >
         {label}
       </Button>
-      {!isStake && (
+      {!isStake && myAddress && (
         <Button
           variant='outlined'
           className='w-full'
@@ -71,8 +71,10 @@ const StakeActionButtons = ({
     </div>
   )
 
+  const tooltipText = !myAddress ? 'Connect your wallet' : 'Claim your rewards first'
+
   return disableButtons ? (
-    <Tooltip title='Claim your rewards first'>
+    <Tooltip title={tooltipText}>
       {buttons}
     </Tooltip>
   ) : (

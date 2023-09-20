@@ -23,15 +23,15 @@ export const CreatorPreview = ({
   infoClassName,
 }: CreatorPreviewProps) => {
   return (
-    <div className='flex items-center'>
+    <div className='flex w-full items-center'>
       <BaseAvatar
         style={{ cursor: 'pointer' }}
         size={imgSize}
         address={owner}
         avatar={avatar}
       />
-      <div className={infoClassName}>
-        <div className={clsx('leading-5 font-medium', titleClassName)}>
+      <div className={clsx('w-full', infoClassName)}>
+        <div className={clsx('leading-5 w-full font-medium', titleClassName)}>
           {title || '<Unnamed>'}
         </div>
         {desc && <div className={descClassName}>{desc}</div>}

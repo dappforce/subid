@@ -81,7 +81,7 @@ export const StakeOrIncreaseStakeAmountInput = (
         ? convertToBalanceWithDecimal(balance.toString(), decimals)
         : BIGNUMBER_ZERO
 
-    props.setAmount(maxAmount.toString())
+    props.setAmount(!maxAmount.lte(0) ? maxAmount.toString() : '')
   }
 
   const balanceValue = (
@@ -108,6 +108,8 @@ export const StakeOrIncreaseStakeAmountInput = (
       setInputError(
         `Amount must be greater than ${minimumStakingAmountWithDecimals} ${tokenSymbol}`
       )
+    } else if (amountWithDecimals.gt(new BN(availableBalance.toString()))) {
+      setInputError('Amount exceeds available balance')
     } else {
       setInputError(undefined)
     }
@@ -136,13 +138,13 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
   const { totalStaked } = info || {}
 
-  const maxAmount =
-    decimals && totalStaked
-      ? convertToBalanceWithDecimal(totalStaked, decimals)
-      : BIGNUMBER_ZERO
-
   const onMaxAmountClick = () => {
-    props.setAmount(maxAmount.toString())
+    const maxAmount =
+      decimals && totalStaked
+        ? convertToBalanceWithDecimal(totalStaked, decimals)
+        : BIGNUMBER_ZERO
+
+    props.setAmount(!maxAmount.lte(0) ? maxAmount.toString() : '')
   }
 
   const balanceValue = (
@@ -168,6 +170,8 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
       amountWithDecimals.eq(totalStaked || '0')
     ) {
       setInputError(undefined)
+    } else if (totalStaked && amountWithDecimals.gt(new BN(totalStaked))) {
+      setInputError('Amount exceeds staked value')
     } else {
       const minimumStakingAmountWithDecimals = convertToBalanceWithDecimal(
         minimumStakingAmount || '0',

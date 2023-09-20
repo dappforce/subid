@@ -13,7 +13,7 @@ import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/
 import BN from 'bignumber.js'
 import { useMemo } from 'react'
 
-const skeletonClassName = 'w-28 h-[20px] mb-1'
+const skeletonClassName = 'h-[20px] mb-1'
 
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
@@ -53,7 +53,7 @@ const StatsCards = () => {
         />
       ),
       desc: (
-        <span className='flex md:items-center items-start md:flex-row flex-col gap-1'>
+        <span className='flex normal:items-center items-start normal:flex-row flex-col gap-1'>
           <span>Next era</span>
           <NextEraStartDate />
         </span>

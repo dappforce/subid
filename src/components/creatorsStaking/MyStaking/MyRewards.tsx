@@ -27,7 +27,7 @@ const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
     <CardWrapper className='bg-slate-50'>
       <div className='text-text-muted font-normal'>{title}</div>
       <div className='flex justify-between items-center gap-2'>
-        <div>
+        <div className='w-full'>
           <div className='text-2xl font-semibold'>{value}</div>
           {desc && (
             <div className='font-normal text-text-muted text-sm'>{desc}</div>
@@ -55,6 +55,7 @@ const RestakeButton = ({ restake, setRestake }: RestakeButtonProps) => {
       size={'sm'}
       variant={'primaryOutline'}
       onClick={() => onButtonClick(restake)}
+      className='min-w-fit'
     >
       {restake ? 'Turn off' : 'Turn on'}
     </Button>
@@ -92,7 +93,7 @@ const MyRewards = () => {
 
   const myStake = (
     <FormatBalance
-      value={locked}
+      value={locked || '0'}
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
@@ -117,7 +118,7 @@ const MyRewards = () => {
         <ValueOrSkeleton
           value={myStake}
           loading={ledgerLoading}
-          skeletonClassName='w-32 h-[24px]'
+          skeletonClassName='h-[24px]'
         />
       ),
     },
@@ -127,7 +128,7 @@ const MyRewards = () => {
         <ValueOrSkeleton
           value={myRewards}
           loading={rewardsLoading}
-          skeletonClassName='w-32 h-[24px]'
+          skeletonClassName='h-[24px]'
         />
       ),
       button: (

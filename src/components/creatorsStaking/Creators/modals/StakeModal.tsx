@@ -17,6 +17,7 @@ import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraSt
 import { pluralize } from '@subsocial/utils'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
+import { useModalContext } from '../../contexts/ModalContext'
 
 type CurrentStakeProps = {
   spaceId: string
@@ -95,6 +96,7 @@ const StakingModal = ({
   amount,
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
+  const {} = useModalContext()
 
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 

@@ -27,15 +27,15 @@ const CreatorCardValue = ({
   loading,
 }: CreatorCardTotalValueProps) => {
   return (
-    <div className='flex justify-between items-center'>
-      <div className='text-text-muted font-normal text-sm leading-6'>
+    <div className='flex justify-between items-center gap-2'>
+      <div className='text-text-muted font-normal min-w-fit text-sm leading-6'>
         {label}:
       </div>
-      <div className='text-sm font-medium leading-6'>
+      <div className='text-sm font-medium leading-6 text-end w-full'>
         <ValueOrSkeleton
           value={value}
           loading={loading}
-          skeletonClassName='w-28 h-[16px]'
+          skeletonClassName='h-[16px]'
         />
       </div>
     </div>
@@ -80,23 +80,30 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     />
   )
 
-  console.log(totalStaked)
-
-  const myStake = totalStaked && !isStake ? (
-    <FormatBalance
-      value={totalStaked}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  ) : <>-</>
+  const myStake =
+    totalStaked && !isStake ? (
+      <FormatBalance
+        value={totalStaked}
+        decimals={decimal}
+        currency={tokenSymbol}
+        isGrayDecimal={false}
+      />
+    ) : (
+      <>-</>
+    )
 
   const aboutText = (
-    <div className='flex items-center text-sm text-text-muted leading-[22px] font-normal min-h-[44px]'>
+    <div
+      className={clsx(
+        'flex items-center text-sm',
+        'text-text-muted leading-[22px]',
+        'font-normal min-h-[44px] w-full'
+      )}
+    >
       <ValueOrSkeleton
         value={<TruncatedText text={about || ''} />}
         loading={spaceLoading}
-        skeletonClassName='w-28 h-[16px]'
+        skeletonClassName='w-full h-[16px]'
       />
     </div>
   )
@@ -122,7 +129,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                   <ValueOrSkeleton
                     value={name || '<Unnamed>'}
                     loading={spaceLoading}
-                    skeletonClassName='w-28 h-[16px]'
+                    skeletonClassName='w-full h-[16px]'
                   />
                 }
                 desc={<ContactInfo {...contactInfo} />}
@@ -188,7 +195,6 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         amount={amount}
         setAmount={setAmount}
       />
-      
     </>
   )
 }

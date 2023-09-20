@@ -56,10 +56,9 @@ const StakingTxButton = ({
     if(modalVariant === 'stake') {
       setStakedSpaceId(spaceId)
       setShowSuccessModal(true)
-      
-    } else {
-      closeModal()
     }
+    
+    closeModal()
   }
 
   const buildParams = () => {

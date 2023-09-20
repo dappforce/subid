@@ -40,7 +40,7 @@ export const TotalStakedBalance = ({ value }: SubsocialBalanceProps) => {
   return (
     <ValueOrSkeleton
       value={<>{toShortMoney({ num: balanceWithDecimal.toNumber() })} {symbol}</>}
-      skeletonClassName='w-28 h-[20px] mb-3'
+      skeletonClassName='h-[20px] mb-3'
       loading={!value}
     />
   )

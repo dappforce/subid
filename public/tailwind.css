@@ -858,10 +858,6 @@ video {
   width: 7rem;
 }
 
-.w-32 {
-  width: 8rem;
-}
-
 .w-4 {
   width: 1rem;
 }
@@ -884,6 +880,16 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
 }
 
 .max-w-\[min\(24rem\2c _95vw\)\] {
@@ -1484,6 +1490,10 @@ video {
 
 .text-right {
   text-align: right;
+}
+
+.text-end {
+  text-align: end;
 }
 
 .align-middle {
@@ -2157,6 +2167,10 @@ video {
 @media (min-width: 910px) {
   .normal\:flex-row {
     flex-direction: row;
+  }
+
+  .normal\:items-center {
+    align-items: center;
   }
 }
 
