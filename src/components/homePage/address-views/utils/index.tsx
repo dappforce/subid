@@ -1,4 +1,3 @@
-import { AnyAccountId } from '@subsocial/types'
 import copy from 'copy-to-clipboard'
 import { CopyOutlined } from '@ant-design/icons'
 import { showInfoMessage } from '../../../utils/Message'
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import BN from 'bignumber.js'
 import clsx from 'clsx'
 import { CSSProperties } from 'react'
+import { AnyAccountId } from '@subsocial/api/types'
 
 export const BN_TEN = new BN(10)
 

@@ -49,7 +49,9 @@
     "typescript": "4.4.2"
   },
   "resolutions": {
-    "@types/react": "^17.x.x"
+    "@types/react": "^17.x.x",
+    "@polkadot/types": "^10.9.1",
+    "@polkadot/api": "^10.9.1"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.2.2",
@@ -59,11 +61,11 @@
     "@google/model-viewer": "^1.10.1",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/react-identicon": "^0.84.1",
-    "@polkawallet/bridge": "^0.0.4",
+    "@polkawallet/bridge": "0.1.3",
     "@reduxjs/toolkit": "^1.6.2",
-    "@subsocial/api": "0.6.8",
+    "@subsocial/api": "0.8.13",
     "@subsocial/grill-widget": "^0.0.12",
-    "@subsocial/utils": "^0.6.8",
+    "@subsocial/utils": "0.8.13",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "antd": "4.12.3",

@@ -19,14 +19,14 @@ export default function CrossChainTransferButton ({ crossChainParam, ...props }:
     const adapter = getCrossChainAdapter(props.network)
     if (!adapter) throw new Error(`Adapter ${props.network} not found`)
 
-    await adapter.setApi(api)
+    await adapter.init(api)
 
     const tx = adapter.createTx({
       amount: FN.fromInner(amount, 10),
       to: destChain as any,
       token,
       address: recipient,
-      signer: address
+      // signer: address
     })
 
     const signedTx = await tx.signAsync(address, { signer })

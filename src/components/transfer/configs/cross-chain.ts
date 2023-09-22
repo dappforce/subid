@@ -14,13 +14,13 @@ import { PolkadotAdapter, KusamaAdapter } from '@polkawallet/bridge/adapters/pol
 import { StatemineAdapter } from '@polkawallet/bridge/adapters/statemint'
 import { QuartzAdapter } from '@polkawallet/bridge/adapters/unique'
 import { BaseCrossChainAdapter } from '@polkawallet/bridge/base-chain-adapter'
-import { Bridge, Chain, ChainName, RouterFilter } from '@polkawallet/bridge'
+import { Bridge, Chain, ChainId, RouterFilter } from '@polkawallet/bridge'
 // import { BifrostAdapter } from '@polkawallet/bridge/adapters/bifrost'
 // import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
 // import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
 // import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
 
-const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainName }> = {
+const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
     adapter: new PolkadotAdapter(),
   },
@@ -107,15 +107,15 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
 function getPolkawalletChainName (chain: string) {
   const chainData = availableAdapters[chain]
   if (!chainData) return undefined
-  return chainData.chainName || chain as ChainName
+  return chainData.chainName || chain as ChainId
 }
 
 const polkawalletChainToSubidNetworkMap = Object.entries(
   availableAdapters
 ).reduce((acc, [ subIdNetwork, { chainName } ]) => {
-  acc[chainName || subIdNetwork as ChainName] = subIdNetwork
+  acc[chainName || subIdNetwork as ChainId] = subIdNetwork
   return acc
-}, {} as Record<ChainName, string>)
+}, {} as Record<ChainId, string>)
 
 const bridge = new Bridge({ adapters: Object.values(availableAdapters).map(({ adapter }) => adapter) })
 
@@ -132,7 +132,7 @@ export function isTokenBridgeable (token: string) {
   const destChains = bridge.router.getDestinationChains({ token })
 
   const filterAvailableChains = (chain: Chain) => {
-    const networkName = polkawalletChainToSubidNetworkMap[chain.id as ChainName]
+    const networkName = polkawalletChainToSubidNetworkMap[chain.id as ChainId]
     return availableAdapters[networkName]
   }
 
@@ -191,5 +191,5 @@ export function getRouteOptions (type: 'source' | 'dest', params: AugmentedRoute
   } catch {
     options = []
   }
-  return options.map(({ id }) => polkawalletChainToSubidNetworkMap[id as ChainName])
+  return options.map(({ id }) => polkawalletChainToSubidNetworkMap[id as ChainId])
 }
