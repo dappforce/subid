@@ -33,7 +33,7 @@ const renderPageLink = (item: PageLink) => {
 
   return (
     <Menu.Item className={clsx('DfMenuItem', { ['d-none']: !isServerSide() && item.hidden }) } key={item.page[1] || item.page[0]}>
-      <Link href={item.page[0]} as={item.page[1]} passHref={isExternalLink}>
+      <Link href={item.page[0]} as={item.page[1]} passHref={isExternalLink} legacyBehavior>
         <a {...externalLinkProps}>
           {icon}
           <span className='MenuItemName'>{item.name}</span>

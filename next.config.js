@@ -8,6 +8,7 @@ require('dotenv').config()
 
 const nextConfig = {
   target: 'server',
+  staticPageGenerationTimeout: 1000,
   api: {
     responseLimit: false,
   },
@@ -15,14 +16,6 @@ const nextConfig = {
     domains: ['sub.id', 'localhost'],
   },
   webpack: (config, { isServer }) => {
-    // // This code for webpack 4
-    // if (!isServer) {
-    //   config.node = {
-    //     fs: 'empty',
-    //   }
-    // }
-
-    // This code for webpack 5
     if (!isServer) {
       config.resolve.fallback.fs = false
     }
