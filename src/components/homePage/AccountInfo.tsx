@@ -24,7 +24,7 @@ import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/feature
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
-import BannerSection from './banner/bannerSection/BannerSection'
+// import BannerSection from './banner/bannerSection/BannerSection'
 import { SubsocialProfile } from '../identity/types'
 
 export type Props = {
@@ -82,7 +82,7 @@ export const AccountInfo = (props: Props) => {
   const addressView = (
     <div className={clsx({ ['mt-3']: !isMobile }, 'd-flex align-items-center')}>
       <div className='d-flex'>
-        {address && <MutedDiv className='d-flex bs-mr-2 align-items-center'>
+        {address && <MutedDiv className='d-flex mr-2 align-items-center'>
           <img src='/images/wallet.svg' className={styles.Icon} />{' '}
           <CopyAddress address={address} iconVisibility>
             {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
@@ -108,11 +108,11 @@ export const AccountInfo = (props: Props) => {
   const actionButtons = <ActionButtons identities={identities} showFollowButton={showFollowButton} address={address} />
 
   return (
-    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'bs-mb-3')}>
-      {!isMulti && <BannerSection
+    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'mb-3')}>
+      {/* {!isMulti && <BannerSection
         currentAddress={address}
         owner={owner}
-      />}
+      />} */}
 
       <div className={clsx({ ['d-flex align-items-start']: !isMobile }, styles.AccountSection)} >
         <div className={clsx('d-flex justify-content-between')}>

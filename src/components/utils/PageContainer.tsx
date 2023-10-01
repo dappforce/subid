@@ -17,7 +17,7 @@ import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/feature
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
 
-const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
+const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
 const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
 // const ProposalBanner = dynamic(import('./banners/ProposalBanner/index'), { ssr: false })
