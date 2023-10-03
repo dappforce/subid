@@ -13,10 +13,15 @@ export type StakerRewards = {
   spaceIds: string[]
 }
 
+type RewardsData = {
+  availableClaimsBySpaceId: Record<string, string>
+  rewards: StakerRewards
+} 
+
 export type StakerRewardsEntity = {
   id: string
   loading: boolean
-  rewards?: StakerRewards
+  data?: RewardsData
 }
 
 const stakerRewardsAdapter = createEntityAdapter<StakerRewardsEntity>()
@@ -39,15 +44,15 @@ const slice = createSlice({
     fetchStakerRewards: (state, action: PayloadAction<FetchStakerRewardsProps>) => {
       const { reload, account } = action.payload
 
-      const rewards = stakerStakerRewardsSelector.selectById(state, account)
+      const data = stakerStakerRewardsSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: stakerRewardsAdapter,
         state: state as EntityState<StakerRewardsEntity>,
         reload,
-        fieldName: 'rewards',
+        fieldName: 'data',
         id: account,
-        entity: rewards,
+        entity: data,
       })
     },
     fetchStakerRewardsSuccess: (
@@ -62,16 +67,16 @@ const slice = createSlice({
     fetchStakerRewardsFailed: (state, action: PayloadAction<FetchStakerRewardsProps>) => {
       const { account, reload = true } = action.payload
 
-      const rewards = stakerStakerRewardsSelector.selectById(state, account)
+      const data = stakerStakerRewardsSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: stakerRewardsAdapter,
         state: state as EntityState<StakerRewardsEntity>,
         reload,
         loading: false,
-        fieldName: 'rewards',
+        fieldName: 'data',
         id: account,
-        entity: rewards,
+        entity: data,
       })
       return
     },

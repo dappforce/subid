@@ -79,10 +79,12 @@ const MyRewards = () => {
 
   const stakerRewards = useStakerRewards(myAddress)
 
-  const { rewards, loading: rewardsLoading } = stakerRewards || {}
+  const { data: rewardsData, loading: rewardsLoading } = stakerRewards || {}
   const { ledger, loading: ledgerLoading } = stakerLedger || {}
 
-  const { spaceIds, totalRewards } = rewards || {}
+  const { rewards, availableClaimsBySpaceId } = rewardsData || {}
+
+  const { totalRewards } = rewards || {}
   const { locked } = ledger || {}
 
   const { tokenDecimals, tokenSymbols, nativeToken } =
@@ -133,8 +135,9 @@ const MyRewards = () => {
       ),
       button: (
         <ClaimRewardsTxButton
-          rewardsSpaceIds={spaceIds || []}
+          rewardsSpaceIds={Object.keys(availableClaimsBySpaceId || {}) || []}
           totalRewards={totalRewards || '0'}
+          availableClaimsBySpaceId={availableClaimsBySpaceId}
           restake={restake}
         />
       ),
