@@ -27,7 +27,7 @@ const ClaimRewardsTxButton = ({
 
   const buildParams = (api: ApiPromise) => {
     const txs = rewardsSpaceIds.map((spaceId) =>
-      api.tx.creatorStaking.claimStakerReward(spaceId, restake)
+      api.tx.creatorStaking.claimBackerReward(spaceId, restake)
     )
 
     return [ txs ]

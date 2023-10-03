@@ -16,6 +16,7 @@ function format (
   isGrayDecimal?: boolean,
   withCurrency?: boolean
 ): React.ReactNode {
+  if(!value || value === 'NaN') return null
   const [ prefix, postfix ] = formatBalance(value, {
     forceUnit: '-',
     decimals,

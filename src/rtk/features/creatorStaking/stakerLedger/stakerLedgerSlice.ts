@@ -14,6 +14,7 @@ type UnlockingChunk = {
 }
 
 export type StakerLedger = {
+  totalLocked: string
   locked: string
   unbondingInfo: {
     unlockingChunks: UnlockingChunk[]
