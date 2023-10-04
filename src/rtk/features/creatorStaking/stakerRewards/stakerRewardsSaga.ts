@@ -16,7 +16,7 @@ type Result = {
   rewardsBySpaceId: Record<string, string>
 }
 
-function* fetchStakerRewardsWorker(
+function* fetchStakerRewardsWorker (
   action: PayloadAction<FetchStakerRewardsProps>
 ) {
   const { account, spaceIds, reload = false } = action.payload
@@ -76,7 +76,7 @@ function* fetchStakerRewardsWorker(
   }
 }
 
-export function* watchStakerRewards() {
+export function* watchStakerRewards () {
   yield takeLatest(
     stakerRewardsActions.fetchStakerRewards.type,
     fetchStakerRewardsWorker

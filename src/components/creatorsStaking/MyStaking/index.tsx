@@ -17,9 +17,12 @@ const MyStakingSection = () => {
 
   const { ledger } = stakerLedger || {}
 
-  const unlockingChunks = ledger?.unbondingInfo.unlockingChunks 
+  const { locked, unbondingInfo } = ledger || {}
+  const unlockingChunks = unbondingInfo?.unlockingChunks 
 
   useFetchStakerLedger(myAddress)
+
+  if(!locked || locked === '0') return null
 
   const tabs: TabsProps['tabs'] = [
     {

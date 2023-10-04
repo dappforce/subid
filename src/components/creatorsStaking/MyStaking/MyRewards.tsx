@@ -1,7 +1,5 @@
-import CardWrapper from '../utils/CardWrapper'
 import { useState } from 'react'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { useStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import Button from '../tailwind-components/Button'
@@ -14,30 +12,8 @@ import {
 } from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import ClaimRewardsTxButton from './ClaimRewardsTxButton'
-
-type RewardCardProps = {
-  title: React.ReactNode
-  value: React.ReactNode
-  desc?: string
-  button?: React.ReactNode
-}
-
-const RewardCard = ({ title, value, desc, button }: RewardCardProps) => {
-  return (
-    <CardWrapper className='bg-slate-50'>
-      <div className='text-text-muted font-normal'>{title}</div>
-      <div className='flex justify-between items-center gap-2'>
-        <div className='w-full'>
-          <div className='text-2xl font-semibold'>{value}</div>
-          {desc && (
-            <div className='font-normal text-text-muted text-sm'>{desc}</div>
-          )}
-        </div>
-        {button}
-      </div>
-    </CardWrapper>
-  )
-}
+import DashboardCard from '../utils/DashboardCard'
+import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type RestakeButtonProps = {
   restake: boolean
@@ -66,8 +42,9 @@ const MyRewards = () => {
   const restakeStateFromStorage = store.get('RestakeAfterClaim')
   const [ restake, setRestake ] = useState<boolean>(restakeStateFromStorage)
   const myAddress = useMyAddress()
-  const chainsInfo = useChainInfo()
   const creatorsList = useCreatorsList()
+  const { decimal, tokenSymbol: symbol } =
+    useGetDecimalsAndSymbolByNetwork('subsocial')
 
   const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
 
@@ -86,12 +63,6 @@ const MyRewards = () => {
 
   const { totalRewards } = rewards || {}
   const { locked } = ledger || {}
-
-  const { tokenDecimals, tokenSymbols, nativeToken } =
-    chainsInfo?.subsocial || {}
-
-  const decimal = tokenDecimals?.[0] || 0
-  const symbol = tokenSymbols?.[0] || nativeToken
 
   const myStake = (
     <FormatBalance
@@ -125,7 +96,7 @@ const MyRewards = () => {
       ),
     },
     {
-      title: <>Estimated Rewards, {symbol }</>,
+      title: <>Estimated Rewards, {symbol}</>,
       value: (
         <ValueOrSkeleton
           value={myRewards}
@@ -150,7 +121,7 @@ const MyRewards = () => {
   ]
 
   const stakingCards = cardsOpt.map((card, i) => (
-    <RewardCard key={i} {...card} />
+    <DashboardCard key={i} {...card} />
   ))
 
   return (

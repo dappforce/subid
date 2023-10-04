@@ -118,7 +118,7 @@ const StakingModal = ({
   const { info } = eraStake || {}
 
   const { name, ownedByAccount, image } = space || {}
-  const { numberOfStakers, total } = info || {}
+  const { backersCount, total } = info || {}
 
   const owner = ownedByAccount?.id
 
@@ -143,7 +143,7 @@ const StakingModal = ({
   const desc = (
     <>
       {pluralize({
-        count: numberOfStakers || '0',
+        count: backersCount || '0',
         singularText: 'staker',
       })}{' '}
       · {totalValue} staked

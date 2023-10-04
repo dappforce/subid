@@ -28,7 +28,7 @@ export const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => 
     if (sortBy === 'total-stake') {
       return sortValues(eraStakes, 'total')
     } else if (sortBy === 'stakers') {
-      return sortValues(eraStakes, 'numberOfStakers')
+      return sortValues(eraStakes, 'backersCount')
     } else {
       return sortValues(stakersInfo, 'totalStaked')
     }

@@ -6,14 +6,17 @@ type ValueOrSkeleton = {
   skeletonClassName?: string
 }
 
-const ValueOrSkeleton = ({ value, loading, skeletonClassName }: ValueOrSkeleton) => {
-  if(!value || loading) return <Skeleton className={skeletonClassName} />
+const ValueOrSkeleton = ({
+  value,
+  loading,
+  skeletonClassName,
+}: ValueOrSkeleton) => {
+  if (!value || loading)
+    return <Skeleton className={skeletonClassName} />
 
-  if(!value) return <>-</>
+  if (!value) return <>-</>
 
-  return (
-    <span>{value}</span>
-  )
+  return <span>{value}</span>
 }
 
 export default ValueOrSkeleton

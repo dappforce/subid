@@ -7,9 +7,19 @@ import { fetchGeneralEraInfo } from '../../../rtk/features/creatorStaking/genera
 import { SubDate } from '@subsocial/utils'
 import Skeleton from '../tailwind-components/Skeleton'
 import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
+import {
+  fetchStakerRewards,
+  useStakerRewards,
+} from 'src/rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 
 export const NextEraStartDate = () => {
   const generalEraInfo = useGeneralEraInfo()
+  const myAddress = useMyAddress()
+  const stakerRewards = useStakerRewards(myAddress)
+  const { data: rewardsData } = stakerRewards || {}
+
+  const { availableClaimsBySpaceId } = rewardsData || {}
 
   const { nextEraBlock } = generalEraInfo || {}
 
@@ -21,13 +31,22 @@ export const NextEraStartDate = () => {
 
   useEffect(() => {
     fetchGeneralEraInfo(dispatch)
+
+    if (myAddress && availableClaimsBySpaceId) {
+      fetchStakerRewards(
+        dispatch,
+        myAddress,
+        Object.keys(availableClaimsBySpaceId)
+      )
+    }
   }, [ currentDate >= nextEraTime.plus(3000).toNumber() ])
 
-  if(!nextEraTime) return <>-</>
+  if (!nextEraTime) return <>-</>
 
   return (
     <span>
-      {!currentBlockNumber || currentBlockNumber?.isZero() ||
+      {!currentBlockNumber ||
+      currentBlockNumber?.isZero() ||
       new BN(currentDate.toString()).gt(nextEraTime) ? (
         <Skeleton className='w-24 h-[16px]' />
       ) : (

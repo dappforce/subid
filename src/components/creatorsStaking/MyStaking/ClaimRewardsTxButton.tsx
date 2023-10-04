@@ -50,25 +50,26 @@ const ClaimRewardsTxButton = ({
       const { weight } = claimPaymentInfo.toJSON() as any
       const extrinsicWeight = weight.refTime
 
-      const maxClaimCount =
+      let maxClaimCount =
         extrinsicWeight && maxAvaliableWeight
           ? new BN(maxAvaliableWeight).dividedBy(extrinsicWeight)
           : BIGNUMBER_ZERO
 
-      const claimChunks = maxClaimCount
-        .dividedBy(rewardsSpaceIds.length)
-        .integerValue(BN.ROUND_DOWN)
+      let claimsToDo: Record<string, string> = {}
 
-      const txs = rewardsSpaceIds.map((spaceId) => {
-        const availablClaimCount = new BN(
-          availableClaimsBySpaceId[spaceId] || 0
-        )
+      Object.entries(availableClaimsBySpaceId).forEach(
+        ([ spaceId, availableClaimCount ]) => {
+          if (new BN(availableClaimCount).lt(maxClaimCount)) {
+            claimsToDo[spaceId] = availableClaimCount
+            maxClaimCount = maxClaimCount.minus(availableClaimCount)
+          } else {
+            claimsToDo[spaceId] = maxClaimCount.toString()
+          }
+        }
+      )
 
-        const claimCount = availablClaimCount.gt(claimChunks)
-          ? claimChunks
-          : availablClaimCount
-
-        return [ ...Array(claimCount.toNumber()).keys() ].map(() =>
+      const txs = Object.entries(claimsToDo).map(([ spaceId, claimCount ]) => {
+        return [ ...Array(parseInt(claimCount)).keys() ].map(() =>
           api.tx.creatorStaking.claimBackerReward(spaceId, restake)
         )
       })

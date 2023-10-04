@@ -62,7 +62,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: stakerInfoLoading } = stakerInfo || {}
 
-  const { numberOfStakers, total } = eraStakeInfo || {}
+  const { backersCount, total } = eraStakeInfo || {}
   const { totalStaked } = info || {}
 
   const isStake = totalStaked === '0'
@@ -166,7 +166,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             />
             <CreatorCardValue
               label='Stakers'
-              value={numberOfStakers || '0'}
+              value={backersCount || '0'}
               loading={eraStakeLoading}
             />
           </div>

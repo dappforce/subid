@@ -17,6 +17,7 @@ import { isEmptyArray } from '@subsocial/utils'
 import Loading from '../tailwind-components/Loading'
 import { ModalContextWrapper, useModalContext } from '../contexts/ModalContext'
 import SuccessModal from './modals/SuccessModal'
+import { toGenericAccountId } from 'src/rtk/app/util'
 
 const DEFAULT_PAGE_SIZE = 9
 
@@ -77,8 +78,14 @@ type CreatorsSectionInnerProps = {
 
 const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
+  const myAddress = useMyAddress()
   const [ sortBy, changeSortBy ] = useState('total-stake')
   const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } = useModalContext()
+  const creatorsList = useCreatorsList()
+
+  const isCreator = !!creatorsList?.find(
+    (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
+  )
 
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
 
@@ -104,12 +111,12 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
     <div className='flex flex-col gap-4'>
       <div className='flex md:flex-row flex-col justify-between md:items-center items-start gap-4 md:px-6 px-0'>
         <div className='text-2xl UnboundedFont'>Creators</div>
-        <div className='flex gap-4 items-center'>
+       {!isCreator && <div className='flex gap-4 items-center'>
           <div>Are you a creator?</div>
           <Button variant='primaryOutline' size={'sm'}>
             Apply to join
           </Button>
-        </div>
+        </div>}
       </div>
 
       <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:py-6 py-4'>
