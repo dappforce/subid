@@ -1,21 +1,9 @@
-export const backendUrl = getEnv('BACKEND_URL') || 'http://localhost:3001'
+export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
 
-export const devMode = getEnvAsBool('DEV_MODE') || false
+export const devMode = process.env.NEXT_PUBLIC_DEV_MODE || false
 
-export const gaId = getEnv('GA_ID') || ''
+export const gaId = process.env.NEXT_PUBLIC_GA_ID || ''
 
-export const ampId = getEnv('AMP_ID') || ''
+export const ampId = process.env.NEXT_PUBLIC_AMP_ID || ''
 
 export const subAppBaseUrl = 'https://polkaverse.com'
-
-function getEnv (varName: string): string | undefined {
-  const { env } = process
-  return env[varName]
-}
-
-export function getEnvAsBool (varName: string): boolean | undefined {
-  const val = getEnv(varName)?.toString()?.toLowerCase()
-  if (val === 'true') return true
-  if (val === 'false') return false
-  return undefined
-}

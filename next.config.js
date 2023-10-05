@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withBundleAnalyzer = require('@next/bundle-analyzer')
-const path = require('path')
-const Dotenv = require('dotenv-webpack')
 
 // Required by Docker
 require('dotenv').config()
@@ -24,12 +22,6 @@ const nextConfig = {
 
     config.plugins = [
       ...config.plugins,
-
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true, // Required by Docker
-      }),
     ]
 
     config.module.rules.push(

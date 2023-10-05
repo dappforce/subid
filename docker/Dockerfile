@@ -5,10 +5,10 @@ ARG GH_IPFS_URL
 ARG GH_GA_ID
 ARG GH_AMP_ID
 
-ENV BACKEND_URL=${GH_BACKEND_URL} \
-    IPFS_URL=${GH_IPFS_URL} \
-    GA_ID=${GH_GA_ID} \
-    AMP_ID=${GH_AMP_ID}
+ENV NEXT_PUBLIC_BACKEND_URL=${GH_BACKEND_URL} \
+    NEXT_PUBLIC_IPFS_URL=${GH_IPFS_URL} \
+    NEXT_PUBLIC_GA_ID=${GH_GA_ID} \
+    NEXT_PUBLIC_AMP_ID=${GH_AMP_ID}
 
 WORKDIR /opt/subsocial/app
 
@@ -22,21 +22,21 @@ RUN set -x \
     && mv ci.env .env \
     && NODE_ENV=production yarn build
 
-# FROM gcr.io/distroless/nodejs:16 AS runner
+FROM gcr.io/distroless/nodejs:16 AS runner
 
-# ARG GH_BACKEND_URL
-# ARG GH_IPFS_URL
-# ARG GH_GA_ID
-# ARG GH_AMP_ID
+ARG GH_BACKEND_URL
+ARG GH_IPFS_URL
+ARG GH_GA_ID
+ARG GH_AMP_ID
 
-# ENV BACKEND_URL=${GH_BACKEND_URL} \
-#     IPFS_URL=${GH_IPFS_URL} \
-#     GA_ID=${GH_GA_ID} \
-#     AMP_ID=${GH_AMP_ID}
+ENV NEXT_PUBLIC_BACKEND_URL=${GH_BACKEND_URL} \
+    NEXT_PUBLIC_IPFS_URL=${GH_IPFS_URL} \
+    NEXT_PUBLIC_GA_ID=${GH_GA_ID} \
+    NEXT_PUBLIC_AMP_ID=${GH_AMP_ID}
 
-# WORKDIR /opt/subsocial/app
+WORKDIR /opt/subsocial/app
 
-# COPY --from=builder /opt/subsocial/app .
+COPY --from=builder /opt/subsocial/app .
 
 CMD [ "/opt/subsocial/app/node_modules/.bin/next", "start", "-p", "3003" ]
 

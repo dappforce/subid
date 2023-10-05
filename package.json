@@ -8,10 +8,9 @@
   "scripts": {
     "check": "yarn lint",
     "lint": "tsc && eslint --cache 'src/**/*.{ts,tsx,js}' --fix",
-    "dev": "yarn export-env && next -p 3003",
+    "dev": "next -p 3003",
     "analyze": "ANALYZE=true next build",
-    "build": "yarn export-env && next build",
-    "export-env": "node export-env.js",
+    "build": "next build",
     "start": "next start -p 3003"
   },
   "devDependencies": {

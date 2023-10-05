@@ -20,9 +20,9 @@ import { showErrorMessage } from './Message'
 import clsx from 'clsx'
 import { MultiChainInfo } from '../../rtk/features/multiChainInfo/types'
 import { asAccountId } from '@subsocial/api'
-import { AnyAccountId } from '@subsocial/api/types'
 import { CID } from 'ipfs-http-client'
 import registry from '@subsocial/api/utils/registry'
+import { AnyAccountId } from '@subsocial/api/types'
 
 
 export const MINUTES = 1000 * 60
