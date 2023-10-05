@@ -15,10 +15,6 @@ import { StatemineAdapter } from '@polkawallet/bridge/adapters/statemint'
 import { QuartzAdapter } from '@polkawallet/bridge/adapters/unique'
 import { BaseCrossChainAdapter } from '@polkawallet/bridge/base-chain-adapter'
 import { Bridge, Chain, ChainId, RouterFilter } from '@polkawallet/bridge'
-// import { BifrostAdapter } from '@polkawallet/bridge/adapters/bifrost'
-// import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
-// import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
-// import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
 
 const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
@@ -85,23 +81,6 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   quartz: {
     adapter: new QuartzAdapter(),
   },
-  // TODO: uncomment when new polkawallet version is up and supports networks below
-  // bifrost: {
-  //   adapter: new BifrostAdapter(),
-  // },
-  // integritee: {
-  //   adapter: new IntegriteeAdapter(),
-  // },
-  // turing: {
-  //   adapter: new TuringAdapter(),
-  // },
-  // parallel: {
-  //   adapter: new ParallelAdapter(),
-  // },
-  // parallelHeiko: {
-  //   adapter: new HeikoAdapter(),
-  //   chainName: 'heiko'
-  // },
 }
 
 function getPolkawalletChainName (chain: string) {
