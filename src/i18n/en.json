@@ -384,6 +384,7 @@
     "labels": {
       "asset": "Asset",
       "chain": "Chain",
+      "token": "Token",
       "balance": "Balance",
       "price": "Price",
       "totalValue": "Total Value",

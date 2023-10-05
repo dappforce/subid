@@ -1,0 +1,20 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.CardGrid
+  display: grid
+  grid-template-columns: repeat(4, 1fr)
+  gap: $space_normal
+
+@media (max-width: 802px)
+  .CardGrid
+    padding-left: $space_normal
+    padding-right: $space_normal
+    grid-template-columns: repeat(3, 1fr)
+
+@media (max-width: 600px)
+  .CardGrid
+    grid-template-columns: repeat(2, 1fr)
+
+@media (max-width: 375px)
+  .CardGrid
+    grid-template-columns: 1fr
