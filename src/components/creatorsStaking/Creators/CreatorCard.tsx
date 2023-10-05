@@ -130,6 +130,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                     value={name || '<Unnamed>'}
                     loading={spaceLoading}
                     skeletonClassName='w-full h-[16px]'
+                    className='whitespace-nowrap'
                   />
                 }
                 desc={<ContactInfo {...contactInfo} />}

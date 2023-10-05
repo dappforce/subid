@@ -48,8 +48,8 @@ const StakingTxButton = ({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchStakerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchStakerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.currentEra || '0')
     

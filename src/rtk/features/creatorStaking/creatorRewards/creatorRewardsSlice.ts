@@ -1,0 +1,87 @@
+import {
+  createSlice,
+  PayloadAction,
+  createEntityAdapter,
+  EntityState,
+} from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
+import { RootState } from '../../../app/rootReducer'
+import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
+
+
+type RewardsData = {
+  availableClaims: Record<string, string[]>
+  rewards: string
+} 
+
+export type CreatorRewardsEntity = {
+  id: string
+  loading: boolean
+  data?: RewardsData
+}
+
+const creatorRewardsAdapter = createEntityAdapter<CreatorRewardsEntity>()
+
+const creatorStakerRewardsSelector = creatorRewardsAdapter.getSelectors()
+
+export const selectCreatorRewards = (state: RootState, spaceId: string) =>
+  creatorStakerRewardsSelector.selectById(state.creatorRewards, spaceId)
+
+export type FetchCreatorRewardsProps = {
+  reload?: boolean
+  account: string
+  spaceIds: string[]
+}
+
+const slice = createSlice({
+  name: 'creatorRewards',
+  initialState: creatorRewardsAdapter.getInitialState(),
+  reducers: {
+    fetchCreatorRewards: (state, action: PayloadAction<FetchCreatorRewardsProps>) => {
+      const { reload, account } = action.payload
+
+      const data = creatorStakerRewardsSelector.selectById(state, account)
+
+      upsertOneEntity({
+        adapter: creatorRewardsAdapter,
+        state: state as EntityState<CreatorRewardsEntity>,
+        reload,
+        fieldName: 'data',
+        id: account,
+        entity: data,
+      })
+    },
+    fetchCreatorRewardsSuccess: (
+      state,
+      action: PayloadAction<CreatorRewardsEntity>
+    ) => {
+      creatorRewardsAdapter.upsertOne(
+        state as EntityState<CreatorRewardsEntity>,
+        action.payload
+      )
+    },
+    fetchCreatorRewardsFailed: (state, action: PayloadAction<FetchCreatorRewardsProps>) => {
+      const { account, reload = true } = action.payload
+
+      const data = creatorStakerRewardsSelector.selectById(state, account)
+
+      upsertOneEntity({
+        adapter: creatorRewardsAdapter,
+        state: state as EntityState<CreatorRewardsEntity>,
+        reload,
+        loading: false,
+        fieldName: 'data',
+        id: account,
+        entity: data,
+      })
+      return
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: hydrateExtraReducer('creatorRewards')
+  },
+})
+
+export const creatorRewardsActions = slice.actions
+
+export default slice.reducer

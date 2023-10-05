@@ -9,6 +9,8 @@ import { useMemo } from 'react'
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { isEmptyObj } from '@subsocial/utils'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import { useCreatorRewards } from 'src/rtk/features/creatorStaking/creatorRewards/creatorRewardsHooks'
+import CreatorRewardsClaimButton from './CreatorsRewardsClaimButton'
 
 type DashboardCardsProps = {
   creators: CreatorsListEntity[]
@@ -18,12 +20,17 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
   const { decimal, tokenSymbol: symbol } =
     useGetDecimalsAndSymbolByNetwork('subsocial')
   const myAddress = useMyAddress()
+  const creatorRewards = useCreatorRewards(myAddress)
   const eraInfo = useGeneralEraInfo()
   const era = eraInfo?.currentEra
 
   const spaceIds = creators.map((creator) => creator.id)
   
   const eraStakes = useEraStakesByIds(spaceIds, era)
+
+  const { data, loading: creatorRewardsLoading } = creatorRewards || {}
+
+  const { rewards } = data || {}
 
   const { total, backersCount } = useMemo(() => {
     if (!eraStakes) return {}
@@ -54,7 +61,7 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
 
   const myRewards = (
     <FormatBalance
-      value={'0'}
+      value={rewards || '0'}
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
@@ -78,11 +85,13 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
       value: (
         <ValueOrSkeleton
           value={myRewards}
-          loading={!total}
+          loading={creatorRewardsLoading}
           skeletonClassName='h-[24px]'
         />
       ),
-      button: <></>,
+      button: <CreatorRewardsClaimButton
+      
+      />,
     },
     {
       title: 'My Stakers',

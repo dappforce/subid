@@ -3,6 +3,7 @@ import DashboardCards from './DashboardCards'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { toGenericAccountId } from '../../../rtk/app/util'
 import { isEmptyArray } from '@subsocial/utils'
+import { useFetchCreatorRewards } from '../../../rtk/features/creatorStaking/creatorRewards/creatorRewardsHooks'
 
 const CreatorDashboard = () => {
   const myAddress = useMyAddress()
@@ -11,6 +12,8 @@ const CreatorDashboard = () => {
   const creators = creatorsList?.filter(
     (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
   )
+
+  useFetchCreatorRewards(myAddress, creators?.map((item) => item.id))
 
   if (!creators || isEmptyArray(creators)) return null
 

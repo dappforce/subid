@@ -6,7 +6,11 @@ import Button from '../tailwind-components/Button'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import { showParsedErrorMessage } from 'src/components/utils'
 import BN from 'bignumber.js'
-import { BIGNUMBER_ZERO } from 'src/config/app/consts'
+import calculateMaxTxCountInBatch from '../utils/calculateMaxTxCount'
+import { fetchStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
 
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
@@ -23,61 +27,55 @@ const ClaimRewardsTxButton = ({
 }: ClaimRewardsTxButtonProps) => {
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
+  const eraInfo = useGeneralEraInfo()
 
   const onSuccess = () => {
-    fetchStakerRewards(dispatch, myAddress || '', rewardsSpaceIds)
+    fetchGeneralEraInfo(dispatch)
+    
+    if(myAddress) {
+      fetchStakerRewards(dispatch, myAddress, rewardsSpaceIds)
+      fetchStakerLedger(dispatch, myAddress)
+    }
+
+    if(restake) {
+      fetchStakerInfo(dispatch, rewardsSpaceIds, myAddress || '')
+      fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.currentEra || '0')
+    }
   }
 
   const buildParams = async (api: ApiPromise) => {
     if (!myAddress || !availableClaimsBySpaceId) return []
 
-    const blockWeight = api.consts.system.blockWeights.toJSON() as any
+    const calculatedMaxClaimCount = await calculateMaxTxCountInBatch(
+      api,
+      api.tx.creatorStaking.claimBackerReward(rewardsSpaceIds[0], restake),
+      myAddress
+    )
 
-    if (blockWeight) {
-      const avaliableWeight = blockWeight.perClass.normal.maxExtrinsic.refTime
+    if (!calculatedMaxClaimCount) return []
 
-      const maxAvaliableWeight = avaliableWeight
-        ? new BN(avaliableWeight).multipliedBy(0.5)
-        : BIGNUMBER_ZERO
+    let maxClaimCount = calculatedMaxClaimCount
 
-      const claimTx = api.tx.creatorStaking.claimBackerReward(
-        rewardsSpaceIds[0],
-        restake
-      )
+    let claimsToDo: Record<string, string> = {}
 
-      const claimPaymentInfo = await claimTx.paymentInfo(myAddress)
-
-      const { weight } = claimPaymentInfo.toJSON() as any
-      const extrinsicWeight = weight.refTime
-
-      let maxClaimCount =
-        extrinsicWeight && maxAvaliableWeight
-          ? new BN(maxAvaliableWeight).dividedBy(extrinsicWeight)
-          : BIGNUMBER_ZERO
-
-      let claimsToDo: Record<string, string> = {}
-
-      Object.entries(availableClaimsBySpaceId).forEach(
-        ([ spaceId, availableClaimCount ]) => {
-          if (new BN(availableClaimCount).lt(maxClaimCount)) {
-            claimsToDo[spaceId] = availableClaimCount
-            maxClaimCount = maxClaimCount.minus(availableClaimCount)
-          } else {
-            claimsToDo[spaceId] = maxClaimCount.toString()
-          }
+    Object.entries(availableClaimsBySpaceId).forEach(
+      ([ spaceId, availableClaimCount ]) => {
+        if (new BN(availableClaimCount).lt(maxClaimCount)) {
+          claimsToDo[spaceId] = availableClaimCount
+          maxClaimCount = maxClaimCount.minus(availableClaimCount)
+        } else {
+          claimsToDo[spaceId] = maxClaimCount.toString()
         }
+      }
+    )
+
+    const txs = Object.entries(claimsToDo).map(([ spaceId, claimCount ]) => {
+      return [ ...Array(parseInt(claimCount)).keys() ].map(() =>
+        api.tx.creatorStaking.claimBackerReward(spaceId, restake)
       )
+    })
 
-      const txs = Object.entries(claimsToDo).map(([ spaceId, claimCount ]) => {
-        return [ ...Array(parseInt(claimCount)).keys() ].map(() =>
-          api.tx.creatorStaking.claimBackerReward(spaceId, restake)
-        )
-      })
-
-      return [ txs.flat() ]
-    }
-
-    return []
+    return [ txs.flat() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (

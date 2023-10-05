@@ -19,7 +19,7 @@ export const useFetchStakerRewards = (account?: string, spaceIds?: string[]) => 
   
   useEffect(() => {
     if(!account || !spaceIds || isEmptyArray(spaceIds)) return
-
+    
     dispatch(
       stakerRewardsActions.fetchStakerRewards({
         account,
