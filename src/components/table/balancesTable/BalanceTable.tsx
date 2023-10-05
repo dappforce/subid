@@ -40,7 +40,10 @@ import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
 import BN from 'bignumber.js'
 import store from 'store'
-import { useBuildSendEvent, useSendEvent } from 'src/components/providers/AnalyticContext'
+import {
+  useBuildSendEvent,
+  useSendEvent,
+} from 'src/components/providers/AnalyticContext'
 
 const TransferModal = dynamic(
   () => import('src/components/transfer/TransferModal'),
@@ -117,7 +120,11 @@ export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
   })
 }
 
-const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
+const getColumns = (
+  t: TFunction,
+  isMyAddress: boolean,
+  balancesVariant: BalanceVariant
+): ColumnsType<any> => {
   const transferColumn: ColumnsType<any> = isMyAddress
     ? [ { dataIndex: 'transferAction', align: 'right' } ]
     : []
@@ -125,7 +132,9 @@ const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
     {
       title: (
         <h3 className='font-weight-bold FontSmall'>
-          {t('table.labels.chain')}
+          {balancesVariant === 'chains'
+            ? t('table.labels.chain')
+            : t('table.labels.token')}
         </h3>
       ),
       dataIndex: 'chain',
@@ -253,17 +262,16 @@ export const BalancesTable = (props: BalanceTableProps) => {
 
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
 
-  const [ balancesVariant, setBalancesVariant ] =
-    useState<BalanceVariant>(tableVariantFromStore || 'chains')
+  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
+    tableVariantFromStore || 'chains'
+  )
   const tokenPrices = usePrices()
   const dispatch = useAppDispatch()
   const {
     t,
     i18n: { language },
   } = useTranslation()
-  const sendTransferEvent = useBuildSendEvent(
-    'click_on_transfer_button'
-  )
+  const sendTransferEvent = useBuildSendEvent('click_on_transfer_button')
 
   const [ transferModalState, transferModalDispatch ] = useReducer(
     transferModalReducer,
@@ -406,7 +414,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
         showAllPage={`${addresses?.join(',') || ''}/balances`}
         addresses={addresses}
         balanceKind='NativeToken'
-        columns={getColumns(t, isMyAddress)}
+        columns={getColumns(t, isMyAddress, balancesVariant)}
         loading={!!loading}
         setLoading={setLoading}
         loadingLabel={t('table.balances.loading')}

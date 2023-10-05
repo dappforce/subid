@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import languages from '../config/languages'
 import styles from './Sider.module.sass'
 import clsx from 'clsx'
-import { useIsAllNetworksConnected } from '../components/statusPage/utils/StatusCard'
+import { useIsAllNetworksConnected } from '../components/statusPage/utils/StatusCards'
 import { isServerSide } from 'src/components/utils'
 import { useSidebarCollapsed } from 'src/components/providers/SideBarCollapsedContext'
 

@@ -149,24 +149,22 @@ $card_image_size: 100px
     \:global .ant-tabs-nav-more
       display: flex
 
-  .ProfileCard
-    width: 180px
-    margin-right: 0
+@media (max-width: 393px)
+  .CardStarButton
+    visibility: visible !important
+    right: -6px
+    top: -2px
 
-@media (max-width: 395px)
   .ProfileCard
-    width: 168px
-    margin-right: 0
+    padding: $space_tiny
+
+@media (max-width: 375px)
+  .CardStarButton
+    right: -$space_small
+    top: -$space_tiny
 
   .DescriptionSection
     height: 5.5rem
 
-@media (max-width: 375px)
   .ProfileCard
-    width: $card_width_mobile_size
-    margin-right: 0
-
-@media (max-width: 360px)
-  .ProfileCard
-    width: 154px
-    margin-right: 0
+    padding: $space_normal
