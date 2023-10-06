@@ -148,7 +148,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
       {isCards ? (
         <div className={styles.CardGrid}>
           {data.map((x, i) => (
-            <div key={i}>
+            <div className={styles.GridItem} key={i}>
               {renderItem(x, i)}
             </div>
           ))}
