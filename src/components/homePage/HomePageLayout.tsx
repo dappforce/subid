@@ -46,8 +46,6 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
 
   return (
     <>
-      <Overview />
-
       <Tabs
         activeKey={activeTab}
         onChange={(tab) => setActiveTab(tab as HomePageTabKeys)}

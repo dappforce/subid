@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic'
 import { useFetchDataByAddresses } from 'src/rtk/app/util'
 import { useFetchNfts } from 'src/rtk/features/nfts/nftsHooks'
 
-const OverviewSection = dynamic(() => import('../homePage/HomePageLayout'), { ssr: false })
+const HomePageLayout = dynamic(() => import('../homePage/HomePageLayout'), { ssr: false })
 
 const HomePage: NextPage = () => {
   useFetchDataByAddresses()
@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
 
   return (
     <PageContainer isHomePage >
-      <OverviewSection addresses={addresses} />
+      <HomePageLayout addresses={addresses} />
     </PageContainer>
   )
 }

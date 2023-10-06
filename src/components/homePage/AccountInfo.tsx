@@ -4,10 +4,7 @@ import Section from '../utils/Section'
 import Name from './address-views/Name'
 import { CopyAddress } from './address-views/utils'
 import { LARGE_AVATAR_SIZE } from '../utils/Size.config'
-import {
-  toShortAddress,
-  convertAddressToChainFormat,
-} from '../utils/index'
+import { toShortAddress, convertAddressToChainFormat } from '../utils/index'
 import { DfMd } from '../utils/DfMd'
 import { useMyExtensionAddresses } from '../providers/MyExtensionAccountsContext'
 import { useResponsiveSize } from '../responsive'
@@ -20,12 +17,16 @@ import clsx from 'clsx'
 import { useChainInfo } from '../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { allAccountsAvatar } from './address-views/utils/index'
 import { toGenericAccountId } from 'src/rtk/app/util'
-import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/features/identities/identitiesHooks'
+import {
+  useIdentitiesByAccounts,
+  getSubsocialIdentity,
+} from '../../rtk/features/identities/identitiesHooks'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
 // import BannerSection from './banner/bannerSection/BannerSection'
 import { SubsocialProfile } from '../identity/types'
+import { Overview } from '../overview/Overview'
 
 export type Props = {
   addresses?: string[]
@@ -40,7 +41,7 @@ export const AccountInfo = (props: Props) => {
     addresses,
     size = LARGE_AVATAR_SIZE,
     addressFromStorage,
-    isHomePage
+    isHomePage,
   } = props
   const { isMobile } = useResponsiveSize()
 
@@ -48,9 +49,13 @@ export const AccountInfo = (props: Props) => {
 
   const isMulti = useIsMulti()
 
-  const address = !isMulti && addresses ? addresses[addresses.length - 1] : undefined
+  const address =
+    !isMulti && addresses ? addresses[addresses.length - 1] : undefined
 
-  const identities = address && identitiesByAccount ? identitiesByAccount[toGenericAccountId(address)] : undefined
+  const identities =
+    address && identitiesByAccount
+      ? identitiesByAccount[toGenericAccountId(address)]
+      : undefined
   const owner = getSubsocialIdentity(identities)
 
   const { t } = useTranslation()
@@ -65,7 +70,13 @@ export const AccountInfo = (props: Props) => {
     accountAvatar = allAccountsAvatar
   }
 
-  const Avatar = <BaseAvatar size={size || LARGE_AVATAR_SIZE} address={address} avatar={accountAvatar} />
+  const Avatar = (
+    <BaseAvatar
+      size={size || LARGE_AVATAR_SIZE}
+      address={address}
+      avatar={accountAvatar}
+    />
+  )
 
   const isMyExtensionAddress = accounts?.find((x) => x.address === address)
 
@@ -81,16 +92,24 @@ export const AccountInfo = (props: Props) => {
 
   const addressView = (
     <div className={clsx({ ['mt-3']: !isMobile }, 'd-flex align-items-center')}>
-      <div className='d-flex'>
-        {address && <MutedDiv className='d-flex mr-2 align-items-center'>
-          <img src='/images/wallet.svg' className={styles.Icon} />{' '}
-          <CopyAddress address={address} iconVisibility>
-            {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
-          </CopyAddress>
-        </MutedDiv>}
+      <div className="d-flex">
+        {address && (
+          <MutedDiv className="d-flex mr-2 align-items-center">
+            <img src="/images/wallet.svg" className={styles.Icon} />{' '}
+            <CopyAddress address={address} iconVisibility>
+              {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
+            </CopyAddress>
+          </MutedDiv>
+        )}
       </div>
-      <div className='d-flex align-items-center'>
-        {address && <AddressQrModal className='grey-light' address={address.toString()} openFromUrl />}
+      <div className="d-flex align-items-center">
+        {address && (
+          <AddressQrModal
+            className="grey-light"
+            address={address.toString()}
+            openFromUrl
+          />
+        )}
 
         {ksmAddress && (
           <LinkWithIcon
@@ -98,39 +117,71 @@ export const AccountInfo = (props: Props) => {
             className={clsx(styles.StatescanLink, 'grey-light')}
             withCircle={false}
             title={t('buttons.viewAddressOn', { website: 'Statescan.io' })}
-            icon='/images/statescan.svg'
+            icon="/images/statescan.svg"
           />
         )}
       </div>
     </div>
   )
 
-  const actionButtons = <ActionButtons identities={identities} showFollowButton={showFollowButton} address={address} />
+  const actionButtons = (
+    <ActionButtons
+      identities={identities}
+      showFollowButton={showFollowButton}
+      address={address}
+    />
+  )
 
   return (
-    <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'mb-3')}>
+    <Section
+      className={clsx(
+        styles.AccountOverview,
+        !isHomePage ? styles.NotHomePageMargin : 'mb-3'
+      )}
+    >
       {/* {!isMulti && <BannerSection
         currentAddress={address}
         owner={owner}
       />} */}
-
-      <div className={clsx({ ['d-flex align-items-start']: !isMobile }, styles.AccountSection)} >
-        <div className={clsx('d-flex justify-content-between')}>
-          {Avatar}
-          {isMobile && actionButtons}
+      <div>
+        <div
+          className={clsx(
+            { ['d-flex align-items-start']: !isMobile },
+            styles.AccountSection
+          )}
+        >
+          <div className={clsx('d-flex justify-content-between')}>
+            {Avatar}
+            {isMobile && actionButtons}
+          </div>
+          <div className={clsx('w-100', { ['ml-2']: !isMobile })}>
+            <h1
+              className={clsx(
+                { ['mt-3']: isMobile },
+                'header DfAccountTitle justify-content-between'
+              )}
+            >
+              {address || isMulti === false ? (
+                <Name
+                  identities={identities}
+                  address={address || addressFromStorage}
+                />
+              ) : (
+                t('general.allAccounts')
+              )}
+              {!isMobile && actionButtons}
+            </h1>
+            {addressView}
+            {accountDescription && (
+              <DfMd
+                className={`mt-3 ${styles.About}`}
+                source={accountDescription}
+              />
+            )}
+          </div>
         </div>
-        <div className={clsx('w-100', { ['ml-2']: !isMobile })}>
-          <h1 className={clsx({ ['mt-3']: isMobile }, 'header DfAccountTitle justify-content-between')}>
-            {address || isMulti === false 
-              ? <Name identities={identities} address={address || addressFromStorage} /> 
-              : t('general.allAccounts')}
-            {!isMobile && actionButtons}
-          </h1>
-          {addressView}
-          {accountDescription && <DfMd className={`mt-3 ${styles.About}`} source={accountDescription} />}
-        </div>
+        <Overview />
       </div>
-
     </Section>
   )
 }

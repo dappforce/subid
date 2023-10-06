@@ -2,11 +2,11 @@
 
 .TransferRow
   padding-top: 6px
-  padding-bottom: 6px
 
-  display: flex
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
   align-items: center
-  justify-content: space-between
+  gap: $space_normal
 
 .Tokens
   font-size: $font_normal
@@ -16,8 +16,7 @@
   font-size: $font_small
 
 .FirstCol
-  max-width: 100px
-  width: 100%
+  width: 250px
 
 .TransferTitle
   display: flex
@@ -34,3 +33,6 @@
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
+.RowDivider
+  margin-top: 6px !important

@@ -2,6 +2,7 @@ import { Button } from 'antd'
 import styles from './Index.module.sass'
 import { TransferRow } from './transactions/Transfer'
 import { VoteRow } from './transactions/Vote'
+import { ClaimRow } from './transactions/Claim';
 
 const ActionButtons = () => {
   return <div className={styles.ActionButtons}>
@@ -20,9 +21,11 @@ const TxHistoryLayout = () => {
     <ActionButtons />
     <div>
       <TransferRow transferKind='receive' />
+      <ClaimRow />
       <TransferRow transferKind='send' />
       <VoteRow voteKind='aye' />
       <VoteRow voteKind='nay' />
+      <ClaimRow />
     </div>
   </div>
 }
