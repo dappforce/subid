@@ -2,18 +2,24 @@
 
 .CardGrid
   display: grid
-  grid-template-columns: repeat(4, 1fr)
+  grid-template-columns: repeat(4, calc((100% / 4) - 12px))
   gap: $space_normal
 
-@media (max-width: 802px)
+.GridItem
+  width: 100%
+
+@media (max-width: 818px)
+  .CardGrid
+    grid-template-columns: repeat(3, calc((100% / 3) - 11px))
+
+@media (max-width: 767px)
   .CardGrid
     padding-left: $space_normal
     padding-right: $space_normal
-    grid-template-columns: repeat(3, 1fr)
 
 @media (max-width: 600px)
   .CardGrid
-    grid-template-columns: repeat(2, 1fr)
+    grid-template-columns: repeat(2, calc((100% / 2) - 8px))
 
 @media (max-width: 375px)
   .CardGrid
