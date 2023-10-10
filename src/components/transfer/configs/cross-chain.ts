@@ -3,7 +3,7 @@ import { AstarAdapter, ShidenAdapter } from '@polkawallet/bridge/adapters/astar'
 import { AltairAdapter } from '@polkawallet/bridge/adapters/centrifuge'
 import { ShadowAdapter } from '@polkawallet/bridge/adapters/crust'
 import { CrabAdapter } from '@polkawallet/bridge/adapters/darwinia'
-import { BasiliskAdapter } from '@polkawallet/bridge/adapters/hydradx'
+import { BasiliskAdapter, HydraAdapter } from '@polkawallet/bridge/adapters/hydradx'
 import { InterlayAdapter, KintsugiAdapter } from '@polkawallet/bridge/adapters/interlay'
 import { KicoAdapter } from '@polkawallet/bridge/adapters/kico'
 import { PichiuAdapter } from '@polkawallet/bridge/adapters/kylin'
@@ -12,9 +12,13 @@ import { MoonbeamAdapter, MoonriverAdapter } from '@polkawallet/bridge/adapters/
 import { KhalaAdapter } from '@polkawallet/bridge/adapters/phala'
 import { PolkadotAdapter, KusamaAdapter } from '@polkawallet/bridge/adapters/polkadot'
 import { StatemineAdapter } from '@polkawallet/bridge/adapters/statemint'
-import { QuartzAdapter } from '@polkawallet/bridge/adapters/unique'
 import { BaseCrossChainAdapter } from '@polkawallet/bridge/base-chain-adapter'
 import { Bridge, Chain, ChainId, RouterFilter } from '@polkawallet/bridge'
+import { BifrostAdapter } from '@polkawallet/bridge/adapters/bifrost'
+import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
+import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
+import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
+import { ZeitgeistAdapter } from '@polkawallet/bridge/adapters/zeitgeist'
 
 const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
@@ -78,13 +82,36 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   khala: {
     adapter: new KhalaAdapter(),
   },
-  quartz: {
-    adapter: new QuartzAdapter(),
+  bifrostKusama: {
+    adapter: new BifrostAdapter(),
+    chainName: 'bifrost'
   },
+  integritee: {
+    adapter: new IntegriteeAdapter(),
+  },
+  turing: {
+    adapter: new TuringAdapter(),
+  },
+  parallel: {
+    adapter: new ParallelAdapter(),
+  },
+  heiko: {
+    adapter: new HeikoAdapter(),
+    chainName: 'heiko'
+  },
+  hydra: {
+    adapter: new HydraAdapter(),
+    chainName: 'hydradx'
+  },
+  zeitgeist: {
+    adapter: new ZeitgeistAdapter(),
+  }
 }
 
 function getPolkawalletChainName (chain: string) {
   const chainData = availableAdapters[chain]
+
+  console.log(chainData)
   if (!chainData) return undefined
   return chainData.chainName || chain as ChainId
 }
