@@ -12,7 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-
     "skipLibCheck": true,
     "baseUrl": ".",
     "lib": [
@@ -25,7 +24,8 @@
     "noEmit": true,
     "module": "esnext",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true
   },
   "typeRoots": [
     "./node_modules/@polkadot/ts",

@@ -1,4 +1,3 @@
-import { IpfsCid } from '@subsocial/types'
 import { nonEmptyStr } from '@subsocial/utils'
 import { NftViewProps } from './NftView'
 import React, { useState } from 'react'
@@ -16,6 +15,7 @@ import { CheckOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 import { SubsocialProfile } from '../identity/types'
 import { useBuildSendEvent } from '../providers/AnalyticContext'
+import { IpfsCid } from '@subsocial/api/types'
 
 const createIpfsContent = (value: IpfsCid) => ({ IPFS: value })
 

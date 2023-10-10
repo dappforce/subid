@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Navigation } from './Navigation'
 import { SidebarCollapsedProvider } from '../components/providers/SideBarCollapsedContext'
 import { ResponsiveSizeProvider } from '../components/responsive/ResponsiveContext'
 import ExtensionAccountProvider from '../components/providers/MyExtensionAccountsContext'
@@ -13,6 +12,7 @@ import { MINUTES } from '../components/utils/index'
 import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
 
+const Navigation = dynamic(() => import('./Navigation'), { ssr: false })
 const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
   ssr: false
 })

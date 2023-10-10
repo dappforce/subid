@@ -8,10 +8,9 @@
   "scripts": {
     "check": "yarn lint",
     "lint": "tsc && eslint --cache 'src/**/*.{ts,tsx,js}' --fix",
-    "dev": "yarn export-env && next -p 3003",
+    "dev": "next -p 3003",
     "analyze": "ANALYZE=true next build",
-    "build": "yarn export-env && next build",
-    "export-env": "node export-env.js",
+    "build": "next build",
     "start": "next start -p 3003"
   },
   "devDependencies": {
@@ -46,10 +45,13 @@
     "sass": "^1.54.4",
     "styled-components": "^5.3.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "typescript": "4.4.2"
+    "typescript": "4.9.5"
   },
   "resolutions": {
-    "@types/react": "^17.x.x"
+    "@types/react": "^17.x.x",
+    "@polkadot/types": "^10.9.1",
+    "@polkadot/api": "^10.9.1",
+    "@polkadot/util": "^12.5.1"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.2.2",
@@ -58,12 +60,12 @@
     "@blazity/next-image-proxy": "^1.0.2",
     "@google/model-viewer": "^1.10.1",
     "@polkadot/extension-dapp": "^0.40.3",
-    "@polkadot/react-identicon": "^0.84.1",
-    "@polkawallet/bridge": "^0.0.4",
+    "@polkadot/react-identicon": "3.6.3",
+    "@polkawallet/bridge": "0.1.3",
     "@reduxjs/toolkit": "^1.6.2",
-    "@subsocial/api": "0.6.8",
+    "@subsocial/api": "0.8.13",
     "@subsocial/grill-widget": "^0.0.12",
-    "@subsocial/utils": "^0.6.8",
+    "@subsocial/utils": "0.8.13",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "antd": "4.12.3",
@@ -78,15 +80,15 @@
     "i18next": "^21.6.11",
     "i18next-browser-languagedetector": "^6.1.3",
     "lodash": "^4.17.21",
-    "next": "11.1.4",
+    "next": "13.5.3",
     "next-i18next": "^10.3.0",
     "next-redux-wrapper": "^7.0.5",
     "next-themes": "^0.0.14",
     "nextjs-google-analytics": "^2.3.0",
     "query-string": "^7.0.1",
-    "react": "^17.0.2",
+    "react": "18.2.0",
     "react-device-detect": "^1.17.0",
-    "react-dom": "^17.0.2",
+    "react-dom": "18.2.0",
     "react-i18next": "^11.15.4",
     "react-icons": "^4.2.0",
     "react-infinite-scroll-component": "^6.1.0",

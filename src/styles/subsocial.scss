@@ -1490,7 +1490,7 @@ hr {
 
 .DfTopBar {
   position: fixed;
-  z-index: 2;
+  z-index: 100;
   height: $height_top_menu;
   width: 100%;
   padding: $space_normal;

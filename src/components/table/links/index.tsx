@@ -1,7 +1,7 @@
-import { AnyAccountId } from '@subsocial/types'
 import { ExternalLink } from '../../identity/utils'
 import styles from '../Table.module.sass'
 import { RelayChain } from '../../../types/index'
+import { AnyAccountId } from '@subsocial/api/types'
 
 const picassoRefCode = 'XHJ2o0'
 

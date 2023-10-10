@@ -1,4 +1,4 @@
-import { AnyAccountId } from '@subsocial/types'
+import { AnyAccountId } from '@subsocial/api/types'
 import { BareProps } from '../utils/Section'
 import BN from 'bignumber.js'
 

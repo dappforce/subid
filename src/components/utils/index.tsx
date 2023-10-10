@@ -2,10 +2,8 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { Button, ButtonProps } from 'antd'
 import { AccountId, DispatchError } from '@polkadot/types/interfaces'
 import { GenericAccountId, Option, Text } from '@polkadot/types'
-import { AnyAccountId, CID } from '@subsocial/types'
 import store from 'store'
 import { IconBaseProps } from '@ant-design/icons/lib/components/Icon'
-import registry from '@subsocial/types/substrate/registry'
 import { memoize } from 'lodash'
 import { encodeAddress, isEthereumAddress } from '@polkadot/util-crypto'
 import config from 'src/config'
@@ -22,6 +20,10 @@ import { showErrorMessage } from './Message'
 import clsx from 'clsx'
 import { MultiChainInfo } from '../../rtk/features/multiChainInfo/types'
 import { asAccountId } from '@subsocial/api'
+import { CID } from 'ipfs-http-client'
+import registry from '@subsocial/api/utils/registry'
+import { AnyAccountId } from '@subsocial/api/types'
+
 
 export const MINUTES = 1000 * 60
 
@@ -244,12 +246,18 @@ export const isValidAddresses = (addresses?: string[]) =>
     ? addresses.every((address) => isValidAddress(address))
     : false
 
-export const resolveIpfsUrl = memoize((cid: string) => {
+/** Memoized resolver of IPFS CID to a full URL. */
+export const resolveIpfsUrl = memoize((cidOrUrl: string) => {
   try {
-    return CID.isCID(new CID(cid)) ? `${ipfsUrl}/ipfs/${cid}` : cid // Looks like CID is already a resolved URL in this case.
+    if (CID.parse(cidOrUrl)) {
+      return `${ipfsUrl}/ipfs/${cidOrUrl}`
+    }
   } catch (err) {
-    return cid
+    // It's OK
   }
+
+  // Looks like CID is already a resolved URL.
+  return cidOrUrl
 })
 
 export const accountIdToSubsocialAddress = (address: AnyAccountId) =>

@@ -47,7 +47,7 @@ export const ProposalBannerSection = () => {
 const ProposalBanner = () => {
   const sendEvent = useBuildSendEvent('click_opencomm_banner')
 
-  return <Link href='https://polkadot.polkassembly.io/referenda/119'>
+  return <Link href='https://polkadot.polkassembly.io/referenda/119' legacyBehavior>
     <a target='_blank' rel='noreferrer' onClick={sendEvent}>
       <ProposalBannerSection />
     </a>

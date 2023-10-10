@@ -13,12 +13,12 @@ import { Message, showSuccessMessage, showErrorMessage, controlledMessage } from
 import { VoidFn } from '@polkadot/api/types'
 import { LoadingOutlined } from '@ant-design/icons'
 
-import { AnyAccountId } from '@subsocial/types'
 import { useLazyConnectionsContext } from './LazyConnectionContext'
 import { getWalletBySource } from '../wallets/supportedWallets/index'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import { getCurrentWallet } from '../utils/index'
 import { DAPP_NAME } from '../providers/utils'
+import { AnyAccountId } from '@subsocial/api/types'
 const log = newLogger('TxButton')
 
 export type GetTxParamsFn = () => any[]

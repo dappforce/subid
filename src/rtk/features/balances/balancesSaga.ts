@@ -92,7 +92,7 @@ function* fetchBalancesByNetworkWorker (
 
   try {
     const dataMap = accounts.map(function* (account) {
-      const accountBalanceByNetwork = yield fetchBalancesByNetwork(account, network)
+      const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(account, network)
 
       return accountBalanceByNetwork
     })
