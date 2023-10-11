@@ -19,8 +19,12 @@ export const fetchCreatorRewards = (dispatch: any, account: string, spaceIds: st
 export const useFetchCreatorRewards = (account?: string, spaceIds?: string[]) => {
   const dispatch = useAppDispatch()
 
+  const creatorRewards = useCreatorRewards(account)
+
+  const { loading } = creatorRewards || {}
+
   useEffect(() => {
-    if (!spaceIds || isEmptyArray(spaceIds) || !account) return
+    if (!spaceIds || isEmptyArray(spaceIds) || !account || loading) return
 
     dispatch(
       creatorRewardsActions.fetchCreatorRewards({
@@ -29,7 +33,7 @@ export const useFetchCreatorRewards = (account?: string, spaceIds?: string[]) =>
         reload: false,
       })
     )
-  }, [ spaceIds?.length, account ])
+  }, [ spaceIds?.length, account, loading ])
 }
 
 export const useCreatorRewards = (account?: string) => {

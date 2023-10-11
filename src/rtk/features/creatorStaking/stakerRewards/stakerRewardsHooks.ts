@@ -15,10 +15,12 @@ export const fetchStakerRewards = (dispatch: any, account: string, spaceIds: str
 
 export const useFetchStakerRewards = (account?: string, spaceIds?: string[]) => {
   const dispatch = useAppDispatch()
+  const stakerRewards = useStakerRewards(account)
 
+  const { loading } = stakerRewards || {}
   
   useEffect(() => {
-    if(!account || !spaceIds || isEmptyArray(spaceIds)) return
+    if(!account || !spaceIds || isEmptyArray(spaceIds) || loading) return
     
     dispatch(
       stakerRewardsActions.fetchStakerRewards({
@@ -27,7 +29,7 @@ export const useFetchStakerRewards = (account?: string, spaceIds?: string[]) => 
         reload: false,
       })
     )
-  }, [ account, spaceIds?.length ])
+  }, [ account, spaceIds?.length, loading ])
 
   
 }
