@@ -19,7 +19,7 @@ const CreatorRewardsClaimButton = ({}: CreatorRewardsClaimButtonProps) => {
   const myAddress = useMyAddress()
   const creatorRewards = useCreatorRewards(myAddress)
 
-  const { data } = creatorRewards || {}
+  const { data, loading } = creatorRewards || {}
 
   const { rewards, availableClaims } = data || {}
 
@@ -82,7 +82,7 @@ const CreatorRewardsClaimButton = ({}: CreatorRewardsClaimButtonProps) => {
     </Button>
   )
 
-  const disableButton = !myAddress || (!!rewards && new BN(rewards).isZero())
+  const disableButton = !myAddress || (!!rewards && new BN(rewards).isZero()) || loading
 
   return (
     <LazyTxButton

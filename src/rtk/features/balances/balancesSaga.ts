@@ -31,7 +31,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
 
       let balances = balancesEntity?.balances
 
-      if (isEmptyEntity(balances) || reload) {
+      if (isEmptyEntity(balances) || (balances && balances.length <= 1) || reload) {
         balances = yield call(getAccountInfo, account)
       }
 
@@ -92,7 +92,7 @@ function* fetchBalancesByNetworkWorker (
 
   try {
     const dataMap = accounts.map(function* (account) {
-      const accountBalanceByNetwork = yield fetchBalancesByNetwork(account, network)
+      const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(account, network)
 
       return accountBalanceByNetwork
     })

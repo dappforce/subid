@@ -1,6 +1,6 @@
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
-import { fetchStakerRewards } from 'src/rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+import { fetchStakerRewards, useStakerRewards } from 'src/rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
 import { ApiPromise } from '@polkadot/api'
 import Button from '../tailwind-components/Button'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
@@ -28,6 +28,9 @@ const ClaimRewardsTxButton = ({
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
   const eraInfo = useGeneralEraInfo()
+  const stakerRewards = useStakerRewards(myAddress)
+
+  const { loading } = stakerRewards || {}
 
   const onSuccess = () => {
     fetchGeneralEraInfo(dispatch)
@@ -86,7 +89,7 @@ const ClaimRewardsTxButton = ({
     </Button>
   )
 
-  const disableButton = !myAddress || new BN(totalRewards).isZero()
+  const disableButton = !myAddress || new BN(totalRewards).isZero() || loading
 
   return (
     <LazyTxButton

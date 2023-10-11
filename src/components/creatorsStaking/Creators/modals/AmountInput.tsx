@@ -82,6 +82,7 @@ export const StakeOrIncreaseStakeAmountInput = (
         : BIGNUMBER_ZERO
 
     props.setAmount(!maxAmount.lte(0) ? maxAmount.toString() : '')
+    validateInput(maxAmount.toString())
   }
 
   const balanceValue = (
@@ -110,6 +111,8 @@ export const StakeOrIncreaseStakeAmountInput = (
       )
     } else if (amountWithDecimals.gt(new BN(availableBalance.toString()))) {
       setInputError('Amount exceeds available balance')
+    } else if (amountWithDecimals.lte(new BN(0))) {
+      setInputError('Amount must be greater than 0')
     } else {
       setInputError(undefined)
     }
@@ -145,6 +148,8 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
         : BIGNUMBER_ZERO
 
     props.setAmount(!maxAmount.lte(0) ? maxAmount.toString() : '')
+
+    validateInput(maxAmount.toString())
   }
 
   const balanceValue = (
@@ -165,7 +170,9 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
         .minus(amountWithDecimals)
         .gte(new BN(minimumStakingAmount || 0))
 
-    if (
+    if (amountWithDecimals.lte(new BN(0))) {
+      setInputError('Amount must be greater than 0')
+    } else if (
       (minimumStakingAmount && amountValue && canUnstake) ||
       amountWithDecimals.eq(totalStaked || '0')
     ) {

@@ -40,7 +40,10 @@ import clsx from 'clsx'
 import { BalanceVariant } from '../customTable/types'
 import BN from 'bignumber.js'
 import store from 'store'
-import { useBuildSendEvent, useSendEvent } from 'src/components/providers/AnalyticContext'
+import {
+  useBuildSendEvent,
+  useSendEvent,
+} from 'src/components/providers/AnalyticContext'
 
 const TransferModal = dynamic(
   () => import('src/components/transfer/TransferModal'),
@@ -253,17 +256,16 @@ export const BalancesTable = (props: BalanceTableProps) => {
 
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
 
-  const [ balancesVariant, setBalancesVariant ] =
-    useState<BalanceVariant>(tableVariantFromStore || 'chains')
+  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
+    tableVariantFromStore || 'chains'
+  )
   const tokenPrices = usePrices()
   const dispatch = useAppDispatch()
   const {
     t,
     i18n: { language },
   } = useTranslation()
-  const sendTransferEvent = useBuildSendEvent(
-    'click_on_transfer_button'
-  )
+  const sendTransferEvent = useBuildSendEvent('click_on_transfer_button')
 
   const [ transferModalState, transferModalDispatch ] = useReducer(
     transferModalReducer,
@@ -387,7 +389,14 @@ export const BalancesTable = (props: BalanceTableProps) => {
           err
         )
       )
-  }, [ addresses?.join(','), isMulti, loading, language, balancesVariant ])
+  }, [
+    addresses?.join(','),
+    JSON.stringify(balancesEntities || {}),
+    isMulti,
+    loading,
+    language,
+    balancesVariant,
+  ])
 
   return (
     <>
