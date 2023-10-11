@@ -826,6 +826,10 @@ video {
   height: fit-content;
 }
 
+.h-\[31px\] {
+  height: 31px;
+}
+
 .max-h-48 {
   max-height: 12rem;
 }
@@ -876,6 +880,14 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[\] {
+  width: ;
+}
+
+.w-\[31px\] {
+  width: 31px;
 }
 
 .min-w-fit {

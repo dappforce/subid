@@ -9,17 +9,23 @@ import { useAppDispatch } from '../rtk/app/store'
 import { pricesActions } from '../rtk/features/prices/pricesSlice'
 import { getChainsNamesForCoinGecko } from '../rtk/features/prices/pricesHooks'
 import { useChainInfo } from '../rtk/features/multiChainInfo/multiChainInfoHooks'
-import { MINUTES } from '../components/utils/index'
+import { MINUTES, isCreatorStakingPage } from '../components/utils/index'
 import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
+import { ChatContextWrapper } from 'src/components/providers/ChatContext'
 
-const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
-  ssr: false
-})
+const ChatFloatingModal = dynamic(
+  () => import('src/components/chat/ChatFloatingModal'),
+  {
+    ssr: false,
+  }
+)
 
-const Page: React.FunctionComponent = ({ children }) => <>
-  <>{children}</>
-</>
+const Page: React.FunctionComponent = ({ children }) => (
+  <>
+    <>{children}</>
+  </>
+)
 
 const NextLayout: React.FunctionComponent = (props) => {
   const dispatch = useAppDispatch()
@@ -27,7 +33,9 @@ const NextLayout: React.FunctionComponent = (props) => {
 
   useEffect(() => {
     const fetchPrices = () => {
-      dispatch(pricesActions.fetchPrices(getChainsNamesForCoinGecko(chainsInfo)))
+      dispatch(
+        pricesActions.fetchPrices(getChainsNamesForCoinGecko(chainsInfo))
+      )
     }
 
     fetchPrices()
@@ -46,10 +54,12 @@ const NextLayout: React.FunctionComponent = (props) => {
           <SidebarCollapsedProvider>
             <LazyConnectionsProvider>
               <ClaimCrowdloanProvider>
-                <Navigation>
-                  <Page {...props} />
-                </Navigation>
-                <ChatFloatingModal />
+                <ChatContextWrapper>
+                  <Navigation>
+                    <Page {...props} />
+                  </Navigation>
+                  <ChatFloatingModal position={isCreatorStakingPage() ? 'right' : 'bottom'} />
+                </ChatContextWrapper>
               </ClaimCrowdloanProvider>
             </LazyConnectionsProvider>
           </SidebarCollapsedProvider>

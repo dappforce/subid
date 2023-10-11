@@ -4809,6 +4809,13 @@
   resolved "https://registry.yarnpkg.com/@subsocial/grill-widget/-/grill-widget-0.0.11.tgz#c77267b1c1344b5535fadfc5c1d7b062862f331f"
   integrity sha512-2XOUbd467AeRtPkv2W3oYYfHGJCXAWEDMx6NpXdYs4AMOm1ZtHPjknrQ88/dcZCxDl26XcCRCSysu9n/6qPu2w==
 
+"@subsocial/resource-discussions@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@subsocial/resource-discussions/-/resource-discussions-0.0.4.tgz#4afeb53dde4accc0c70e80fc245b1416c74afdf2"
+  integrity sha512-GAuC6SFfyrSpCdIuwLlA/hOouNgcj+6j+kZiDPz/cxLcNPdB4gqGVNnqKaL/rNE3MLNetpgI+gmatTomGRKeiA==
+  dependencies:
+    graphology "^0.25.1"
+
 "@subsocial/types@0.6.8":
   version "0.6.8"
   resolved "https://registry.yarnpkg.com/@subsocial/types/-/types-0.6.8.tgz#a3b46aa4b6b37c6a37e72cb4d0a20566a0c29777"
@@ -9509,7 +9516,7 @@ eventemitter3@^4.0.0, eventemitter3@^4.0.4, eventemitter3@^4.0.7:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-events@^3.0.0, events@^3.2.0:
+events@^3.0.0, events@^3.2.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
@@ -10357,6 +10364,14 @@ graphlib@^2.1.8:
   integrity sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==
   dependencies:
     lodash "^4.17.15"
+
+graphology@^0.25.1:
+  version "0.25.4"
+  resolved "https://registry.yarnpkg.com/graphology/-/graphology-0.25.4.tgz#e528a64555ac1f392a9d965321ada5b2b843efe1"
+  integrity sha512-33g0Ol9nkWdD6ulw687viS8YJQBxqG5LWII6FI6nul0pq6iM2t5EKquOTFDbyTblRB3O9I+7KX4xI8u5ffekAQ==
+  dependencies:
+    events "^3.3.0"
+    obliterator "^2.0.2"
 
 graphql-request@^4.1.0:
   version "4.3.0"
@@ -13897,6 +13912,11 @@ object.values@^1.1.0, object.values@^1.1.5, object.values@^1.1.6:
     call-bind "^1.0.2"
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
+
+obliterator@^2.0.2:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/obliterator/-/obliterator-2.0.4.tgz#fa650e019b2d075d745e44f1effeb13a2adbe816"
+  integrity sha512-lgHwxlxV1qIg1Eap7LgIeoBWIMFibOjbrYPIPJZcI1mmGAI2m3lNYpK12Y+GBdPQ0U1hRwSord7GIaawz962qQ==
 
 obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"

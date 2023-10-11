@@ -8,16 +8,25 @@ import { createPortal } from 'react-dom'
 import { useResponsiveSize } from '../responsive'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { isCreatorStakingPage } from '../utils'
+import { useChatContext } from '../providers/ChatContext'
 
-export default function ChatFloatingModal () {
+type ChatFloatingModalProps = {
+  position?: 'right' | 'bottom'
+}
+
+export default function ChatFloatingModal ({
+  position = 'bottom',
+}: ChatFloatingModalProps) {
   const { isLargeDesktop } = useResponsiveSize()
   const sendEvent = useSendEvent()
+  const { open, setOpen, setSpaceId, setMetadata } = useChatContext()
 
   const [ unreadCount, setUnreadCount ] = useState(0)
-  const [ isOpen, setIsOpen ] = useState(false)
 
   useEffect(() => {
-    const unreadCountFromStorage = parseInt(localStorage.getItem('unreadCount') ?? '')
+    const unreadCountFromStorage = parseInt(
+      localStorage.getItem('unreadCount') ?? ''
+    )
     if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
       setUnreadCount(unreadCountFromStorage)
     }
@@ -26,7 +35,7 @@ export default function ChatFloatingModal () {
   const hasOpened = useRef(false)
   const toggleChat = () => {
     let event
-    if (isOpen) event = 'close_grill_iframe'
+    if (open) event = 'close_grill_iframe'
     else {
       event = 'open_grill_iframe'
       setUnreadCount(0)
@@ -34,7 +43,12 @@ export default function ChatFloatingModal () {
     }
     sendEvent(event)
 
-    setIsOpen((prev) => !prev)
+    setOpen((prev) => !prev)
+
+    if (!open) {
+      setSpaceId(undefined)
+      setMetadata(undefined)
+    }
     hasOpened.current = true
   }
 
@@ -52,13 +66,32 @@ export default function ChatFloatingModal () {
   return (
     <>
       {createPortal(
-        <div className={clsx(styles.ChatContainer, !isOpen && styles.ChatContainerHidden)}>
-          <div className={clsx(styles.ChatOverlay)} onClick={() => setIsOpen(false)} />
-          <div className={clsx(styles.ChatContent)}>
-            <div className={clsx(styles.ChatControl)}>
-              <Button onClick={toggleChat}><HiChevronDown /></Button>
+        <div className={clsx(styles[`Position--${position}`])}>
+          <div
+            className={clsx(
+              styles.ChatContainer,
+              !open && styles.ChatContainerHidden
+            )}
+          >
+            <div
+              className={clsx(styles.ChatOverlay)}
+              onClick={() => {
+                setOpen(false)
+                setSpaceId(undefined)
+                setMetadata(undefined)
+              }}
+            />
+            <div className={clsx(styles.ChatContent)}>
+              <div className={clsx(styles.ChatControl)}>
+                <Button onClick={toggleChat}>
+                  <HiChevronDown />
+                </Button>
+              </div>
+              <ChatIframe
+                onUnreadCountChange={onUnreadCountChange}
+                className={styles.ChatIframe}
+              />
             </div>
-            <ChatIframe onUnreadCountChange={onUnreadCountChange} className={styles.ChatIframe} />
           </div>
         </div>,
         document.body
@@ -69,7 +102,9 @@ export default function ChatFloatingModal () {
             <img src='/images/grillchat-white.svg' alt='GrillChat' />
             <span>Polkadot Chat</span>
           </Button>
-          {!!unreadCount && <span className={styles.ChatUnreadCount}>{unreadCount}</span>}
+          {!!unreadCount && (
+            <span className={styles.ChatUnreadCount}>{unreadCount}</span>
+          )}
         </div>,
         document.body
       )}

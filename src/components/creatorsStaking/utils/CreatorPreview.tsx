@@ -23,7 +23,7 @@ export const CreatorPreview = ({
   infoClassName,
 }: CreatorPreviewProps) => {
   return (
-    <div className='flex w-full items-center'>
+    <div className='flex w-full items-center overflow-hidden'>
       <BaseAvatar
         style={{ cursor: 'pointer' }}
         size={imgSize}

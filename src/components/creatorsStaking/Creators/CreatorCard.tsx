@@ -14,6 +14,8 @@ import { ContactInfo } from '../utils/socialLinks'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../utils/CreatorPreview'
 import { useModalContext } from '../contexts/ModalContext'
+import Button from '../tailwind-components/Button'
+import { useChatContext } from 'src/components/providers/ChatContext'
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -57,6 +59,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ opneAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const { setOpen, setSpaceId, setMetadata } = useChatContext()  
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -110,6 +113,21 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const contactInfo = { email, links }
 
+  const onChatButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if(name) {
+      setOpen(true)
+      setSpaceId(spaceId)
+      setMetadata({
+        title: name,
+        body: about,
+        image: image,
+      })
+    }
+  }
+
   return (
     <>
       <div
@@ -123,7 +141,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             className='cursor-pointer'
             onClick={() => setOpenAboutModal(true)}
           >
-            <div className='flex justify-between gap-2'>
+            <div className='w-full flex justify-between gap-2'>
               <CreatorPreview
                 title={
                   <ValueOrSkeleton
@@ -139,17 +157,16 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 infoClassName='flex flex-col gap-1'
               />
 
-              {/* <Button
-              onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-              }}
-              variant='primaryOutline'
-              size='circle'
-              className='h-fit'
-            >
-              <img src='/images/creator-staking/messenger.svg' alt='' />
-            </Button> */}
+            <div>
+              <Button
+                onClick={onChatButtonClick}
+                variant='primaryOutline'
+                size='circle'
+                className='h-[31px] w-[31px]'
+              >
+                <img src='/images/creator-staking/messenger.svg' alt='' />
+              </Button>
+              </div>
             </div>
             {aboutText}
           </div>
