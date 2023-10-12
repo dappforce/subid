@@ -2,7 +2,7 @@ import { Button } from 'antd'
 import styles from './Index.module.sass'
 import { TransferRow } from './transactions/Transfer'
 import { VoteRow } from './transactions/Vote'
-import { ClaimRow } from './transactions/Claim';
+import { ClaimRow } from './transactions/Claim'
 
 const ActionButtons = () => {
   return <div className={styles.ActionButtons}>

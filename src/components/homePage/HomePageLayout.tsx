@@ -16,7 +16,7 @@ type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const chainsInfo = useChainInfo()
-  const [activeTab, setActiveTab] = useState<HomePageTabKeys>('portfolio')
+  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>('portfolio')
 
   const tabs = [
     {

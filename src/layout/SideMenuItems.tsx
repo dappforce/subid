@@ -1,10 +1,8 @@
 import React from 'react'
 import {
-  DollarOutlined,
   HomeOutlined,
   BugOutlined,
   BulbOutlined,
-  PictureOutlined,
   UsergroupAddOutlined,
   WifiOutlined,
   ClockCircleOutlined,
