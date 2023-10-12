@@ -92,20 +92,20 @@ export const AccountInfo = (props: Props) => {
 
   const addressView = (
     <div className={clsx({ ['mt-3']: !isMobile }, 'd-flex align-items-center')}>
-      <div className="d-flex">
+      <div className='d-flex'>
         {address && (
-          <MutedDiv className="d-flex mr-2 align-items-center">
-            <img src="/images/wallet.svg" className={styles.Icon} />{' '}
+          <MutedDiv className='d-flex mr-2 align-items-center'>
+            <img src='/images/wallet.svg' className={styles.Icon} />{' '}
             <CopyAddress address={address} iconVisibility>
               {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
             </CopyAddress>
           </MutedDiv>
         )}
       </div>
-      <div className="d-flex align-items-center">
+      <div className='d-flex align-items-center'>
         {address && (
           <AddressQrModal
-            className="grey-light"
+            className='grey-light'
             address={address.toString()}
             openFromUrl
           />
@@ -117,7 +117,7 @@ export const AccountInfo = (props: Props) => {
             className={clsx(styles.StatescanLink, 'grey-light')}
             withCircle={false}
             title={t('buttons.viewAddressOn', { website: 'Statescan.io' })}
-            icon="/images/statescan.svg"
+            icon='/images/statescan.svg'
           />
         )}
       </div>
@@ -136,7 +136,7 @@ export const AccountInfo = (props: Props) => {
     <Section
       className={clsx(
         styles.AccountOverview,
-        !isHomePage ? styles.NotHomePageMargin : 'mb-3'
+        !isHomePage ? styles.NotHomePageMargin : 'bs-mb-4'
       )}
     >
       {/* {!isMulti && <BannerSection

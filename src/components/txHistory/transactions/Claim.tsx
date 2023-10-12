@@ -30,7 +30,7 @@ export const ClaimRow = ({ }: ClaimRowProps) => {
             <AvatarOrSkeleton
               icon={'/polkadot.svg'}
               size={'large'}
-              className='mr-2 align-items-start flex-shrink-none'
+              className='bs-mr-2 align-items-start flex-shrink-none'
             />
             <div>
               <div className='font-weight-bold FontNormal'>{title}</div>

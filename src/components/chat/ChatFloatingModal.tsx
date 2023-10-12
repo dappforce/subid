@@ -16,6 +16,8 @@ type ChatFloatingModalProps = {
   position?: 'right' | 'bottom'
 }
 
+const storageName = 'unreadCount'
+
 export default function ChatFloatingModal ({
   position = 'bottom',
 }: ChatFloatingModalProps) {

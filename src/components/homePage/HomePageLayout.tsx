@@ -1,6 +1,5 @@
 import BalancesTable from '../table/balancesTable/BalanceTable'
 import NtfLayout from '../ntf/NftsLayout'
-import { Overview } from '../overview/Overview'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { Tabs } from 'antd'
 import { useState } from 'react'
