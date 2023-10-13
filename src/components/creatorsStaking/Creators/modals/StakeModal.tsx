@@ -17,7 +17,6 @@ import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraSt
 import { pluralize } from '@subsocial/utils'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
-import { useModalContext } from '../../contexts/ModalContext'
 import { useResponsiveSize } from 'src/components/responsive'
 
 type CurrentStakeProps = {

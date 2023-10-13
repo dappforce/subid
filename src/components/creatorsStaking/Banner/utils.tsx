@@ -2,8 +2,8 @@ import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHook
 import CardWrapper from '../utils/CardWrapper'
 import { convertToBalanceWithDecimal, toShortMoney } from '@subsocial/utils'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
-import { Tooltip } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 type StatsCardProps = {
   title: string

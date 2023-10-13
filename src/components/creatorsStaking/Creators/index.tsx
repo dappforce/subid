@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
-import Pagination from '../tailwind-components/Pagination'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
@@ -19,7 +18,7 @@ import { ModalContextWrapper, useModalContext } from '../contexts/ModalContext'
 import SuccessModal from './modals/SuccessModal'
 import { toGenericAccountId } from 'src/rtk/app/util'
 
-const DEFAULT_PAGE_SIZE = 9
+// const DEFAULT_PAGE_SIZE = 9
 
 type AllCreatorsProps = {
   spaceIds?: string[]
