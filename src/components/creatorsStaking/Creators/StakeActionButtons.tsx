@@ -4,6 +4,7 @@ import { StakingModalVariant } from './modals/StakeModal'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
 import { Tooltip } from 'antd'
+import clsx from 'clsx'
 
 type StakeButtonProps = {
   spaceId: string
@@ -12,6 +13,7 @@ type StakeButtonProps = {
   openModal: () => void
   setModalVariant: (variant: StakingModalVariant) => void
   onClick?: () => void
+  className?: string
 }
 
 const StakeActionButtons = ({
@@ -21,6 +23,7 @@ const StakeActionButtons = ({
   openModal,
   setModalVariant,
   onClick,
+  className,
 }: StakeButtonProps) => {
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
@@ -51,7 +54,7 @@ const StakeActionButtons = ({
       <Button
         onClick={() => onButtonClick(isStake ? 'stake' : 'increaseStake')}
         variant='primaryOutline'
-        className='w-full'
+        className={clsx('w-full', className)}
         size={buttonsSize}
         disabled={disableButtons}
       >
@@ -60,7 +63,7 @@ const StakeActionButtons = ({
       {!isStake && myAddress && (
         <Button
           variant='outlined'
-          className='w-full'
+          className={clsx('w-full', className)}
           size={buttonsSize}
           onClick={() => onButtonClick('unstake')}
           disabled={disableButtons}

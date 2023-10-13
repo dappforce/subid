@@ -30,6 +30,18 @@ export default function ChatFloatingModal ({
     if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
       setUnreadCount(unreadCountFromStorage)
     }
+
+    const close = (e: any) => {
+      if (e.keyCode === 27) {
+        setOpen(false)
+        setSpaceId(undefined)
+        setMetadata(undefined)
+      }
+    }
+
+    window.addEventListener('keydown', close)
+
+    return () => window.removeEventListener('keydown', close)
   }, [])
 
   const hasOpened = useRef(false)
@@ -43,12 +55,13 @@ export default function ChatFloatingModal ({
     }
     sendEvent(event)
 
-    setOpen((prev) => !prev)
-
     if (!open) {
       setSpaceId(undefined)
       setMetadata(undefined)
     }
+
+    setOpen((prev) => !prev)
+
     hasOpened.current = true
   }
 

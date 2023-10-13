@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, useEffect, useRef } from 'react'
 import Input from '../../tailwind-components/inputs/Input'
 import Button from '../../tailwind-components/Button'
 import { useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
@@ -219,6 +219,8 @@ const AmountInput = ({
   onMaxAmountClick,
   validateInput,
 }: AmountInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const onInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const amountInputValue = e.target.value
 
@@ -226,6 +228,12 @@ const AmountInput = ({
 
     setAmount(amountInputValue)
   }
+
+  useEffect(() => {
+    if(inputRef.current) {
+      inputRef.current.focus()
+    } 
+  }, [])
 
   return (
     <div>
@@ -239,11 +247,12 @@ const AmountInput = ({
         </div>
       </div>
       <Input
+        ref={inputRef}
         step={0.1}
         min={0}
         value={amount}
         placeholder='0'
-        autoFocus
+        autoFocus={true}
         onChange={onInputChange}
         error={inputError}
         rightElement={() => (

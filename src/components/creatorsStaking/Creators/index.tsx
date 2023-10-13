@@ -33,7 +33,7 @@ const CreatorsCards = ({
   sortBy,
   ...modalProps
 }: AllCreatorsProps) => {
-  const [ page, setPage ] = useState(1)
+  // const [ page, setPage ] = useState(1)
   const sortedSpaceIds = useSortBy(sortBy, spaceIds, era)
 
   const ids =
@@ -50,23 +50,23 @@ const CreatorsCards = ({
     <CreatorCard key={i} spaceId={spaceId} era={era} {...modalProps} />
   ))
 
-  const start = (page - 1) * DEFAULT_PAGE_SIZE
-  const end = start + DEFAULT_PAGE_SIZE
+  // const start = (page - 1) * DEFAULT_PAGE_SIZE
+  // const end = start + DEFAULT_PAGE_SIZE
 
-  const creatorsCardsByPage = creatorsCards.slice(start, end)
+  // const creatorsCardsByPage = creatorsCards.slice(start, end)
 
   return (
     <div>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 md:px-6 px-4'>
-        {creatorsCardsByPage}
+        {creatorsCards}
       </div>
-      <Pagination
+      {/* <Pagination
         current={page}
         pageSize={DEFAULT_PAGE_SIZE}
         total={creatorsCards.length}
         onChange={(page) => setPage(page)}
         className='md:px-6 p-4'
-      />
+      /> */}
     </div>
   )
 }

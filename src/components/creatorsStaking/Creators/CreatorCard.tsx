@@ -16,6 +16,7 @@ import { CreatorPreview } from '../utils/CreatorPreview'
 import { useModalContext } from '../contexts/ModalContext'
 import Button from '../tailwind-components/Button'
 import { useChatContext } from 'src/components/providers/ChatContext'
+import { Tooltip } from 'antd'
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -59,7 +60,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ opneAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
-  const { setOpen, setSpaceId, setMetadata } = useChatContext()  
+  const { setOpen, setSpaceId, setMetadata } = useChatContext()
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -117,13 +118,13 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     e.stopPropagation()
     e.preventDefault()
 
-    if(name) {
+    if (name) {
       setOpen(true)
       setSpaceId(spaceId)
       setMetadata({
         title: name,
-        body: about,
-        image: image,
+        body: about || '',
+        image: image || '',
       })
     }
   }
@@ -154,18 +155,21 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 desc={<ContactInfo {...contactInfo} />}
                 avatar={image}
                 owner={owner}
+                descClassName='p-[1px]'
                 infoClassName='flex flex-col gap-1'
               />
 
-            <div>
-              <Button
-                onClick={onChatButtonClick}
-                variant='primaryOutline'
-                size='circle'
-                className='h-[31px] w-[31px]'
-              >
-                <img src='/images/creator-staking/messenger.svg' alt='' />
-              </Button>
+              <div>
+                <Tooltip title='Community chat'>
+                  <Button
+                    onClick={onChatButtonClick}
+                    variant='primaryOutline'
+                    size='circle'
+                    className='h-[31px] w-[31px]'
+                  >
+                    <img src='/images/creator-staking/messenger.svg' alt='' />
+                  </Button>
+                </Tooltip>
               </div>
             </div>
             {aboutText}

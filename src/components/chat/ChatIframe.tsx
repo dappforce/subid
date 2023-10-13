@@ -92,7 +92,7 @@ export default function ChatIframe ({
     return () => {
       if (listener) grill.removeUnreadCountListener(listener)
     }
-  }, [spaceId])
+  }, [ spaceId ])
 
   return <div {...props} id='grill' className={clsx(props.className)} />
 }

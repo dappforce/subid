@@ -8,12 +8,20 @@ import {
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
-import { StatsCard, TotalStakedBalance } from './utils'
+import { DashboardCard, TotalStakedBalance } from './utils'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import BN from 'bignumber.js'
 import { useMemo } from 'react'
+import { formatTime, useGetOneEraTime } from '../utils/DaysToWithdraw'
 
 const skeletonClassName = 'h-[20px] mb-1'
+
+const TimeInEra = () => {
+  const timeInEra = useGetOneEraTime()
+  if(!timeInEra) return <>-</>
+
+  return <>{formatTime(timeInEra?.toNumber())}</>
+}
 
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
@@ -34,6 +42,7 @@ const StatsCards = () => {
     {
       title: 'Total Staked',
       value: <TotalStakedBalance value={generalEraInfo?.staked || 0} />,
+      infoTitle: 'The total amount of tokens stakes on the Subsocial network'
     },
     {
       title: 'Estimated APR',
@@ -43,6 +52,7 @@ const StatsCards = () => {
           skeletonClassName={skeletonClassName}
         />
       ),
+      infoTitle: 'An estimate on how many tokens you will receive per year when you stake'
     },
     {
       title: 'Current Era',
@@ -58,6 +68,7 @@ const StatsCards = () => {
           <NextEraStartDate />
         </span>
       ),
+      infoTitle: <>Rewards are available at the end of each era, which lasts <TimeInEra /></>
     },
     {
       title: 'Total Creators',
@@ -67,13 +78,14 @@ const StatsCards = () => {
           skeletonClassName={skeletonClassName}
         />
       ),
+      infoTitle: 'The number of creators available to stake to'
     },
   ]
 
   return (
     <div className='grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-4'>
       {dashboardData.map((data, i) => (
-        <StatsCard key={i} {...data} />
+        <DashboardCard key={i} {...data} />
       ))}
     </div>
   )

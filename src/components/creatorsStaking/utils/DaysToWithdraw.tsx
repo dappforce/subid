@@ -3,7 +3,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import BN from 'bignumber.js'
 import { pluralize } from '@subsocial/utils'
 
-const formatTime = (seconds: number) => {
+export const formatTime = (seconds: number) => {
   const timeUnits = [
     { divisor: 86400, label: 'day' },
     { divisor: 3600, label: 'hour' },
@@ -21,11 +21,7 @@ const formatTime = (seconds: number) => {
   }
 }
 
-type DaysToUnstakeProps = {
-  unbondingPeriodInEras?: string
-}
-
-const DaystoWithDraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
+export const useGetOneEraTime = () => {
   const eraInfo = useGeneralEraInfo()
   const { blockTime } = useStakingContext()
 
@@ -35,6 +31,16 @@ const DaystoWithDraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
     blockPerEra && blockTime
       ? new BN(blockPerEra).multipliedBy(new BN(blockTime).dividedBy(1000))
       : undefined
+
+  return timeInEra
+}
+
+type DaysToUnstakeProps = {
+  unbondingPeriodInEras?: string
+}
+
+const DaystoWithDraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
+  const timeInEra = useGetOneEraTime()
 
   const unbondingPeriodInDays = timeInEra?.multipliedBy(
     unbondingPeriodInEras || '0'

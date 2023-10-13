@@ -14,8 +14,8 @@ export type ChanelTypeResource = {
 
 export type ResourceMetadata = {
   title: string
-  body?: string
-  image?: string
+  body: string
+  image: string
 }
 
 export type GenerateGrillConfigParams = {

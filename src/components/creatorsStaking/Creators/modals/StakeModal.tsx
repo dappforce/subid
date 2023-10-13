@@ -18,6 +18,7 @@ import { pluralize } from '@subsocial/utils'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
 import { useModalContext } from '../../contexts/ModalContext'
+import { useResponsiveSize } from 'src/components/responsive'
 
 type CurrentStakeProps = {
   spaceId: string
@@ -96,8 +97,7 @@ const StakingModal = ({
   amount,
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const {} = useModalContext()
-
+  const { isMobile } = useResponsiveSize()
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -168,10 +168,10 @@ const StakingModal = ({
         <CreatorPreview
           title={name}
           desc={desc}
-          imgSize={80}
+          imgSize={isMobile ? 60 : 80}
           avatar={image}
           owner={owner}
-          titleClassName='ml-2 mb-4 text-2xl'
+          titleClassName='ml-2 mb-3 text-2xl'
           descClassName='text-base ml-2 text-text-muted leading-5'
         />
         {modalVariant === 'increaseStake' && <CurrentStake spaceId={spaceId} />}

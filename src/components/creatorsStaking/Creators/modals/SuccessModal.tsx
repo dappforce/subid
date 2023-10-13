@@ -4,6 +4,7 @@ import { CreatorPreview } from '../../utils/CreatorPreview'
 import { openNewWindow } from 'src/components/utils'
 import { twitterShareUrl } from 'src/components/urls/social-share'
 import Button from '../../tailwind-components/Button'
+import { useResponsiveSize } from 'src/components/responsive'
 
 const twitterText = 'I just staked on @SubIDapp!\nYou can try it here:'
 
@@ -22,6 +23,7 @@ const SuccessModal = ({
   tokenSymbol,
   spaceId,
 }: SuccessModalProps) => {
+  const { isMobile } = useResponsiveSize()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
 
   const { space } = creatorSpaceEntity || {}
@@ -48,10 +50,10 @@ const SuccessModal = ({
               My stake: <span className='font-bold text-black'>{amount} {tokenSymbol}</span>
             </span>
           }
-          imgSize={80}
+          imgSize={isMobile ? 60 : 80}
           avatar={image}
           owner={owner}
-          titleClassName='ml-2 mb-4 text-2xl'
+          titleClassName='ml-2 mb-3 text-2xl'
           descClassName='text-base ml-2 text-text-muted leading-5'
         />
         <Button

@@ -76,7 +76,7 @@ const StakingTxButton = ({
       {...compProps}
       variant={'primary'}
       size={'lg'}
-      className='w-full'
+      className='w-full text-base'
       >
       {label}
     </Button>

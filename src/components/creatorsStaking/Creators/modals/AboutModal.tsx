@@ -49,7 +49,7 @@ const AboutModal = ({
 
   const totalValue = (
     <FormatBalance
-      value={total}
+      value={total || '0'}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -84,14 +84,14 @@ const AboutModal = ({
             imgSize={isMobile ? 60 : 80}
             avatar={image}
             owner={owner}
-            titleClassName='ml-2 md:mb-4 mb-2 md:text-2xl text-xl'
+            titleClassName='ml-2 md:mb-3 mb-2 md:text-2xl text-xl'
             descClassName='text-base ml-2 text-text-muted leading-5'
           />
 
           {about && (
             <div className='flex flex-col gap-1 p-4 bg-gray-50 rounded-2xl'>
               <div className='text-text-muted text-sm'>Description</div>
-              <div className='max-h-48 overflow-y-auto'>{about}</div>
+              <div className='max-h-48 overflow-y-auto text-base'>{about}</div>
             </div>
           )}
 
@@ -102,6 +102,7 @@ const AboutModal = ({
             openModal={() => setOpenStakeModal(true)}
             setModalVariant={setModalVariant}
             onClick={() => closeModal()}
+            className='text-base'
           />
         </div>
       </Modal>
