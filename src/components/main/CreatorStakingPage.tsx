@@ -15,10 +15,10 @@ const CreatorStakingPage = () => {
 
       <style jsx global>{`
         svg {
-          vertical-align: text-top !important
+          vertical-align: text-top !important;
         }
       `}</style>
-      
+
       <div className={clsx('layout-wrapper', styles.CreatorStakingSection)}>
         <PageContent
           meta={{
