@@ -11,7 +11,7 @@ export const buttonStyles = cva('relative rounded-full transition leading-[22px]
       primary:
         'bg-background-primary border border-transparent text-text-on-primary',
       primaryOutline:
-        'bg-transparent border border-background-primary text-text-primary',
+        'bg-transparent border border-background-primary !text-text-primary',
       whiteOutline: 'bg-transparent border border-white text-text',
       white: 'bg-white !text-text',
       mutedOutline: 'bg-transparent border border-text-muted text-text-muted',

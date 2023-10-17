@@ -18,7 +18,7 @@ const skeletonClassName = 'h-[20px] mb-1'
 
 const TimeInEra = () => {
   const timeInEra = useGetOneEraTime()
-  if(!timeInEra) return <>-</>
+  if (!timeInEra) return <>-</>
 
   return <>{formatTime(timeInEra?.toNumber())}</>
 }
@@ -42,7 +42,7 @@ const StatsCards = () => {
     {
       title: 'Total Staked',
       value: <TotalStakedBalance value={generalEraInfo?.staked || 0} />,
-      infoTitle: 'The total amount of tokens stakes on the Subsocial network'
+      infoTitle: 'The total amount of tokens stakes on the Subsocial network',
     },
     {
       title: 'Estimated APR',
@@ -52,7 +52,8 @@ const StatsCards = () => {
           skeletonClassName={skeletonClassName}
         />
       ),
-      infoTitle: 'An estimate on how many tokens you will receive per year when you stake'
+      infoTitle:
+        'An estimate on how many tokens you will receive per year when you stake',
     },
     {
       title: 'Current Era',
@@ -68,7 +69,12 @@ const StatsCards = () => {
           <NextEraStartDate />
         </span>
       ),
-      infoTitle: <>Rewards are available at the end of each era, which lasts <TimeInEra /></>
+      infoTitle: (
+        <>
+          Rewards are available at the end of each era, which lasts{' '}
+          <TimeInEra />
+        </>
+      ),
     },
     {
       title: 'Total Creators',
@@ -78,7 +84,7 @@ const StatsCards = () => {
           skeletonClassName={skeletonClassName}
         />
       ),
-      infoTitle: 'The number of creators available to stake to'
+      infoTitle: 'The number of creators available to stake to',
     },
   ]
 
@@ -107,7 +113,12 @@ const Banner = () => {
           <div className='text-[20px]'>An innovative way to stake</div>
         </div>
 
-        <Button variant='white' size='sm' href='google.com'>
+        <Button
+          variant='white'
+          size='sm'
+          target='_blank'
+          href='https://docs.subsocial.network/docs/basics/staking/overview'
+        >
           <span className='flex gap-2 items-center py-1'>
             <AiOutlineQuestionCircle size={20} /> How does it work?
           </span>

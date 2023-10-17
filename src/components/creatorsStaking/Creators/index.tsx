@@ -124,7 +124,12 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
         {!isCreator && (
           <div className='flex gap-4 items-center'>
             <div>Are you a creator?</div>
-            <Button variant='primaryOutline' size={'sm'}>
+            <Button
+              variant='primaryOutline'
+              href='https://forms.gle/t3YfTtGnbVdwm7kY8'
+              target='_blank'
+              size={'sm'}
+            >
               Apply to join
             </Button>
           </div>

@@ -67,6 +67,8 @@ function* fetchBackerRewardsWorker (
           data,
         })
       )
+    } else {
+      backerRewardsActions.fetchBackerRewardsFailed({ account, spaceIds })
     }
   } catch (error) {
     log.error('Failed to fetch backer rewards by account', account, error)

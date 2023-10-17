@@ -47,7 +47,7 @@ const slice = createSlice({
     fetchBackerLedger: (state, action: PayloadAction<FetchBackerLedgerProps>) => {
       const { reload, account } = action.payload
 
-      const feeData = backerLedgerSelector.selectById(state, account)
+      const ledger = backerLedgerSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: backerLedgerAdapter,
@@ -55,7 +55,7 @@ const slice = createSlice({
         reload,
         fieldName: 'ledger',
         id: account,
-        entity: feeData,
+        entity: ledger,
       })
     },
     fetchBackerLedgerSuccess: (
@@ -70,7 +70,7 @@ const slice = createSlice({
     fetchBackerLedgerFailed: (state, action: PayloadAction<FetchBackerLedgerProps>) => {
       const { account, reload = true } = action.payload
 
-      const info = backerLedgerSelector.selectById(state, account)
+      const ledger = backerLedgerSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: backerLedgerAdapter,
@@ -79,7 +79,7 @@ const slice = createSlice({
         loading: false,
         fieldName: 'ledger',
         id: account,
-        entity: info,
+        entity: ledger,
       })
       return
     },
