@@ -43,6 +43,7 @@ main {
 
 body {
   background-color: $color_page_bg !important;
+  margin: 0;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -236,7 +237,7 @@ a {
 }
 
 .ant-modal-title {
-  font-size: $font_large;
+  font-size: $font_large !important;
 }
 
 .ant-list-lg.ant-list-item {
@@ -369,13 +370,19 @@ a {
   font-weight: 600;
 }
 
+.ant-drawer-left {
+  position: fixed !important
+}
+
 .DfSideBar {
   .ant-drawer-content-wrapper {
     width: 275px !important;
   }
 
-  position: fixed;
+  position: fixed !important;
   z-index: 10;
+  width: inherit !important;
+  height: 100% !important;
   // top: $height_top_menu;
   // height: 93.5%;
   overflow: auto;
@@ -1391,7 +1398,6 @@ hr {
 .DfSider {
   // position: fixed !important;
   background: #fff;
-  border-right: 1px solid $color_light_border;
   overflow-y: auto;
   left: 0;
 
@@ -1438,7 +1444,7 @@ hr {
   .ant-layout-sider-children {
     position: fixed;
     height: 100%;
-    width: 229px;
+    width: inherit;
     background: #fff;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
@@ -1449,17 +1455,17 @@ hr {
     scrollbar-width: none;  /* Firefox */
   }
 
-  &.ant-layout-sider-collapsed .ant-layout-sider-children {
-    width: auto;
-  }
+  // &.ant-layout-sider-collapsed .ant-layout-sider-children {
+  //   width: auto;
+  // }
 
-  .ant-menu-item:not(:last-child) {
-    margin-bottom: 4px;
-  }
+  // .ant-menu-item:not(:last-child) {
+  //   margin-bottom: 4px;
+  // }
 
-  .MenuItemName {
-    color: $color_muted;
-  }
+  // .MenuItemName {
+  //   color: $color_muted;
+  // }
 }
 
 .ant-list-something-after-last-item .ant-spin-container > .ant-list-items > .ant-list-item:last-child {
@@ -1479,12 +1485,12 @@ hr {
 }
 .DfMenuItem {
   @media (min-width: 992px) { 
-    &.ant-menu-item, .ant-menu-submenu-title {
-      padding-left: 32px !important;
-    }
-    ul .DfMenuItem {
-      padding-left: 56px !important;
-    }
+    // &.ant-menu-item, .ant-menu-submenu-title {
+    //   padding-left: 32px !important;
+    // }
+    // ul .DfMenuItem {
+    //   padding-left: 56px !important;
+    // }
     .anticon {
       font-size: 1rem;
     }
@@ -2357,12 +2363,27 @@ hr {
   font-weight: 500;
   text-align: left;
   background: #f5f5f5;
-  padding: $space_tiny $space_tiny 0 $space_tiny;
+  padding: $space_tiny $space_tiny 0 $space_tiny !important;
+  
+  h3 {
+    margin: 0;
+    margin-bottom: 0.5em;
+  }
+}
+
+.ant-table-thead > tr > td {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.ant-table-thead > tr {
+  ::before {
+    display: none;
+  }
 }
 
 .ant-table-tbody > tr > td {
-  border-bottom: 1px solid #f0f0f0;
-  padding:  $space_tiny;
+  border-bottom: 1px solid #f0f0f0 !important;
+  padding: $space_tiny !important;
 }
 
 .MonosizedFont {
@@ -2439,4 +2460,8 @@ hr {
     margin-bottom: 0 !important;
     // padding-top: $space_normal;
   }
+}
+
+.ant-modal-content {
+  padding: 0 !important;
 }

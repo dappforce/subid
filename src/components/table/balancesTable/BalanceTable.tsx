@@ -126,7 +126,7 @@ const getColumns = (
   balancesVariant: BalanceVariant
 ): ColumnsType<any> => {
   const transferColumn: ColumnsType<any> = isMyAddress
-    ? [ { dataIndex: 'transferAction', align: 'right' } ]
+    ? [ { title: '', dataIndex: 'transferAction', align: 'right' } ]
     : []
   return [
     {
@@ -184,6 +184,7 @@ const getColumns = (
     },
     ...transferColumn,
     {
+      title: '',
       dataIndex: 'links',
       className: styles.LinksColumn,
     },

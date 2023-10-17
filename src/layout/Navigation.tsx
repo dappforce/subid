@@ -38,11 +38,11 @@ const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) =>
 
   return <Drawer
     className={clsx('DfSideBar h-100', className)}
-    bodyStyle={{ padding: 0 }}
+    styles={{ body: { padding: 0 } }}
     placement='left'
     closable={false}
     onClose={hide}
-    visible={!collapsed}
+    open={!collapsed}
     getContainer={false}
     keyboard
   >
