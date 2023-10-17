@@ -163,7 +163,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
         />
       )}
       {withLoadMoreLink && !loading && hasMore && isServerSide() && (
-        <ButtonLink block {...linkProps} className='mb-2'>
+        <ButtonLink block {...linkProps} className='bs-mb-2'>
           Load more
         </ButtonLink>
       )}

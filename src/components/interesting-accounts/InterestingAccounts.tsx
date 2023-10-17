@@ -21,7 +21,7 @@ export const PreviewAccountsGrid: FC = () => {
   const interestingAccountsUrl = asPath + (asPath === '/' ? '' : '/') + 'accounts'
 
   const showAllButton = isClientSide() ? <div className={clsx({ ['pl-3 bs-mb-2']: isMobile })}>
-    <Link href={interestingAccountsUrl}>
+    <Link href={interestingAccountsUrl} legacyBehavior>
       {t('general.showAll')}
     </Link>
   </div> : null

@@ -8,7 +8,7 @@
   "scripts": {
     "check": "yarn lint",
     "lint": "tsc && eslint --cache 'src/**/*.{ts,tsx,js}' --fix",
-    "dev": "yarn export-env && next -p 3003",
+    "dev": "next -p 3003",
     "build-tailwind-css:watch": "npx tailwindcss -i src/styles/tailwind.css -o public/tailwind.css --watch",
     "analyze": "ANALYZE=true next build",
     "build": "next build",

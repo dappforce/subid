@@ -124,7 +124,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button (
 
   if (href) {
     return (
-      <Link {...nextLinkProps} href={href} passHref>
+      <Link {...nextLinkProps} href={href} passHref legacyBehavior>
         <a ref={ref as any} {...props} className={className}>
           {children}
         </a>

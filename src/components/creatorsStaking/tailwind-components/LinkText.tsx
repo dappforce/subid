@@ -41,7 +41,7 @@ const LinkText = forwardRef<any, LinkTextProps>(function LinkText (
   }
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <a
         {...props}
         {...anchorProps}
