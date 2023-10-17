@@ -11,6 +11,7 @@ import { isCreatorStakingPage } from '../utils'
 import { useChatContext } from '../providers/ChatContext'
 
 const storageName = 'grill:unreadCount'
+
 type ChatFloatingModalProps = {
   position?: 'right' | 'bottom'
 }

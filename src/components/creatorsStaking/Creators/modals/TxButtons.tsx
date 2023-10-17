@@ -11,9 +11,10 @@ import { useAppDispatch } from 'src/rtk/app/store'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
-import { StakingModalVariant } from './StakeModal'
+import { StakingModalVariant, betaVersionAgreementStorageName } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
 import { useModalContext } from '../../contexts/ModalContext'
+import store from 'store'
 
 export type CommonTxButtonProps = {
   amount: string
@@ -24,10 +25,10 @@ export type CommonTxButtonProps = {
   closeModal: () => void
   modalVariant?: StakingModalVariant
   inputError?: string
+  disabled?: boolean  
 }
 
 type StakingTxButtonProps = CommonTxButtonProps & {
-  disabled: boolean
   tx: string
 }
 
@@ -58,6 +59,7 @@ const StakingTxButton = ({
     if(modalVariant === 'stake') {
       setStakedSpaceId(spaceId)
       setShowSuccessModal(true)
+      store.set(betaVersionAgreementStorageName, true)
     }
     
     closeModal()
@@ -113,7 +115,7 @@ export const StakeOrIncreaseTxButton = (props: CommonTxButtonProps) => {
   
   return <StakingTxButton 
     {...props}
-    disabled={availableBalance.isZero()}
+    disabled={availableBalance.isZero() || props.disabled}
     tx='creatorStaking.stake'
   />
 }
@@ -127,7 +129,7 @@ export const UnstakeTxButton = (props: CommonTxButtonProps) => {
 
   return <StakingTxButton 
     {...props}
-    disabled={!totalStaked || new BN(totalStaked).isZero()}
+    disabled={!totalStaked || new BN(totalStaked).isZero() || props.disabled}
     tx='creatorStaking.unstake'
   />
 }

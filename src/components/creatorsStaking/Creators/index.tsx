@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
@@ -17,6 +17,8 @@ import Loading from '../tailwind-components/Loading'
 import { ModalContextWrapper, useModalContext } from '../contexts/ModalContext'
 import SuccessModal from './modals/SuccessModal'
 import { toGenericAccountId } from 'src/rtk/app/util'
+import { betaVersionAgreementStorageName } from './modals/StakeModal'
+import store from 'store'
 
 // const DEFAULT_PAGE_SIZE = 9
 
@@ -79,7 +81,8 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
   const myAddress = useMyAddress()
   const [ sortBy, changeSortBy ] = useState('total-stake')
-  const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } = useModalContext()
+  const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } =
+    useModalContext()
   const creatorsList = useCreatorsList()
 
   const isCreator = !!creatorsList?.find(
@@ -87,6 +90,14 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   )
 
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
+
+  useEffect(() => {
+    if (myCreatorsIds.length > 0) {
+      store.set(betaVersionAgreementStorageName, true)
+    } else {
+      store.set(betaVersionAgreementStorageName, false)
+    }
+  }, [ myCreatorsIds.length, myAddress ])
 
   const tabs: TabsProps['tabs'] = [
     {
@@ -110,12 +121,14 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
     <div className='flex flex-col gap-4'>
       <div className='flex md:flex-row flex-col justify-between md:items-center items-start gap-4 md:px-6 px-0'>
         <div className='text-2xl UnboundedFont'>Creators</div>
-       {!isCreator && <div className='flex gap-4 items-center'>
-          <div>Are you a creator?</div>
-          <Button variant='primaryOutline' size={'sm'}>
-            Apply to join
-          </Button>
-        </div>}
+        {!isCreator && (
+          <div className='flex gap-4 items-center'>
+            <div>Are you a creator?</div>
+            <Button variant='primaryOutline' size={'sm'}>
+              Apply to join
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className='w-full flex flex-col gap-4 bg-white rounded-[20px] md:py-6 py-4'>
