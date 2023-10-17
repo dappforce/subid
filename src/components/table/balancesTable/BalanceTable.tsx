@@ -120,7 +120,11 @@ export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
   })
 }
 
-const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
+const getColumns = (
+  t: TFunction,
+  isMyAddress: boolean,
+  balancesVariant: BalanceVariant
+): ColumnsType<any> => {
   const transferColumn: ColumnsType<any> = isMyAddress
     ? [ { dataIndex: 'transferAction', align: 'right' } ]
     : []
@@ -128,7 +132,9 @@ const getColumns = (t: TFunction, isMyAddress: boolean): ColumnsType<any> => {
     {
       title: (
         <h3 className='font-weight-bold FontSmall'>
-          {t('table.labels.chain')}
+          {balancesVariant === 'chains'
+            ? t('table.labels.chain')
+            : t('table.labels.token')}
         </h3>
       ),
       dataIndex: 'chain',
@@ -415,7 +421,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
         showAllPage={`${addresses?.join(',') || ''}/balances`}
         addresses={addresses}
         balanceKind='NativeToken'
-        columns={getColumns(t, isMyAddress)}
+        columns={getColumns(t, isMyAddress, balancesVariant)}
         loading={!!loading}
         setLoading={setLoading}
         loadingLabel={t('table.balances.loading')}

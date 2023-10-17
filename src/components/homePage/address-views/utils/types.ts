@@ -1,6 +1,6 @@
 import React from 'react'
-import { AnyAccountId } from '@subsocial/types'
 import { AccountIdentities, SubsocialProfile } from '../../../identity/types'
+import { AnyAccountId } from '@subsocial/api/types'
 
 export type AddressProps = {
   className?: string

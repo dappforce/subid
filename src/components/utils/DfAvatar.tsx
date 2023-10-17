@@ -1,9 +1,9 @@
 import React, { CSSProperties } from 'react'
 import { isEmptyStr } from '@subsocial/utils'
-import { AnyAccountId } from '@subsocial/types'
 import { DEFAULT_AVATAR_SIZE } from './Size.config'
 import IdentityIcon from './IdentityIcon'
 import { DfBgImg } from './DfBgImg'
+import { AnyAccountId } from '@subsocial/api/types'
 
 export type BaseAvatarProps = {
   size?: number

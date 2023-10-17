@@ -3,7 +3,7 @@ import { AstarAdapter, ShidenAdapter } from '@polkawallet/bridge/adapters/astar'
 import { AltairAdapter } from '@polkawallet/bridge/adapters/centrifuge'
 import { ShadowAdapter } from '@polkawallet/bridge/adapters/crust'
 import { CrabAdapter } from '@polkawallet/bridge/adapters/darwinia'
-import { BasiliskAdapter } from '@polkawallet/bridge/adapters/hydradx'
+import { BasiliskAdapter, HydraAdapter } from '@polkawallet/bridge/adapters/hydradx'
 import { InterlayAdapter, KintsugiAdapter } from '@polkawallet/bridge/adapters/interlay'
 import { KicoAdapter } from '@polkawallet/bridge/adapters/kico'
 import { PichiuAdapter } from '@polkawallet/bridge/adapters/kylin'
@@ -12,15 +12,15 @@ import { MoonbeamAdapter, MoonriverAdapter } from '@polkawallet/bridge/adapters/
 import { KhalaAdapter } from '@polkawallet/bridge/adapters/phala'
 import { PolkadotAdapter, KusamaAdapter } from '@polkawallet/bridge/adapters/polkadot'
 import { StatemineAdapter } from '@polkawallet/bridge/adapters/statemint'
-import { QuartzAdapter } from '@polkawallet/bridge/adapters/unique'
 import { BaseCrossChainAdapter } from '@polkawallet/bridge/base-chain-adapter'
-import { Bridge, Chain, ChainName, RouterFilter } from '@polkawallet/bridge'
-// import { BifrostAdapter } from '@polkawallet/bridge/adapters/bifrost'
-// import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
-// import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
-// import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
+import { Bridge, Chain, ChainId, RouterFilter } from '@polkawallet/bridge'
+import { BifrostAdapter } from '@polkawallet/bridge/adapters/bifrost'
+import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
+import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
+import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
+import { ZeitgeistAdapter } from '@polkawallet/bridge/adapters/zeitgeist'
 
-const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainName }> = {
+const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
     adapter: new PolkadotAdapter(),
   },
@@ -82,40 +82,46 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   khala: {
     adapter: new KhalaAdapter(),
   },
-  quartz: {
-    adapter: new QuartzAdapter(),
+  bifrostKusama: {
+    adapter: new BifrostAdapter(),
+    chainName: 'bifrost'
   },
-  // TODO: uncomment when new polkawallet version is up and supports networks below
-  // bifrost: {
-  //   adapter: new BifrostAdapter(),
-  // },
-  // integritee: {
-  //   adapter: new IntegriteeAdapter(),
-  // },
-  // turing: {
-  //   adapter: new TuringAdapter(),
-  // },
-  // parallel: {
-  //   adapter: new ParallelAdapter(),
-  // },
-  // parallelHeiko: {
-  //   adapter: new HeikoAdapter(),
-  //   chainName: 'heiko'
-  // },
+  integritee: {
+    adapter: new IntegriteeAdapter(),
+  },
+  turing: {
+    adapter: new TuringAdapter(),
+  },
+  parallel: {
+    adapter: new ParallelAdapter(),
+  },
+  heiko: {
+    adapter: new HeikoAdapter(),
+    chainName: 'heiko'
+  },
+  hydra: {
+    adapter: new HydraAdapter(),
+    chainName: 'hydradx'
+  },
+  zeitgeist: {
+    adapter: new ZeitgeistAdapter(),
+  }
 }
 
 function getPolkawalletChainName (chain: string) {
   const chainData = availableAdapters[chain]
+
+  console.log(chainData)
   if (!chainData) return undefined
-  return chainData.chainName || chain as ChainName
+  return chainData.chainName || chain as ChainId
 }
 
 const polkawalletChainToSubidNetworkMap = Object.entries(
   availableAdapters
 ).reduce((acc, [ subIdNetwork, { chainName } ]) => {
-  acc[chainName || subIdNetwork as ChainName] = subIdNetwork
+  acc[chainName || subIdNetwork as ChainId] = subIdNetwork
   return acc
-}, {} as Record<ChainName, string>)
+}, {} as Record<ChainId, string>)
 
 const bridge = new Bridge({ adapters: Object.values(availableAdapters).map(({ adapter }) => adapter) })
 
@@ -132,7 +138,7 @@ export function isTokenBridgeable (token: string) {
   const destChains = bridge.router.getDestinationChains({ token })
 
   const filterAvailableChains = (chain: Chain) => {
-    const networkName = polkawalletChainToSubidNetworkMap[chain.id as ChainName]
+    const networkName = polkawalletChainToSubidNetworkMap[chain.id as ChainId]
     return availableAdapters[networkName]
   }
 
@@ -191,5 +197,5 @@ export function getRouteOptions (type: 'source' | 'dest', params: AugmentedRoute
   } catch {
     options = []
   }
-  return options.map(({ id }) => polkawalletChainToSubidNetworkMap[id as ChainName])
+  return options.map(({ id }) => polkawalletChainToSubidNetworkMap[id as ChainId])
 }

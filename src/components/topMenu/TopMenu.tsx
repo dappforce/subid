@@ -233,7 +233,7 @@ const TopMenu = () => {
             {!isEmptyArray(currentAddress) && !isAccountsPage() && !isFavorites() && (collapsed
               ? <MenuOutlined style={{ fontSize: '20px' }} onClick={toggle} className={clsx('DfBurgerIcon mr-1', isDesktop && 'DfBurgerIconDesktop')} />
               : <CloseOutlined style={{ fontSize: '20px' }} onClick={toggle} className={clsx('DfBurgerIcon mr-1', isDesktop && 'DfBurgerIconDesktop')} />)}
-            <Link href={homePageLink}>
+            <Link href={homePageLink} legacyBehavior>
               <a className='DfBrand mt-1'>
                 <img src={!isMobile ? appLogo : mobileAppLogo} alt='SubId' />
               </a>

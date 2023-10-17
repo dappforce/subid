@@ -5,7 +5,7 @@ import {
   SpaceContent,
   SharedPostContent,
   IpfsCid,
-} from '@subsocial/types'
+} from '@subsocial/api/types'
 import type { SubsocialIpfsApi } from '@subsocial/api'
 
 const log = newLogger('BuildTxParams')

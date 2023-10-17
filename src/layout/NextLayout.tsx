@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Navigation } from './Navigation'
 import { SidebarCollapsedProvider } from '../components/providers/SideBarCollapsedContext'
 import { ResponsiveSizeProvider } from '../components/responsive/ResponsiveContext'
 import ExtensionAccountProvider from '../components/providers/MyExtensionAccountsContext'
@@ -14,12 +13,10 @@ import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
 import { ChatContextWrapper } from 'src/components/providers/ChatContext'
 
-const ChatFloatingModal = dynamic(
-  () => import('src/components/chat/ChatFloatingModal'),
-  {
-    ssr: false,
-  }
-)
+const Navigation = dynamic(() => import('./Navigation'), { ssr: false })
+const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
+  ssr: false
+})
 
 const Page: React.FunctionComponent = ({ children }) => (
   <>

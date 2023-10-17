@@ -50,7 +50,7 @@ const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) =>
   </Drawer>
 }
 
-export const Navigation = (props: Props): JSX.Element => {
+const Navigation = (props: Props): JSX.Element => {
   const { children } = props
   const { state: { asDrawer } } = useSidebarCollapsed()
   const { isLargeDesktop } = useResponsiveSize()
@@ -81,3 +81,5 @@ export const Navigation = (props: Props): JSX.Element => {
     </Layout>
   </Layout>
 }
+
+export default Navigation

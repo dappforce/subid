@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import languages from '../config/languages'
 import styles from './Sider.module.sass'
 import clsx from 'clsx'
-import { useIsAllNetworksConnected } from '../components/statusPage/utils/StatusCard'
+import { useIsAllNetworksConnected } from '../components/statusPage/utils/StatusCards'
 import { isServerSide } from 'src/components/utils'
 import { useSidebarCollapsed } from 'src/components/providers/SideBarCollapsedContext'
 
@@ -33,7 +33,7 @@ const renderPageLink = (item: PageLink) => {
 
   return (
     <Menu.Item className={clsx('DfMenuItem', { ['d-none']: !isServerSide() && item.hidden }) } key={item.page[1] || item.page[0]}>
-      <Link href={item.page[0]} as={item.page[1]} passHref={isExternalLink}>
+      <Link href={item.page[0]} as={item.page[1]} passHref={isExternalLink} legacyBehavior>
         <a {...externalLinkProps}>
           {icon}
           <span className='MenuItemName'>{item.name}</span>

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withBundleAnalyzer = require('@next/bundle-analyzer')
-const path = require('path')
-const Dotenv = require('dotenv-webpack')
 
 // Required by Docker
 require('dotenv').config()
 
 const nextConfig = {
   target: 'server',
+  staticPageGenerationTimeout: 1000,
   api: {
     responseLimit: false,
   },
@@ -15,14 +14,6 @@ const nextConfig = {
     domains: ['sub.id', 'localhost'],
   },
   webpack: (config, { isServer }) => {
-    // // This code for webpack 4
-    // if (!isServer) {
-    //   config.node = {
-    //     fs: 'empty',
-    //   }
-    // }
-
-    // This code for webpack 5
     if (!isServer) {
       config.resolve.fallback.fs = false
     }
@@ -31,12 +22,6 @@ const nextConfig = {
 
     config.plugins = [
       ...config.plugins,
-
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true, // Required by Docker
-      }),
     ]
 
     config.module.rules.push(

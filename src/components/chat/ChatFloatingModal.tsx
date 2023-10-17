@@ -10,6 +10,7 @@ import { useSendEvent } from '../providers/AnalyticContext'
 import { isCreatorStakingPage } from '../utils'
 import { useChatContext } from '../providers/ChatContext'
 
+const storageName = 'grill:unreadCount'
 type ChatFloatingModalProps = {
   position?: 'right' | 'bottom'
 }
@@ -24,9 +25,7 @@ export default function ChatFloatingModal ({
   const [ unreadCount, setUnreadCount ] = useState(0)
 
   useEffect(() => {
-    const unreadCountFromStorage = parseInt(
-      localStorage.getItem('unreadCount') ?? ''
-    )
+    const unreadCountFromStorage = parseInt(localStorage.getItem(storageName) ?? '')
     if (unreadCountFromStorage && !isNaN(unreadCountFromStorage)) {
       setUnreadCount(unreadCountFromStorage)
     }
@@ -51,7 +50,7 @@ export default function ChatFloatingModal ({
     else {
       event = 'open_grill_iframe'
       setUnreadCount(0)
-      localStorage.setItem('unreadCount', '0')
+      localStorage.setItem(storageName, '0')
     }
     sendEvent(event)
 
@@ -72,7 +71,7 @@ export default function ChatFloatingModal ({
   const onUnreadCountChange = (count: number) => {
     if (count > 0) {
       setUnreadCount(count)
-      localStorage.setItem('unreadCount', count.toString())
+      localStorage.setItem(storageName, count.toString())
     }
   }
 

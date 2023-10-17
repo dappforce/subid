@@ -9,7 +9,6 @@ import { useDotsamaContributions } from '../features/contributions/contributions
 import { relayChains } from '../../components/table/utils'
 import { isValidAddress } from '../../components/utils/index'
 import { GenericAccountId } from '@polkadot/types'
-import registry from '@subsocial/types/substrate/registry'
 import {
   FETCH_CHIAN_INFO_WITH_PRICES,
   FETCH_DOTSAMA_CROWDLOAN_INFO,
@@ -40,6 +39,7 @@ import { DEFAULT_PAGE_SIZE } from '../../components/list/ListData.config'
 import { StakingCandidatesInfoEntity } from '../features/stakingCandidates/candidatesInfo/stakingCandidatesInfoSlice'
 import { VestingEntity } from '../features/vesting/vestingSlice'
 import { FeesEntity } from '../features/fees/feesSlice'
+import registry from '@subsocial/api/utils/registry'
 
 export const toGenericAccountId = (account?: string) => {
   if (account && isEthereumAddress(account)) return account

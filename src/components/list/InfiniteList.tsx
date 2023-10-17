@@ -8,32 +8,40 @@ import { useRouter } from 'next/router'
 import { DataListItemProps, InnerLoadMoreFn, CanHaveMoreDataFn } from './types'
 import { tryParseInt, ButtonLink } from '../utils/index'
 import { DEFAULT_FIRST_PAGE, DEFAULT_PAGE_SIZE } from './ListData.config'
-import { Col, Row } from 'antd'
-import { useIsMobileWidthOrDevice } from '../responsive/ResponsiveContext'
-import clsx from 'clsx'
+import styles from './Index.module.sass'
 
 const DEFAULT_THRESHOLD = isClientSide() ? window.innerHeight / 2 : undefined
-const DEFAULT_MODAL_THRESHOLD = isClientSide() ? 60 * window.screen.height * 0.4 : undefined
+const DEFAULT_MODAL_THRESHOLD = isClientSide()
+  ? 60 * window.screen.height * 0.4
+  : undefined
 
-type InnerInfiniteListProps<T> = Partial<DataListProps<T>> & DataListItemProps<T> & {
-  loadMore: InnerLoadMoreFn<T>
-  totalCount?: number
-  loadingLabel?: string
-  scrollableTarget?: string
-  withLoadMoreLink?: boolean // Helpful for SEO
-  canHaveMoreData: CanHaveMoreDataFn<T>
-  isCards?: boolean
-}
+type InnerInfiniteListProps<T> = Partial<DataListProps<T>> &
+  DataListItemProps<T> & {
+    loadMore: InnerLoadMoreFn<T>
+    totalCount?: number
+    loadingLabel?: string
+    scrollableTarget?: string
+    withLoadMoreLink?: boolean // Helpful for SEO
+    canHaveMoreData: CanHaveMoreDataFn<T>
+    isCards?: boolean
+  }
 
-type InfiniteListPropsByData<T> = Omit<InnerInfiniteListProps<T>, 'canHaveMoreData'>
+type InfiniteListPropsByData<T> = Omit<
+  InnerInfiniteListProps<T>,
+  'canHaveMoreData'
+>
 
 type InfiniteListByPageProps<T> = InfiniteListPropsByData<T> & {
   totalCount: number
 }
 
-export const InfiniteListByPage = <T extends any>(props: InfiniteListByPageProps<T>) => {
+export const InfiniteListByPage = <T extends any>(
+  props: InfiniteListByPageProps<T>
+) => {
   const { totalCount } = props
-  const { query: { page: pagePath } } = useRouter()
+  const {
+    query: { page: pagePath },
+  } = useRouter()
 
   const initialPage = pagePath
     ? tryParseInt(pagePath.toString(), DEFAULT_FIRST_PAGE)
@@ -43,25 +51,24 @@ export const InfiniteListByPage = <T extends any>(props: InfiniteListByPageProps
   const lastPage = Math.ceil((totalCount - offset) / DEFAULT_PAGE_SIZE)
 
   const canHaveMoreData: CanHaveMoreDataFn<T> = (data, page) =>
-    data
-      ? (page ? page < lastPage && nonEmptyArr(data) : false)
-      : true
+    data ? (page ? page < lastPage && nonEmptyArr(data) : false) : true
 
   return <InnerInfiniteList {...props} canHaveMoreData={canHaveMoreData} />
 }
 
-export const InfinitePageList = <T extends any>(props: InfiniteListByPageProps<T>) => {
+export const InfinitePageList = <T extends any>(
+  props: InfiniteListByPageProps<T>
+) => {
   return <InfiniteListByPage {...props} className='DfInfinitePageList' />
 }
 
 const canHaveMoreData = <T extends any>(currentPageItems?: T[]) => {
-  return currentPageItems
-    ? currentPageItems.length >= DEFAULT_PAGE_SIZE
-    : true
+  return currentPageItems ? currentPageItems.length >= DEFAULT_PAGE_SIZE : true
 }
 
-export const InfiniteListByData = <T extends any>(props: InfiniteListPropsByData<T>) =>
-  <InnerInfiniteList {...props} canHaveMoreData={canHaveMoreData} />
+export const InfiniteListByData = <T extends any>(
+  props: InfiniteListPropsByData<T>
+) => <InnerInfiniteList {...props} canHaveMoreData={canHaveMoreData} />
 
 const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
   const {
@@ -78,8 +85,9 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     ...otherProps
   } = props
 
-  const { query: { page: pagePath } } = useRouter()
-  const isMobile = useIsMobileWidthOrDevice()
+  const {
+    query: { page: pagePath },
+  } = useRouter()
   const hasInitialData = nonEmptyArr(dataSource)
 
   const initialPage = pagePath
@@ -94,7 +102,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
 
   const getLinksParams = useLinkParams({
     defaultSize: DEFAULT_PAGE_SIZE,
-    triggers: [ page ]
+    triggers: [ page ],
   })
 
   const handleInfiniteOnLoad = useCallback(async (page: number) => {
@@ -118,41 +126,47 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     handleInfiniteOnLoad(page)
   }, [])
 
-  if (!hasInitialData && isEmptyArray(data) && loading) return <Loading label={loadingLabel} />
+  if (!hasInitialData && isEmptyArray(data) && loading)
+    return <Loading label={loadingLabel} />
 
   const linkProps = getLinksParams(page + 1)
 
   // Default height for modals is set to 300, hence threshold for them is 150.
   return (
     <InfiniteScroll
-    dataLength={data.length}
-    pullDownToRefreshThreshold={scrollableTarget !== undefined ? DEFAULT_MODAL_THRESHOLD : DEFAULT_THRESHOLD}
-    next={() => handleInfiniteOnLoad(page)}
-    hasMore={hasMore}
-    scrollableTarget={scrollableTarget}
-    loader={<Loading label={loadingLabel} />}
+      dataLength={data.length}
+      pullDownToRefreshThreshold={
+        scrollableTarget !== undefined
+          ? DEFAULT_MODAL_THRESHOLD
+          : DEFAULT_THRESHOLD
+      }
+      next={() => handleInfiniteOnLoad(page)}
+      hasMore={hasMore}
+      scrollableTarget={scrollableTarget}
+      loader={<Loading label={loadingLabel} />}
     >
-      {isCards ? <Row
-        justify={isMobile ? 'center' : undefined}
-        className={clsx({ ['ml-2 bs-mr-2']: isMobile })}
-        gutter={{ xs: 18, sm: 25, md: 25, lg: 25, xl: 18 }}
-        >
-        {data.map((x, i) => (
-          <Col key={i} className={'bs-mb-3'} >
-            {renderItem(x, i)}
-          </Col>))}
-      </Row> :
+      {isCards ? (
+        <div className={styles.CardGrid}>
+          {data.map((x, i) => (
+            <div className={styles.GridItem} key={i}>
+              {renderItem(x, i)}
+            </div>
+          ))}
+        </div>
+      ) : (
         <DataList
-        {...otherProps}
-        totalCount={totalCount}
-        dataSource={data}
-        getKey={getKey}
-        renderItem={renderItem}
+          {...otherProps}
+          totalCount={totalCount}
+          dataSource={data}
+          getKey={getKey}
+          renderItem={renderItem}
         />
-      }
-      {withLoadMoreLink && !loading && hasMore && isServerSide() &&
-        <ButtonLink block {...linkProps} className='bs-mb-2'>Load more</ButtonLink>
-      }
+      )}
+      {withLoadMoreLink && !loading && hasMore && isServerSide() && (
+        <ButtonLink block {...linkProps} className='mb-2'>
+          Load more
+        </ButtonLink>
+      )}
     </InfiniteScroll>
   )
 }
