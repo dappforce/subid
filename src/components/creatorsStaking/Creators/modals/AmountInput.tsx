@@ -13,7 +13,7 @@ import {
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { FormatBalance } from 'src/components/common/balances'
 import BN from 'bignumber.js'
-import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { StakingModalVariant } from './StakeModal'
 import DaystoWithDraw from '../../utils/DaysToWithdraw'
@@ -135,9 +135,9 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
   const { minimumStakingAmount, unbondingPeriodInEras } = stakingConsts || {}
 
-  const stakerInfo = useStakerInfo(spaceId, myAddress)
+  const backerInfo = useBackerInfo(spaceId, myAddress)
 
-  const { info } = stakerInfo || {}
+  const { info } = backerInfo || {}
 
   const { totalStaked } = info || {}
 

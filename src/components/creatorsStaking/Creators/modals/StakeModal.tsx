@@ -6,7 +6,7 @@ import {
   UnstakeAmountInput,
 } from './AmountInput'
 import { useEffect, useState } from 'react'
-import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import {
   StakeOrIncreaseTxButton,
@@ -25,10 +25,10 @@ type CurrentStakeProps = {
 
 const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
   const myAddress = useMyAddress()
-  const stakerInfo = useStakerInfo(spaceId, myAddress)
+  const backerInfo = useBackerInfo(spaceId, myAddress)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  const { info } = stakerInfo || {}
+  const { info } = backerInfo || {}
 
   const { totalStaked } = info || {}
 

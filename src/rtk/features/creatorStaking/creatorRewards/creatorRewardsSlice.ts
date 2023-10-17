@@ -8,7 +8,6 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { RootState } from '../../../app/rootReducer'
 import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
 
-
 type RewardsData = {
   availableClaims: Record<string, string[]>
   rewards: string
@@ -22,10 +21,10 @@ export type CreatorRewardsEntity = {
 
 const creatorRewardsAdapter = createEntityAdapter<CreatorRewardsEntity>()
 
-const creatorStakerRewardsSelector = creatorRewardsAdapter.getSelectors()
+const creatorRewardsSelector = creatorRewardsAdapter.getSelectors()
 
 export const selectCreatorRewards = (state: RootState, spaceId: string) =>
-  creatorStakerRewardsSelector.selectById(state.creatorRewards, spaceId)
+  creatorRewardsSelector.selectById(state.creatorRewards, spaceId)
 
 export type FetchCreatorRewardsProps = {
   reload?: boolean
@@ -40,7 +39,7 @@ const slice = createSlice({
     fetchCreatorRewards: (state, action: PayloadAction<FetchCreatorRewardsProps>) => {
       const { reload, account } = action.payload
 
-      const data = creatorStakerRewardsSelector.selectById(state, account)
+      const data = creatorRewardsSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: creatorRewardsAdapter,
@@ -63,7 +62,7 @@ const slice = createSlice({
     fetchCreatorRewardsFailed: (state, action: PayloadAction<FetchCreatorRewardsProps>) => {
       const { account, reload = true } = action.payload
 
-      const data = creatorStakerRewardsSelector.selectById(state, account)
+      const data = creatorRewardsSelector.selectById(state, account)
 
       upsertOneEntity({
         adapter: creatorRewardsAdapter,

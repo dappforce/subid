@@ -2,23 +2,23 @@ import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 import { log } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj } from '@subsocial/utils'
-import { StakerLedger, StakerLedgerEntity, FetchStakerLedgerProps, stakerLedgerActions, selectStakerLedger } from './stakerLedgerSlice'
-import { getStakerLedger } from '../../../../api/creatorStaking'
+import { BackerLedger, BackerLedgerEntity, FetchBackerLedgerProps, backerLedgerActions, selectBackerLedger } from './backerLedgerSlice'
+import { getBackerLedger } from '../../../../api/creatorStaking'
 import BN from 'bignumber.js'
 
-function* fetchStakerLedgerWorker (
-  action: PayloadAction<FetchStakerLedgerProps>
+function* fetchBackerLedgerWorker (
+  action: PayloadAction<FetchBackerLedgerProps>
 ) {
   const { account, reload = false } = action.payload
 
   try {
-    const stakingRewarsdFromStore: StakerLedgerEntity = yield select(selectStakerLedger, account)
+    const stakingRewarsdFromStore: BackerLedgerEntity = yield select(selectBackerLedger, account)
 
     if(!stakingRewarsdFromStore.ledger || isEmptyObj(stakingRewarsdFromStore.ledger) || reload) {
-      const result: StakerLedger = yield call(getStakerLedger, account)
+      const result: BackerLedger = yield call(getBackerLedger, account)
       
       if(!result || isEmptyObj(result)) {
-        yield put(stakerLedgerActions.fetchStakerLedgerFailed({ account }))
+        yield put(backerLedgerActions.fetchBackerLedgerFailed({ account }))
         return
       }
 
@@ -28,26 +28,26 @@ function* fetchStakerLedgerWorker (
         lockedBN = lockedBN.minus(amount)
       })
 
-      const stakerLedger = {
+      const backerLedger = {
         ...result,
         locked: lockedBN.toString(),
       }
       
-      yield put(stakerLedgerActions.fetchStakerLedgerSuccess({
+      yield put(backerLedgerActions.fetchBackerLedgerSuccess({
         id: account,
         loading: false,
-        ledger: stakerLedger
+        ledger: backerLedger
       }))
     }
   } catch (error) {
     log.error('Failed to fetch creator ledger by account', account, error)
-    yield put(stakerLedgerActions.fetchStakerLedgerFailed({ account }))
+    yield put(backerLedgerActions.fetchBackerLedgerFailed({ account }))
   }
 }
 
-export function* watchStakerLedger () {
+export function* watchBackerLedger () {
   yield takeLatest(
-    stakerLedgerActions.fetchStakerLedger.type,
-    fetchStakerLedgerWorker
+    backerLedgerActions.fetchBackerLedger.type,
+    fetchBackerLedgerWorker
   )
 }

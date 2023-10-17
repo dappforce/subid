@@ -27,10 +27,10 @@ import creatorsList from '../features/creatorStaking/creatorsList/creatorsListSl
 import generalEraInfo from '../features/creatorStaking/generalEraInfo/generalEraInfoSlice'
 import creatorsSpaces from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSlice'
 import eraStake from '../features/creatorStaking/eraStake/eraStakeSlice'
-import stakerInfo from '../features/creatorStaking/stakerInfo/stakerInfoSlice'
-import stakerLedger from '../features/creatorStaking/stakerLedger/stakerLedgerSlice'
+import backerInfo from '../features/creatorStaking/backerInfo/backerInfoSlice'
+import backerLedger from '../features/creatorStaking/backerLedger/backerLedgerSlice'
 import creatorStakingConsts from '../features/creatorStaking/stakingConsts/stakingConstsSlice'
-import stakerRewards from '../features/creatorStaking/stakerRewards/stakerRewardsSlice'
+import backerRewards from '../features/creatorStaking/backerRewards/backerRewardsSlice'
 import creatorRewards from '../features/creatorStaking/creatorRewards/creatorRewardsSlice'
 
 const rootReducer = combineReducers({
@@ -62,10 +62,10 @@ const rootReducer = combineReducers({
   generalEraInfo,
   creatorsSpaces,
   eraStake,
-  stakerInfo,
-  stakerLedger,
+  backerInfo,
+  backerLedger,
   creatorStakingConsts,
-  stakerRewards,
+  backerRewards,
   creatorRewards
 })
 

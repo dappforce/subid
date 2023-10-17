@@ -1,16 +1,16 @@
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
-import { fetchStakerRewards, useStakerRewards } from 'src/rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+import { fetchBackerRewards, useBackerRewards } from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import { ApiPromise } from '@polkadot/api'
 import Button from '../tailwind-components/Button'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import { showParsedErrorMessage } from 'src/components/utils'
 import BN from 'bignumber.js'
 import calculateMaxTxCountInBatch from '../utils/calculateMaxTxCount'
-import { fetchStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { fetchBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
-import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
@@ -28,20 +28,20 @@ const ClaimRewardsTxButton = ({
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
   const eraInfo = useGeneralEraInfo()
-  const stakerRewards = useStakerRewards(myAddress)
+  const backerRewards = useBackerRewards(myAddress)
 
-  const { loading } = stakerRewards || {}
+  const { loading } = backerRewards || {}
 
   const onSuccess = () => {
     fetchGeneralEraInfo(dispatch)
     
     if(myAddress) {
-      fetchStakerRewards(dispatch, myAddress, rewardsSpaceIds)
-      fetchStakerLedger(dispatch, myAddress)
+      fetchBackerRewards(dispatch, myAddress, rewardsSpaceIds)
+      fetchBackerLedger(dispatch, myAddress)
     }
 
     if(restake) {
-      fetchStakerInfo(dispatch, rewardsSpaceIds, myAddress || '')
+      fetchBackerInfo(dispatch, rewardsSpaceIds, myAddress || '')
       fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.currentEra || '0')
     }
   }

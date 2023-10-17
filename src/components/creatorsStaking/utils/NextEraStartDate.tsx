@@ -8,16 +8,16 @@ import { SubDate } from '@subsocial/utils'
 import Skeleton from '../tailwind-components/Skeleton'
 import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
 import {
-  fetchStakerRewards,
-  useStakerRewards,
-} from 'src/rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+  fetchBackerRewards,
+  useBackerRewards,
+} from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 
 export const NextEraStartDate = () => {
   const generalEraInfo = useGeneralEraInfo()
   const myAddress = useMyAddress()
-  const stakerRewards = useStakerRewards(myAddress)
-  const { data: rewardsData } = stakerRewards || {}
+  const backerRewards = useBackerRewards(myAddress)
+  const { data: rewardsData } = backerRewards || {}
 
   const { availableClaimsBySpaceId } = rewardsData || {}
 
@@ -33,7 +33,7 @@ export const NextEraStartDate = () => {
     fetchGeneralEraInfo(dispatch)
 
     if (myAddress && availableClaimsBySpaceId) {
-      fetchStakerRewards(
+      fetchBackerRewards(
         dispatch,
         myAddress,
         Object.keys(availableClaimsBySpaceId)

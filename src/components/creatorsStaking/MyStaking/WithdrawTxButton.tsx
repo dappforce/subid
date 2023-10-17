@@ -1,9 +1,9 @@
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import Button from '../tailwind-components/Button'
 import {
-  fetchStakerLedger,
-  useStakerLedger,
-} from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+  fetchBackerLedger,
+  useBackerLedger,
+} from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { fetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { useEffect, useMemo } from 'react'
 import { isEmptyArray } from '@subsocial/utils'
@@ -19,11 +19,11 @@ type WithdrawTxButtonProps = {
 
 const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const myAddress = useMyAddress()
-  const stakerLedger = useStakerLedger(myAddress)
+  const backerLedger = useBackerLedger(myAddress)
   const eraInfo = useGeneralEraInfo()
   const dispatch = useAppDispatch()
 
-  const { ledger, loading } = stakerLedger || {}
+  const { ledger, loading } = backerLedger || {}
   const { currentEra } = eraInfo || {}
 
   const unlockingChunks = ledger?.unbondingInfo.unlockingChunks
@@ -54,7 +54,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const onSuccess = () => {
     const address = myAddress || ''
     
-    fetchStakerLedger(dispatch, address)
+    fetchBackerLedger(dispatch, address)
     fetchBalanceByNetwork(dispatch, [ address ], 'subsocial')
   }
 

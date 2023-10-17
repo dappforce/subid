@@ -2,13 +2,13 @@ import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 import { log } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj } from '@subsocial/utils'
-import { getStakerRewards } from '../../../../api/creatorStaking'
+import { getBackerRewards } from '../../../../api/creatorStaking'
 import {
-  FetchStakerRewardsProps,
-  StakerRewardsEntity,
-  selectStakerRewards,
-  stakerRewardsActions,
-} from './stakerRewardsSlice'
+  FetchBackerRewardsProps,
+  BackerRewardsEntity,
+  selectBackerRewards,
+  backerRewardsActions,
+} from './backerRewardsSlice'
 import BN from 'bignumber.js'
 
 type Result = {
@@ -16,14 +16,14 @@ type Result = {
   rewardsBySpaceId: Record<string, string>
 }
 
-function* fetchStakerRewardsWorker (
-  action: PayloadAction<FetchStakerRewardsProps>
+function* fetchBackerRewardsWorker (
+  action: PayloadAction<FetchBackerRewardsProps>
 ) {
   const { account, spaceIds, reload = false } = action.payload
 
   try {
-    const stakingRewardsFromStore: StakerRewardsEntity = yield select(
-      selectStakerRewards,
+    const stakingRewardsFromStore: BackerRewardsEntity = yield select(
+      selectBackerRewards,
       account
     )
 
@@ -32,11 +32,11 @@ function* fetchStakerRewardsWorker (
       isEmptyObj(stakingRewardsFromStore.data) ||
       reload
     ) {
-      const result: Result = yield call(getStakerRewards, account, spaceIds)
+      const result: Result = yield call(getBackerRewards, account, spaceIds)
 
       if (!result || isEmptyObj(result)) {
         yield put(
-          stakerRewardsActions.fetchStakerRewardsFailed({ account, spaceIds })
+          backerRewardsActions.fetchBackerRewardsFailed({ account, spaceIds })
         )
         return
       }
@@ -61,7 +61,7 @@ function* fetchStakerRewardsWorker (
       }
 
       yield put(
-        stakerRewardsActions.fetchStakerRewardsSuccess({
+        backerRewardsActions.fetchBackerRewardsSuccess({
           id: account,
           loading: false,
           data,
@@ -69,16 +69,16 @@ function* fetchStakerRewardsWorker (
       )
     }
   } catch (error) {
-    log.error('Failed to fetch staker rewards by account', account, error)
+    log.error('Failed to fetch backer rewards by account', account, error)
     yield put(
-      stakerRewardsActions.fetchStakerRewardsFailed({ account, spaceIds })
+      backerRewardsActions.fetchBackerRewardsFailed({ account, spaceIds })
     )
   }
 }
 
-export function* watchStakerRewards () {
+export function* watchBackerRewards () {
   yield takeLatest(
-    stakerRewardsActions.fetchStakerRewards.type,
-    fetchStakerRewardsWorker
+    backerRewardsActions.fetchBackerRewards.type,
+    fetchBackerRewardsWorker
   )
 }

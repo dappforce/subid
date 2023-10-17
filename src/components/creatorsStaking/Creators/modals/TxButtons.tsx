@@ -5,12 +5,12 @@ import { getBalanceWithDecimal } from 'src/components/common/balances'
 import { fetchBalanceByNetwork, useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { getTransferableBalance } from 'src/utils/balance'
 import { BN_ZERO } from '@polkadot/util'
-import { fetchStakerInfo, useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { fetchBackerInfo, useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import BN from 'bn.js'
 import { useAppDispatch } from 'src/rtk/app/store'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { fetchStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { StakingModalVariant } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
 import { useModalContext } from '../../contexts/ModalContext'
@@ -49,11 +49,11 @@ const StakingTxButton = ({
 
   const onSuccess = () => {
     fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
-    fetchStakerInfo(dispatch, [ spaceId ], myAddress || '')
+    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.currentEra || '0')
     
-    fetchStakerLedger(dispatch, myAddress || '')
+    fetchBackerLedger(dispatch, myAddress || '')
 
     if(modalVariant === 'stake') {
       setStakedSpaceId(spaceId)
@@ -120,8 +120,8 @@ export const StakeOrIncreaseTxButton = (props: CommonTxButtonProps) => {
 
 export const UnstakeTxButton = (props: CommonTxButtonProps) => {
   const myAddress = useMyAddress()
-  const stakerInfo = useStakerInfo(props.spaceId, myAddress)
-  const { info } = stakerInfo || {}
+  const backerInfo = useBackerInfo(props.spaceId, myAddress)
+  const { info } = backerInfo || {}
 
   const { totalStaked } = info || {}
 

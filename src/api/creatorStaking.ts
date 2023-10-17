@@ -43,10 +43,10 @@ export const getEraStakesBySpaceIds = async (ids: string[], era: string) =>
     onFailedText: `Failed to fetch era stakes by space ids: ${ids.join(',')}`,
   })
 
-export const getStakerInfoBySpaces = async (ids: string[], account: string) =>
+export const getBackerInfoBySpaces = async (ids: string[], account: string) =>
   sendGetRequest({
     params: {
-      url: 'staking/creator/staker/info',
+      url: 'staking/creator/backer/info',
       config: {
         params: {
           ids: ids.join(','),
@@ -55,13 +55,13 @@ export const getStakerInfoBySpaces = async (ids: string[], account: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: `Failed to fetch staker info by spaces: ${ids.join(',')}`,
+    onFailedText: `Failed to fetch backer info by spaces: ${ids.join(',')}`,
   })
 
-export const getStakerLedger = async (account: string) =>
+export const getBackerLedger = async (account: string) =>
   sendGetRequest({
     params: {
-      url: 'staking/creator/staker/ledger',
+      url: 'staking/creator/backer/ledger',
       config: {
         params: {
           account,
@@ -69,7 +69,7 @@ export const getStakerLedger = async (account: string) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: `Failed to fetch staker ledger: ${account}`,
+    onFailedText: `Failed to fetch backer ledger: ${account}`,
   })
 
 export const getStakingConsts = async () =>
@@ -81,10 +81,10 @@ export const getStakingConsts = async () =>
     onFailedText: 'Failed to fetch staking consts',
   })
 
-export const getStakerRewards = async (account: string, spaceIds: string[]) =>
+export const getBackerRewards = async (account: string, spaceIds: string[]) =>
   sendGetRequest({
     params: {
-      url: 'staking/creator/staker/rewards',
+      url: 'staking/creator/backer/rewards',
       config: {
         params: {
           account,
@@ -93,7 +93,7 @@ export const getStakerRewards = async (account: string, spaceIds: string[]) =>
       },
     },
     onFaileReturnedValue: undefined,
-    onFailedText: 'Failed to fetch staker rewards',
+    onFailedText: 'Failed to fetch backer rewards',
   })
 
 export const getCreatorRewards = async (spaceId: string) =>

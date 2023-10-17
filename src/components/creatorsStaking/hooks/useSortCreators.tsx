@@ -1,12 +1,12 @@
 import { EraStakesBySpaceIdsRecord } from 'src/rtk/features/creatorStaking/eraStake/eraStakeSlice'
-import { StakerInfoRecord } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoSlice'
+import { BackerInfoRecord } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoSlice'
 import BN from 'bignumber.js'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useStakerInfoBySpaces } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfoBySpaces } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useEraStakesByIds } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useMemo } from 'react'
 
-const sortValues = <T extends StakerInfoRecord | EraStakesBySpaceIdsRecord>(
+const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
   data: T,
   field: keyof T[string]
 ) => {
@@ -19,20 +19,20 @@ const sortValues = <T extends StakerInfoRecord | EraStakesBySpaceIdsRecord>(
 
 export const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => {
   const myAddress = useMyAddress()
-  const stakersInfo = useStakerInfoBySpaces(spaceIds, myAddress)
+  const backersInfo = useBackerInfoBySpaces(spaceIds, myAddress)
   const eraStakes = useEraStakesByIds(spaceIds, era)
 
   const sortedSpaceIds = useMemo(() => {
-    if (!stakersInfo || !eraStakes) return spaceIds
+    if (!backersInfo || !eraStakes) return spaceIds
 
     if (sortBy === 'total-stake') {
       return sortValues(eraStakes, 'total')
-    } else if (sortBy === 'stakers') {
+    } else if (sortBy === 'backers') {
       return sortValues(eraStakes, 'backersCount')
     } else {
-      return sortValues(stakersInfo, 'totalStaked')
+      return sortValues(backersInfo, 'totalStaked')
     }
-  }, [ sortBy, stakersInfo, eraStakes, myAddress ])
+  }, [ sortBy, backersInfo, eraStakes, myAddress ])
 
   return sortedSpaceIds
 }

@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { useBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import Button from '../tailwind-components/Button'
 import store from 'store'
 import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
 import {
-  useFetchStakerRewards,
-  useStakerRewards,
-} from '../../../rtk/features/creatorStaking/stakerRewards/stakerRewardsHooks'
+  useFetchBackerRewards,
+  useBackerRewards,
+} from '../../../rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import ClaimRewardsTxButton from './ClaimRewardsTxButton'
 import DashboardCard from '../utils/DashboardCard'
@@ -50,14 +50,14 @@ const MyRewards = () => {
 
   const myCreatorsIds = useGetMyCreatorsIds(creatorsSpaceIds)
 
-  useFetchStakerRewards(myAddress, myCreatorsIds)
+  useFetchBackerRewards(myAddress, myCreatorsIds)
 
-  const stakerLedger = useStakerLedger(myAddress)
+  const backerLedger = useBackerLedger(myAddress)
 
-  const stakerRewards = useStakerRewards(myAddress)
+  const backerRewards = useBackerRewards(myAddress)
 
-  const { data: rewardsData, loading: rewardsLoading } = stakerRewards || {}
-  const { ledger, loading: ledgerLoading } = stakerLedger || {}
+  const { data: rewardsData, loading: rewardsLoading } = backerRewards || {}
+  const { ledger, loading: ledgerLoading } = backerLedger || {}
 
   const { rewards, availableClaimsBySpaceId } = rewardsData || {}
 

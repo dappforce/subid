@@ -2,7 +2,7 @@ import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/
 import Button from '../tailwind-components/Button'
 import { StakingModalVariant } from './modals/StakeModal'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { Tooltip } from 'antd'
 import clsx from 'clsx'
 
@@ -27,9 +27,9 @@ const StakeActionButtons = ({
 }: StakeButtonProps) => {
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
-  const stakerInfo = useStakerInfo(spaceId, myAddress || '')
+  const backerInfo = useBackerInfo(spaceId, myAddress || '')
 
-  const { info } = stakerInfo || {}
+  const { info } = backerInfo || {}
 
   const { stakes } = info || {}
 

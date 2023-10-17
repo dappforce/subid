@@ -39,10 +39,10 @@ import { watchCreatorsList } from '../features/creatorStaking/creatorsList/creat
 import { watchGeneralEraInfo } from '../features/creatorStaking/generalEraInfo/generalEraInfoSaga'
 import { watchCreatorsSpaces } from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSaga'
 import { watchEraStake } from '../features/creatorStaking/eraStake/eraStakeSaga'
-import { watchStakerInfo } from '../features/creatorStaking/stakerInfo/stakerInfoSaga'
-import { watchStakerLedger } from '../features/creatorStaking/stakerLedger/stakerLedgerSaga'
+import { watchBackerInfo } from '../features/creatorStaking/backerInfo/backerInfoSaga'
+import { watchBackerLedger } from '../features/creatorStaking/backerLedger/backerLedgerSaga'
 import { watchCreatorStakingConsts } from '../features/creatorStaking/stakingConsts/stakingConstsSaga'
-import { watchStakerRewards } from '../features/creatorStaking/stakerRewards/stakerRewardsSaga'
+import { watchBackerRewards } from '../features/creatorStaking/backerRewards/backerRewardsSaga'
 import { watchCreatorRewards } from '../features/creatorStaking/creatorRewards/creatorRewardsSaga'
 
 export interface SagaStore extends Store {
@@ -84,10 +84,10 @@ export default function* rootSaga () {
     watchGeneralEraInfo,
     watchCreatorsSpaces,
     watchEraStake,
-    watchStakerInfo,
-    watchStakerLedger,
+    watchBackerInfo,
+    watchBackerLedger,
     watchCreatorStakingConsts,
-    watchStakerRewards,
+    watchBackerRewards,
     watchCreatorRewards
   ]
 

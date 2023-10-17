@@ -6,7 +6,7 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { useFetchStakerInfoBySpaces } from '../../../rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useFetchBackerInfoBySpaces } from '../../../rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import SortByDropDown from './SortByDropDown'
@@ -161,7 +161,7 @@ const CreatorsSection = () => {
 
   useFetchCreatorsSpaces(creatorsSpaceIds)
   useFetchEraStakes(creatorsSpaceIds, currentEra)
-  useFetchStakerInfoBySpaces(creatorsSpaceIds, myAddress)
+  useFetchBackerInfoBySpaces(creatorsSpaceIds, myAddress)
   useFetchBalanceByNetwork('subsocial', myAddress)
 
   return (

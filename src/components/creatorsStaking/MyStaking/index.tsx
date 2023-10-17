@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import {
-  useFetchStakerLedger,
-  useStakerLedger,
-} from '../../../rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+  useFetchBackerLedger,
+  useBackerLedger,
+} from '../../../rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import MyRewards from './MyRewards'
 import Unstaking from './Unstaking'
@@ -13,14 +13,14 @@ import WithdrawTxButton from './WithdrawTxButton'
 const MyStakingSection = () => {
   const myAddress = useMyAddress()
   const [ tab, setTab ] = useState(0)
-  const stakerLedger = useStakerLedger(myAddress)
+  const backerLedger = useBackerLedger(myAddress)
 
-  const { ledger } = stakerLedger || {}
+  const { ledger } = backerLedger || {}
 
   const { locked, unbondingInfo } = ledger || {}
   const unlockingChunks = unbondingInfo?.unlockingChunks 
 
-  useFetchStakerLedger(myAddress)
+  useFetchBackerLedger(myAddress)
 
   if(!locked || locked === '0') return null
 

@@ -1,5 +1,5 @@
 import Table, { Column } from '../tailwind-components/Table'
-import { useStakerLedger } from 'src/rtk/features/creatorStaking/stakerLedger/stakerLedgerHooks'
+import { useBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useMemo } from 'react'
 import { FormatBalance } from 'src/components/common/balances'
@@ -89,9 +89,9 @@ const Unstaking = () => {
     })
   }
 
-  const stakerLedger = useStakerLedger(myAddress)
+  const backerLedger = useBackerLedger(myAddress)
 
-  const { ledger, loading } = stakerLedger || {}
+  const { ledger, loading } = backerLedger || {}
 
   const data = useMemo(() => {
     if (!ledger) {

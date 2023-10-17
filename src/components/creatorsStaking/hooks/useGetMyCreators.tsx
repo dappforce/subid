@@ -1,21 +1,21 @@
 import { isEmptyObj } from '@subsocial/utils'
 import { useMemo } from 'react'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useStakerInfoBySpaces } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfoBySpaces } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import BN from 'bignumber.js'
 
 export const useGetMyCreatorsIds = (spaceIds?: string[]) => {
   const myAddress = useMyAddress()
 
-  const stakerInfo = useStakerInfoBySpaces(spaceIds, myAddress)
+  const backerInfo = useBackerInfoBySpaces(spaceIds, myAddress)
 
   return useMemo(() => {
-    if (!stakerInfo || isEmptyObj(stakerInfo) || !spaceIds) return []
+    if (!backerInfo || isEmptyObj(backerInfo) || !spaceIds) return []
 
-    const stakerInfoEntries = Object.entries(stakerInfo)
+    const backerInfoEntries = Object.entries(backerInfo)
 
-    return stakerInfoEntries
+    return backerInfoEntries
       .filter(([ _, info ]) => !new BN(info.totalStaked).isZero())
       .map(([ key ]) => key)
-  }, [ JSON.stringify(stakerInfo || {}), spaceIds?.length ])
+  }, [ JSON.stringify(backerInfo || {}), spaceIds?.length ])
 }

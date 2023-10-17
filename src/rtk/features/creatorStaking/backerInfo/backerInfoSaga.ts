@@ -4,41 +4,41 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyObj, isEmptyArray } from '@subsocial/utils'
 import { getIdsThatNeedToFetch, log } from '../../../app/util'
 import {
-  StakerInfoEntity,
-  StakerInfoProps,
-  StakerInfoRecord,
-  selectStakerInfoBySpaces,
-  stakerInfoActions,
-} from './stakerInfoSlice'
-import { getStakerInfoBySpaces } from '../../../../api/creatorStaking'
+  BackerInfoEntity,
+  BackerInfoProps,
+  BackerInfoRecord,
+  selectBackerInfoBySpaces,
+  backerInfoActions,
+} from './backerInfoSlice'
+import { getBackerInfoBySpaces } from '../../../../api/creatorStaking'
 
-export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) {
+export function* fetchBackerInfoWorker (action: PayloadAction<BackerInfoProps>) {
   const { ids, reload = false, account } = action.payload
 
   try {
-    const stakerInfoBySpaces: StakerInfoRecord = yield select(
-      selectStakerInfoBySpaces,
+    const backerInfoBySpaces: BackerInfoRecord = yield select(
+      selectBackerInfoBySpaces,
       ids,
       account
     )
 
-    const needFetch = getIdsThatNeedToFetch(stakerInfoBySpaces, ids)
+    const needFetch = getIdsThatNeedToFetch(backerInfoBySpaces, ids)
 
     const idsParam: string[] = reload ? ids : needFetch
 
     if (!isEmptyArray(idsParam)) {
       const info: Record<string, any> = yield call(
-        getStakerInfoBySpaces,
+        getBackerInfoBySpaces,
         idsParam,
         account
       )
 
       if (!info || isEmptyObj(info)) {
-        yield put(stakerInfoActions.fetchStakerInfoFailed({ ids, account }))
+        yield put(backerInfoActions.fetchBackerInfoFailed({ ids, account }))
         return
       }
 
-      const stakerInfoEntities: StakerInfoEntity[] = idsParam.map(
+      const backerInfoEntities: BackerInfoEntity[] = idsParam.map(
         (id) => {
           const item = info[id]
 
@@ -56,13 +56,13 @@ export function* fetchStakerInfoWorker (action: PayloadAction<StakerInfoProps>) 
         }
       )
 
-      yield put(stakerInfoActions.fetchStakerInfoSuccess(stakerInfoEntities))
+      yield put(backerInfoActions.fetchBackerInfoSuccess(backerInfoEntities))
     }
   } catch (error) {
-    log.error('Failed to fetch staker info', error)
+    log.error('Failed to fetch backer info', error)
   }
 }
 
-export function* watchStakerInfo () {
-  yield takeEvery(stakerInfoActions.fetchStakerInfo.type, fetchStakerInfoWorker)
+export function* watchBackerInfo () {
+  yield takeEvery(backerInfoActions.fetchBackerInfo.type, fetchBackerInfoWorker)
 }

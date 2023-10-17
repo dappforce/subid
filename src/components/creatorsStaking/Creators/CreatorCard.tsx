@@ -4,7 +4,7 @@ import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creato
 import TruncatedText from '../tailwind-components/TruncateText'
 import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { FormatBalance } from 'src/components/common/balances'
-import { useStakerInfo } from 'src/rtk/features/creatorStaking/stakerInfo/stakerInfoHooks'
+import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import AboutModal from './modals/AboutModal'
 import { useState } from 'react'
@@ -56,7 +56,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
-  const stakerInfo = useStakerInfo(spaceId, myAddress)
+  const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ opneAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
@@ -64,7 +64,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
-  const { info, loading: stakerInfoLoading } = stakerInfo || {}
+  const { info, loading: backerInfoLoading } = backerInfo || {}
 
   const { backersCount, total } = eraStakeInfo || {}
   const { totalStaked } = info || {}
@@ -179,7 +179,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             <CreatorCardValue
               label='My stake'
               value={myStake}
-              loading={stakerInfoLoading}
+              loading={backerInfoLoading}
             />
             <CreatorCardValue
               label='Total stake'
