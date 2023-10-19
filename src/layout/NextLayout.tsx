@@ -12,6 +12,8 @@ import { MINUTES, isCreatorStakingPage } from '../components/utils/index'
 import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
 import { ChatContextWrapper } from 'src/components/providers/ChatContext'
+import { ConfigProvider } from 'antd'
+import theme from './themeConfig'
 
 const Navigation = dynamic(() => import('./Navigation'), { ssr: false })
 const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
@@ -45,24 +47,28 @@ const NextLayout: React.FunctionComponent = (props) => {
   }, [])
 
   return (
-    <ResponsiveSizeProvider>
-      <AnalyticProvider>
-        <ExtensionAccountProvider>
-          <SidebarCollapsedProvider>
-            <LazyConnectionsProvider>
-              <ClaimCrowdloanProvider>
-                <ChatContextWrapper>
-                  <Navigation>
-                    <Page {...props} />
-                  </Navigation>
-                  <ChatFloatingModal position={isCreatorStakingPage() ? 'right' : 'bottom'} />
-                </ChatContextWrapper>
-              </ClaimCrowdloanProvider>
-            </LazyConnectionsProvider>
-          </SidebarCollapsedProvider>
-        </ExtensionAccountProvider>
-      </AnalyticProvider>
-    </ResponsiveSizeProvider>
+    <ConfigProvider theme={theme}>
+      <ResponsiveSizeProvider>
+        <AnalyticProvider>
+          <ExtensionAccountProvider>
+            <SidebarCollapsedProvider>
+              <LazyConnectionsProvider>
+                <ClaimCrowdloanProvider>
+                  <ChatContextWrapper>
+                    <Navigation>
+                      <Page {...props} />
+                    </Navigation>
+                    <ChatFloatingModal
+                      position={isCreatorStakingPage() ? 'right' : 'bottom'}
+                    />
+                  </ChatContextWrapper>
+                </ClaimCrowdloanProvider>
+              </LazyConnectionsProvider>
+            </SidebarCollapsedProvider>
+          </ExtensionAccountProvider>
+        </AnalyticProvider>
+      </ResponsiveSizeProvider>
+    </ConfigProvider>
   )
 }
 

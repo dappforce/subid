@@ -11,6 +11,14 @@
   overflow-y: auto
   overflow-x: hidden
   width: 16rem
+  border-radius: 0 !important
+
+  \:global .ant-dropdown-menu
+    padding: 0 !important
+    border-radius: 0 !important
+
+    .ant-dropdown-menu-item-group-list
+      margin: 0 !important
 
   \:global .ant-menu-horizontal
     white-space: normal !important
@@ -33,9 +41,9 @@
   padding: $space_tiny $space_normal !important
 
 .ChooseAccountMenu
-  margin-top: 4rem
+  margin-top: 4rem !important
 
-  \:global .ant-menu-item-group-title
+  \:global .ant-dropdown-menu-item-group-title
     padding: 0 !important
 
 .SwitchAccountAddress

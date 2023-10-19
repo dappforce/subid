@@ -102,7 +102,7 @@ export const PageContent: FC<Props> = ({
 
       <section
         className={clsx(
-          'DfSectionOuter DfSectionHeight d-flex w-100 bs-p-0',
+          'DfSectionOuter DfPageWrapper DfSectionHeight d-flex w-100 bs-p-0',
           sectionClassName
         )}
       >

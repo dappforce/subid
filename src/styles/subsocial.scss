@@ -328,13 +328,6 @@ a {
 /* Other Styles */
 /* ---------------------------------------- */
 
-.ant-btn {
-  border-radius: $border_radius_large;
-}
-.ant-btn-sm {
-  border-radius: $border_radius_normal;
-}
-
 .DfInput {
   @extend .RoundedLarge;
   background-color: #FAFAFA !important;
@@ -1112,7 +1105,7 @@ hr {
   }
 
   .DfPageWrapper {
-    padding: 0 $space_normal;
+    padding: 0 $space_normal !important;
   }
 
   .DfSection {
@@ -1522,7 +1515,7 @@ hr {
 
 .DfTopBar {
   position: fixed;
-  z-index: 11;
+  z-index: 100;
   height: $height_top_menu;
   width: 100%;
   padding: $space_normal;
@@ -2464,4 +2457,22 @@ hr {
 
 .ant-modal-content {
   padding: 0 !important;
+}
+
+.ant-layout-content {
+  width: auto !important;
+}
+
+ul {
+  margin-top: 0;
+}
+
+.ant-drawer {
+  z-index: 10;
+}
+
+.ant-tabs-tab {
+  margin: 0 !important;
+  padding-right: 0.75rem !important;
+  padding-left: 0.75rem !important;
 }

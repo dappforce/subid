@@ -66,7 +66,7 @@ export const InnerCustomTable = <T extends TableInfo>(
         [styles.TableMargin]: !isHomePage,
       })}
     >
-      <TitleAndControls
+      {/* <TitleAndControls
         tabs={tabs}
         onReload={onReload}
         totalBalance={totalBalance}
@@ -77,7 +77,7 @@ export const InnerCustomTable = <T extends TableInfo>(
         createFieldSkeletons={createFieldSkeletons}
         filterNonZero={filterNonZero}
         {...actionsConfig}
-      />
+      /> */}
 
       <div
         className={clsx(styles.BalanceBlock, {
