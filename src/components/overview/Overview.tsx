@@ -9,6 +9,7 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
+import clsx from 'clsx'
 
 type TotalSectionProps = {
   title: string
@@ -18,23 +19,43 @@ type TotalSectionProps = {
   withMargin?: boolean
 }
 
-const TotalSection = ({ title, totalBalance, withDivider = true, withMargin = false, description }: TotalSectionProps) => {
-  return <>
-    <div className='d-flex justify-content-between'>
-      <div className={styles.BalanceBlock}>
-        <MutedSpan className={`${styles.FontSmall} ${!withMargin && isMobile ? 'bs-mt-2' : ''}`}>
-          {title}
-          {description && <Tooltip className='ml-2' title={description}><QuestionCircleOutlined /></Tooltip>}
-        </MutedSpan>
+const TotalSection = ({
+  title,
+  totalBalance,
+  withDivider = true,
+  withMargin = false,
+  description,
+}: TotalSectionProps) => {
+  return (
+    <>
+      <div className='d-flex justify-content-between'>
+        <div className={styles.BalanceBlock}>
+          <MutedSpan
+            className={`${styles.FontSmall} ${
+              !withMargin && isMobile ? 'bs-mt-2' : ''
+            }`}
+          >
+            {title}
+            {description && (
+              <Tooltip className='ml-2' title={description}>
+                <QuestionCircleOutlined />
+              </Tooltip>
+            )}
+          </MutedSpan>
 
-        <span className={`${styles.FontLarge} ${withMargin ? 'bs-mb-2' : ''}`}>
-          <BalanceView value={totalBalance.toString()} symbol='$' startWithSymbol />
-        </span>
+          <span className={clsx(styles.FontLarge, { ['bs-mb-2']: withMargin })}>
+            <BalanceView
+              value={totalBalance.toString()}
+              symbol='$'
+              startWithSymbol
+            />
+          </span>
+        </div>
+        {withDivider && <Divider type='vertical' className='h-auto m-0' />}
       </div>
-      {withDivider && <Divider type='vertical' className='h-auto m-0' />}
-    </div>
-    {withMargin && <Divider type='horizontal' className='m-0' />}
-  </>
+      {withMargin && <Divider type='horizontal' className='m-0' />}
+    </>
+  )
 }
 
 export const Overview = () => {
@@ -58,14 +79,20 @@ export const Overview = () => {
     const lockedBalancesValues = Object.values(lockedCrowdloanBalances)
 
     let balance = BIGNUMBER_ZERO
-    lockedBalancesValues.map(value => balance = balance.plus(value))
+    lockedBalancesValues.map((value) => (balance = balance.plus(value)))
 
     setLockedBalance(balance)
   }, [ JSON.stringify(lockedCrowdloanBalances) ])
 
   useEffect(() => {
-    setTotalBalance(freeBalance.plus(nonTransferableBalance).plus(lockedBalance))
-  }, [ freeBalance.toString(), nonTransferableBalance.toString(), lockedBalance.toString() ])
+    setTotalBalance(
+      freeBalance.plus(nonTransferableBalance).plus(lockedBalance)
+    )
+  }, [
+    freeBalance.toString(),
+    nonTransferableBalance.toString(),
+    lockedBalance.toString(),
+  ])
 
   const rows = [
     {
@@ -76,33 +103,39 @@ export const Overview = () => {
     {
       title: t('overview.transferableBalance.title'),
       balance: freeBalance,
-      description: t('overview.transferableBalance.description')
+      description: t('overview.transferableBalance.description'),
     },
     {
       title: t('overview.nonTransferableBalance.title'),
       balance: nonTransferableBalance,
-      description: t('overview.nonTransferableBalance.description')
+      description: t('overview.nonTransferableBalance.description'),
     },
     {
       title: t('overview.lockedCrowdloans.title'),
       balance: lockedBalance,
-      description: t('overview.lockedCrowdloans.description')
-    }
+      description: t('overview.lockedCrowdloans.description'),
+    },
   ]
 
-  return <div className={`${styles.OverviewBlock}`}>
-    <Row justify='space-between'>
-      {rows?.map(({ title, balance, description }, index) => {
-        return <Col key={index} span={isMobile ? 12 : 6}>
-          <TotalSection
-            title={title}
-            totalBalance={balance.toFixed(2)}
-            description={description}
-            withDivider={isMobile ? index % 2 === 0 : index !== rows.length - 1}
-            withMargin={isMobile && (index === 0 || index === 1)}
-          />
-        </Col>
-      })}
-    </Row>
-  </div>
+  return (
+    <div className={`${styles.OverviewBlock}`}>
+      <Row justify='space-between'>
+        {rows?.map(({ title, balance, description }, index) => {
+          return (
+            <Col key={index} span={isMobile ? 12 : 6}>
+              <TotalSection
+                title={title}
+                totalBalance={balance.toFixed(2)}
+                description={description}
+                withDivider={
+                  isMobile ? index % 2 === 0 : index !== rows.length - 1
+                }
+                withMargin={isMobile && (index === 0 || index === 1)}
+              />
+            </Col>
+          )
+        })}
+      </Row>
+    </div>
+  )
 }

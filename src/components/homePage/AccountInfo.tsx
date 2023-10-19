@@ -91,10 +91,10 @@ export const AccountInfo = (props: Props) => {
   )
 
   const addressView = (
-    <div className={clsx({ ['mt-3']: !isMobile }, 'd-flex align-items-center')}>
+    <div className={clsx({ ['mt-3']: !isMobile }, 'd-flex align-items-center FontNormal')}>
       <div className='d-flex'>
         {address && (
-          <MutedDiv className='d-flex mr-2 align-items-center'>
+          <MutedDiv className='d-flex bs-mr-2 align-items-center'>
             <img src='/images/wallet.svg' className={styles.Icon} />{' '}
             <CopyAddress address={address} iconVisibility>
               {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
