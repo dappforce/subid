@@ -129,7 +129,7 @@ const ModalBody = ({
 
 type BookmarksModalProps = {
   address?: string
-  buttonType?: 'primary' | 'link' | 'text' | 'ghost' | 'default' | 'dashed' | undefined
+  buttonType?: 'primary' | 'link' | 'text' | 'default' | 'dashed' | undefined
   actionButtonIcon: React.ReactNode
   additionalAddFn?: () => void
   buttonClassName?: string

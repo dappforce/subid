@@ -1,7 +1,8 @@
 import React from 'react'
-import notification, { NotificationPlacement, ArgsProps, IconType } from 'antd/lib/notification'
+import notification from 'antd/lib/notification'
 import { message } from 'antd'
 import { isMobileDevice } from './Size.config'
+import { IconType, NotificationPlacement, ArgsProps } from 'antd/es/notification/interface'
 
 export type Message = React.ReactNode
 
@@ -36,7 +37,7 @@ const showMessage = (
   }
 }
 
-export const resolveNotififcation = (type: IconType, props: MessageProps) => {
+export const resolveNotififcation = (type: IconType, props: ArgsProps) => {
   const { message: content, ...messageProps } = props
 
   return isMobileDevice
@@ -44,9 +45,9 @@ export const resolveNotififcation = (type: IconType, props: MessageProps) => {
     : notification.open({ type, ...props })
 }
 
-export const closeNotification = (key: string) => isMobileDevice ? message.destroy() : notification.close(key)
+export const closeNotification = (key: string) => isMobileDevice ? message.destroy() : notification.destroy(key)
 
-export const createNotifFn = (type: IconType) => (props: MessageProps) => resolveNotififcation(type, props)
+export const createNotifFn = (type: IconType) => (props: ArgsProps) => resolveNotififcation(type, props)
 
 export const showInfoMessage = (props: Message | MessageProps) => {
   showMessage(createNotifFn('info'), props)
