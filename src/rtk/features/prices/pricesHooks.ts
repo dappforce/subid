@@ -13,7 +13,6 @@ export const overriddenChainNames: Record<string, string> = {
   'robonomics': 'robonomics-network',
   'bitCountry': 'metaverse-network-pioneer',
   'parallel': 'parallel-finance',
-  'hydra': 'hydradx',
   'pendulum': 'pendulum-chain'
 }
 
