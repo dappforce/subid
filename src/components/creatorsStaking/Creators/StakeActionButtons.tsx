@@ -1,7 +1,10 @@
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import Button from '../tailwind-components/Button'
 import { StakingModalVariant } from './modals/StakeModal'
-import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import {
+  useIsMulti,
+  useMyAddress,
+} from 'src/components/providers/MyExtensionAccountsContext'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { Tooltip } from 'antd'
 import clsx from 'clsx'
@@ -28,6 +31,7 @@ const StakeActionButtons = ({
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
   const backerInfo = useBackerInfo(spaceId, myAddress || '')
+  const isMulti = useIsMulti()
 
   const { info } = backerInfo || {}
 
@@ -74,15 +78,32 @@ const StakeActionButtons = ({
     </div>
   )
 
-  const tooltipText = !myAddress ? 'Connect your wallet' : 'Claim your rewards first'
-
-  return disableButtons ? (
-    <Tooltip title={tooltipText}>
-      {buttons}
+  const multiAccountButton = (
+    <Tooltip title={'Switch to single account mode'}>
+      <div>
+        <Button
+          variant='primaryOutline'
+          className={clsx('w-full', className)}
+          size={buttonsSize}
+          disabled={true}
+        >
+          Stake
+        </Button>
+      </div>
     </Tooltip>
+  )
+
+  const tooltipText = !myAddress
+    ? 'Connect your wallet'
+    : 'Claim your rewards first'
+
+  const actionButtons = disableButtons ? (
+    <Tooltip title={tooltipText}>{buttons}</Tooltip>
   ) : (
     buttons
   )
+
+  return isMulti ? multiAccountButton : actionButtons
 }
 
 export default StakeActionButtons

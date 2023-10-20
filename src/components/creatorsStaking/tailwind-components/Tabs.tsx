@@ -97,7 +97,7 @@ export default function Tabs ({
                           !disabled,
                         ['text-text-primary after:scale-y-100 after:opacity-100']:
                           selected,
-                        ['text-text-muted/20']: disabled,
+                        ['text-[#6C727F33]/20']: disabled,
                       }
                     )}
                   >

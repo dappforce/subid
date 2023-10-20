@@ -7,7 +7,7 @@ import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/cre
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useFetchBackerInfoBySpaces } from '../../../rtk/features/creatorStaking/backerInfo/backerInfoHooks'
-import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import { useIsMulti, useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import SortByDropDown from './SortByDropDown'
 import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
@@ -84,6 +84,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } =
     useModalContext()
   const creatorsList = useCreatorsList()
+  const isMulti = useIsMulti()
 
   const isCreator = !!creatorsList?.find(
     (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
@@ -109,11 +110,11 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
     },
     {
       id: 'my-creators',
-      text: `My Creators (${myCreatorsIds.length || 0})`,
+      text: `My Creators (${isMulti ? 0 : myCreatorsIds.length || 0})`,
       content: () => (
         <CreatorsCards spaceIds={myCreatorsIds} era={era} sortBy={sortBy} />
       ),
-      disabled: myCreatorsIds.length === 0,
+      disabled: myCreatorsIds.length === 0 || isMulti,
     },
   ]
 
