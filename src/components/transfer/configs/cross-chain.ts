@@ -99,9 +99,8 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
     adapter: new HeikoAdapter(),
     chainName: 'heiko'
   },
-  hydra: {
+  hydradx: {
     adapter: new HydraAdapter(),
-    chainName: 'hydradx'
   },
   zeitgeist: {
     adapter: new ZeitgeistAdapter(),
