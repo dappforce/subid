@@ -3,8 +3,6 @@ import { BalanceKind, BalanceTableProps } from '../types'
 import { RelayChain } from 'src/types'
 import BigNumber from 'bignumber.js'
 
-export type BalanceVariant = 'tokens' | 'chains'
-
 export type ActionsConfig = {
   title: string
   showTabs?: boolean

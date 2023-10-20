@@ -32,14 +32,14 @@ const DashboardItem = ({
       <div className='d-flex justify-content-between'>
         <div className={styles.DashboardItem}>
           <MutedSpan
-            className={`${styles.FontSmall} ${
+            className={`${styles.CommonDashboardTitle} ${
               !withMargin && isMobile ? 'bs-mt-2' : ''
             }`}
           >
             {title}
           </MutedSpan>
 
-          <span className={`${styles.FontLarge} ${withMargin ? 'bs-mb-2' : ''}`}>
+          <span className={`${styles.CommonDashboardValue} ${withMargin ? 'bs-mb-2' : ''}`}>
             {desc}
           </span>
         </div>

@@ -27,7 +27,6 @@ import {
   CopyAddress,
 } from '../homePage/address-views/utils/index'
 import Avatar from 'antd/lib/avatar/avatar'
-import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 import { BareProps } from '../utils/Section'
 import { ExternalLink } from '../identity/utils'
 import clsx from 'clsx'
@@ -370,7 +369,7 @@ type ChainProps = {
   name?: string
   isShortAddress?: boolean
   withCopy?: boolean
-  avatarSize?: AvatarSize
+  avatarSize?: any
   halfLength?: number
   isMonosizedFont?: boolean
   withQr?: boolean
@@ -380,7 +379,7 @@ type ChainProps = {
 
 type AvatarOrSkeletonProps = BareProps & {
   icon: string | JSX.Element
-  size?: AvatarSize
+  size?: any
   externalIcon?: boolean
 }
 

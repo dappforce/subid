@@ -29,7 +29,7 @@ const ValidatorsStakingPage: NextPage<ValidatorsStakingPageProps> = ({ network }
   }, [ addresses?.join(','), network ])
 
   return <>
-    <div className='layout-wrapper'>
+    <div className='layout-wrapper lh-base'>
       <PageContent
         meta={{
           title: 'Validators Staking',

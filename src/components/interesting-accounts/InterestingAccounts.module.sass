@@ -71,7 +71,7 @@ $card_image_size: 100px
     width: 100%
 
   .RelayChain
-    border-radius: 100%
+    border-radius: 100% !important
     height: 24px
     width: 24px
     position: absolute
@@ -95,7 +95,7 @@ $card_image_size: 100px
   \:global .ant-tabs-tab
     padding-left: 0 !important
     padding-right: 0 !important
-    margin-right: $font_big
+    margin-right: $font_big !important
     font-size: $font_normal !important
 
   \:global .ant-tabs-nav-more
@@ -116,8 +116,9 @@ $card_image_size: 100px
   visibility: visible !important
 
 .CardCoverBody
-  display: flex
+  display: flex !important
   justify-content: center
+  position: relative
 
 .CardCoverAvatar
   width: 84px

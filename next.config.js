@@ -11,7 +11,12 @@ const nextConfig = {
     responseLimit: false,
   },
   images: {
-    domains: ['sub.id', 'localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

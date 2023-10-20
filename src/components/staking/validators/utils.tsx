@@ -429,7 +429,7 @@ export const RewardDestinationSelect = ({
 
   const rewardDestinations = useMemo(() => getRewardDestinations(t), [ language ])
 
-  return <div>
+  return <>
     <div className={clsx('d-flex align-items-center justify-content-between', styles.BlockTitle)}>
       <div>{t('validatorStaking.startNominatingScreen.stakeBlock.rewardDestination.label')}</div>
       <ExternalLink 
@@ -447,7 +447,7 @@ export const RewardDestinationSelect = ({
         return <div 
           key={key} 
           className={clsx(
-            styles.DestinationCard, 'w-100', 
+            styles.DestinationCard, 
             { [ styles.ActiveDestinationCard ]: Object.keys(rewardDestination)[0] === key }
           )} 
           onClick={() => {
@@ -473,7 +473,7 @@ export const RewardDestinationSelect = ({
         </div>
       })}
     </Space>
-  </div>
+  </>
 }
 
 type StakingAccountSelectProps = {

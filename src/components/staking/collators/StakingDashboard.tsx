@@ -45,7 +45,7 @@ const DashboardItem = ({
 
   return (
     <>
-      <div className='d-flex justify-content-between'>
+      <div className='d-flex justify-content-between FontNormal'>
         <div className={styles.DashboardItem}>
           <MutedSpan
             className={clsx(styles.FontSmall, { ['bs-mt-2']: !withMargin && isMobile })}
@@ -161,7 +161,7 @@ const StakingDashboard = ({ network }: StakingDashboardProps) => {
 
   return (
     <>
-      <div className={clsx({ ['pl-3 pr-3']: isMobile })}>
+      <div className={clsx('lh-base', { ['pl-3 pr-3']: isMobile })}>
         <PageTitle 
           title={<>{chainName} Staking</>}
           link={<FAQModalButton />}

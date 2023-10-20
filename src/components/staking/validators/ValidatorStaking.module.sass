@@ -8,11 +8,11 @@
 
   button
     height: 40px
-    border-radius: $border_radius_large !important
+    // border-radius: $border_radius_large !important
 
   input
     height: 40px
-    border-radius: $border_radius_large !important
+    // border-radius: $border_radius_large !important
 
   \:global .ant-collapse-header
     font-size: $font_big
@@ -51,6 +51,7 @@
   h3
     color: $color_font_normal !important
     margin-bottom: $space_tiny !important
+    margin-top: 0 !important
 
 .ActiveDestinationCard
   border: $staking_border_pink
@@ -170,7 +171,7 @@
   \:global .ant-table-tbody
     tr
       td
-        border-bottom: none
+        border-bottom: none !important
 
       &:hover
         td:first-child

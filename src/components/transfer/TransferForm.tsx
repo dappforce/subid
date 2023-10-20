@@ -369,6 +369,8 @@ export default function TransferForm ({
     <Form
       form={form}
       {...props}
+      labelAlign='left'
+      labelCol={{ span: 24 }}
       className={clsx('w-100', props.className)}
     >
       {children ? (

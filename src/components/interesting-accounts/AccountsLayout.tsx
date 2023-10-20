@@ -210,8 +210,8 @@ const AccountsLayout = ({
             {isMobile ? (
               <Dropdown
                 trigger={[ 'click' ]}
-                visible={tabVisible}
-                onVisibleChange={(v) => setTabVisible(v)}
+                open={tabVisible}
+                onOpenChange={(v) => setTabVisible(v)}
                 placement='bottomLeft'
                 className={clsx(
                   'd-flex align-items-center justify-content-start w-auto',
@@ -271,7 +271,7 @@ const AccountsLayout = ({
           >
             <div className={styles.SelectedNetwork}>
               <DfBgImg
-                className={`mr-2 ${styles.TabIcon}`}
+                className={`bs-mr-2 ${styles.TabIcon}`}
                 src={getIconUrl(resolveSvgIcon(selectedChain))}
                 size={18}
                 rounded

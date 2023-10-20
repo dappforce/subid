@@ -90,7 +90,7 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
   return <div className={'d-flex alignt-items-center'}>{icons}</div>
 }
 
-export const parseTokenCentricView = async ({
+export const parseTokenCentricView = ({
   chainsInfo,
   tokenPrices,
   identities,
@@ -99,7 +99,7 @@ export const parseTokenCentricView = async ({
   isMobile,
   onTransferClick,
   t,
-}: ParseBalanceTableInfoProps): Promise<BalancesTableInfo[]> => {
+}: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
   if (!balancesEntities) return []
 
   const { balancesByToken, tokenIds } = parseBalancesByToken(
@@ -296,9 +296,7 @@ export const parseTokenCentricView = async ({
     }
   })
 
-  const result = await Promise.all(parsedData)
-
-  const balancesInfo = result.filter(isDef).flat()
+  const balancesInfo = parsedData.filter(isDef).flat()
 
   const balancesInfoSorted = balancesInfo.sort((a, b) =>
     b.totalTokensValue.minus(a.totalTokensValue).toNumber()

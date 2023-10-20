@@ -111,7 +111,6 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
 function getPolkawalletChainName (chain: string) {
   const chainData = availableAdapters[chain]
 
-  console.log(chainData)
   if (!chainData) return undefined
   return chainData.chainName || chain as ChainId
 }

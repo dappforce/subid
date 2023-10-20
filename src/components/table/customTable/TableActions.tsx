@@ -37,7 +37,7 @@ export const TableActions = <T extends TableInfo>({
 
   return (
     <div className={clsx(styles.TableActions)}>
-      <div className='d-flex font-weight-bold'>
+      <div className='d-flex font-weight-bold FontNormal'>
         <div className='bs-mr-2'>{t('general.total')}</div>
         <BalanceView value={totalBalance} symbol='$' startWithSymbol />
       </div>

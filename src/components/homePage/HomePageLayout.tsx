@@ -1,10 +1,9 @@
-import BalancesTable from '../table/balancesTable/BalanceTable'
 import NtfLayout from '../ntf/NftsLayout'
-import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { Tabs } from 'antd'
 import { useState } from 'react'
 import styles from './Index.module.sass'
 import TxHistoryLayout from '../txHistory'
+import BalancesTableNew from '../table/balancesTableNew'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -15,7 +14,6 @@ export const MAX_ITEMS_FOR_TABLE = 6
 type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
-  const chainsInfo = useChainInfo()
   const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>('portfolio')
 
   const tabs = [
@@ -23,12 +21,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       key: 'portfolio',
       tab: 'Portfolio',
       children: (
-        <BalancesTable
-          showTabs={true}
-          showCheckBox={true}
-          addresses={addresses!}
-          chainsInfo={chainsInfo}
-        />
+        <BalancesTableNew addresses={addresses} />
       ),
     },
     {

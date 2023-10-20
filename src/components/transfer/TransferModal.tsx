@@ -115,7 +115,7 @@ export default function TransferModal ({
           noScroll={currentState === 'success'}
           title={t('transfer.title')}
           subtitle={subtitle}
-          className={clsx(className, {
+          className={clsx(className, styles.TransferForm, {
             [styles.CustomSuccessModalContainer]: currentState === 'success',
           })}
           footer={isFormVisible ? buttonSection : undefined}

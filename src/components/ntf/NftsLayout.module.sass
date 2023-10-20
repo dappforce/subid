@@ -5,6 +5,15 @@ $card_image_heigth: $card_image_size
 $mobile_card_image_size: 177px
 $label_padding_size: 5px
 
+.TabsPannel
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_normal
+
+  .Tabs
+    width: 100%
+
 .Label
   display: flex
   align-items: center
@@ -84,7 +93,6 @@ $label_padding_size: 5px
   padding: 0 $space_large $space_small $space_large
   box-shadow: $shadow
   border-radius: $border_radius_normal
-  margin-top: $space_tiny
 
   \:global .ant-row
     display: grid

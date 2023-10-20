@@ -10,11 +10,16 @@ export type SearchableSelectOption = {
   filterData: string
 }
 
-export interface SearchableSelectProps extends Omit<SelectProps<string>, 'options' | 'children'> {
+export interface SearchableSelectProps
+  extends Omit<SelectProps<string>, 'options' | 'children'> {
   options: SearchableSelectOption[]
 }
 
-export default function SearchableSelect ({ options, className, ...props }: SearchableSelectProps) {
+export default function SearchableSelect ({
+  options,
+  className,
+  ...props
+}: SearchableSelectProps) {
   const [ searchValue, setSearchValue ] = useState('')
   const previousValidValueRef = useRef(props.value)
   return (
@@ -22,8 +27,7 @@ export default function SearchableSelect ({ options, className, ...props }: Sear
       showSearch
       searchValue={searchValue}
       onSearch={(search) => {
-        if (searchValue === '')
-          previousValidValueRef.current = props.value
+        if (searchValue === '') previousValidValueRef.current = props.value
         setSearchValue(search)
         props.onSearch?.(search)
       }}
@@ -33,16 +37,24 @@ export default function SearchableSelect ({ options, className, ...props }: Sear
       }}
       onBlur={(e) => {
         if (previousValidValueRef.current) {
-          props.onChange?.(previousValidValueRef.current, { value: previousValidValueRef.current, options })
+          props.onChange?.(
+            previousValidValueRef.current,
+            {
+              label: previousValidValueRef.current,
+              options,
+            }
+          )
           previousValidValueRef.current = ''
         }
         props.onBlur?.(e)
       }}
       className={clsx(styles.SearchableSelect, className)}
       filterOption={(input, option) => {
-        return (option as SearchableSelectOption).filterData.toLowerCase().includes(input.toLowerCase())
+        return (option as SearchableSelectOption).filterData
+          .toLowerCase()
+          .includes(input.toLowerCase())
       }}
-      notFoundContent='Not Found'
+      notFoundContent={<div className='bs-p-2'>Not Found</div>}
       {...props}
       options={options}
     />

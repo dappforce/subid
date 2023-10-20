@@ -9,12 +9,11 @@ import { AccountInfoItem } from '../../../components/identity/types'
 import { HYDRATE } from 'next-redux-wrapper'
 import { isEmptyArray, isEmptyObj, isEmptyStr } from '@subsocial/utils'
 import { upsertManyEntity } from '../../app/util'
-import {
-  FetchProps,
-  stubFn,
-  hydrateExtraReducer,
-} from '../../app/util'
+import { FetchProps, hydrateExtraReducer } from '../../app/util'
 
+export type BalancesFetchProps = FetchProps & {
+  networks: string[]
+}
 
 export type BalancesEntity = {
   /** An account address by which we fetch chains balances. */
@@ -33,15 +32,15 @@ export const selectBalances = (state: RootState, account: string) =>
   selectorByAccount.selectById(state.balances, account)
 
 export const selectManyBalances = (state: RootState, accounts?: string[]) => {
-  if(!accounts || isEmptyArray(accounts)) return
+  if (!accounts || isEmptyArray(accounts)) return
 
   const balances: BalanceEntityRecord = {}
 
-  accounts.forEach(account => {
-    if(!isEmptyStr(account)) {
+  accounts.forEach((account) => {
+    if (!isEmptyStr(account)) {
       const balanceEntity = selectBalances(state, account)
 
-      if(balanceEntity) {
+      if (balanceEntity) {
         balances[account] = balanceEntity
       }
     }
@@ -71,7 +70,7 @@ const slice = createSlice({
         reload: true,
         fieldName: 'balances',
         ids: accounts,
-        selector: selectorByAccount
+        selector: selectorByAccount,
       })
       return
     },
@@ -84,14 +83,27 @@ const slice = createSlice({
         reload,
         fieldName: 'balances',
         ids: accounts,
-        selector: selectorByAccount
+        selector: selectorByAccount,
       })
       return
     },
     fetchBalancesSuccess: (state, action: PayloadAction<BalancesEntity[]>) => {
       balancesAdapter.upsertMany(state, action.payload)
     },
-    fetchBalancesFailed: stubFn,
+    fetchBalancesFailed: (state, action: PayloadAction<FetchProps>) => {
+      const { accounts, reload } = action.payload
+
+      upsertManyEntity({
+        adapter: balancesAdapter,
+        state: state as EntityState<BalancesEntity>,
+        reload,
+        loading: false,
+        fieldName: 'balances',
+        ids: accounts,
+        selector: selectorByAccount,
+      })
+      return
+    },
   },
   extraReducers: {
     [HYDRATE]: hydrateExtraReducer('balances'),

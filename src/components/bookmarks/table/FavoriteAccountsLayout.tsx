@@ -121,7 +121,7 @@ const FavoriteAccountsLayout = () => {
         additionalAddFn={onAddButtonClick}
         buttonType='link'
         notes={desc}
-        buttonClassName={styles.TableButton}
+        buttonClassName={clsx(styles.TableButton, styles.EditBookmark)}
       />
     }
   })

@@ -10,7 +10,7 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import store from 'store'
 import { MutedSpan } from '../utils/MutedText'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
-import { fetchNfts, useManyNfts } from '../../rtk/features/nfts/nftsHooks'
+import { fetchNfts, useFetchNfts, useManyNfts } from '../../rtk/features/nfts/nftsHooks'
 import { Nft } from '../../rtk/features/nfts/types'
 import { useAppDispatch } from '../../rtk/app/store'
 import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
@@ -18,7 +18,6 @@ import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { AccountIdentitiesRecord } from '../../rtk/features/identities/identitiesSlice'
 import clsx from 'clsx'
 import NftItem from './NftItem'
-import { SectionTitle } from '../utils/index'
 import { SubsocialProfile } from '../identity/types'
 
 const { TabPane } = Tabs
@@ -106,6 +105,7 @@ type NftsLayoutProps = {
 }
 
 const NtfLayout = ({ addresses }: NftsLayoutProps) => {
+  useFetchNfts()
   const [ page, setPage ] = useState<number>(DEFAULT_PAGE)
   const isMulti = useIsMulti()
   const { isMobile } = useResponsiveSize()
@@ -176,28 +176,28 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
   const data = dataByKey[tabKey]
 
   return (<div>
-    <Row justify='space-between' className='align-items-center'>
-      <Col>
-        <SectionTitle title='NFTs' className={clsx({ ['pr-3 pl-3']: isMobile }, 'bs-mb-0')}/>
-      </Col>
+    {/* <Row justify='space-between' className='align-items-center'>
       <Col className={`${isMobile ? 'bs-mr-3' : ''} align-self-center`}>
+        
+      </Col>
+    </Row> */}
+    <div className={styles.NftBlock}>
+      <div className={styles.TabsPannel}>
+        <Tabs onChange={onTabKeyChange} activeKey={tabKey} className={styles.Tabs}>
+          <TabPane key='all' tab={<TabWithLogo text='All' />} />
+          <TabPane key='rmrk1' tab={<TabWithLogo count={rmrk1.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 1' />} />
+          <TabPane key='rmrk2' tab={<TabWithLogo count={rmrk2.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 2' />} />
+          <TabPane key='statemine' tab={<TabWithLogo count={statemine.length.toString()} icon={getIconUrl('statemine.svg')} text='Statemine' />} />
+        </Tabs>
         <Tooltip title={t('tooltip.refreshNFTs')}>
-          <Button onClick={onReloadClick} disabled={loading}>
+          <Button onClick={onReloadClick} disabled={loading} shape='circle'>
             {loading
               ? <LoadingOutlined />
               : <ReloadOutlined />
             }
           </Button>
         </Tooltip>
-      </Col>
-    </Row>
-    <div className={styles.NftBlock}>
-      <Tabs onChange={onTabKeyChange} activeKey={tabKey}>
-        <TabPane key='all' tab={<TabWithLogo text='All' />} />
-        <TabPane key='rmrk1' tab={<TabWithLogo count={rmrk1.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 1' />} />
-        <TabPane key='rmrk2' tab={<TabWithLogo count={rmrk2.length.toString()} icon='/images/rmrk.jpeg' text='RMRK 2' />} />
-        <TabPane key='statemine' tab={<TabWithLogo count={statemine.length.toString()} icon={getIconUrl('statemine.svg')} text='Statemine' />} />
-      </Tabs>
+      </div>
 
       <NftGrid nfts={data.slice(start, end)} nftsLoading={loading} isMulti={isMulti} identities={identities} />
 

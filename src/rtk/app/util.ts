@@ -1,11 +1,7 @@
 import { AnyAction } from 'redux'
 import { isEmptyArray, isEmptyObj, newLogger, isDef } from '@subsocial/utils'
 import { Dispatch } from 'react'
-import { useFetchBalances } from '../features/balances/balancesHooks'
 import { fetchIdentities } from '../features/identities/identitiesHooks'
-import { useFetchNfts } from '../features/nfts/nftsHooks'
-import { useFetchAssetsBalances } from '../features/assetsBalances/assetsBalancesHooks'
-import { useDotsamaContributions } from '../features/contributions/contributionsHooks'
 import { relayChains } from '../../components/table/utils'
 import { isValidAddress } from '../../components/utils/index'
 import { GenericAccountId } from '@polkadot/types'
@@ -128,13 +124,6 @@ export const fetchDataByAccount = async (
 
     fetchIdentities(dispatch, addresses, reload)
   }
-}
-
-export const useFetchDataByAddresses = () => {
-  useFetchBalances()
-  useFetchAssetsBalances()
-  useFetchNfts()
-  useDotsamaContributions()
 }
 
 export function stubFn () {
