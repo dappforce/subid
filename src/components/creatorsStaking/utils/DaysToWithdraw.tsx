@@ -39,7 +39,7 @@ type DaysToUnstakeProps = {
   unbondingPeriodInEras?: string
 }
 
-const DaystoWithDraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
+const DaysToWithdraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
   const timeInEra = useGetOneEraTime()
 
   const unbondingPeriodInDays = timeInEra?.multipliedBy(
@@ -49,4 +49,4 @@ const DaystoWithDraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
   return <>{formatTime(unbondingPeriodInDays?.toNumber() || 0)}</>
 }
 
-export default DaystoWithDraw
+export default DaysToWithdraw

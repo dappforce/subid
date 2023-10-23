@@ -5,7 +5,7 @@ const COLLATOR_STAKING_PATH = 'staking/collator'
 export const getCandidatesListByNetwork = async (network: string) => (
   sendGetRequest({
     params: { url: `${COLLATOR_STAKING_PATH}/candidates/list/${network}` },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get candidates list by network ${network}`
   })
 )
@@ -13,7 +13,7 @@ export const getCandidatesListByNetwork = async (network: string) => (
 export const getStakingRoundByNetwork = async (network: string) => (
   sendGetRequest({
     params: { url: `${COLLATOR_STAKING_PATH}/round/${network}` },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get staking round by network ${network}`
   })
 )
@@ -22,7 +22,7 @@ export const getStakingRoundByNetwork = async (network: string) => (
 export const getStakingConstsByNetwork = async (network: string) => (
   sendGetRequest({
     params: { url: `${COLLATOR_STAKING_PATH}/consts/${network}` },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get staking consts by network ${network}`
   })
 )
@@ -30,7 +30,7 @@ export const getStakingConstsByNetwork = async (network: string) => (
 export const getSelectedCandidatesByNetwork = async (network: string) => (
   sendGetRequest({
     params: { url: `${COLLATOR_STAKING_PATH}/selected/${network}` },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get selected candidates by network ${network}`
   })
 )
@@ -49,7 +49,7 @@ export const getCandidatesInfoByNetwork = async (
         },
       }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get candidates info by network ${network}`
   })
 )
@@ -68,7 +68,7 @@ export const getDelegatorsStateByNetwork = async (
         },
       }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get delegator state by network ${network}`
   })
 )
@@ -87,7 +87,7 @@ export const getScheduledRequestsByNetwork = async (
         },
       }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get scheduled requests by network ${network}`
   })
 )

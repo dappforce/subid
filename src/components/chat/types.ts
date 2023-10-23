@@ -1,16 +1,14 @@
-type ResourceLike = {
-  toResourceId: () => string
-}
+import { GrillConfig } from '@subsocial/grill-widget'
 
-export type ChanelTypeChannel = {
-  type: 'channel'
-  id: string
-}
-export type ChanelTypeResource = {
-  type: 'resource'
-  resource: ResourceLike
-  metadata: ResourceMetadata
-}
+export type ChanelTypeChannel = Extract<
+  GrillConfig['channel'],
+  { type: 'channel' }
+>
+
+export type ChanelTypeResource = Extract<
+  GrillConfig['channel'],
+  { type: 'resource' }
+>
 
 export type ResourceMetadata = {
   title: string

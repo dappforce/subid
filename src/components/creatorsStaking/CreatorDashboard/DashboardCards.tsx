@@ -89,9 +89,7 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
           skeletonClassName='h-[24px]'
         />
       ),
-      button: <CreatorRewardsClaimButton
-      
-      />,
+      button: <CreatorRewardsClaimButton />,
     },
     {
       title: 'My Stakers',

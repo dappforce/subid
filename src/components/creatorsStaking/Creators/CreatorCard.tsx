@@ -57,7 +57,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
-  const [ opneAboutModal, setOpenAboutModal ] = useState(false)
+  const [ openAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
@@ -202,7 +202,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         />
       </div>
       <AboutModal
-        open={opneAboutModal}
+        open={openAboutModal}
         closeModal={() => setOpenAboutModal(false)}
         spaceId={spaceId}
         isStake={isStake}

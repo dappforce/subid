@@ -55,12 +55,14 @@ export default function ChatFloatingModal ({
     }
     sendEvent(event)
 
-    if (!open) {
+    const nextStateOpen = !open
+
+    if (!nextStateOpen) {
       setSpaceId(undefined)
       setMetadata(undefined)
     }
-
-    setOpen((prev) => !prev)
+    
+    setOpen(nextStateOpen)
 
     hasOpened.current = true
   }

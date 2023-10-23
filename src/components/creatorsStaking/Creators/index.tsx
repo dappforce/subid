@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Button from '../tailwind-components/Button'
 import Tabs, { TabsProps } from '../tailwind-components/Tabs'
 import CreatorCard from './CreatorCard'
@@ -7,7 +7,10 @@ import { useFetchCreatorsSpaces } from '../../../rtk/features/creatorStaking/cre
 import { useFetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { useFetchBackerInfoBySpaces } from '../../../rtk/features/creatorStaking/backerInfo/backerInfoHooks'
-import { useIsMulti, useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import {
+  useIsMulti,
+  useMyAddress,
+} from 'src/components/providers/MyExtensionAccountsContext'
 import { useFetchBalanceByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import SortByDropDown from './SortByDropDown'
 import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
@@ -86,8 +89,12 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const creatorsList = useCreatorsList()
   const isMulti = useIsMulti()
 
-  const isCreator = !!creatorsList?.find(
-    (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
+  const isCreator = useMemo(
+    () =>
+      !!creatorsList?.find(
+        (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
+      ),
+    [ creatorsList?.length ]
   )
 
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)

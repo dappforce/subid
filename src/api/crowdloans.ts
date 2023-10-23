@@ -14,7 +14,7 @@ export const getCrowdloans = async ({
 }: GetCrowdloansProps) => (
   sendGetRequest({
     params: { url: `crowdloans/contributions/${relayChain}/${account}` },
-    onFaileReturnedValue: undefined,
+    onFailReturnedValue: undefined,
     onFailedText: 'Failed to get crowdloans'
   })
 )
@@ -25,7 +25,7 @@ export const getCrowdloansInfoByRelayChain = async (
 ): Promise<CrowdloanInfo[]> => (
   sendGetRequest({
     params: { url: `crowdloans/${relayChain}` },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: `Failed to get crowdloans info by relay chain ${relayChain}`
   })
 )
@@ -58,7 +58,7 @@ export const getVestingData = async ({
 
       return res
     },
-    onFaileReturnedValue: {},
+    onFailReturnedValue: {},
     onFailedText: `Failed to get vesting data for account ${account}`
   })
 )

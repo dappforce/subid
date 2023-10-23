@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { FormatBalance } from 'src/components/common/balances'
@@ -46,7 +46,10 @@ const MyRewards = () => {
   const { decimal, tokenSymbol: symbol } =
     useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
+  const creatorsSpaceIds = useMemo(
+    () => creatorsList?.map((creator) => creator.id),
+    [ creatorsList?.length ]
+  )
 
   const myCreatorsIds = useGetMyCreatorsIds(creatorsSpaceIds)
 

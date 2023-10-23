@@ -21,7 +21,6 @@ const Checkbox = ({
   return (
     <div className='flex items-start'>
       <input
-        id='default-checkbox'
         type='checkbox'
         className={clsx(
           'w-4 h-4 text-text-primary bg-gray-100 mt-[2px]',

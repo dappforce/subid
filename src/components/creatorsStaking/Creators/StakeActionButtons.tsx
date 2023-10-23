@@ -8,6 +8,8 @@ import {
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { Tooltip } from 'antd'
 import clsx from 'clsx'
+import HowToSelectAccountModal from './modals/HowToSelectAccountModal'
+import { useState } from 'react'
 
 type StakeButtonProps = {
   spaceId: string
@@ -32,6 +34,8 @@ const StakeActionButtons = ({
   const stakingConsts = useStakingConsts()
   const backerInfo = useBackerInfo(spaceId, myAddress || '')
   const isMulti = useIsMulti()
+
+  const [ openMultiAccountModal, setOpenMultiAccountModal ] = useState(false)
 
   const { info } = backerInfo || {}
 
@@ -79,18 +83,21 @@ const StakeActionButtons = ({
   )
 
   const multiAccountButton = (
-    <Tooltip title={'Switch to single account mode'}>
-      <div>
-        <Button
-          variant='primaryOutline'
-          className={clsx('w-full', className)}
-          size={buttonsSize}
-          disabled={true}
-        >
-          Stake
-        </Button>
-      </div>
-    </Tooltip>
+    <div>
+      <Button
+        variant='primaryOutline'
+        className={clsx('w-full', className)}
+        size={buttonsSize}
+        onClick={() => setOpenMultiAccountModal(true)}
+      >
+        Stake
+      </Button>
+
+      <HowToSelectAccountModal
+        open={openMultiAccountModal}
+        closeModal={() => setOpenMultiAccountModal(false)}
+      />
+    </div>
   )
 
   const tooltipText = !myAddress
