@@ -343,7 +343,7 @@
   },
   "table": {
     "balances": {
-      "frozen": "Frozen fee",
+      "frozen": "Frozen",
       "locked": "Locked balance",
       "reserved": "Reserved balance",
       "free": "Transferable",

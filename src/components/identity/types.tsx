@@ -18,15 +18,22 @@ export type Info = {
 
 export type InfoKeys = keyof Info
 
-export const identityInfoKeys: InfoKeys[] = [ 'display', 'legal', 'web', 'riot', 'email', 'twitter' ]
+export const identityInfoKeys: InfoKeys[] = [
+  'display',
+  'legal',
+  'web',
+  'riot',
+  'email',
+  'twitter',
+]
 
 export type AccountInfoByChain = {
   accountId: string
   totalBalance: string
-  freeBalance: string
-  frozenFee: string
   reservedBalance: string
-  frozenMisc: string
+  frozenBalance: string
+  freeBalance: string
+  lockedBalance: string
 }
 
 export type AccountInfoItem = {
@@ -41,7 +48,10 @@ export type CrowdloansContributions = {
   contribution: string
 }
 
-export type CrowdloansContributionsByParaId = Record<string, CrowdloansContributions>
+export type CrowdloansContributionsByParaId = Record<
+  string,
+  CrowdloansContributions
+>
 
 export type CrowdloanInfo = {
   depositor?: string

@@ -40,22 +40,18 @@ import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../links/Links'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
-  const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
-
-  const transferableBalance = new BN(freeBalance || 0)
-    .minus(new BN(frozenMisc || frozenFee || 0))
-    .toString()
+  const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info
 
   return [
     {
       key: 'frozen',
       label: t('table.balances.frozen'),
-      value: frozenFee?.toString() || '0',
+      value: frozenBalance?.toString() || '0',
     },
     {
       key: 'locked',
       label: t('table.balances.locked'),
-      value: frozenMisc?.toString() || '0',
+      value: lockedBalance?.toString() || '0',
     },
     {
       key: 'reserved',
@@ -65,7 +61,7 @@ const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
     {
       key: 'free',
       label: t('table.balances.free'),
-      value: transferableBalance,
+      value: freeBalance,
     },
   ]
 }
