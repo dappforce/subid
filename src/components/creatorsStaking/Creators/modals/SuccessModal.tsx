@@ -6,7 +6,8 @@ import { twitterShareUrl } from 'src/components/urls/social-share'
 import Button from '../../tailwind-components/Button'
 import { useResponsiveSize } from 'src/components/responsive'
 
-const twitterText = 'I just staked on @SubIDapp!\nYou can try it here:'
+const twitterText =
+  'I just staked my #SUB on @SubsocialChain!\nYou can stake towards your favorite creators here: '
 
 type SuccessModalProps = {
   open: boolean
@@ -47,7 +48,10 @@ const SuccessModal = ({
           title={name}
           desc={
             <span>
-              My stake: <span className='font-bold text-black'>{amount} {tokenSymbol}</span>
+              My stake:{' '}
+              <span className='font-bold text-black'>
+                {amount} {tokenSymbol}
+              </span>
             </span>
           }
           imgSize={isMobile ? 60 : 80}
@@ -60,7 +64,9 @@ const SuccessModal = ({
           variant={'primary'}
           className='w-full'
           onClick={() =>
-            openNewWindow(twitterShareUrl('/creators', twitterText))
+            openNewWindow(
+              twitterShareUrl('/creators', twitterText, { tags: [ 'Subsocial' ] })
+            )
           }
         >
           Tweet about it!

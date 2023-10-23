@@ -256,7 +256,7 @@ const StakingModal = ({
           closeModal={closeModal}
           modalVariant={modalVariant}
           inputError={inputError}
-          disabled={!isCheckboxChecked}
+          disabled={!isCheckboxChecked && !betaversionAgreement}
         />
       </div>
     </Modal>
