@@ -48,7 +48,7 @@ export function* fetchEraStakeWorker (
           if(!item) return {
             ...commonParams,
             info: {
-              total: '0',
+              totalStaked: '0',
               numberOfStakers: '0',
               creatorRewardClaimed: false
             }

@@ -8,7 +8,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { RootState } from '../../../app/rootReducer'
 import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
 
-type UnlockingChunk = {
+type UnbondingChunks = {
   amount: string
   unlockEra: string
 }
@@ -17,7 +17,7 @@ export type BackerLedger = {
   totalLocked: string
   locked: string
   unbondingInfo: {
-    unlockingChunks: UnlockingChunk[]
+    unbondingChunks: UnbondingChunks[]
   }
 }
 

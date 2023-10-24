@@ -172,7 +172,7 @@ const StakingModal = ({
   const { info } = eraStake || {}
 
   const { name, ownedByAccount, image } = space || {}
-  const { backersCount, total } = info || {}
+  const { backersCount, totalStaked } = info || {}
 
   const owner = ownedByAccount?.id
 
@@ -187,7 +187,7 @@ const StakingModal = ({
 
   const totalValue = (
     <FormatBalance
-      value={total || '0'}
+      value={totalStaked || '0'}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}

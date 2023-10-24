@@ -39,10 +39,10 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
     let backersCount = 0
 
     Object.values(eraStakes).forEach((eraStake) => {
-      const { total: totalStake, backersCount: stakeBackersCount } =
+      const { totalStaked, backersCount: stakeBackersCount } =
         eraStake || {}
 
-      total = total.plus(totalStake)
+      total = total.plus(totalStaked)
       backersCount += parseInt(stakeBackersCount || '0')
     })
 

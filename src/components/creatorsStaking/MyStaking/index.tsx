@@ -18,7 +18,7 @@ const MyStakingSection = () => {
   const { ledger } = backerLedger || {}
 
   const { locked, unbondingInfo } = ledger || {}
-  const unlockingChunks = unbondingInfo?.unlockingChunks 
+  const unbondingChunks = unbondingInfo?.unbondingChunks 
 
   useFetchBackerLedger(myAddress)
 
@@ -32,9 +32,9 @@ const MyStakingSection = () => {
     },
     {
       id: 'unstaking',
-      text: `Unstaking (${unlockingChunks?.length || 0})`,
+      text: `Unstaking (${unbondingChunks?.length || 0})`,
       content: () => <Unstaking />,
-      disabled: isEmptyArray(unlockingChunks),
+      disabled: isEmptyArray(unbondingChunks),
     },
   ]
 

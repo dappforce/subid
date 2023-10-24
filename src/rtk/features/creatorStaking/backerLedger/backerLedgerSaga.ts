@@ -24,7 +24,7 @@ function* fetchBackerLedgerWorker (
 
       let lockedBN = new BN(result?.totalLocked || '0')
       
-      result.unbondingInfo.unlockingChunks.forEach(({ amount }) => {
+      result.unbondingInfo.unbondingChunks?.forEach(({ amount }) => {
         lockedBN = lockedBN.minus(amount)
       })
 

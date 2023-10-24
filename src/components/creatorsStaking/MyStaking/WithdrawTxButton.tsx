@@ -26,30 +26,30 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const { ledger, loading } = backerLedger || {}
   const { currentEra } = eraInfo || {}
 
-  const unlockingChunks = ledger?.unbondingInfo.unlockingChunks
+  const unbondingChunks = ledger?.unbondingInfo.unbondingChunks
 
   useEffect(() => {
-    if (unlockingChunks?.length === 0) {
+    if (unbondingChunks?.length === 0) {
       switchToFirstTab()
     }
-  }, [ unlockingChunks?.length ])
+  }, [ unbondingChunks?.length ])
 
   const isSomeAvailable = useMemo(() => {
     if (
       !currentEra || 
-      !unlockingChunks || 
-      isEmptyArray(unlockingChunks) ||
+      !unbondingChunks || 
+      isEmptyArray(unbondingChunks) ||
       loading
     ) {
       return false
     }
 
-    return unlockingChunks?.some((item) => {
+    return unbondingChunks?.some((item) => {
       const { unlockEra } = item
 
       return new BN(currentEra).gte(new BN(unlockEra))
     })
-  }, [ !!unlockingChunks?.length, currentEra, loading ])
+  }, [ !!unbondingChunks?.length, currentEra, loading ])
 
   const onSuccess = () => {
     const address = myAddress || ''

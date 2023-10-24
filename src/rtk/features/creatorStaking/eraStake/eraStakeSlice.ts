@@ -17,7 +17,7 @@ export type EraStakeFetchProps = {
 }
 
 type EraStake = {
-  total: string
+  totalStaked: string
   backersCount: string
   rewardsClaimed: false
 }

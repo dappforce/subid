@@ -12,6 +12,8 @@ const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
 ) => {
   const entries = Object.entries(data)
 
+  console.log('entries', entries)
+  
   return entries
     .sort(([ _, a ], [ __, b ]) => new BN(b[field]).minus(a[field]).toNumber())
     .map(([ key ]) => key)
@@ -25,8 +27,9 @@ export const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => 
   const sortedSpaceIds = useMemo(() => {
     if (!backersInfo || !eraStakes) return spaceIds
 
+
     if (sortBy === 'total-stake') {
-      return sortValues(eraStakes, 'total')
+      return sortValues(eraStakes, 'totalStaked')
     } else if (sortBy === 'backers') {
       return sortValues(eraStakes, 'backersCount')
     } else {

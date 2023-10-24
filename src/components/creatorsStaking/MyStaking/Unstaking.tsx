@@ -98,7 +98,7 @@ const Unstaking = () => {
       return []
     }
 
-    return ledger.unbondingInfo.unlockingChunks.map((item, i) => {
+    return ledger.unbondingInfo.unbondingChunks.map((item, i) => {
       const amount = (
         <FormatBalance
           value={item.amount}

@@ -32,9 +32,9 @@ const SortByDropDown = ({
       onClick: () => changeSortBy('total-stake'),
     },
     {
-      key: 'stakers',
+      key: 'backers',
       text: 'Stakers',
-      onClick: () => changeSortBy('stakers'),
+      onClick: () => changeSortBy('backers'),
     },
     {
       key: 'my-stake',
