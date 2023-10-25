@@ -21,10 +21,12 @@ type SocialBrand =
   | 'Instagram'
   | 'YouTube'
   | 'Telegram'
+  | 'Polkaverse'
 
 export type LinkLabel = SocialBrand | 'Website'
 
 const brandsWithProfiles: SocialBrand[] = [
+  'Polkaverse',
   'Facebook',
   'Twitter',
   'Medium',
@@ -40,6 +42,8 @@ export const hasSocialMediaProfiles = (brand: LinkLabel): boolean => {
 
 export const getLinkIcon = (brand?: LinkLabel, className?: string) => {
   switch (brand) {
+    case 'Polkaverse':
+      return <img src={'/images/creator-staking/PV.svg'} />
     case 'Facebook':
       return <BiLogoFacebookCircle className={className} />
     case 'Twitter':
@@ -83,6 +87,7 @@ const socialLinksRegExp: Record<SocialBrand, RegExp[]> = {
   Instagram: [ newSocialLinkRegExp('instagram.com'), newSocialLinkRegExp('instagr.am') ],
   YouTube: [ newSocialLinkRegExp('youtube.com'), newSocialLinkRegExp('youtu.be') ],
   Telegram: [ newSocialLinkRegExp('t.me'), newSocialLinkRegExp('telegram.me') ],
+  Polkaverse: [ newSocialLinkRegExp('polkaverse.com') ]
 }
 
 const isSocialBrandLink = (brand: SocialBrand, link: string): boolean => {

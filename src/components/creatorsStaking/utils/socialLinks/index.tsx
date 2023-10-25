@@ -59,6 +59,7 @@ export const ViewSocialLinks = ({ links }: SocialLinksProps) => {
 
 type ContactInfoProps = SocialLinksProps & {
   email: string
+  spaceId?: string
 }
 
 export const EmailLink = ({ link, label, className }: SocialLinkProps) => (
@@ -78,11 +79,12 @@ export const EmailLink = ({ link, label, className }: SocialLinkProps) => (
   </Button>
 )
 
-export const ContactInfo = ({ links, email }: Partial<ContactInfoProps>) => {
+export const ContactInfo = ({ links, email, spaceId }: Partial<ContactInfoProps>) => {
   if (!links && !email) return null
 
   return (
     <div className='flex items-center gap-2'>
+      {spaceId && <SocialLink key={'social-link-polkaverse'} link={`https://polkaverse.com/${spaceId}`} />}
       {links && <ViewSocialLinks links={links} />}
       {email && <EmailLink link={email} />}
     </div>

@@ -152,7 +152,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                     className='whitespace-nowrap'
                   />
                 }
-                desc={<ContactInfo {...contactInfo} />}
+                desc={<ContactInfo spaceId={spaceId} {...contactInfo} />}
                 avatar={image}
                 owner={owner}
                 descClassName='p-[1px]'
