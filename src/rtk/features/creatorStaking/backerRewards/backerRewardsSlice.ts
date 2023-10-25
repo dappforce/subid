@@ -4,9 +4,8 @@ import {
   createEntityAdapter,
   EntityState,
 } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
 import { RootState } from '../../../app/rootReducer'
-import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
+import { upsertOneEntity } from '../../../app/util'
 
 export type BackerRewards = {
   totalRewards: string

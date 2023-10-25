@@ -12,7 +12,7 @@ import {
 } from './backerInfoSlice'
 import { getBackerInfoBySpaces } from '../../../../api/creatorStaking'
 
-export function* fetchBackerInfoWorker(action: PayloadAction<BackerInfoProps>) {
+export function* fetchBackerInfoWorker (action: PayloadAction<BackerInfoProps>) {
   const { ids, reload = false, account } = action.payload
 
   try {
@@ -63,6 +63,6 @@ export function* fetchBackerInfoWorker(action: PayloadAction<BackerInfoProps>) {
   }
 }
 
-export function* watchBackerInfo() {
+export function* watchBackerInfo () {
   yield takeEvery(backerInfoActions.fetchBackerInfo.type, fetchBackerInfoWorker)
 }

@@ -4,9 +4,8 @@ import {
   createEntityAdapter,
   EntityState,
 } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
 import { RootState } from '../../../app/rootReducer'
-import { hydrateExtraReducer, upsertOneEntity } from '../../../app/util'
+import { upsertOneEntity } from '../../../app/util'
 
 type RewardsData = {
   availableClaims: Record<string, string[]>
@@ -58,7 +57,7 @@ const slice = createSlice({
         state as EntityState<CreatorRewardsEntity>,
         action.payload
       )
-      
+
       return
     },
     fetchCreatorRewardsFailed: (state, action: PayloadAction<FetchCreatorRewardsProps>) => {

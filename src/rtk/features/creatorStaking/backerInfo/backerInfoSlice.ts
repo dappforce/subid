@@ -4,11 +4,10 @@ import {
   createEntityAdapter,
   EntityState,
 } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
 
 import { isEmptyArray, isEmptyStr } from '@subsocial/utils'
 import { RootState } from '../../../app/rootReducer'
-import { hydrateExtraReducer, upsertManyEntity } from '../../../app/util'
+import { upsertManyEntity } from '../../../app/util'
 
 export type BackerInfoProps = {
   reload?: boolean
