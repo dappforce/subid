@@ -23,6 +23,15 @@ import stakingProps from '../features/validators/stakingProps/stakingPropsSlice'
 import nominatorInfo from '../features/validators/nominatorInfo/nominatorInfoSlice'
 import stakingReward from '../features/validators/rewards/rewardsSlice'
 import fees from '../features/fees/feesSlice'
+import creatorsList from '../features/creatorStaking/creatorsList/creatorsListSlice'
+import generalEraInfo from '../features/creatorStaking/generalEraInfo/generalEraInfoSlice'
+import creatorsSpaces from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSlice'
+import eraStake from '../features/creatorStaking/eraStake/eraStakeSlice'
+import backerInfo from '../features/creatorStaking/backerInfo/backerInfoSlice'
+import backerLedger from '../features/creatorStaking/backerLedger/backerLedgerSlice'
+import creatorStakingConsts from '../features/creatorStaking/stakingConsts/stakingConstsSlice'
+import backerRewards from '../features/creatorStaking/backerRewards/backerRewardsSlice'
+import creatorRewards from '../features/creatorStaking/creatorRewards/creatorRewardsSlice'
 
 const rootReducer = combineReducers({
   currentAccount,
@@ -49,6 +58,15 @@ const rootReducer = combineReducers({
   nominatorInfo,
   stakingReward,
   fees,
+  creatorsList,
+  generalEraInfo,
+  creatorsSpaces,
+  eraStake,
+  backerInfo,
+  backerLedger,
+  creatorStakingConsts,
+  backerRewards,
+  creatorRewards
 })
 
 export type RootState = ReturnType<typeof rootReducer>

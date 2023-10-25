@@ -215,7 +215,7 @@ const AccountsLayout = ({
                 placement='bottomLeft'
                 className={clsx(
                   'd-flex align-items-center justify-content-start w-auto',
-                  { ['mt-2']: isMobile }
+                  { ['bs-mt-2']: isMobile }
                 )}
                 overlay={
                   <MenuItems
@@ -251,7 +251,7 @@ const AccountsLayout = ({
         </Col>
         <Col
           className={clsx('d-flex justify-content-end align-items-center', {
-            ['mt-2']: isMobile,
+            ['bs-mt-2']: isMobile,
           })}
         >
           <Dropdown

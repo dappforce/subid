@@ -182,7 +182,7 @@ const ChildrenBalances = <T extends TableInfo>({
           isMulti={isMulti}
           level={level}
           className={clsx(
-            { ['mb-2']: isMobile && isLastElement },
+            { ['bs-mb-2']: isMobile && isLastElement },
             isMobile && styles.ChildrenBalanceMargin
           )}
         />
@@ -251,7 +251,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
     <>
       <Row
         key={`${name}-${child.key}`}
-        className={clsx(className, 'mt-2')}
+        className={clsx(className, 'bs-mt-2')}
         justify='space-between'
         onClick={haveChildren && onSectionClick}
       >

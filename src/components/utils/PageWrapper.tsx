@@ -1,9 +1,15 @@
 import React, { FC } from 'react'
 import Section from './Section'
-import { nonEmptyStr, summarize, isEmptyStr, nonEmptyArr } from '@subsocial/utils'
+import {
+  nonEmptyStr,
+  summarize,
+  isEmptyStr,
+  nonEmptyArr,
+} from '@subsocial/utils'
 import { resolveIpfsUrl, fullUrl } from './index'
 import Head from 'next/head'
 import config from 'src/config'
+import clsx from 'clsx'
 
 // TODO Extract this copypaste to SDK or use in monorepo.
 
@@ -36,7 +42,9 @@ const optimizeTitle = (title: string) => {
 
 export function HeadMeta (props: HeadMetaProps) {
   const { forceTitle, title, desc, image, tags } = props
-  const summary = desc ? summarize(desc, { limit: MAX_DESC_LEN }) : metaTags.desc
+  const summary = desc
+    ? summarize(desc, { limit: MAX_DESC_LEN })
+    : metaTags.desc
   const img = nonEmptyStr(image)
     ? resolveIpfsUrl(image)
     : fullUrl(metaTags.defaultImage)
@@ -73,9 +81,11 @@ type Props = {
   rightPanel?: React.ReactNode
   level?: number
   title?: React.ReactNode
+  sectionClassName?: string
   className?: string
   withOnBoarding?: boolean
   withVoteBanner?: boolean
+  children: React.ReactNode
 }
 
 export const PageContent: FC<Props> = ({
@@ -83,15 +93,21 @@ export const PageContent: FC<Props> = ({
   level = 1,
   title,
   className,
-  children
+  sectionClassName,
+  children,
 }) => {
   return (
     <>
       <HeadMeta {...meta} />
 
-      <section className='DfSectionOuter DfPageWrapper DfSectionHeight d-flex w-100'>
-        <Section>
-          <Section className={`${className}`} level={level} title={title}>
+      <section
+        className={clsx(
+          'DfSectionOuter DfSectionHeight d-flex w-100 bs-p-0',
+          sectionClassName
+        )}
+      >
+        <Section sectionClassName={sectionClassName}>
+          <Section sectionClassName={sectionClassName} className={className} level={level} title={title}>
             {children}
           </Section>
         </Section>

@@ -203,7 +203,7 @@ const getColumns = (
     },
     {
       title: (
-        <h3 className='font-weight-bold FontSmall mr-3'>
+        <h3 className='font-weight-bold FontSmall bs-mr-3'>
           {t('table.labels.status')}
         </h3>
       ),

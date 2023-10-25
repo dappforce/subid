@@ -60,7 +60,7 @@ const slice = createSlice({
         state: state as EntityState<IdentitiesEntity>,
         reload,
         fieldName: 'identity',
-        accounts,
+        ids: accounts,
         selector: identitySelector
       })
       return
@@ -83,7 +83,7 @@ const slice = createSlice({
         reload,
         loading: false,
         fieldName: 'identity',
-        accounts,
+        ids: accounts,
         selector: identitySelector
       })
 

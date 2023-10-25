@@ -62,7 +62,7 @@ const WalletList = ({ setCurrentStep, walletsType = 'all' }: GetWalletPorps) => 
 
     return <div key={title} className={styles.WalletListItem} onClick={() => onClick(wallet)}>
       <div className='d-flex align-items-center'>
-        <AvatarOrSkeleton externalIcon icon={logo.src} size={'large'} className='mr-2 align-items-start' />
+        <AvatarOrSkeleton externalIcon icon={logo.src} size={'large'} className='bs-mr-2 align-items-start' />
         <div className='font-weight-bold'>{title}</div>
       </div>
       {!installed &&

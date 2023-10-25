@@ -20,8 +20,8 @@ export const PreviewAccountsGrid: FC = () => {
 
   const interestingAccountsUrl = asPath + (asPath === '/' ? '' : '/') + 'accounts'
 
-  const showAllButton = isClientSide() ? <div className={clsx({ ['pl-3 mb-2']: isMobile })}>
-    <Link href={interestingAccountsUrl}>
+  const showAllButton = isClientSide() ? <div className={clsx({ ['pl-3 bs-mb-2']: isMobile })}>
+    <Link href={interestingAccountsUrl} legacyBehavior>
       {t('general.showAll')}
     </Link>
   </div> : null
@@ -34,18 +34,18 @@ export const PreviewAccountsGrid: FC = () => {
           className={clsx({ ['pr-3 pl-3']: isMobile })}
         />
       </Col>
-      {!isMobile && <Col className={clsx({ ['mr-3']: isMobile }, 'align-self-center')}>
+      {!isMobile && <Col className={clsx({ ['bs-mr-3']: isMobile }, 'align-self-center')}>
         {showAllButton}
       </Col>}
     </Row>
     {isMobile && showAllButton}
 
-    <div className='mt-2'>
+    <div className='bs-mt-2'>
       {overviewAccounts == undefined || overviewAccounts?.length === 0
         ? <Loading label={'Loading...'} />
         : <Row justify={isMobile ? 'center' : undefined} gutter={18}>
           {overviewAccounts.map((x, _) => (
-            <Col key={x.account + x.type + x.relayChain} span={!isMobile ? 6 : undefined} className={'mb-3'} >
+            <Col key={x.account + x.type + x.relayChain} span={!isMobile ? 6 : undefined} className={'bs-mb-3'} >
               <AccountCard accountData={x} />
             </Col>))}
         </Row>}

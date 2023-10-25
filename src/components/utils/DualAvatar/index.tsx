@@ -19,7 +19,7 @@ export default function DualAvatar ({
   noMargin,
 }: DualAvatarProps) {
   return (
-    <div className={clsx(!noMargin && 'mr-2', className)}>
+    <div className={clsx(!noMargin && 'bs-mr-2', className)}>
       <div
         className={clsx(styles.DualAvatar)}
         style={{ marginRight: `${(rightAvatarSize * RIGHT_IMAGE_OFFSET) / 100}px` }}

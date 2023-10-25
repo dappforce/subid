@@ -103,11 +103,11 @@ export const NominatingStepsCollapse = ({
       activeKey={currentStep}
     >
       <Panel header={title} key={step}>
-        {desc &&<MutedDiv className='mb-4'>{desc}</MutedDiv>}
+        {desc &&<MutedDiv className='bs-mb-4'>{desc}</MutedDiv>}
         {children}
 
         <div className='d-flex align-items-center mt-4'>
-          <Button block className='mr-2' onClick={onBackClick}>{t('validatorStaking.backButton')}</Button>
+          <Button block className='bs-mr-2' onClick={onBackClick}>{t('validatorStaking.backButton')}</Button>
           {customButton 
             ? customButton 
             : <Button disabled={disableButton} type='primary' block className='ml-2' onClick={onContinueClick}>
@@ -230,7 +230,7 @@ export const BondInput = ({ form, network, type = 'stake', isModal = false, amou
   const maxBtn = <Button 
     ghost 
     type='link'
-    className='p-0' 
+    className='bs-p-0' 
     onClick={setMaxAmount} 
     disabled={disableButton} 
     size='small'
@@ -259,7 +259,7 @@ export const BondInput = ({ form, network, type = 'stake', isModal = false, amou
       message={<>
         {t('validatorStaking.startNominatingScreen.stakeBlock.bondInput.bondAlert', { amount: minBond, symbol: nativeSymbol })} 
       </>} 
-      className='mb-3'
+      className='bs-mb-3'
       showIcon 
       type='warning' 
     />}

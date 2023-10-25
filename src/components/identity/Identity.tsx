@@ -131,7 +131,7 @@ export const IdentityView = ({ details, ...props }: IdentityProps) => {
         className={clsx({ ['pr-3 pl-3']: isMobile }, styles.TitleMargin)}
       /> 
       <div className={styles.IdentityBlock}>
-        <Tabs activeKey={tabKey} onChange={onTabChange} className='mb-0'>
+        <Tabs activeKey={tabKey} onChange={onTabChange} className='bs-mb-0'>
           {polkadotTab}
           {kusamaTab}
           {shidenTab}

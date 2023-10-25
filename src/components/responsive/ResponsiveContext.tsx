@@ -25,11 +25,11 @@ export const ResponsiveSizeContext = createContext<ResponsiveSizeState>(contextS
 export function ResponsiveSizeProvider (props: React.PropsWithChildren<any>) {
   const value = {
     isLargeDesktop: useMediaQuery({ minWidth: 1200 }),
-    isDesktop: useMediaQuery({ minWidth: 992 }),
+    isDesktop: useMediaQuery({ minWidth: 1140 }),
     isTablet: useMediaQuery({ minWidth: 768, maxWidth: 991 }),
     isMobile: useMediaQuery({ maxWidth: 767 }),
     isNotMobile: useMediaQuery({ minWidth: 768 }),
-    isNotDesktop: useMediaQuery({ maxWidth: 991 })
+    isNotDesktop: useMediaQuery({ maxWidth: 991 }),
   }
 
   return (
@@ -46,4 +46,13 @@ export function useResponsiveSize () {
 export function useIsMobileWidthOrDevice () {
   const { isMobile } = useResponsiveSize()
   return isMobileDevice || isMobile
+}
+
+export function isTouchDevice () {
+  if (typeof window === 'undefined') return false
+  return (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    (navigator as any).msMaxTouchPoints > 0
+  )
 }

@@ -89,7 +89,7 @@ const StakingModalBody = ({ address, network, hide, action }: StakingModalBodyPr
       action={action}
     />
     <div className={styles.StakingActionButtons}>
-      <Button type='primary' ghost size='large' className='mr-3' block onClick={hide}>{t('buttons.close')}</Button>
+      <Button type='primary' ghost size='large' className='bs-mr-3' block onClick={hide}>{t('buttons.close')}</Button>
       <ActionTxButton
         stakeForm={form}
         getApiByNetwork={getApiByNetwork}

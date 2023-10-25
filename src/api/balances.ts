@@ -18,7 +18,7 @@ export const getAccountBalancesByNetwork = async ({
 }: BalanceByNetworkProps) => {
   const res = await sendGetRequest({
     params: { url: `${account}/balances/${network}` },
-    onFaileReturnedValue: undefined,
+    onFailReturnedValue: undefined,
     onFailedText: `Failed to get balances by account: ${account}`
   })
 

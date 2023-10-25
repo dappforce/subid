@@ -22,7 +22,7 @@ export default function RecipientInput ({ destChain, disableTransferToSelf, ...p
       isEthAddress={isEthLike}
       validateIsNotSelfErrMsg={disableTransferToSelf ? t('transfer.errors.transferToSelf') : undefined}
       label={`${props.label ?? t('transfer.recipient')} ${recipientLabelSuffix}`}
-      className={clsx('mb-0', props.className)}
+      className={clsx('bs-mb-0', props.className)}
       inputProps={{
         size: 'large',
         placeholder: t('transfer.placeholders.recipient'),

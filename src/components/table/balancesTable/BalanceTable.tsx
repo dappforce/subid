@@ -142,7 +142,7 @@ const getColumns = (
     },
     {
       title: (
-        <h3 className='font-weight-bold FontSmall mr-4'>
+        <h3 className='font-weight-bold FontSmall bs-mr-4'>
           {t('table.labels.balance')}
         </h3>
       ),
@@ -395,7 +395,14 @@ export const BalancesTable = (props: BalanceTableProps) => {
           err
         )
       )
-  }, [ addresses?.join(','), isMulti, loading, language, balancesVariant ])
+  }, [
+    addresses?.join(','),
+    JSON.stringify(balancesEntities || {}),
+    isMulti,
+    loading,
+    language,
+    balancesVariant,
+  ])
 
   return (
     <>
@@ -407,7 +414,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
             : undefined,
           showTabs,
           refreshText: t('table.balances.refreshText'),
-          buttonsClassName: clsx('mt-2 align-items-center'),
+          buttonsClassName: clsx('bs-mt-2 align-items-center'),
         }}
         maxItems={maxItems}
         showZeroBalance={showZeroBalance}

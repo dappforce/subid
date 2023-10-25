@@ -10,7 +10,7 @@ export const getAccountIdentities = async (accounts: string[]) => (
         },
       }
     },
-    onFaileReturnedValue: undefined,
+    onFailReturnedValue: undefined,
     onFailedText: 'Failed to get identities info'
   })
 )

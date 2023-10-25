@@ -310,14 +310,14 @@ const StakingCardItem = ({ item, key }: StakingCardItemProps) => {
       <Collapse.Panel header={
         <div className='d-flex align-items-center justify-content-between'>
           {name}
-          {!isCollapsed && <div className='d-grid mr-4 text-right'>
+          {!isCollapsed && <div className='d-grid bs-mr-4 text-right'>
             {selfStake}
             {total}
           </div>}
         </div>
       } key={key}>
         <div className={styles.CardItems}>
-          <div className='d-flex justify-content-between mb-3'>
+          <div className='d-flex justify-content-between bs-mb-3'>
             <Space direction='vertical' size={4}>
               <MutedDiv>My Stake:</MutedDiv>
               <MutedDiv>Self-Stake:</MutedDiv>

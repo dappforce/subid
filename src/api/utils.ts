@@ -8,11 +8,11 @@ export function getBackendUrl (subUrl: string): string {
 
 type SendRequestProps = {
   request: () => Promise<AxiosResponse<any, any>>
-  onFaileReturnedValue: any
+  onFailReturnedValue: any
   onFailedText: string
 }
 
-export const sendRequest = async ({ request, onFaileReturnedValue, onFailedText }: SendRequestProps) => {
+export const sendRequest = async ({ request, onFailReturnedValue, onFailedText }: SendRequestProps) => {
   try {
     const res = await request()
     if (res.status !== 200) {
@@ -22,7 +22,7 @@ export const sendRequest = async ({ request, onFaileReturnedValue, onFailedText 
     return res.data
   } catch (err) {
     console.error(onFailedText, err)
-    return onFaileReturnedValue
+    return onFailReturnedValue
   }
 }
 
@@ -33,7 +33,7 @@ type GetParams = {
 
 type SendGetRequestProps = {
   params: GetParams
-  onFaileReturnedValue: any
+  onFailReturnedValue: any
   onFailedText: string
 }
 

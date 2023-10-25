@@ -21,8 +21,8 @@ import { DAPP_NAME } from '../providers/utils'
 import { AnyAccountId } from '@subsocial/api/types'
 const log = newLogger('TxButton')
 
-export type GetTxParamsFn = () => any[]
-export type GetTxParamsAsyncFn = () => Promise<any[]>
+export type GetTxParamsFn = (api: ApiPromise) => any[]
+export type GetTxParamsAsyncFn = (api: ApiPromise) => Promise<any[]>
 
 export type TxCallback = (status: SubmittableResult) => void
 export type TxFailedCallback = (status: SubmittableResult | null) => void
@@ -70,7 +70,7 @@ export const getExtrinsicByApi = async (
 
   let resultParams = (params || []) as any[]
   if (isFunction(params)) {
-    resultParams = await params()
+    resultParams = await params(api)
   }
 
   return api.tx[pallet][method](...(resultParams))
@@ -243,6 +243,7 @@ function LazyTxButton ({
   // TODO can optimize this fn by wrapping it with useCallback. See TxButton from Apps.
   const sendTx = async () => {
     unsubscribe()
+
 
     if (isFunction(onValidate) && !(await onValidate())) {
       log.warn('Cannot send a tx because onValidate() returned false')

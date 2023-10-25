@@ -4,7 +4,7 @@ import {
   stakingCandidatesInfoActions,
   StakingCandidatesInfoEntity,
 } from './stakingCandidatesInfoSlice'
-import { log, getAccountsThatNeedToFetch } from '../../../app/util'
+import { log, getIdsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { selectStakingCandidatesInfo, FetchCandidatesInfoProps } from './stakingCandidatesInfoSlice'
 import { isEmptyArray } from '@subsocial/utils'
@@ -22,7 +22,7 @@ function* fetchStakingCandidatesInfoWorker (
       accounts
     )
 
-    const needFetch = getAccountsThatNeedToFetch(stakingCandidatesInfo, accounts, 'info')
+    const needFetch = getIdsThatNeedToFetch(stakingCandidatesInfo, accounts, 'info')
 
     const accountsParam: string[] = reload
       ? accounts

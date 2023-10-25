@@ -22,12 +22,12 @@ const TotalSection = ({ title, totalBalance, withDivider = true, withMargin = fa
   return <>
     <div className='d-flex justify-content-between'>
       <div className={styles.BalanceBlock}>
-        <MutedSpan className={`${styles.FontSmall} ${!withMargin && isMobile ? 'mt-2' : ''}`}>
+        <MutedSpan className={`${styles.FontSmall} ${!withMargin && isMobile ? 'bs-mt-2' : ''}`}>
           {title}
           {description && <Tooltip className='ml-2' title={description}><QuestionCircleOutlined /></Tooltip>}
         </MutedSpan>
 
-        <span className={`${styles.FontLarge} ${withMargin ? 'mb-2' : ''}`}>
+        <span className={`${styles.FontLarge} ${withMargin ? 'bs-mb-2' : ''}`}>
           <BalanceView value={totalBalance.toString()} symbol='$' startWithSymbol />
         </span>
       </div>

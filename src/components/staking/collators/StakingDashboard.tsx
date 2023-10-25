@@ -48,12 +48,12 @@ const DashboardItem = ({
       <div className='d-flex justify-content-between'>
         <div className={styles.DashboardItem}>
           <MutedSpan
-            className={clsx(styles.FontSmall, { ['mt-2']: !withMargin && isMobile })}
+            className={clsx(styles.FontSmall, { ['bs-mt-2']: !withMargin && isMobile })}
           >
             {title}
           </MutedSpan>
 
-          <span className={clsx(styles.FontLarge, { ['mb-2']: withMargin })}>
+          <span className={clsx(styles.FontLarge, { ['bs-mb-2']: withMargin })}>
             {desc}
           </span>
         </div>

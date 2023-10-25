@@ -117,8 +117,8 @@ const TipCard = () => {
     setSender(defaultSender)
   }, [ defaultSender ])
 
-  return <Form form={form} layout='vertical' className='mt-0 p-3'>
-    <div className='d-flex align-items-center mb-3'>
+  return <Form form={form} layout='vertical' className='mt-0 bs-p-3'>
+    <div className='d-flex align-items-center bs-mb-3'>
       <div>
         <BaseAvatar address={recipient} avatar={undefined} size={64} />
       </div>
@@ -143,7 +143,7 @@ const TipCard = () => {
 
     <Row>
       <Col span={isMobile ? 24 : 10}>
-        <Form.Item name={fieldName('currency')} label={`${t('donation.currency')}:`} required className={clsx(!isMobile && 'mr-3')}>
+        <Form.Item name={fieldName('currency')} label={`${t('donation.currency')}:`} required className={clsx(!isMobile && 'bs-mr-3')}>
           <Select value={currency} onSelect={(currency: string) => setCurrency(currency)} size='large'>
             {currencyNetworks.map(([ currency, network ]) => {
               const isConnected = chainInfo[network].connected

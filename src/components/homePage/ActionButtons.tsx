@@ -46,7 +46,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
     setRefresh(true)
   }
 
-  return <div className='ml-3 d-flex align-items-center'>
+  return <div className='bs-ml-3 d-flex align-items-center'>
     {!isMulti && !isMyConnectedAddress && (
       <Button
         type='primary'

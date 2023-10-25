@@ -48,7 +48,7 @@ type TabProps = {
 
 export const Tab = ({ icon, text }: TabProps) => {
   return <div className='d-flex align-items-center mr-1 ml-1'>
-    {icon && <DfBgImg className={`mr-2 ${styles.TabIcon}`} src={icon} size={16} rounded />}
+    {icon && <DfBgImg className={`bs-mr-2 ${styles.TabIcon}`} src={icon} size={16} rounded />}
     <span>{text}</span>
   </div>
 }

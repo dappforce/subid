@@ -31,7 +31,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
 
       let balances = balancesEntity?.balances
 
-      if (isEmptyEntity(balances) || reload) {
+      if (isEmptyEntity(balances) || (balances && balances.length <= 1) || reload) {
         balances = yield call(getAccountInfo, account)
       }
 

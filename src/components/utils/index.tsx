@@ -62,7 +62,7 @@ export const Loading = ({ label, style, center = true }: LoadingProps) => {
       style={style}
     >
       <LoadingOutlined />
-      {label && <em className='ml-3 text-muted'>{label}</em>}
+      {label && <em className='bs-ml-3 text-muted'>{label}</em>}
     </div>
   )
 }
@@ -191,6 +191,9 @@ export function isClientSide (): boolean {
 
 export const isHomePage = (): boolean =>
   isClientSide() && window.location.pathname === '/'
+
+export const isCreatorStakingPage = (): boolean =>
+  isClientSide() && window.location.pathname === '/creators'
 
 export const isAccountsPage = (): boolean =>
   isClientSide() &&
@@ -386,11 +389,13 @@ export const showParsedErrorMessage = (result: SubmittableResult | null) => {
       : undefined
 
   if (dispatchErrorModuleData) {
-    const { docs } =
+    const { docs, method } =
       failedEvent?.registry?.findMetaError(dispatchErrorModuleData) || {}
 
-    if (docs) {
+    if (docs && !isEmptyArray(docs)) {
       errorMessage = docs[0]
+    } else {
+      errorMessage = errorMessage + ` ${method}`
     }
   }
 

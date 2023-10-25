@@ -70,7 +70,7 @@ const slice = createSlice({
         state: state as EntityState<BalancesEntity>,
         reload: true,
         fieldName: 'balances',
-        accounts,
+        ids: accounts,
         selector: selectorByAccount
       })
       return
@@ -83,7 +83,7 @@ const slice = createSlice({
         state: state as EntityState<BalancesEntity>,
         reload,
         fieldName: 'balances',
-        accounts,
+        ids: accounts,
         selector: selectorByAccount
       })
       return

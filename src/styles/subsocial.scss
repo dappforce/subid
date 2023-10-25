@@ -1,6 +1,32 @@
 @import "./subsocial-vars.scss";
 @import './fonts.scss';
 
+:root {
+  --background: 236 239 244;
+  --background-light: 248 250 252;
+  --background-lighter: 236 239 244;
+  --background-lightest: 219 222 230;
+  --background-primary: 99, 102, 241;
+  --background-primary-light: 224 225 254;
+  --background-warning: 225 181 62;
+  --background-info: 77 70 220;
+  --background-accent: 236 239 244;
+  --background-red: 252 243 243;
+  --background-stats-card: 255 255 255;
+  --text: 32 41 58;
+  --text-primary: 99, 102, 241;
+  --text-secondary: 99 102 241;
+  --text-muted: 100, 116, 139;
+  --text-dark: 17 23 41;
+  --text-warning: 230 121 38;
+  --text-on-primary: 255 255 255;
+  --text-muted-on-primary: 151 162 182;
+  --text-red: 220 70 70;
+  --text-success: 34, 197, 94;
+  --border-gray: 207 212 222;
+  --border-gray-light: 239 242 254;
+}
+
 html {
   height: 100%;
   font-size: 16px;
@@ -1490,7 +1516,7 @@ hr {
 
 .DfTopBar {
   position: fixed;
-  z-index: 100;
+  z-index: 11;
   height: $height_top_menu;
   width: 100%;
   padding: $space_normal;

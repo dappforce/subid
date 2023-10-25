@@ -107,7 +107,7 @@ export function TokenAmountFormItem ({
     <div {...containerProps} className={clsx('w-100', containerProps?.className)}>
       <Form.Item
         {...props}
-        className={clsx('mb-0', props.className)}
+        className={clsx('bs-mb-0', props.className)}
         rules={augmentedRules}
       >
         <TokenAmountInput {...inputProps} disableMaxButton={loading || maxTransfer <= 0} onMaxClick={onMaxClick} />
@@ -121,7 +121,7 @@ export function TokenAmountFormItem ({
           const isError = getFieldError(fieldName).length > 0
 
           return (
-            <div className='mb-4'>
+            <div className='bs-mb-4'>
               {!isError && (
                 <ExistentialDepositAlert
                   name={props.name ?? ''}
@@ -204,7 +204,7 @@ function ExistentialDepositAlert ({
   const alertSource = getAlertSource()
 
   return (
-    <div className='mb-4'>
+    <div className='bs-mb-4'>
       {showExistentialDepositHelper && (
         <AlertPanel showDefaultIcon desc={insufficientDestExistential ? alertDest : alertSource} alertType='warning' className='mt-3' />
       )}

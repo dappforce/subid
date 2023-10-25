@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery } from '@redux-saga/core/effects'
-import { log, toGenericAccountIds, getAccountsThatNeedToFetch } from '../../app/util'
+import { log, toGenericAccountIds, getIdsThatNeedToFetch } from '../../app/util'
 import {
   identitiesActions,
   IdentitiesEntity,
@@ -19,7 +19,7 @@ export function* fetchIdentitiesWorker (action: PayloadAction<FetchProps>) {
       accounts
     )
 
-    const needFetch = getAccountsThatNeedToFetch(identitesEntityByAccounts, accounts)
+    const needFetch = getIdsThatNeedToFetch(identitesEntityByAccounts, accounts)
 
     const accountsParam: string[] = reload ? accounts : needFetch
     

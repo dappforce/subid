@@ -4,7 +4,7 @@ import {
   selectManyBalances,
   balancesActions,
   BalancesEntity,
-  BalanceEntityRecord
+  BalanceEntityRecord,
 } from './balancesSlice'
 import {
   dispatchWithGenericAccounts,
@@ -34,13 +34,27 @@ export const fetchBalanceByNetwork = (
   )
 }
 
+export const useFetchBalanceByNetwork = (network: string, address?: string) => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (!address) return
+
+    const getBalanceByNetwork = () => {
+      fetchBalanceByNetwork(dispatch, [ address ], network)
+    }
+
+    getBalanceByNetwork()
+  }, [ address ])
+}
+
 export const useFetchBalances = (addressesToFetch?: string[]) => {
   const currentAddresses = useCurrentAccount()
   const addresses = addressesToFetch ?? currentAddresses
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if(!addresses) return
+    if (!addresses) return
 
     const getBalances = () => {
       const genericAccounts = toGenericAccountIds(addresses)

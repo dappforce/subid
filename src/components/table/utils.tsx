@@ -175,7 +175,7 @@ export const InnerBalancesTable = <T extends TableInfo>({
               (!expanded
                 ? (record.balance = <>{record.balanceView}</>)
                 : (record.balance = (
-                    <div className='mr-4'>{record.balanceWithoutChildren}</div>
+                    <div className='bs-mr-4'>{record.balanceWithoutChildren}</div>
                   )))
             )
           },
@@ -206,7 +206,7 @@ export const LinkWithIcon = ({
     <div className='d-flex align-items-center'>
       <div
         className={clsx(
-          { [styles.SubscanLink]: withCircle, ['mr-2']: label },
+          { [styles.SubscanLink]: withCircle, ['bs-mr-2']: label },
           'text-center LinkWithIcon'
         )}
       >
@@ -451,7 +451,7 @@ export const ChainData = ({
         <AvatarOrSkeleton
           icon={icon}
           size={avatarSize}
-          className='mr-2 align-items-start flex-shrink-none'
+          className='bs-mr-2 align-items-start flex-shrink-none'
         />
         <div>
           {name && (
@@ -680,7 +680,7 @@ export const Address = ({
         message={`${name} address copied`}
         className={clsx({
           ['MonosizedFont']: isMonosizedFont,
-          ['mr-2']: withQr,
+          ['bs-mr-2']: withQr,
         })}
         address={accountId}
         iconVisibility

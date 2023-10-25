@@ -52,7 +52,7 @@ export const showAddOrEditInfoMessage = (t: TFunction, address?: string, isInFav
     <div className={'d-flex'}>
       {isInFavorites ? t('favoritesAccounts.notifs.edited') : t('favoritesAccounts.notifs.added')}
       {withShowButton && <ButtonLink
-        className='NotifButtonAlignment ml-3'
+        className='NotifButtonAlignment bs-ml-3'
         href={address ? `/${address}/favorites` : '/favorites'}
         target={'_blank'}
       >
@@ -77,7 +77,7 @@ export const removeFromFavorites = ({ favoriteAccountsFromStorage, setRefresh, a
     showInfoMessage(
       <div className={'d-flex'}>
         {t('favoritesAccounts.notifs.removed')}
-        <Button className='ml-3 NotifButtonAlignment' onClick={() => onUndoClick({ account, desc, setRefresh, t, withShowInfoButton })}>Undo</Button>
+        <Button className='bs-ml-3 NotifButtonAlignment' onClick={() => onUndoClick({ account, desc, setRefresh, t, withShowInfoButton })}>Undo</Button>
       </div>)
   }
 }

@@ -1,11 +1,17 @@
 @import 'src/styles/subsocial-vars.scss'
 
+.CreatorStakingSection
+  margin-right: 1rem
+  margin-left: 1rem
+  \:global .DfSectionOuter
+    max-width: calc(1088px + #{$space_normal} * 2) !important
+
 .WarningMessage
   display: flex
   background: #fff
   border-radius: $border_radius_normal
   width: 100%
-  padding: 2.875rem 0 
+  padding: 2.875rem 0
 
   align-items: center
   flex-direction: column
@@ -19,4 +25,3 @@
       display: flex
       flex-direction: column
       margin-top: $space_big
-

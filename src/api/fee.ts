@@ -11,7 +11,7 @@ export const getTransferFee = (
       url: 'fees/transfer',
       config: { params: { token, from: source, to: dest } }
     },
-    onFaileReturnedValue: { amount: '0', token: '' },
+    onFailReturnedValue: { amount: '0', token: '' },
     onFailedText: `Failed to get transfer token ${token} fee from network ${source} ${
       dest ? 'to network' + dest : ''
     }`

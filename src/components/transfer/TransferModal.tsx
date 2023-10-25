@@ -135,7 +135,7 @@ export default function TransferModal ({
             )}
           >
             <Tabs
-              className='mb-0'
+              className='bs-mb-0'
               centered
               activeKey={activeTab}
               onChange={(tab) => setActiveTab(tab as Tabs)}
@@ -156,10 +156,8 @@ export default function TransferModal ({
                 disabled={disableCrossChainTab}
               />
             </Tabs>
-            <MutedSpan className='mb-3'>
-              {activeTab === 'same-chain'
-                ? t('transfer.subtitle.sameChain')
-                : t('transfer.subtitle.crossChain')}
+            <MutedSpan className='bs-mb-3'>
+              {activeTab === 'same-chain' ? t('transfer.subtitle.sameChain') : t('transfer.subtitle.crossChain')}
             </MutedSpan>
             {formSection}
           </div>
@@ -222,10 +220,8 @@ function SuccessContent ({
         }}
       />
       <div className='d-flex flex-column align-items-stretch GapNormal position-relative'>
-        <div className='d-flex flex-column align-items-center mb-2'>
-          <span className='FontBig font-weight-semibold'>
-            {amount} {token}
-          </span>
+        <div className='d-flex flex-column align-items-center bs-mb-2'>
+          <span className='FontBig font-weight-semibold'>{amount} {token}</span>
           {tokenAmountInUsd ? (
             <MutedSpan>${toShortMoney({ num: tokenAmountInUsd })}</MutedSpan>
           ) : null}
@@ -242,15 +238,7 @@ function SuccessContent ({
             content={secondCardContent}
           />
         )}
-        <Button
-          onClick={closeModal}
-          type='primary'
-          block
-          size='large'
-          className='mt-2'
-        >
-          {t('buttons.gotIt')}
-        </Button>
+        <Button onClick={closeModal} type='primary' block size='large' className='bs-mt-2'>{t('buttons.gotIt')}</Button>
       </div>
     </div>
   )

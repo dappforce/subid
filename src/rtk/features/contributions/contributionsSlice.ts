@@ -65,8 +65,8 @@ const slice = createSlice({
           state: state as EntityState<ContributionsEntity>,
           reload,
           fieldName: 'contributions',
-          network: relayChain,
-          accounts,
+          subId: relayChain,
+          ids: accounts,
           selector: selectorByAccount
       })
       return

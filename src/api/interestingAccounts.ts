@@ -15,7 +15,7 @@ export const getValidatorsByChain = async (
       url: getAccountsApiUrl(`${relayChain}/validators`),
       config: { params: { offset, limit } }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: 'Failed to get validators by relay chain'
   })
 
@@ -34,7 +34,7 @@ export const getAllInterestingAccounts = async (
         params: { offset, limit },
       }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: 'Failed to get all interesting accounts'
   })
 
@@ -44,7 +44,7 @@ export const getAllInterestingAccounts = async (
 export const getAllAccountsLength = async (): Promise<number> => {
   const res = await sendGetRequest({
     params: { url: getAccountsApiUrl('length') },
-    onFaileReturnedValue: 0,
+    onFailReturnedValue: 0,
     onFailedText: 'Failed to get all accounts length'
   })
 
@@ -56,7 +56,7 @@ export const getAccountsOverviewItems = async (): Promise<
 > => {
   const res = await sendGetRequest({
     params: { url: getAccountsApiUrl('overview') },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: 'Failed to get overview items for accounts'
   })
 
@@ -73,7 +73,7 @@ export const getCouncilMembersByChain = async (
       url: getAccountsApiUrl(`${relayChain}/council`),
       config: { params: { offset, limit } }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: 'Failed to get council members'
   })
 
@@ -90,7 +90,7 @@ export const getCrowdloanContributorsByChain = async (
       url: getAccountsApiUrl(`${relayChain}/contributors`),
       config: { params: { offset, limit } }
     },
-    onFaileReturnedValue: [],
+    onFailReturnedValue: [],
     onFailedText: 'Failed to get validators info'
   })
 

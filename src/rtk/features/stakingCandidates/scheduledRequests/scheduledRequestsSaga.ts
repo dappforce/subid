@@ -1,6 +1,6 @@
 import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 
-import { log, toGenericAccountIds, getAccountsThatNeedToFetch } from '../../../app/util'
+import { log, toGenericAccountIds, getIdsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyArray } from '@subsocial/utils'
 import { getScheduledRequestsByNetwork } from 'src/api'
@@ -27,7 +27,7 @@ function* fetchScheduledRequestsWorker (
       accounts
     )
 
-    const needFetch = getAccountsThatNeedToFetch(stakingCandidatesInfo, accounts, 'requests')
+    const needFetch = getIdsThatNeedToFetch(stakingCandidatesInfo, accounts, 'requests')
     
     const accountsParam: string[] = reload ? accounts : needFetch
 

@@ -1,6 +1,6 @@
 import { takeLatest, select, call, put } from '@redux-saga/core/effects'
 
-import { log, toGenericAccountIds, getAccountsThatNeedToFetch } from '../../../app/util'
+import { log, toGenericAccountIds, getIdsThatNeedToFetch } from '../../../app/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isEmptyArray } from '@subsocial/utils'
 import { getDelegatorsStateByNetwork } from 'src/api'
@@ -21,7 +21,7 @@ function* fetchDelegatorStateWorker (
     const stakingDelegatorState: StakingDelegatorStateEntityRecord =
       yield select(selectStakingDelegatorsState, network, accounts)
 
-    const needFetch = getAccountsThatNeedToFetch(stakingDelegatorState, accounts, 'state')
+    const needFetch = getIdsThatNeedToFetch(stakingDelegatorState, accounts, 'state')
 
     const accountsParam: string[] = reload ? accounts : needFetch
 

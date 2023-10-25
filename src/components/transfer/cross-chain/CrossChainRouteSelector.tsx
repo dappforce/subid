@@ -146,7 +146,7 @@ function CrossChainRouteSelectorContent ({
         chainFilters={sourceOptions}
         style={{ flexBasis: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
-        className='mb-0'
+        className='bs-mb-0'
         name={sourceChainFieldName}
         label={t('transfer.source')}
       />
@@ -155,7 +155,7 @@ function CrossChainRouteSelectorContent ({
           onClick={onSwapChain}
           size='large'
           type='link'
-          className='ColorCurrentColor p-0'>
+          className='ColorCurrentColor bs-p-0'>
           <BsArrowLeftRight className='FontMedium d-block' />
         </Button>
       </MutedDiv>
@@ -163,7 +163,7 @@ function CrossChainRouteSelectorContent ({
         chainFilters={destOptions}
         style={{ flexBasis: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
-        className='mb-0'
+        className='bs-mb-0'
         name={destChainFieldName}
         label={t('transfer.dest')}
       />

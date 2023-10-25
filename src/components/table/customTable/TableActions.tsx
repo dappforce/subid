@@ -38,7 +38,7 @@ export const TableActions = <T extends TableInfo>({
   return (
     <div className={clsx(styles.TableActions)}>
       <div className='d-flex font-weight-bold'>
-        <div className='mr-2'>{t('general.total')}</div>
+        <div className='bs-mr-2'>{t('general.total')}</div>
         <BalanceView value={totalBalance} symbol='$' startWithSymbol />
       </div>
       <div className={clsx('d-flex align-items-center GapSmall')}>
@@ -100,7 +100,7 @@ export const TitleAndControls = <T extends TableInfo>({
   return (
     <div className={clsx({ ['mx-3']: isMobile })}>
       <div className='d-flex justify-content-between align-items-center'>
-        <SectionTitle title={title} className='mb-0' />
+        <SectionTitle title={title} className='bs-mb-0' />
         <div className={styles.TitleAndControlsRight}>
           {showTabs && !isCrowdloanTable && tabs}
           <Tooltip title={refreshText}>

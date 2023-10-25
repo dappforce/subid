@@ -33,13 +33,13 @@ const DashboardItem = ({
         <div className={styles.DashboardItem}>
           <MutedSpan
             className={`${styles.FontSmall} ${
-              !withMargin && isMobile ? 'mt-2' : ''
+              !withMargin && isMobile ? 'bs-mt-2' : ''
             }`}
           >
             {title}
           </MutedSpan>
 
-          <span className={`${styles.FontLarge} ${withMargin ? 'mb-2' : ''}`}>
+          <span className={`${styles.FontLarge} ${withMargin ? 'bs-mb-2' : ''}`}>
             {desc}
           </span>
         </div>

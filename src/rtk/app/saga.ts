@@ -35,7 +35,15 @@ import {
 import { watchStakingReward } from '../features/validators/rewards/rewardsSaga'
 import { watchTransferFee } from '../features/fees/feesSaga'
 import { watchStakingInfo } from '../features/validators/stakingInfo/stakingInfoSaga'
-
+import { watchCreatorsList } from '../features/creatorStaking/creatorsList/creatorsListSaga'
+import { watchGeneralEraInfo } from '../features/creatorStaking/generalEraInfo/generalEraInfoSaga'
+import { watchCreatorsSpaces } from '../features/creatorStaking/creatorsSpaces/creatorsSpacesSaga'
+import { watchEraStake } from '../features/creatorStaking/eraStake/eraStakeSaga'
+import { watchBackerInfo } from '../features/creatorStaking/backerInfo/backerInfoSaga'
+import { watchBackerLedger } from '../features/creatorStaking/backerLedger/backerLedgerSaga'
+import { watchCreatorStakingConsts } from '../features/creatorStaking/stakingConsts/stakingConstsSaga'
+import { watchBackerRewards } from '../features/creatorStaking/backerRewards/backerRewardsSaga'
+import { watchCreatorRewards } from '../features/creatorStaking/creatorRewards/creatorRewardsSaga'
 
 export interface SagaStore extends Store {
   sagaTask?: Task
@@ -71,7 +79,16 @@ export default function* rootSaga () {
     watchController,
     watchNominators,
     watchStakingLadger,
-    watchStakingLadgerAndNominators
+    watchStakingLadgerAndNominators,
+    watchCreatorsList,
+    watchGeneralEraInfo,
+    watchCreatorsSpaces,
+    watchEraStake,
+    watchBackerInfo,
+    watchBackerLedger,
+    watchCreatorStakingConsts,
+    watchBackerRewards,
+    watchCreatorRewards
   ]
 
   yield all(sagas.map((s) => fork(s)))
