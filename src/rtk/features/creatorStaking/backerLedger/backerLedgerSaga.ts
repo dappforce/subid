@@ -16,7 +16,7 @@ function* fetchBackerLedgerWorker (
 
     if(!stakingRewarsdFromStore.ledger || isEmptyObj(stakingRewarsdFromStore.ledger) || reload) {
       const result: BackerLedger = yield call(getBackerLedger, account)
-      
+
       if(!result || isEmptyObj(result)) {
         yield put(backerLedgerActions.fetchBackerLedgerFailed({ account }))
         return
@@ -32,13 +32,15 @@ function* fetchBackerLedgerWorker (
         ...result,
         locked: lockedBN.toString(),
       }
-      
+
       yield put(backerLedgerActions.fetchBackerLedgerSuccess({
         id: account,
         loading: false,
         ledger: backerLedger
       }))
     }
+
+    return
   } catch (error) {
     log.error('Failed to fetch creator ledger by account', account, error)
     yield put(backerLedgerActions.fetchBackerLedgerFailed({ account }))

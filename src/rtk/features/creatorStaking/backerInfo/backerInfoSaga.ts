@@ -12,7 +12,7 @@ import {
 } from './backerInfoSlice'
 import { getBackerInfoBySpaces } from '../../../../api/creatorStaking'
 
-export function* fetchBackerInfoWorker (action: PayloadAction<BackerInfoProps>) {
+export function* fetchBackerInfoWorker(action: PayloadAction<BackerInfoProps>) {
   const { ids, reload = false, account } = action.payload
 
   try {
@@ -38,31 +38,31 @@ export function* fetchBackerInfoWorker (action: PayloadAction<BackerInfoProps>) 
         return
       }
 
-      const backerInfoEntities: BackerInfoEntity[] = idsParam.map(
-        (id) => {
-          const item = info[id]
+      const backerInfoEntities: BackerInfoEntity[] = idsParam.map((id) => {
+        const item = info[id]
 
-          const entityId = `${id}-${account}`
+        const entityId = `${id}-${account}`
 
-          return {
-            id: `${id}-${account}`,
-            loading: false,
-            info: {
-              id: entityId,
-              totalStaked: item?.[0]?.staked.toString() || '0',
-              stakes: item
-            },
-          }
+        return {
+          id: `${id}-${account}`,
+          loading: false,
+          info: {
+            id: entityId,
+            totalStaked: item?.[0]?.staked.toString() || '0',
+            stakes: item,
+          },
         }
-      )
+      })
 
       yield put(backerInfoActions.fetchBackerInfoSuccess(backerInfoEntities))
+
+      return
     }
   } catch (error) {
     log.error('Failed to fetch backer info', error)
   }
 }
 
-export function* watchBackerInfo () {
+export function* watchBackerInfo() {
   yield takeEvery(backerInfoActions.fetchBackerInfo.type, fetchBackerInfoWorker)
 }

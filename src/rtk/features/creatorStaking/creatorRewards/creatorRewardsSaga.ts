@@ -67,6 +67,8 @@ function* fetchCreatorRewardsWorker (
           data,
         })
       )
+
+      return
     }
   } catch (error) {
     log.error('Failed to fetch creator rewards by space ids', error)

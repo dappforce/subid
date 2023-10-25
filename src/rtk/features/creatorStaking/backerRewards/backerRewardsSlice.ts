@@ -63,6 +63,7 @@ const slice = createSlice({
         state as EntityState<BackerRewardsEntity>,
         action.payload
       )
+      return
     },
     fetchBackerRewardsFailed: (state, action: PayloadAction<FetchBackerRewardsProps>) => {
       const { account, reload = true } = action.payload
@@ -80,9 +81,6 @@ const slice = createSlice({
       })
       return
     },
-  },
-  extraReducers: {
-    [HYDRATE]: hydrateExtraReducer('backerRewards')
   },
 })
 

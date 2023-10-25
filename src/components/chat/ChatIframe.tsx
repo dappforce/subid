@@ -11,7 +11,7 @@ import {
 } from './types'
 import { useChatContext } from '../providers/ChatContext'
 
-const creatorsHubId = '1022'
+const creatorsHubId = '1218'
 
 function generateGrillConfig ({
   hubId = 'polka',

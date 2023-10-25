@@ -67,6 +67,7 @@ function* fetchBackerRewardsWorker (
           data,
         })
       )
+      return
     } else {
       backerRewardsActions.fetchBackerRewardsFailed({ account, spaceIds })
     }

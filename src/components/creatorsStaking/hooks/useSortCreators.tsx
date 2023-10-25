@@ -12,8 +12,6 @@ const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
 ) => {
   const entries = Object.entries(data)
 
-  console.log('entries', entries)
-  
   return entries
     .sort(([ _, a ], [ __, b ]) => new BN(b[field]).minus(a[field]).toNumber())
     .map(([ key ]) => key)
