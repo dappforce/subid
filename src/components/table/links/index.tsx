@@ -709,7 +709,7 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
-  hydra: {
+  hydradx: {
     subscanSubdomain: 'hydradx',
     website: 'https://hydradx.io/',
     github: 'https://github.com/galacticcouncil/HydraDX-node',
@@ -1380,7 +1380,7 @@ export const polkadotContributionInfoByNetwork: ContributionByNetwork = {
   crust: {
     rewardPool: '5%',
   },
-  hydra: {
+  hydradx: {
     rewardPool: '10%',
   },
   coinversation: {

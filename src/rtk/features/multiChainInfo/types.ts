@@ -84,7 +84,7 @@ export const supportedNetworks = [
   'polkadex',
   'zeitgeist',
   'joystream',
-  'hydra',
+  'hydradx',
   'turing',
   'edgeware',
   'parallel',
