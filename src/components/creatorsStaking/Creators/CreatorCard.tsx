@@ -7,7 +7,7 @@ import { FormatBalance } from 'src/components/common/balances'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import AboutModal from './modals/AboutModal'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
@@ -17,6 +17,55 @@ import { useModalContext } from '../contexts/ModalContext'
 import Button from '../tailwind-components/Button'
 import { useChatContext } from 'src/components/providers/ChatContext'
 import { Tooltip } from 'antd'
+import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
+import { pluralize } from '@subsocial/utils'
+
+type CreatorNameProps = {
+  name?: string
+  loading?: boolean
+  cardRef: React.RefObject<HTMLDivElement>
+}
+
+const CreatorName = ({ name, loading, cardRef }: CreatorNameProps) => {
+  const nameRef = useRef<any>(null)
+
+  const isEllipsis = () => {
+    if (!nameRef.current || !cardRef.current || !name) return false
+
+    return nameRef.current?.offsetWidth >= cardRef.current?.scrollWidth
+  }
+
+  return (
+    <FloatingWrapper
+      allowedPlacements={[ 'top' ]}
+      mainAxisOffset={4}
+      panel={() => (
+        <div className='rounded-md border border-background-lighter bg-white px-1.5 text-sm py-1'>
+          {name}
+        </div>
+      )}
+      showOnHover={isEllipsis()}
+    >
+      {({ referenceProps, onClick }) => (
+        <span
+          {...referenceProps}
+          onClick={(e) => {
+            onClick?.(e)
+          }}
+        >
+          <span ref={nameRef}>
+            <ValueOrSkeleton
+              value={name || '<Unnamed>'}
+              loading={loading}
+              skeletonClassName='w-full h-[16px]'
+              className='whitespace-nowrap'
+            />
+          </span>
+        </span>
+      )}
+    </FloatingWrapper>
+  )
+}
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -61,6 +110,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
+  const cardRef = useRef<HTMLDivElement>(null)
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -71,7 +121,8 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const isStake = totalStaked === '0'
 
-  const { name, about, ownedByAccount, image, links, email } = space || {}
+  const { name, about, postsCount, ownedByAccount, image, links, email } =
+    space || {}
 
   const owner = ownedByAccount?.id
 
@@ -129,6 +180,20 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     }
   }
 
+  const postsLink = (
+    <a
+      href={`https://polkaverse.com/${spaceId}`}
+      onClick={(e) => e.stopPropagation()}
+      target='_blank'
+      rel='noreferrer'
+      className={clsx(
+        'text-[#64748B] text-sm font-normal hover:text-text-primary leading-none duration-0'
+      )}
+    >
+      {pluralize({ count: parseInt(postsCount || '0'), singularText: 'post' })}
+    </a>
+  )
+
   return (
     <>
       <div
@@ -139,24 +204,24 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
       >
         <div className='flex flex-col gap-2'>
           <div
-            className='cursor-pointer'
+            className='cursor-pointer flex flex-col gap-3'
             onClick={() => setOpenAboutModal(true)}
           >
             <div className='w-full flex justify-between gap-2'>
               <CreatorPreview
                 title={
-                  <ValueOrSkeleton
-                    value={name || '<Unnamed>'}
+                  <CreatorName
+                    cardRef={cardRef}
+                    name={name}
                     loading={spaceLoading}
-                    skeletonClassName='w-full h-[16px]'
-                    className='whitespace-nowrap'
                   />
                 }
-                desc={<ContactInfo {...contactInfo} />}
+                desc={!!postsCount && postsLink}
                 avatar={image}
                 owner={owner}
-                descClassName='p-[1px]'
+                descClassName='p-[1px] leading-none'
                 infoClassName='flex flex-col gap-1'
+                titleRef={cardRef}
               />
 
               <div>
@@ -172,6 +237,11 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 </Tooltip>
               </div>
             </div>
+            <ContactInfo
+              className={clsx('text-[#64748B]')}
+              spaceId={spaceId}
+              {...contactInfo}
+            />
             {aboutText}
           </div>
           <div className='border-b border-[#D4E2EF]'></div>

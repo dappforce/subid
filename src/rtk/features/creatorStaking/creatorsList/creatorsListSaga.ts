@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from '@redux-saga/core/effects'
-import { isEmptyArray } from '@subsocial/utils'
+import { isDef, isEmptyArray } from '@subsocial/utils'
 import { log } from '../../../app/util'
 import { 
   CreatorsListEntity, 
@@ -23,11 +23,13 @@ function* fetchCreatorsListWorker () {
     if (isEmptyArray(response)) return
     
     const creatorsEntities = response.map((creator) => {
+      if(creator.status !== 'Active') return
+
       return {
         id: creator.spaceId,
         creator
       }
-    })
+    }).filter(isDef)
 
     yield put(
       creatorsListActions.fetchCreatorsListSuccess(creatorsEntities)

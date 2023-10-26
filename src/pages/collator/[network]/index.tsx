@@ -14,8 +14,12 @@ getInitialPropsWithRedux(CollatorStakingPage, async ({ dispatch, context }) => {
   dispatch(selectedCandidatesActions.fetchSelectedCandidates(network as string))
   dispatch(chainInfoActions.fetchStakingConsts(network as string))
 
-
-  return { network: network as string }
+  return {
+    network: network as string,
+    head: {
+      title: 'Collator Staking',
+    },
+  }
 })
 
 export default CollatorStakingPage

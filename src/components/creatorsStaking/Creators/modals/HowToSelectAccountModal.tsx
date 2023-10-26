@@ -20,7 +20,11 @@ const HowToSelectAccountModal = ({
         closeModal()
       }}
     >
-      <div className={'flex flex-col items-center gap-6 mt-6'}>
+      <div className={'flex flex-col items-center gap-6'}>
+        <div className='text-text-muted text-base'>
+          Sorry, but staking is only possible when using a single account.
+          Here&apos;s how you can do it:
+        </div>
         <img
           src={'/images/creator-staking/choose-account.gif'}
           alt=''
@@ -28,11 +32,6 @@ const HowToSelectAccountModal = ({
           width={330}
           className='rounded-2xl'
         />
-        <div className='text-text-muted text-base'>
-          To select a specific account, click on &quot;All Accounts&quot; in the
-          top right corner, and choose which account you would like to use from
-          the dropdown menu.
-        </div>
         <Button
           variant='primaryOutline'
           className='w-100'

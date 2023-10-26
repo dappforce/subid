@@ -3,10 +3,17 @@ import { NextPage } from 'next'
 import { PageContent } from '../utils/PageWrapper'
 import dynamic from 'next/dynamic'
 import CollatorStaking from '../staking/collators/CollatorStaking'
-import { StepsEnum, useMyAddresses, useMyExtensionAccount } from '../providers/MyExtensionAccountsContext'
+import {
+  StepsEnum,
+  useMyAddresses,
+  useMyExtensionAccount,
+} from '../providers/MyExtensionAccountsContext'
 import { MutedSpan } from '../utils/MutedText'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-import { evmStakingNetworks, supportedStakingNetworks } from 'src/rtk/features/stakingCandidates/utils'
+import {
+  evmStakingNetworks,
+  supportedStakingNetworks,
+} from 'src/rtk/features/stakingCandidates/utils'
 import styles from './Main.module.sass'
 import SignInModal from '../onlySearch/SignInModal'
 import { Button } from 'antd'
@@ -24,7 +31,10 @@ type WarningMessageBoxType = {
   network: string
 }
 
-export const WarningMessageBox = ({ addresses, network }: WarningMessageBoxType) => {
+export const WarningMessageBox = ({
+  addresses,
+  network,
+}: WarningMessageBoxType) => {
   const [ open, setOpen ] = useState<boolean>(false)
   const { setCurrentStep } = useMyExtensionAccount()
   const { t } = useTranslation()
@@ -40,23 +50,30 @@ export const WarningMessageBox = ({ addresses, network }: WarningMessageBoxType)
         <img src='/images/businessman.svg' />
         <div>
           <span className='bs-mb-3'>{t('staking.warnningSection.title')}</span>
-          <MutedSpan>{t('staking.warnningSection.desc', { network: startWithUpperCase(network) })}</MutedSpan>
+          <MutedSpan>
+            {t('staking.warnningSection.desc', {
+              network: startWithUpperCase(network),
+            })}
+          </MutedSpan>
         </div>
-        <Button
-          type='primary'
-          onClick={onButtonClick}
-          className='mt-3'
-        >
+        <Button type='primary' onClick={onButtonClick} className='mt-3'>
           {t('staking.warnningSection.button')}
         </Button>
       </div>
-      <SignInModal open={open} hide={() => setOpen(false)} walletsType={addresses?.every(isEthereumAddress) ? 'all' : 'evm'}/>
+      <SignInModal
+        open={open}
+        hide={() => setOpen(false)}
+        walletsType={addresses?.every(isEthereumAddress) ? 'all' : 'evm'}
+      />
     </div>
   )
 }
 
-const CollatorStakingPage: NextPage<CollatorStakingPageProps> = ({ network }) => {
-  const [ isSupportedByAddressFormat, setIsSupportedByAddressFormat ] = useState<boolean>(false)
+const CollatorStakingPage: NextPage<CollatorStakingPageProps> = ({
+  network,
+}) => {
+  const [ isSupportedByAddressFormat, setIsSupportedByAddressFormat ] =
+    useState<boolean>(false)
   const addresses = useMyAddresses()
 
   useEffect(() => {
@@ -69,23 +86,20 @@ const CollatorStakingPage: NextPage<CollatorStakingPageProps> = ({ network }) =>
     setIsSupportedByAddressFormat(stakingChainNames.includes(network))
   }, [ addresses?.join(','), network ])
 
-  return <>
-    <div className='layout-wrapper'>
-      <PageContent
-        meta={{
-          title: 'Collator Staking',
-        }}
-        className='position-relative'
-      >
-        {isSupportedByAddressFormat
-          ? <CollatorStaking network={network} />
-          : <WarningMessageBox addresses={addresses} network={network} />}
-      </PageContent>
-    </div>
-    <Footer />
-  </>
+  return (
+    <>
+      <div className='layout-wrapper'>
+        <PageContent className='position-relative'>
+          {isSupportedByAddressFormat ? (
+            <CollatorStaking network={network} />
+          ) : (
+            <WarningMessageBox addresses={addresses} network={network} />
+          )}
+        </PageContent>
+      </div>
+      <Footer />
+    </>
+  )
 }
-
-
 
 export default CollatorStakingPage

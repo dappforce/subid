@@ -9,7 +9,14 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch }) => {
   fetchCreatorsList(dispatch)
   fetchStakingConsts(dispatch)
 
-  return { }
+  return {
+    head: {
+      title: 'Support Favorite Creators And Receive Tokens!',
+      desc: 'Stake SUB towards the best creators of content, applications, and communities. Both you and the creator will receive more tokens, and help grow the network.',
+      image: '/images/creator-staking/meta-bg.jpg',
+      forceTitle: true,
+    },
+  }
 })
 
 export default CreatorsStakingPage

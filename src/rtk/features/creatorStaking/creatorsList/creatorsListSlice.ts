@@ -7,12 +7,12 @@ import { RootState } from '../../../app/rootReducer'
 import { HYDRATE } from 'next-redux-wrapper'
 import { hydrateExtraReducer, stubFn } from '../../../app/util'
 
-type RegisteredState = 'Registered' | 'Unregistered'
+type RegisteredState = 'Active' | Record<'Inactive', string>
 
 export type RegisteredCreator = {
   spaceId: string
   stakeholder: string
-  state: RegisteredState
+  status: RegisteredState
 }
 
 export type CreatorsListEntity = {

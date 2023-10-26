@@ -9,11 +9,7 @@ const StatusPage = () => {
 
   return <>
     <div className='layout-wrapper'>
-      <PageContent
-        meta={{
-          title: 'Status Page'
-        }}
-      >
+      <PageContent>
         <StatusCard />
       </PageContent>
     </div>

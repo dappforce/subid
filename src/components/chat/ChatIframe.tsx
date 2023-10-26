@@ -30,7 +30,7 @@ function generateGrillConfig ({
         resource: new Resource({
           schema: 'chain',
           chainType: 'substrate',
-          chainName: 'soonsocial',
+          chainName: 'subsocial',
           resourceType: 'creator',
           resourceValue: {
             id: spaceId,

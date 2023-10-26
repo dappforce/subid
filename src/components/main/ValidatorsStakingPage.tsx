@@ -14,8 +14,11 @@ export type ValidatorsStakingPageProps = {
   network: string
 }
 
-const ValidatorsStakingPage: NextPage<ValidatorsStakingPageProps> = ({ network }) => {
-  const [ isSupportedByAddressFormat, setIsSupportedByAddressFormat ] = useState<boolean>(false)
+const ValidatorsStakingPage: NextPage<ValidatorsStakingPageProps> = ({
+  network,
+}) => {
+  const [ isSupportedByAddressFormat, setIsSupportedByAddressFormat ] =
+    useState<boolean>(false)
   const addresses = useMyAddresses()
 
   useEffect(() => {
@@ -28,23 +31,20 @@ const ValidatorsStakingPage: NextPage<ValidatorsStakingPageProps> = ({ network }
     setIsSupportedByAddressFormat(stakingChainNames.includes(network))
   }, [ addresses?.join(','), network ])
 
-  return <>
-    <div className='layout-wrapper'>
-      <PageContent
-        meta={{
-          title: 'Validators Staking',
-        }}
-        className='position-relative'
-      >
-        {isSupportedByAddressFormat 
-          ? <ValidatorsStaking network={network} /> 
-          : <WarningMessageBox addresses={addresses} network={network} />}
-      </PageContent>
-    </div>
-    <Footer />
-  </>
+  return (
+    <>
+      <div className='layout-wrapper'>
+        <PageContent className='position-relative'>
+          {isSupportedByAddressFormat ? (
+            <ValidatorsStaking network={network} />
+          ) : (
+            <WarningMessageBox addresses={addresses} network={network} />
+          )}
+        </PageContent>
+      </div>
+      <Footer />
+    </>
+  )
 }
-
-
 
 export default ValidatorsStakingPage

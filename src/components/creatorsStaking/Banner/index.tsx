@@ -9,10 +9,8 @@ import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/cr
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
-import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
-import BN from 'bignumber.js'
-import { useMemo } from 'react'
 import { formatTime, useGetOneEraTime } from '../utils/DaysToWithdraw'
+import { useCalculateApr } from './calculateApr'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -26,15 +24,7 @@ const TimeInEra = () => {
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
   const creatorsList = useCreatorsList()
-  const stakingConsts = useStakingConsts()
-
-  const { currentAnnualInflation } = stakingConsts || {}
-
-  const apr = useMemo(() => {
-    if (!currentAnnualInflation) return undefined
-
-    return new BN(currentAnnualInflation).dividedBy(2).toString()
-  }, [ currentAnnualInflation ])
+  const apr = useCalculateApr()
 
   const creatorsCount = creatorsList?.length
 
@@ -42,13 +32,13 @@ const StatsCards = () => {
     {
       title: 'Total Staked',
       value: <TotalStakedBalance value={generalEraInfo?.staked || 0} />,
-      infoTitle: 'The total amount of tokens stakes on the Subsocial network',
+      infoTitle: 'The total amount of tokens staked on the Subsocial network',
     },
     {
       title: 'Estimated APR',
       value: (
         <ValueOrSkeleton
-          value={apr ? `${apr}%` : undefined}
+          value={apr && `${apr.toFixed(2)}%`}
           skeletonClassName={skeletonClassName}
         />
       ),
@@ -71,8 +61,7 @@ const StatsCards = () => {
       ),
       infoTitle: (
         <>
-          Rewards are available at the end of each era, which lasts{' '}
-          <TimeInEra />
+          Rewards are available at the end of each era, which last <TimeInEra />
         </>
       ),
     },
@@ -109,8 +98,11 @@ const Banner = () => {
     >
       <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
         <div className='flex flex-col gap-2 text-white md:items-start items-center'>
-          <div className='text-4xl UnboundedFont'>Create2Earn</div>
-          <div className='text-[20px]'>An innovative way to stake</div>
+          <div className='text-4xl UnboundedFont'>Creator Staking Beta</div>
+          <div className='text-[20px]'>
+            An innovative way to stake for your favorite dapp and content
+            creators
+          </div>
         </div>
 
         <Button

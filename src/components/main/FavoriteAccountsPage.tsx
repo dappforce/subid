@@ -15,7 +15,7 @@ const FavoriteAccountsPage: NextPage = () => {
 
   return <>
     <div className='layout-wrapper'>
-      <PageContent meta={{ title: 'Favorite Accounts' }}>
+      <PageContent>
         <FavoriteAccountsLayout />
       </PageContent>
     </div>
