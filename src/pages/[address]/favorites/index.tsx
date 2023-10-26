@@ -17,7 +17,7 @@ getInitialPropsWithRedux(
     }
 
     return {
-      heaad: {
+      head: {
         title: 'Favorite Accounts',
       },
     }

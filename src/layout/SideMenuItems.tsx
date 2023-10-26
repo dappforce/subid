@@ -160,7 +160,7 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       name: 'Creator Staking',
       page: [ '/creators' ],
       icon: <img className='anticon' src='/images/creator-staking-user.svg' />,
-      hidden: isMulti || !isSignIn,
+      hidden: !isSignIn,
     },
     Divider,
     {
