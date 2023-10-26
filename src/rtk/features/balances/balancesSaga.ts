@@ -31,7 +31,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
 
       let balances = balancesEntity?.balances
 
-      if (isEmptyEntity(balances) || (balances && balances.length <= 1) || reload) {
+      if (isEmptyEntity(balances) || reload) {
         balances = yield call(getAccountInfo, account)
       }
 
@@ -48,7 +48,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
   } catch (error) {
     log.error('Failed to fetch balances', error)
 
-    yield put(balancesActions.fetchBalancesFailed())
+    yield put(balancesActions.fetchBalancesFailed({ accounts }))
   }
 }
 
@@ -103,7 +103,7 @@ function* fetchBalancesByNetworkWorker (
   } catch (error) {
     log.error('Failed to fetch balances by network', error)
 
-    yield put(balancesActions.fetchBalancesFailed())
+    yield put(balancesActions.fetchBalancesFailed({ accounts }))
   }
 }
 

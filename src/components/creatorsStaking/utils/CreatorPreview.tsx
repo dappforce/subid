@@ -10,6 +10,7 @@ type CreatorPreviewProps = {
   titleClassName?: string
   descClassName?: string
   infoClassName?: string
+  titleRef?: React.RefObject<HTMLDivElement>
 }
 
 export const CreatorPreview = ({
@@ -21,6 +22,7 @@ export const CreatorPreview = ({
   titleClassName,
   descClassName,
   infoClassName,
+  titleRef
 }: CreatorPreviewProps) => {
   return (
     <div className='flex w-full items-center overflow-hidden'>
@@ -31,7 +33,7 @@ export const CreatorPreview = ({
         avatar={avatar}
       />
       <div className={clsx('w-full overflow-hidden', infoClassName)}>
-        <div className={clsx('leading-5 w-full font-medium overflow-hidden overflow-ellipsis', titleClassName)}>
+        <div ref={titleRef} className={clsx('leading-5 w-full font-medium overflow-hidden overflow-ellipsis', titleClassName)}>
           {title || '<Unnamed>'}
         </div>
         {desc && <div className={descClassName}>{desc}</div>}

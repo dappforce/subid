@@ -306,6 +306,7 @@ export const BalancesTable = (props: BalanceTableProps) => {
 
   useEffect(() => {
     if (!addresses || !chainsInfo) return
+    setLoading(true)
 
     let isMounted = true
 

@@ -11,7 +11,6 @@ import { isEmptyArray, isEmptyObj, isEmptyStr } from '@subsocial/utils'
 import { upsertManyEntity } from '../../app/util'
 import {
   FetchProps,
-  stubFn,
   hydrateExtraReducer,
 } from '../../app/util'
 
@@ -91,7 +90,20 @@ const slice = createSlice({
     fetchBalancesSuccess: (state, action: PayloadAction<BalancesEntity[]>) => {
       balancesAdapter.upsertMany(state, action.payload)
     },
-    fetchBalancesFailed: stubFn,
+    fetchBalancesFailed: (state, action: PayloadAction<FetchProps>) => {
+      const { accounts, reload } = action.payload
+
+      upsertManyEntity({
+        adapter: balancesAdapter,
+        state: state as EntityState<BalancesEntity>,
+        reload,
+        loading: false,
+        fieldName: 'balances',
+        ids: accounts,
+        selector: selectorByAccount,
+      })
+      return
+    },
   },
   extraReducers: {
     [HYDRATE]: hydrateExtraReducer('balances'),

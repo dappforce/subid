@@ -7,7 +7,7 @@ import { FormatBalance } from 'src/components/common/balances'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import AboutModal from './modals/AboutModal'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
@@ -17,6 +17,54 @@ import { useModalContext } from '../contexts/ModalContext'
 import Button from '../tailwind-components/Button'
 import { useChatContext } from 'src/components/providers/ChatContext'
 import { Tooltip } from 'antd'
+import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
+
+type CreatorNameProps = {
+  name?: string
+  loading?: boolean
+  cardRef: React.RefObject<HTMLDivElement>
+}
+
+const CreatorName = ({ name, loading, cardRef }: CreatorNameProps) => {
+  const nameRef = useRef<any>(null)
+
+  const isEllipsis = () => {
+    if (!nameRef.current || !cardRef.current || !name) return false
+
+    return nameRef.current?.offsetWidth >= cardRef.current?.scrollWidth
+  }
+
+  return (
+    <FloatingWrapper
+      allowedPlacements={[ 'top' ]}
+      mainAxisOffset={4}
+      panel={() => (
+        <div className='rounded-md border border-background-lighter bg-white px-1.5 text-sm py-1'>
+          {name}
+        </div>
+      )}
+      showOnHover={isEllipsis()}
+    >
+      {({ referenceProps, onClick }) => (
+        <span
+          {...referenceProps}
+          onClick={(e) => {
+            onClick?.(e)
+          }}
+        >
+          <span ref={nameRef}>
+            <ValueOrSkeleton
+              value={name || '<Unnamed>'}
+              loading={loading}
+              skeletonClassName='w-full h-[16px]'
+              className='whitespace-nowrap'
+            />
+          </span>
+        </span>
+      )}
+    </FloatingWrapper>
+  )
+}
 
 type CreatorCardTotalValueProps = {
   label: string
@@ -61,6 +109,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
+  const cardRef = useRef<HTMLDivElement>(null)
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -145,11 +194,10 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
             <div className='w-full flex justify-between gap-2'>
               <CreatorPreview
                 title={
-                  <ValueOrSkeleton
-                    value={name || '<Unnamed>'}
+                  <CreatorName
+                    cardRef={cardRef}
+                    name={name}
                     loading={spaceLoading}
-                    skeletonClassName='w-full h-[16px]'
-                    className='whitespace-nowrap'
                   />
                 }
                 desc={<ContactInfo spaceId={spaceId} {...contactInfo} />}
@@ -157,6 +205,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 owner={owner}
                 descClassName='p-[1px]'
                 infoClassName='flex flex-col gap-1'
+                titleRef={cardRef}
               />
 
               <div>
