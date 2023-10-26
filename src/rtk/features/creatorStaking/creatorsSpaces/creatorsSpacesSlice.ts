@@ -23,6 +23,7 @@ type CreatorSpace = {
   about: string
   links: string[]
   email: string
+  postsCount: string
   ownedByAccount: {
     id: string
   }

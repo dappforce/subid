@@ -21,7 +21,7 @@ export const SocialLink = ({ link, label, className }: SocialLinkProps) => {
   const brand = getLinkBrand(link)
   return (
     <Button
-      variant={'iconLink'}
+      variant={'iconLinkGray'}
       size={'noPadding'}
       href={link}
       title={brand}
@@ -45,13 +45,14 @@ export const SocialLink = ({ link, label, className }: SocialLinkProps) => {
 
 type SocialLinksProps = {
   links: string[] | NamedLink[]
+  className?: string
 }
 
-export const ViewSocialLinks = ({ links }: SocialLinksProps) => {
+export const ViewSocialLinks = ({ links, className }: SocialLinksProps) => {
   return (
     <div className='flex items-center gap-2'>
       {(links as string[]).map((link, i) => (
-        <SocialLink key={`social-link-${i}`} link={link} />
+        <SocialLink key={`social-link-${i}`} className={className} link={link} />
       ))}
     </div>
   )
@@ -71,7 +72,7 @@ export const EmailLink = ({ link, label, className }: SocialLinkProps) => (
     size={'noPadding'}
     href={`mailto:${link}`}
     title='Email'
-    variant={'iconLink'}
+    variant={'iconLinkGray'}
     onClick={(e) => e.stopPropagation()}
   >
     <AiOutlineMail />
@@ -79,14 +80,13 @@ export const EmailLink = ({ link, label, className }: SocialLinkProps) => (
   </Button>
 )
 
-export const ContactInfo = ({ links, email, spaceId }: Partial<ContactInfoProps>) => {
+export const ContactInfo = ({ links, email, className }: Partial<ContactInfoProps>) => {
   if (!links && !email) return null
 
   return (
     <div className='flex items-center gap-2'>
-      {spaceId && <SocialLink key={'social-link-polkaverse'} link={`https://polkaverse.com/${spaceId}`} />}
-      {links && <ViewSocialLinks links={links} />}
-      {email && <EmailLink link={email} />}
+      {links && <ViewSocialLinks className={className} links={links} />}
+      {email && <EmailLink className={className} link={email} />}
     </div>
   )
 }

@@ -54,7 +54,9 @@ const BetaVersionAgreement = ({
             <br />I understand that this is the beta version of Creator Staking
             and that the staking system is under active development and may be
             upgraded in the next few months, resulting in my tokens being
-            unstaked, and that I will have to stake them again.
+            unstaked, and that I will have to stake them again. I understand
+            that the inflation and rewards distribution numbers may be changed
+            during the beta without my knowledge.
           </div>
           {isTextClamped && (
             <span
@@ -152,7 +154,9 @@ const StakingModal = ({
   const { isMobile } = useResponsiveSize()
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
   const [ isCheckboxChecked, setIsCheckboxChecked ] = useState(false)
-  const betaversionAgreement = store.get(betaVersionAgreementStorageName) as boolean
+  const betaversionAgreement = store.get(
+    betaVersionAgreementStorageName
+  ) as boolean
 
   useEffect(() => {
     if (open) {
@@ -242,10 +246,12 @@ const StakingModal = ({
           modalVariant={modalVariant}
         />
 
-        {!betaversionAgreement && <BetaVersionAgreement 
-          isCheckboxChecked={isCheckboxChecked}
-          setIsCheckboxChecked={setIsCheckboxChecked}  
-        />}
+        {!betaversionAgreement && (
+          <BetaVersionAgreement
+            isCheckboxChecked={isCheckboxChecked}
+            setIsCheckboxChecked={setIsCheckboxChecked}
+          />
+        )}
 
         <StakingTxButton
           amount={amount}

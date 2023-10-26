@@ -18,6 +18,7 @@ import Button from '../tailwind-components/Button'
 import { useChatContext } from 'src/components/providers/ChatContext'
 import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
+import { pluralize } from '@subsocial/utils'
 
 type CreatorNameProps = {
   name?: string
@@ -120,7 +121,8 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const isStake = totalStaked === '0'
 
-  const { name, about, ownedByAccount, image, links, email } = space || {}
+  const { name, about, postsCount, ownedByAccount, image, links, email } =
+    space || {}
 
   const owner = ownedByAccount?.id
 
@@ -178,6 +180,20 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     }
   }
 
+  const postsLink = (
+    <a
+      href={`https://polkaverse.com/${spaceId}`}
+      onClick={(e) => e.stopPropagation()}
+      target='_blank'
+      rel='noreferrer'
+      className={clsx(
+        'text-[#64748B] text-sm font-normal hover:text-text-primary leading-none duration-0'
+      )}
+    >
+      {pluralize({ count: parseInt(postsCount || '0'), singularText: 'post' })}
+    </a>
+  )
+
   return (
     <>
       <div
@@ -188,7 +204,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
       >
         <div className='flex flex-col gap-2'>
           <div
-            className='cursor-pointer'
+            className='cursor-pointer flex flex-col gap-3'
             onClick={() => setOpenAboutModal(true)}
           >
             <div className='w-full flex justify-between gap-2'>
@@ -200,10 +216,10 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                     loading={spaceLoading}
                   />
                 }
-                desc={<ContactInfo spaceId={spaceId} {...contactInfo} />}
+                desc={!!postsCount && postsLink}
                 avatar={image}
                 owner={owner}
-                descClassName='p-[1px]'
+                descClassName='p-[1px] leading-none'
                 infoClassName='flex flex-col gap-1'
                 titleRef={cardRef}
               />
@@ -221,6 +237,11 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 </Tooltip>
               </div>
             </div>
+            <ContactInfo
+              className={clsx('text-[#64748B]')}
+              spaceId={spaceId}
+              {...contactInfo}
+            />
             {aboutText}
           </div>
           <div className='border-b border-[#D4E2EF]'></div>

@@ -10,6 +10,7 @@ import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
 import { formatTime, useGetOneEraTime } from '../utils/DaysToWithdraw'
+import { useCalculateApr } from './calculateApr'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -23,6 +24,7 @@ const TimeInEra = () => {
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
   const creatorsList = useCreatorsList()
+  const apr = useCalculateApr()
 
   const creatorsCount = creatorsList?.length
 
@@ -30,13 +32,13 @@ const StatsCards = () => {
     {
       title: 'Total Staked',
       value: <TotalStakedBalance value={generalEraInfo?.staked || 0} />,
-      infoTitle: 'The total amount of tokens stakes on the Subsocial network',
+      infoTitle: 'The total amount of tokens staked on the Subsocial network',
     },
     {
       title: 'Estimated APR',
       value: (
         <ValueOrSkeleton
-          value={'SOON'}
+          value={apr && `${apr.toFixed(2)}%`}
           skeletonClassName={skeletonClassName}
         />
       ),
@@ -59,8 +61,7 @@ const StatsCards = () => {
       ),
       infoTitle: (
         <>
-          Rewards are available at the end of each era, which lasts{' '}
-          <TimeInEra />
+          Rewards are available at the end of each era, which last <TimeInEra />
         </>
       ),
     },
@@ -98,7 +99,10 @@ const Banner = () => {
       <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
         <div className='flex flex-col gap-2 text-white md:items-start items-center'>
           <div className='text-4xl UnboundedFont'>Creator Staking Beta</div>
-          <div className='text-[20px]'>An innovative way to stake</div>
+          <div className='text-[20px]'>
+            An innovative way to stake for your favorite dapp and content
+            creators
+          </div>
         </div>
 
         <Button
