@@ -11,7 +11,10 @@ getInitialPropsWithRedux(InterestingAccountsPage, async ({ dispatch }) => {
 
   return {
     initialAccounts,
-    accountsLength
+    accountsLength,
+    head: {
+      title: 'Interesting Accounts',
+    }
   }
 })
 

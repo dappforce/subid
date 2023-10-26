@@ -170,7 +170,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
         open={showSuccessModal}
         closeModal={() => setShowSuccessModal(false)}
         spaceId={stakedSpaceId || '0'}
-        tokenSymbol={'SOON'}
+        tokenSymbol={'SUB'}
         amount={amount}
       />
     </div>

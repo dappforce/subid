@@ -3,10 +3,13 @@ import { getInitialPropsWithRedux } from 'src/rtk/app/nextHelpers'
 import { fetchData } from '../../rtk/app/util'
 
 getInitialPropsWithRedux(StatusPage, async ({ dispatch }) => {
-
   fetchData(dispatch)
 
-  return {}
+  return {
+    head: {
+      title: 'Status Page',
+    },
+  }
 })
 
 export default StatusPage

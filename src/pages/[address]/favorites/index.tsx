@@ -3,18 +3,25 @@ import { fetchData, fetchDataByAccount } from '../../../rtk/app/util'
 import FavoriteAccountsPage from '../../../components/main/FavoriteAccountsPage'
 import { parseAddressFromUrl } from '../../../components/utils/index'
 
-getInitialPropsWithRedux(FavoriteAccountsPage, async ({ dispatch, context }) => {
-  const { address } = context.query
+getInitialPropsWithRedux(
+  FavoriteAccountsPage,
+  async ({ dispatch, context }) => {
+    const { address } = context.query
 
-  const accounts = parseAddressFromUrl(address)
+    const accounts = parseAddressFromUrl(address)
 
-  fetchData(dispatch)
+    fetchData(dispatch)
 
-  if (accounts) {
-    await fetchDataByAccount(dispatch, accounts, false, true)
+    if (accounts) {
+      await fetchDataByAccount(dispatch, accounts, false, true)
+    }
+
+    return {
+      heaad: {
+        title: 'Favorite Accounts',
+      },
+    }
   }
-
-  return {}
-})
+)
 
 export default FavoriteAccountsPage

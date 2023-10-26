@@ -16,7 +16,7 @@ export type InterestingAccountsPageProps = {
 const InterestingAccountsPage: NextPage<InterestingAccountsPageProps> = (props) => (
   <>
     <div className='layout-wrapper'>
-      <PageContent meta={{ title: 'Interesting Accounts' }}>
+      <PageContent>
         <AccountsLayout {...props} />
       </PageContent>
     </div>

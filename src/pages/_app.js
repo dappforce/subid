@@ -16,15 +16,19 @@ import { wrapper } from '../rtk/app/store'
 import { gaId } from 'src/config/env'
 
 import '../i18n'
+import HeadMeta from 'src/components/utils/HeadMeta'
 
 const App = (props) => {
   const { Component, pageProps } = props
+
+  const { head } = pageProps
 
   return (
     <>
       <Head>
         <script src='/env.js' />
       </Head>
+      <HeadMeta {...head} />
       <GoogleAnalytics trackPageViews gaMeasurementId={gaId} />
       <NextLayout>
         <Component {...pageProps} />
