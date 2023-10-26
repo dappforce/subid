@@ -24,6 +24,8 @@ function generateGrillConfig ({
     enableLoginButton: true,
   }
 
+  const hub = spaceId ? { id: creatorsHubId } : { id: hubId }
+
   const channel = spaceId
     ? ({
         type: 'resource',
@@ -44,7 +46,7 @@ function generateGrillConfig ({
       } as ChanelTypeChannel)
 
   return {
-    hub: { id: hubId || creatorsHubId },
+    hub,
     rootFontSize: '1rem',
     channel: {
       ...channel,
