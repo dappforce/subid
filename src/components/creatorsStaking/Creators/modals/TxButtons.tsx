@@ -52,7 +52,7 @@ const StakingTxButton = ({
     fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
     fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
-    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.currentEra || '0')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
     
     fetchBackerLedger(dispatch, myAddress || '')
 

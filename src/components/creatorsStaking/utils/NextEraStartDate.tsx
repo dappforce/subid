@@ -21,7 +21,7 @@ export const NextEraStartDate = () => {
 
   const { availableClaimsBySpaceId } = rewardsData || {}
 
-  const { nextEraBlock } = generalEraInfo || {}
+  const { nextEraBlock } = generalEraInfo?.info || {}
 
   const nextEraTime = useGetNextEraTime(nextEraBlock)
   const { currentBlockNumber } = useStakingContext()

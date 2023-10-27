@@ -13,11 +13,13 @@ export const useCalculateApr = () => {
   const generalEraInfo = useGeneralEraInfo()
   const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
+  const { info, loading } = generalEraInfo || {}
+
   const apr = useMemo(() => {
-    if (!generalEraInfo) return
+    if (!info || loading) return
 
     const totalStakedWithDecimal = convertToBalanceWithDecimal(
-      generalEraInfo.staked,
+      info.staked,
       decimal
     )
 
@@ -25,7 +27,7 @@ export const useCalculateApr = () => {
       .dividedBy(totalStakedWithDecimal)
       .multipliedBy(backerPercent)
       .multipliedBy(100)
-  }, [ !!generalEraInfo ])
+  }, [ !!info, loading ])
 
   return apr
 }

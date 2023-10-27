@@ -5,7 +5,6 @@ import {
   useFetchGeneralEraInfo,
   useGeneralEraInfo,
 } from '../../../rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { useCreatorsList } from 'src/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
@@ -23,15 +22,14 @@ const TimeInEra = () => {
 
 const StatsCards = () => {
   const generalEraInfo = useGeneralEraInfo()
-  const creatorsList = useCreatorsList()
   const apr = useCalculateApr()
 
-  const creatorsCount = creatorsList?.length
+  const { info, loading } = generalEraInfo || {}
 
   const dashboardData = [
     {
       title: 'Total Staked',
-      value: <TotalStakedBalance value={generalEraInfo?.staked || 0} />,
+      value: <TotalStakedBalance value={info?.staked || 0} loading={loading} />,
       infoTitle: 'The total amount of tokens staked on the Subsocial network',
     },
     {
@@ -43,13 +41,13 @@ const StatsCards = () => {
         />
       ),
       infoTitle:
-        'An estimate on how many tokens you will receive per year when you stake',
+        'An estimate of how much your token balance will increase after a year of staking',
     },
     {
       title: 'Current Era',
       value: (
         <ValueOrSkeleton
-          value={generalEraInfo?.currentEra}
+          value={info?.currentEra}
           skeletonClassName={skeletonClassName}
         />
       ),
@@ -66,14 +64,15 @@ const StatsCards = () => {
       ),
     },
     {
-      title: 'Total Creators',
+      title: 'Total Stakers',
       value: (
         <ValueOrSkeleton
-          value={creatorsCount}
+          value={info?.backerCount}
           skeletonClassName={skeletonClassName}
+          loading={loading}
         />
       ),
-      infoTitle: 'The number of creators available to stake to',
+      infoTitle: 'The total number of unique accounts currently staking SUB',
     },
   ]
 

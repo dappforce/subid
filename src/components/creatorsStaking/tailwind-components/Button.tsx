@@ -19,7 +19,8 @@ export const buttonStyles = cva('relative rounded-full transition leading-[22px]
       redOutline: 'bg-transparent border border-text-red',
       outlined: 'bg-transparent border border-[#D4E2EF]',
       iconLink: 'text-text-primary hover:text-text-primary bg-indigo-50',
-      iconLinkGray: 'text-[#64748B] hover:text-text-primary bg-[#F1F5F9]'
+      iconLinkGray: 'text-[#64748B] hover:text-text-primary bg-[#F1F5F9]',
+      iconPrimary: 'text-text-primary hover:text-text-primary hover:!ring-0',
     },
     disabledStyle: {
       default: '',

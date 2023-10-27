@@ -33,7 +33,7 @@ const AboutModal = ({
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const { isMobile } = useResponsiveSize()
 
-  const { currentEra } = generalEraInfo || {}
+  const { currentEra } = generalEraInfo?.info || {}
 
   const eraStake = useEraStakesById(spaceId, currentEra)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)

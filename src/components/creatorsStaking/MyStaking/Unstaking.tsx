@@ -23,7 +23,7 @@ type TimeRemainingProps = {
 const TimeRemaining = ({ unlockEra, className }: TimeRemainingProps) => {
   const eraInfo = useGeneralEraInfo()
   const { currentBlockNumber } = useStakingContext()
-  const { currentEra, blockPerEra, nextEraBlock } = eraInfo || {}
+  const { currentEra, blockPerEra, nextEraBlock } = eraInfo?.info || {}
 
   const blocksToNextEra = new BN(nextEraBlock || '0').minus(
     new BN(currentBlockNumber || '0')

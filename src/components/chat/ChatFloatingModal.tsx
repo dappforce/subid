@@ -44,6 +44,14 @@ export default function ChatFloatingModal ({
     return () => window.removeEventListener('keydown', close)
   }, [])
 
+  useEffect(() => {
+    if(open) {
+      document.documentElement.style.overflow = 'hidden'
+    } else {
+      document.documentElement.style.overflow = 'auto'
+    }
+  }, [ open ])
+
   const hasOpened = useRef(false)
   const toggleChat = () => {
     let event

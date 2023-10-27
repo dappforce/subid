@@ -33,7 +33,7 @@ export const CreatorPreview = ({
         avatar={avatar}
       />
       <div className={clsx('w-full overflow-hidden', infoClassName)}>
-        <div ref={titleRef} className={clsx('leading-5 w-full font-medium overflow-hidden overflow-ellipsis', titleClassName)}>
+        <div ref={titleRef} className={clsx('w-full font-medium overflow-hidden overflow-ellipsis', titleClassName)}>
           {title || '<Unnamed>'}
         </div>
         {desc && <div className={descClassName}>{desc}</div>}
