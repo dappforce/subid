@@ -87,12 +87,6 @@ const MyRewards = () => {
     />
   )
 
-//   - "How many tokens you have staked across all creators"
-
-// - "The estimated amount of SUB you have available to claim as staking rewards" (seems weird to me that it's estimated)
-
-// - "Turning this on will automatically stake your rewards after you claim them" (btw how does this work if you're staked to multiple creators @f3joule? if my stake is 50/50 on 2 creators it'll stake half the rewards on each creator?)
-
   const cardsOpt = [
     {
       title: <>My Stake, {symbol}</>,
