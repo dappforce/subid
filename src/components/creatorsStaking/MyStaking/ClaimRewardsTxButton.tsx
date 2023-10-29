@@ -42,7 +42,7 @@ const ClaimRewardsTxButton = ({
 
     if(restake) {
       fetchBackerInfo(dispatch, rewardsSpaceIds, myAddress || '')
-      fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.currentEra || '0')
+      fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.info?.currentEra || '0')
     }
   }
 

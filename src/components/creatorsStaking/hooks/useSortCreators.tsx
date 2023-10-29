@@ -4,7 +4,8 @@ import BN from 'bignumber.js'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useBackerInfoBySpaces } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useEraStakesByIds } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { shuffle } from 'lodash'
 
 const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
   data: T,
@@ -17,21 +18,31 @@ const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
     .map(([ key ]) => key)
 }
 
-export const useSortBy = (sortBy: string, spaceIds?: string[], era?: string) => {
+export const useSortBy = (
+  sortBy: string,
+  spaceIds?: string[],
+  era?: string
+) => {
   const myAddress = useMyAddress()
   const backersInfo = useBackerInfoBySpaces(spaceIds, myAddress)
   const eraStakes = useEraStakesByIds(spaceIds, era)
+  const [ shuffledSpaceIds, setShuffledSpaceIds ] = useState<string[]>()
 
   const sortedSpaceIds = useMemo(() => {
     if (!backersInfo || !eraStakes) return spaceIds
-
 
     if (sortBy === 'total-stake') {
       return sortValues(eraStakes, 'totalStaked')
     } else if (sortBy === 'backers') {
       return sortValues(eraStakes, 'backersCount')
-    } else {
+    } else if (sortBy === 'my-stake') {
       return sortValues(backersInfo, 'totalStaked')
+    } else {
+      if (!shuffledSpaceIds?.length) {
+        setShuffledSpaceIds(shuffle(spaceIds))
+      }
+
+      return shuffledSpaceIds
     }
   }, [ sortBy, backersInfo, eraStakes, myAddress ])
 

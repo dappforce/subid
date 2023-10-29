@@ -24,7 +24,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const dispatch = useAppDispatch()
 
   const { ledger, loading } = backerLedger || {}
-  const { currentEra } = eraInfo || {}
+  const { currentEra } = eraInfo?.info || {}
 
   const unbondingChunks = ledger?.unbondingInfo.unbondingChunks
 

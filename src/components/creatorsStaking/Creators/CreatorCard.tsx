@@ -144,14 +144,14 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
         isGrayDecimal={false}
       />
     ) : (
-      <>-</>
+      <>—</>
     )
 
   const aboutText = (
     <div
       className={clsx(
         'flex items-center text-sm',
-        'text-text-muted leading-[22px]',
+        'leading-[22px]',
         'font-normal min-h-[44px] w-full'
       )}
     >
@@ -194,6 +194,17 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
     </a>
   )
 
+  const accountDesc = (
+    <div className='flex flex-col gap-2'>
+      {!!postsCount && postsLink}
+      <ContactInfo
+        className={clsx('text-[#64748B]')}
+        spaceId={spaceId}
+        {...contactInfo}
+      />
+    </div>
+  )
+
   return (
     <>
       <div
@@ -216,9 +227,11 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                     loading={spaceLoading}
                   />
                 }
-                desc={!!postsCount && postsLink}
+                desc={accountDesc}
                 avatar={image}
                 owner={owner}
+                imgSize={66}
+                titleClassName='leading-[20px]'
                 descClassName='p-[1px] leading-none'
                 infoClassName='flex flex-col gap-1'
                 titleRef={cardRef}
@@ -228,20 +241,20 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
                 <Tooltip title='Community chat'>
                   <Button
                     onClick={onChatButtonClick}
-                    variant='primaryOutline'
+                    variant='iconPrimary'
                     size='circle'
-                    className='h-[31px] w-[31px]'
+                    className='h-[20px] w-[20px] !p-0'
                   >
-                    <img src='/images/creator-staking/messenger.svg' alt='' />
+                    <img
+                      src='/images/creator-staking/messenger.svg'
+                      className='h-[20px] w-[20px]'
+                      alt=''
+                    />
                   </Button>
                 </Tooltip>
               </div>
             </div>
-            <ContactInfo
-              className={clsx('text-[#64748B]')}
-              spaceId={spaceId}
-              {...contactInfo}
-            />
+
             {aboutText}
           </div>
           <div className='border-b border-[#D4E2EF]'></div>

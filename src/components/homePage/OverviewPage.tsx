@@ -24,7 +24,7 @@ import { useIdentitiesByAccounts, getSubsocialIdentity } from '../../rtk/feature
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
-import BannerSection from './banner/bannerSection/BannerSection'
+// import BannerSection from './banner/bannerSection/BannerSection'
 import { SubsocialProfile } from '../identity/types'
 
 export type Props = {
@@ -109,10 +109,10 @@ export const AccountInfo = (props: Props) => {
 
   return (
     <Section className={clsx(styles.AccountOverview, !isHomePage ? styles.NotHomePageMargin : 'bs-mb-3')}>
-      {!isMulti && <BannerSection
+      {/* {!isMulti && <BannerSection
         currentAddress={address}
         owner={owner}
-      />}
+      />} */}
 
       <div className={clsx({ ['d-flex align-items-start']: !isMobile }, styles.AccountSection)} >
         <div className={clsx('d-flex justify-content-between')}>

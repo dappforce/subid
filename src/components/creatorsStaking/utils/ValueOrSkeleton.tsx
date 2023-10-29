@@ -18,7 +18,7 @@ const ValueOrSkeleton = ({
   if (!value || loading)
     return <Skeleton className={skeletonClassName} />
 
-  if (!value) return <>-</>
+  if (!value) return <>—</>
 
   return <span {...props} className={className}>{value}</span>
 }

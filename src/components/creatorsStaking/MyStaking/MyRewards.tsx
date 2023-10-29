@@ -97,6 +97,7 @@ const MyRewards = () => {
           skeletonClassName='h-[24px]'
         />
       ),
+      tooltipTitle: 'How many tokens you have staked across all creators',
     },
     {
       title: <>Estimated Rewards, {symbol}</>,
@@ -115,11 +116,13 @@ const MyRewards = () => {
           restake={restake}
         />
       ),
+      tooltipTitle: 'The estimated amount of SUB you have available to claim as staking rewards',
     },
     {
       title: 'Re-Stake After Claiming',
       value: <div className='font-semibold'>{restake ? 'ON' : 'OFF'}</div>,
       button: <RestakeButton restake={restake} setRestake={setRestake} />,
+      tooltipTitle: 'Turning this on will automatically stake your rewards after you claim them',
     },
   ]
 

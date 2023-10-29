@@ -22,7 +22,7 @@ const DashboardCards = ({ creators }: DashboardCardsProps) => {
   const myAddress = useMyAddress()
   const creatorRewards = useCreatorRewards(myAddress)
   const eraInfo = useGeneralEraInfo()
-  const era = eraInfo?.currentEra
+  const era = eraInfo?.info?.currentEra
 
   const spaceIds = creators.map((creator) => creator.id)
   

@@ -83,7 +83,7 @@ type CreatorsSectionInnerProps = {
 const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
   const [ tab, setTab ] = useState(0)
   const myAddress = useMyAddress()
-  const [ sortBy, changeSortBy ] = useState('total-stake')
+  const [ sortBy, changeSortBy ] = useState('default')
   const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } =
     useModalContext()
   const creatorsList = useCreatorsList()
@@ -183,7 +183,7 @@ const CreatorsSection = () => {
   const eraInfo = useGeneralEraInfo()
 
   const creatorsSpaceIds = creatorsList?.map((creator) => creator.id)
-  const currentEra = eraInfo?.currentEra
+  const currentEra = eraInfo?.info?.currentEra
 
   useFetchCreatorsSpaces(creatorsSpaceIds)
   useFetchEraStakes(creatorsSpaceIds, currentEra)

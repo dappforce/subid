@@ -27,6 +27,11 @@ const SortByDropDown = ({
 
   const menus = [
     {
+      key: 'default',
+      text: 'Default',
+      onClick: () => changeSortBy('default'),
+    },
+    {
       key: 'total-stake',
       text: 'Total stake',
       onClick: () => changeSortBy('total-stake'),

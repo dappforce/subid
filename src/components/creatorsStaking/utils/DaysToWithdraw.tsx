@@ -25,7 +25,7 @@ export const useGetOneEraTime = () => {
   const eraInfo = useGeneralEraInfo()
   const { blockTime } = useStakingContext()
 
-  const { blockPerEra } = eraInfo || {}
+  const { blockPerEra } = eraInfo?.info || {}
 
   const timeInEra =
     blockPerEra && blockTime

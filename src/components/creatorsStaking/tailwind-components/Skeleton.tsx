@@ -1,12 +1,13 @@
 import clsx from 'clsx'
+import { ComponentProps } from 'react'
 
-type SkeletonProps = {
+type SkeletonProps = ComponentProps<'div'> & {
   className?: string
 }
 
-const Skeleton = ({ className }: SkeletonProps) => {
+const Skeleton = ({ className, ...props }: SkeletonProps) => {
   return (
-    <div role='status' className={clsx('animate-pulse', className)}>
+    <div {...props} role='status' className={clsx('animate-pulse', className)}>
       <div className={clsx('bg-gray-200 rounded-full opacity-60', className)}></div>
     </div>
   )

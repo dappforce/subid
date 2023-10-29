@@ -168,7 +168,7 @@ const StakingModal = ({
   const generalEraInfo = useGeneralEraInfo()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  const { currentEra } = generalEraInfo || {}
+  const { currentEra } = generalEraInfo?.info || {}
 
   const eraStake = useEraStakesById(spaceId, currentEra)
 

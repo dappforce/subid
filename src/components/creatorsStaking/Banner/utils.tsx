@@ -29,9 +29,10 @@ export const DashboardCard = ({ title, value, desc, infoTitle }: StatsCardProps)
 
 type SubsocialBalanceProps = {
   value: number | string
+  loading?: boolean
 }
 
-export const TotalStakedBalance = ({ value }: SubsocialBalanceProps) => {
+export const TotalStakedBalance = ({ value, loading }: SubsocialBalanceProps) => {
   const chainsInfo = useChainInfo()
 
   const { tokenDecimals, tokenSymbols } = chainsInfo?.subsocial || {}
@@ -47,7 +48,7 @@ export const TotalStakedBalance = ({ value }: SubsocialBalanceProps) => {
     <ValueOrSkeleton
       value={<>{toShortMoney({ num: balanceWithDecimal.toNumber() })} {symbol}</>}
       skeletonClassName='h-[20px] mb-3'
-      loading={value === undefined}
+      loading={loading}
     />
   )
 }
