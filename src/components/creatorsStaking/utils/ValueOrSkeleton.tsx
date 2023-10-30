@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react'
 import Skeleton from '../tailwind-components/Skeleton'
 
-type ValueOrSkeleton = ComponentProps<'span'> & {
+type ValueOrSkeletonType = ComponentProps<'span'> & {
   value?: React.ReactNode
   loading?: boolean
   skeletonClassName?: string
@@ -14,7 +14,7 @@ const ValueOrSkeleton = ({
   skeletonClassName,
   className,
   ...props
-}: ValueOrSkeleton) => {
+}: ValueOrSkeletonType) => {
   if (!value || loading)
     return <Skeleton className={skeletonClassName} />
 

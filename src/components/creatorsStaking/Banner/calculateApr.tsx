@@ -27,7 +27,7 @@ export const useCalculateApr = () => {
       .dividedBy(totalStakedWithDecimal)
       .multipliedBy(backerPercent)
       .multipliedBy(100)
-  }, [ !!info, loading ])
+  }, [ info?.staked || 0 ])
 
   return apr
 }

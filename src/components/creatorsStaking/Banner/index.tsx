@@ -10,6 +10,7 @@ import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
 import { formatTime, useGetOneEraTime } from '../utils/DaysToWithdraw'
 import { useCalculateApr } from './calculateApr'
+import { useMemo } from 'react'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -20,25 +21,34 @@ const TimeInEra = () => {
   return <>{formatTime(timeInEra?.toNumber())}</>
 }
 
-const StatsCards = () => {
-  const generalEraInfo = useGeneralEraInfo()
+const Apr = () => {
   const apr = useCalculateApr()
 
-  const { info, loading } = generalEraInfo || {}
+  return (
+    <ValueOrSkeleton
+      value={apr && `${apr.toFixed(2)}%`}
+      skeletonClassName={skeletonClassName}
+    />
+  )
+}
 
-  const dashboardData = [
+const StatsCards = () => {
+  const generalEraInfo = useGeneralEraInfo()
+
+  const { info, loading } = generalEraInfo ?? {}
+
+  const stakedBalance = info?.staked ?? 0
+
+  const dashboardData = useMemo(() => [
     {
       title: 'Total Staked',
-      value: <TotalStakedBalance value={info?.staked || 0} loading={loading} />,
+      value: <TotalStakedBalance value={stakedBalance} loading={loading} />,
       infoTitle: 'The total amount of tokens staked on the Subsocial network',
     },
     {
       title: 'Estimated APR',
       value: (
-        <ValueOrSkeleton
-          value={apr && `${apr.toFixed(2)}%`}
-          skeletonClassName={skeletonClassName}
-        />
+        <Apr/>
       ),
       infoTitle:
         'An estimate of how much your token balance will increase after a year of staking',
@@ -69,17 +79,16 @@ const StatsCards = () => {
         <ValueOrSkeleton
           value={info?.backerCount}
           skeletonClassName={skeletonClassName}
-          loading={loading}
         />
       ),
       infoTitle: 'The total number of unique accounts currently staking SUB',
     },
-  ]
+  ], [ stakedBalance, info?.currentEra, info?.backerCount ])
 
   return (
     <div className='grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-4'>
-      {dashboardData.map((data, i) => (
-        <DashboardCard key={i} {...data} />
+      {dashboardData.map((data) => (
+        <DashboardCard key={data.title} {...data} />
       ))}
     </div>
   )
