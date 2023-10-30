@@ -40,9 +40,9 @@ function HeadMeta (props: HeadMetaProps) {
   const summary = desc
     ? summarize(desc, { limit: MAX_DESC_LEN })
     : metaTags.desc
-  const img = nonEmptyStr(image)
+  const img = nonEmptyStr(image) && !image?.startsWith('/images')
     ? resolveIpfsUrl(image)
-    : fullUrl(metaTags.defaultImage)
+    : fullUrl(image ?? metaTags.defaultImage)
 
   const optimizedTitle = forceTitle ? title : optimizeTitle(title)
 
