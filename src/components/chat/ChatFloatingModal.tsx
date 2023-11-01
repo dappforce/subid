@@ -123,7 +123,10 @@ export default function ChatFloatingModal ({
         <div className={styles.ChatFloatingWrapper}>
           <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
             <img src='/images/grillchat-white.svg' alt='GrillChat' />
-            <span>Polkadot Chat</span>
+            <span>{isCreatorStakingPage()
+                ? 'Creators Hub'
+                : 'Polkadot Chat'
+            }</span>
           </Button>
           {!!unreadCount && (
             <span className={styles.ChatUnreadCount}>{unreadCount}</span>

@@ -10,6 +10,7 @@ import {
   GenerateGrillConfigParams,
 } from './types'
 import { useChatContext } from '../providers/ChatContext'
+import { isCreatorStakingPage } from '../utils'
 
 const creatorsHubId = '1218'
 
@@ -24,7 +25,10 @@ function generateGrillConfig ({
     enableLoginButton: true,
   }
 
-  const hub = spaceId ? { id: creatorsHubId } : { id: hubId }
+  const isCreatorStaking = isCreatorStakingPage()
+
+  // TODO: remove this hack and improve the config for using hub instead of channel
+  const hub = isCreatorStaking || spaceId ? { id: creatorsHubId } : { id: hubId }
 
   const channel = spaceId
     ? ({
@@ -48,10 +52,12 @@ function generateGrillConfig ({
   return {
     hub,
     rootFontSize: '1rem',
-    channel: {
+    channel: isCreatorStaking && !spaceId
+     ? undefined
+     : {
       ...channel,
       settings: settings,
-    },
+     },
     theme: 'light',
   }
 }
