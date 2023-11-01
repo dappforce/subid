@@ -54,18 +54,9 @@ const StatsCards = () => {
         'An estimate of how much your token balance will increase after a year of staking',
     },
     {
-      title: 'Current Era',
+      title: 'Next Rewards',
       value: (
-        <ValueOrSkeleton
-          value={info?.currentEra}
-          skeletonClassName={skeletonClassName}
-        />
-      ),
-      desc: (
-        <span className='flex normal:items-center items-start normal:flex-row flex-col gap-1'>
-          <span>Next era</span>
           <NextEraStartDate />
-        </span>
       ),
       infoTitle: (
         <>
