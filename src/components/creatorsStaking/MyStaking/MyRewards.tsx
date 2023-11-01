@@ -100,7 +100,7 @@ const MyRewards = () => {
       tooltipTitle: 'How many tokens you have staked across all creators',
     },
     {
-      title: <>Estimated Rewards, {symbol}</>,
+      title: <>My Estimated Rewards, {symbol}</>,
       value: (
         <ValueOrSkeleton
           value={myRewards}
