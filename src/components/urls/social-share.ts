@@ -1,7 +1,5 @@
 import { fullUrl } from '../utils'
 
-const SUBID_TAGS = Array.from(new Set([ 'SubID' ]))
-
 type OptionsType = {
   tags?: string[]
   externalBaseUrl?: string
@@ -19,7 +17,7 @@ export const twitterShareUrl = (
   const result = encodeURI(
     `https://twitter.com/intent/tweet?${textVal}&url=${
       resolvedUrl + '\n\n'
-    }&hashtags=${[ SUBID_TAGS, ...(tags || []) ]}&original_referer=${url}`
+    }&hashtags=${[ ...(tags || []) ]}&original_referer=${url}`
   )
 
   return result.replace(/#/g, '%23')
