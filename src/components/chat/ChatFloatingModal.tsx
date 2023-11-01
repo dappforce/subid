@@ -124,7 +124,7 @@ export default function ChatFloatingModal ({
           <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
             <img src='/images/grillchat-white.svg' alt='GrillChat' />
             <span>{isCreatorStakingPage()
-                ? 'Creators\' Chat'
+                ? 'Creator Chats'
                 : 'Polkadot Chat'
             }</span>
           </Button>
