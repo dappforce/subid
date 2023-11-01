@@ -5,7 +5,7 @@ import {
   StakeOrIncreaseStakeAmountInput,
   UnstakeAmountInput,
 } from './AmountInput'
-import { useEffect, useState, ChangeEvent } from 'react'
+import React, { useEffect, useState, ChangeEvent } from 'react'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
@@ -19,6 +19,8 @@ import Checkbox from '../../tailwind-components/Checkbox'
 import { linkTextStyles } from '../../tailwind-components/LinkText'
 import store from 'store'
 import clsx from 'clsx'
+import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
+import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -165,6 +167,8 @@ const StakingModal = ({
     }
   }, [ open ])
 
+  const stakingConsts = useStakingConsts()
+
   const generalEraInfo = useGeneralEraInfo()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
@@ -245,6 +249,8 @@ const StakingModal = ({
           balanceLabel={balanceLabel}
           modalVariant={modalVariant}
         />
+
+        <DaysToWithdrawWarning unbondingPeriodInEras={stakingConsts?.unbondingPeriodInEras} />
 
         {!betaversionAgreement && (
           <BetaVersionAgreement

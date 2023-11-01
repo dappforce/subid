@@ -1147,6 +1147,10 @@ video {
   border-radius: 20px;
 }
 
+.rounded-\[15px\] {
+  border-radius: 15px;
+}
+
 .rounded-full {
   border-radius: 9999px;
 }

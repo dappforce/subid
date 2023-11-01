@@ -16,7 +16,6 @@ import BN from 'bignumber.js'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { StakingModalVariant } from './StakeModal'
-import DaysToWithdraw from '../../utils/DaysToWithdraw'
 import { useLazyConnectionsContext } from '../../../lazy-connection/LazyConnectionContext'
 
 type CommonAmountInputProps = {
@@ -133,7 +132,7 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
   const stakingConsts = useStakingConsts()
   const { tokenSymbol, decimals, spaceId, setInputError } = props
 
-  const { minimumStakingAmount, unbondingPeriodInEras } = stakingConsts || {}
+  const { minimumStakingAmount } = stakingConsts || {}
 
   const backerInfo = useBackerInfo(spaceId, myAddress)
 
@@ -199,12 +198,6 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
         onMaxAmountClick={onMaxAmountClick}
         validateInput={validateInput}
       />
-
-      <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[20px]'>
-        ℹ️ Unstaking takes about{' '}
-        <DaysToWithdraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
-        you can withdraw
-      </div>
     </div>
   )
 }

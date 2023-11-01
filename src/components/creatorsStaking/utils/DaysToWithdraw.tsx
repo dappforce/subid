@@ -39,7 +39,7 @@ type DaysToUnstakeProps = {
   unbondingPeriodInEras?: string
 }
 
-const DaysToWithdraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
+export const DaysToWithdraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
   const timeInEra = useGetOneEraTime()
 
   const unbondingPeriodInDays = timeInEra?.multipliedBy(
@@ -49,4 +49,11 @@ const DaysToWithdraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
   return <>{formatTime(unbondingPeriodInDays?.toNumber() || 0)}</>
 }
 
-export default DaysToWithdraw
+export const DaysToWithdrawWarning = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
+  return <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[15px]'>
+    ℹ️ Unstaking takes about{' '}
+    <DaysToWithdraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
+    you can withdraw
+  </div>
+}
+
