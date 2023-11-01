@@ -8,18 +8,10 @@ import {
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
-import { formatTime, useGetOneEraTime } from '../utils/DaysToWithdraw'
 import { useCalculateApr } from './calculateApr'
 import { useMemo } from 'react'
 
 const skeletonClassName = 'h-[20px] mb-1'
-
-const TimeInEra = () => {
-  const timeInEra = useGetOneEraTime()
-  if (!timeInEra) return <>-</>
-
-  return <>{formatTime(timeInEra?.toNumber())}</>
-}
 
 const Apr = () => {
   const apr = useCalculateApr()
