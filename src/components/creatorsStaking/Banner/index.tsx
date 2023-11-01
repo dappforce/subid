@@ -60,7 +60,7 @@ const StatsCards = () => {
       ),
       infoTitle: (
         <>
-          Rewards are available at the end of each era, which last <TimeInEra />
+          Time until the next round of rewards is available to claim.
         </>
       ),
     },
