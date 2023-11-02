@@ -27,13 +27,16 @@ export const identityInfoKeys: InfoKeys[] = [
   'twitter',
 ]
 
-export type AccountInfoByChain = {
-  accountId: string
-  totalBalance: string
+export type BalancesStruct = {
   reservedBalance: string
   frozenBalance: string
   freeBalance: string
   lockedBalance: string
+}
+
+export type AccountInfoByChain = BalancesStruct & {
+  accountId: string
+  totalBalance: string
 }
 
 export type AccountInfoItem = {

@@ -3,42 +3,32 @@ import { BalanceEntityRecord } from '../../../rtk/features/balances/balancesSlic
 import { MultiChainInfo } from '../../../rtk/features/multiChainInfo/types'
 import { AccountIdentitiesRecord } from '../../../rtk/features/identities/identitiesSlice'
 import { TFunction } from 'i18next'
-import { AccountInfoByChain } from 'src/components/identity/types'
+import { AccountInfoByChain, BalancesStruct } from 'src/components/identity/types'
 import BN from 'bignumber.js'
 import {
   AccountPreview,
   AvatarOrSkeleton,
   ChainData,
-  getBalanceWithDecimals,
   getBalances,
+  getBalanceWithDecimals,
   getDecimalsAndSymbol,
   getParentBalances,
   getPrice,
   resolveAccountDataImage,
 } from '../utils'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
-import {
-  convertToBalanceWithDecimal,
-  isDef,
-  nonEmptyArr,
-  pluralize,
-} from '@subsocial/utils'
+import { convertToBalanceWithDecimal, isDef, nonEmptyArr, pluralize, } from '@subsocial/utils'
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import { MutedDiv } from 'src/components/utils/MutedText'
 import clsx from 'clsx'
 import styles from '../Table.module.sass'
-import { SubIcon, convertAddressToChainFormat } from 'src/components/utils'
+import { convertAddressToChainFormat, SubIcon } from 'src/components/utils'
 import { LinksButton } from '../links/Links'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
-import {
-  allowedTokensByNetwork,
-  decodeTokenId,
-  encodeTokenId,
-  getBalancePart,
-} from './utils'
+import { allowedTokensByNetwork, decodeTokenId, encodeTokenId, getBalancePart, } from './utils'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -300,11 +290,9 @@ export const parseTokenCentricView = async ({
 
   const balancesInfo = result.filter(isDef).flat()
 
-  const balancesInfoSorted = balancesInfo.sort((a, b) =>
-    b.totalTokensValue.minus(a.totalTokensValue).toNumber()
+  return balancesInfo.sort((a, b) =>
+      b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
-
-  return balancesInfoSorted
 }
 
 type BalanceByToken = {
@@ -370,16 +358,6 @@ function parseBalancesByToken (
   return { balancesByToken, tokenIds }
 }
 
-type AccountDataKeys = keyof Omit<Balances, 'totalBalance'>
-
-type Balances = {
-  totalBalance: string
-  reservedBalance: string
-  frozenFee: string
-  freeBalance: string
-  frozenMisc: string
-}
-
 type GetChildrenBalanceParams = {
   balancesByNetwork: Record<string, AccountInfoByChain>
   isMulti?: boolean
@@ -433,17 +411,8 @@ function getChildrenBalances ({
 
     const childrenBalances: any = {}
 
-    const otherBalancesBN: {
-      [key in AccountDataKeys]: BN
-    } = {} as any
-
-    Object.entries(otherBalances).forEach(
-      ([ key, value ]) =>
-        (otherBalancesBN[key as AccountDataKeys] = new BN(value || '0'))
-    )
-
     const accountData = getAccountDataRows({
-      ...otherBalancesBN,
+      ...otherBalances,
       t,
       price: <></>,
       priceValue,
@@ -523,31 +492,27 @@ function getChildrenBalances ({
   return { children: result.filter(isDef), networkIcons }
 }
 
-type GetAccountDataValuesParams = {
-  reservedBalance: BN
-  frozenFee: BN
-  freeBalance: BN
-  frozenMisc: BN
+type GetAccountDataValuesParams = BalancesStruct & {
   t: TFunction
 }
 
 function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
-  const { reservedBalance, frozenFee, freeBalance, frozenMisc } = info
+  const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info
 
   const transferableBalance = new BN(freeBalance || 0)
-    .minus(new BN(frozenMisc || frozenFee || 0))
+    .minus(new BN(frozenBalance || 0))
     .toString()
 
   return [
     {
       key: 'frozen',
       label: t('table.balances.frozen'),
-      value: frozenFee?.toString() || '0',
+      value: frozenBalance?.toString() || '0',
     },
     {
       key: 'locked',
       label: t('table.balances.locked'),
-      value: frozenMisc?.toString() || '0',
+      value: lockedBalance?.toString() || '0',
     },
     {
       key: 'reserved',
@@ -584,44 +549,42 @@ function getAccountDataRows ({
     ...accountDataValuesParams,
   })
 
-  const accountDataArray = accountDataValues.map(
-    ({ key, label, value }: any) => {
-      const valueWithDecimal = getBalanceWithDecimals({
-        totalBalance: value,
-        decimals: decimal,
-      })
+  return accountDataValues.map(
+      ({ key, label, value }: any) => {
+        const valueWithDecimal = getBalanceWithDecimals({
+          totalBalance: value,
+          decimals: decimal,
+        })
 
-      const { total, totalValue, balance } = getBalances({
-        balanceValue: valueWithDecimal,
-        priceValue,
-        symbol: tokenId,
-        t,
-      })
+        const { total, totalValue, balance } = getBalances({
+          balanceValue: valueWithDecimal,
+          priceValue,
+          symbol: tokenId,
+          t,
+        })
 
-      const chain = (
-        <div className='d-flex align-items-center'>
-          <BaseAvatar size={24} avatar={resolveAccountDataImage(key)} />
-          <div>{label}</div>
-        </div>
-      )
+        const chain = (
+            <div className='d-flex align-items-center'>
+              <BaseAvatar size={24} avatar={resolveAccountDataImage(key)}/>
+              <div>{label}</div>
+            </div>
+        )
 
-      return {
-        key,
-        chain: (
-          <MutedDiv
-            className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
-          >
-            {chain}
-          </MutedDiv>
-        ),
-        balance: <span className='bs-mr-4'>{balance}</span>,
-        price,
-        total,
-        totalValue,
-        className: styles.Children,
+        return {
+          key,
+          chain: (
+              <MutedDiv
+                  className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
+              >
+                {chain}
+              </MutedDiv>
+          ),
+          balance: <span className='bs-mr-4'>{balance}</span>,
+          price,
+          total,
+          totalValue,
+          className: styles.Children,
+        }
       }
-    }
   )
-
-  return accountDataArray
 }
