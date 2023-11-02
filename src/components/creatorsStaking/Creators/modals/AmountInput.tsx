@@ -4,7 +4,7 @@ import Input from '../../tailwind-components/inputs/Input'
 import Button from '../../tailwind-components/Button'
 import { useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { getTransferableBalance } from 'src/utils/balance'
+import { calculateBalanceForStaking } from 'src/utils/balance'
 import { BN_ZERO } from '@polkadot/util'
 import {
   balanceWithDecimal,
@@ -54,7 +54,7 @@ export const StakeOrIncreaseStakeAmountInput = (
   })
 
   const availableBalance = balancesByCurrency
-    ? getTransferableBalance(balancesByCurrency)
+    ? calculateBalanceForStaking(balancesByCurrency, 'crestake')
     : BN_ZERO
 
   const onMaxAmountClick = async () => {
