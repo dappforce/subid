@@ -9,7 +9,6 @@ import UnlocksModal from './modals/UnlocksModal'
 import { isEmptyArray } from '@subsocial/utils'
 import { FiUnlock, FiLock } from 'react-icons/fi'
 import { BiWallet, BiCheckCircle } from 'react-icons/bi'
-import { AiOutlineUserSwitch } from 'react-icons/ai'
 import { SubIcon, getTokenDecimals, getTokenSymbol } from '../../../utils/index'
 import { getUnlockingData } from './modals/UnlocksModal'
 import { useChainInfo } from '../../../../rtk/features/multiChainInfo/multiChainInfoHooks'
@@ -107,11 +106,11 @@ const ActionsPannel = ({ network }: ActionsPannelProps) => {
       onClick: () => onButtonClick('validators'),
       isVisible: true
     },
-    {
-      label: <><SubIcon Icon={AiOutlineUserSwitch} /> {t('validatorStaking.stakingScreen.actionsPannel.controllerAccount')}</>,
-      onClick: () => onButtonClick('controller'),
-      isVisible: true
-    }
+    // {
+    //   label: <><SubIcon Icon={AiOutlineUserSwitch} /> {t('validatorStaking.stakingScreen.actionsPannel.controllerAccount')}</>,
+    //   onClick: () => onButtonClick('controller'),
+    //   isVisible: true
+    // }
   ]
 
   const actionButtons = actionButtonsOpt.map(({ label, onClick, isVisible }, i) => 
