@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { ComponentProps, useEffect } from 'react'
-import grill, { GrillConfig } from '@subsocial/grill-widget'
+import { ComponentProps, useEffect, useState } from 'react'
+import grill, { Grill, GrillConfig } from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 import useWrapInRef from '../../hooks/useWrapInRef'
 import { Resource } from '@subsocial/resource-discussions'
@@ -73,6 +73,7 @@ export default function ChatIframe ({
   const sendEvent = useSendEvent()
   const sendEventRef = useWrapInRef(sendEvent)
   const { spaceId, metadata } = useChatContext()
+  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
     const config = generateGrillConfig({ spaceId, metadata })
@@ -92,15 +93,38 @@ export default function ChatIframe ({
           onUnreadCountChange(count)
         }
       : undefined
-    if (listener) {
-      grill.addUnreadCountListener(listener)
+    const eventListener: Grill['eventListeners'][number] = (eventName, value) => {
+      if (eventName === 'unread' && parseInt(value)) listener?.(parseInt(value))
+      if (eventName === 'isUpdatingConfig') {
+        if (value === 'true') {
+          setIsLoading(true)
+        } else if (value === 'false') {
+          setIsLoading(false)
+        }
+      }
     }
-    grill.init(config)
+    grill.addUnreadCountListener(eventListener)
+
+    if (grill.instances['grill']) {
+      grill.setConfig(config)
+    } else {
+      grill.init(config)
+    }
 
     return () => {
-      if (listener) grill.removeUnreadCountListener(listener)
+      if (listener) grill.removeUnreadCountListener(eventListener)
     }
   }, [ spaceId ])
 
-  return <div {...props} id='grill' className={clsx(props.className)} />
+  return (
+    <div
+      {...props}
+      id='grill'
+      className={clsx(
+        props.className, 
+        'transition-opacity',
+        !isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      )}
+    />
+  )
 }
