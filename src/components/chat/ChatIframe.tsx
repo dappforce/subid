@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { ComponentProps, useEffect, useState } from 'react'
-import grill, { Grill, GrillConfig, GrillEventListener } from '@subsocial/grill-widget'
+import grill, { GrillConfig, GrillEventListener } from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 import useWrapInRef from '../../hooks/useWrapInRef'
 import { Resource } from '@subsocial/resource-discussions'
