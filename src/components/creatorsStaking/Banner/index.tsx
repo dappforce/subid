@@ -43,7 +43,7 @@ const StatsCards = () => {
         <Apr/>
       ),
       infoTitle:
-        'An estimate of how much your token balance will increase after a year of staking',
+        'An estimate of how much your token balance will increase after a year of staking, regardless of which creator you stake to',
     },
     {
       title: 'Next Rewards',
