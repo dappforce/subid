@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import StakeActionButtons from './StakeActionButtons'
 import { useCreatorSpaceById } from '../../../rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
 import TruncatedText from '../tailwind-components/TruncateText'
-import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
@@ -19,6 +18,7 @@ import { useChatContext } from 'src/components/providers/ChatContext'
 import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
+// import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 
 type CreatorNameProps = {
   name?: string
@@ -99,11 +99,14 @@ type CreatorCardProps = {
   era?: string
 }
 
-const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
+const CreatorCard = ({
+  spaceId,
+  // era
+}: CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const eraStake = useEraStakesById(spaceId, era)
+  // const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ openAboutModal, setOpenAboutModal ] = useState(false)
@@ -113,10 +116,10 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null)
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
-  const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
+  // const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: backerInfoLoading } = backerInfo || {}
 
-  const { backersCount, totalStaked: total } = eraStakeInfo || {}
+  // const { backersCount, totalStaked: total } = eraStakeInfo || {}
   const { totalStaked } = info || {}
 
   const isStake = totalStaked === '0'
@@ -126,14 +129,14 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const owner = ownedByAccount?.id
 
-  const totalStake = (
-    <FormatBalance
-      value={total || '0'}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  )
+  // const totalStake = (
+  //   <FormatBalance
+  //     value={total || '0'}
+  //     decimals={decimal}
+  //     currency={tokenSymbol}
+  //     isGrayDecimal={false}
+  //   />
+  // )
 
   const myStake =
     totalStaked && !isStake ? (
@@ -264,7 +267,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
               value={myStake}
               loading={backerInfoLoading}
             />
-            <CreatorCardValue
+            {/* <CreatorCardValue
               label='Total stake'
               value={totalStake}
               loading={eraStakeLoading}
@@ -273,7 +276,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
               label='Stakers'
               value={backersCount || '0'}
               loading={eraStakeLoading}
-            />
+            /> */}
           </div>
         </div>
         <StakeActionButtons
