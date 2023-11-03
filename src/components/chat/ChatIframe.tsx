@@ -105,7 +105,7 @@ export default function ChatIframe ({
     }
     grill.addUnreadCountListener(eventListener)
 
-    if (document.contains(grill.instances['grill'].iframe)) {
+    if (document.contains(grill.instances?.['grill']?.iframe)) {
       grill.setConfig(config)
     } else {
       grill.init(config)
