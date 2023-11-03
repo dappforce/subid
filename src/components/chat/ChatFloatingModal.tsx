@@ -34,8 +34,6 @@ export default function ChatFloatingModal ({
     const close = (e: any) => {
       if (e.keyCode === 27) {
         setOpen(false)
-        setSpaceId(undefined)
-        setMetadata(undefined)
       }
     }
 
@@ -64,11 +62,6 @@ export default function ChatFloatingModal ({
     sendEvent(event)
 
     const nextStateOpen = !open
-
-    if (!nextStateOpen) {
-      setSpaceId(undefined)
-      setMetadata(undefined)
-    }
     
     setOpen(nextStateOpen)
 
@@ -100,8 +93,6 @@ export default function ChatFloatingModal ({
               className={clsx(styles.ChatOverlay)}
               onClick={() => {
                 setOpen(false)
-                setSpaceId(undefined)
-                setMetadata(undefined)
               }}
             />
             <div className={clsx(styles.ChatContent)}>
@@ -121,7 +112,11 @@ export default function ChatFloatingModal ({
       )}
       {createPortal(
         <div className={styles.ChatFloatingWrapper}>
-          <Button className={styles.ChatFloatingButton} onClick={toggleChat}>
+          <Button className={styles.ChatFloatingButton} onClick={() => {
+            setSpaceId(undefined)
+            setMetadata(undefined)
+            toggleChat()
+          }}>
             <img src='/images/grillchat-white.svg' alt='GrillChat' />
             <span>{isCreatorStakingPage()
                 ? 'Creator Chats'
