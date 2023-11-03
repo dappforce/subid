@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select } from '@redux-saga/core/effects'
+import { call, put, takeLeading, select } from '@redux-saga/core/effects'
 import { log } from '../../../app/util'
 import { 
   GeneralEraInfo, 
@@ -16,6 +16,7 @@ export function* fetchGeneeralEraInfoWorker (action: PayloadAction<GeneralEraInf
 
   try {
     const selectedData: GeneralErainfoEntity = yield select(selectGeneralEraInfo)
+    console.log('selectedData', selectedData)
 
     if(!selectedData?.info || reload) {
       const response: GeneralEraInfo | undefined = yield call(getGeneralEraInfo)
@@ -32,5 +33,5 @@ export function* fetchGeneeralEraInfoWorker (action: PayloadAction<GeneralEraInf
 }
 
 export function* watchGeneralEraInfo () {
-  yield takeLatest(generalEraInfoActions.fetchGeneralEraInfo.type, fetchGeneeralEraInfoWorker)
+  yield takeLeading(generalEraInfoActions.fetchGeneralEraInfo.type, fetchGeneeralEraInfoWorker)
 }
