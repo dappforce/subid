@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { ComponentProps, useEffect, useState } from 'react'
-import grill, { Grill, GrillConfig } from '@subsocial/grill-widget'
+import grill, { Grill, GrillConfig, GrillEventListener } from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 import useWrapInRef from '../../hooks/useWrapInRef'
 import { Resource } from '@subsocial/resource-discussions'
@@ -93,7 +93,7 @@ export default function ChatIframe ({
           onUnreadCountChange(count)
         }
       : undefined
-    const eventListener: Grill['eventListeners'][number] = (eventName, value) => {
+    const eventListener: GrillEventListener = (eventName, value) => {
       if (eventName === 'unread' && parseInt(value)) listener?.(parseInt(value))
       if (eventName === 'isUpdatingConfig') {
         if (value === 'true') {
