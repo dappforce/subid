@@ -103,7 +103,7 @@ export default function ChatIframe ({
         }
       }
     }
-    grill.addUnreadCountListener(eventListener)
+    grill.addMessageListener(eventListener)
 
     if (document.contains(grill.instances?.['grill']?.iframe)) {
       grill.setConfig(config)
@@ -112,7 +112,7 @@ export default function ChatIframe ({
     }
 
     return () => {
-      if (listener) grill.removeUnreadCountListener(eventListener)
+      if (listener) grill.removeMessageListener(eventListener)
     }
   }, [ spaceId ])
 
