@@ -50,6 +50,8 @@ type ParseCrowdloanTableInfoProps = {
   sendEvent: (event: string, properties?: Record<string, any>) => void
 }
 
+const excludeParaId = [ '2002' ]
+
 const LINE = <MutedDiv>−</MutedDiv>
 
 const parseContributions = (paraId: string, balances: CrowdloanContributions, priceValue: string, symbol: string, decimals: number, t: TFunction) => {
@@ -106,6 +108,9 @@ export const parseCrowdloansTableInfo = ({
 
   const crowdloans = crowdloansInfo.map((crowdloan) => {
     const { paraId, isCapped, isWinner, isEnded, raised, cap } = crowdloan
+
+    console.log(paraId, excludeParaId.includes(paraId.toString()))
+    if(excludeParaId.includes(paraId.toString())) return
 
     const networkNameByParaId = networkByParaId[`${paraId}-${relayChain}`]
     const { name, icon } = chainsInfo[networkNameByParaId]
@@ -182,7 +187,6 @@ export const parseCrowdloansTableInfo = ({
     const capValue = cap ? getBalanceWithDecimals({ totalBalance: new BN(cap).toString(), decimals }) : BIGNUMBER_ZERO
 
     const raisedPercent = raisedValue.dividedBy(capValue).multipliedBy(new BN(100))
-
     const statusValue = isDef(isCapped) && isDef(isWinner) && isDef(isEnded) 
       ? getCrowdloanStatus(isCapped, isWinner, isEnded) 
       : 'Ended'
@@ -338,7 +342,7 @@ export const parseCrowdloansTableInfo = ({
     }
   })
 
-  const flatCrowdloans = crowdloans.flat()
+  const flatCrowdloans = crowdloans.filter(isDef).flat()
 
   const [ activeCrowdloans, winnerCrowdloans ] = partition(flatCrowdloans, (x) => x.statusValue === 'Active')
 

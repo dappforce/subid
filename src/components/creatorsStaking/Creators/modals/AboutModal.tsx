@@ -3,11 +3,6 @@ import Modal from '../../tailwind-components/Modal'
 import StakeActionButtons from '../StakeActionButtons'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
-import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
-import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { pluralize } from '@subsocial/utils'
-import { FormatBalance } from 'src/components/common/balances'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
 import { useResponsiveSize } from 'src/components/responsive'
 
@@ -29,42 +24,16 @@ const AboutModal = ({
   setAmount,
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const generalEraInfo = useGeneralEraInfo()
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const { isMobile } = useResponsiveSize()
 
-  const { currentEra } = generalEraInfo?.info || {}
-
-  const eraStake = useEraStakesById(spaceId, currentEra)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const { space } = creatorSpaceEntity || {}
-  const { info } = eraStake || {}
 
   const { name, ownedByAccount, image, about } = space || {}
-  const { backersCount, totalStaked } = info || {}
 
   const owner = ownedByAccount?.id
-
-  const totalValue = (
-    <FormatBalance
-      value={totalStaked || '0'}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  )
-
-  const desc = (
-    <>
-      {pluralize({
-        count: backersCount || '0',
-        singularText: 'staker',
-      })}{' '}
-      · {totalValue} staked
-    </>
-  )
 
   return (
     <>
@@ -80,7 +49,6 @@ const AboutModal = ({
         <div className='flex flex-col md:gap-6 gap-4'>
           <CreatorPreview
             title={name}
-            desc={desc}
             imgSize={isMobile ? 60 : 80}
             avatar={image}
             owner={owner}

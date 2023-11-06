@@ -9,9 +9,6 @@ import React, { useEffect, useState, ChangeEvent } from 'react'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
-import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
-import { pluralize } from '@subsocial/utils'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../../utils/CreatorPreview'
 import { useResponsiveSize } from 'src/components/responsive'
@@ -169,18 +166,11 @@ const StakingModal = ({
 
   const stakingConsts = useStakingConsts()
 
-  const generalEraInfo = useGeneralEraInfo()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  const { currentEra } = generalEraInfo?.info || {}
-
-  const eraStake = useEraStakesById(spaceId, currentEra)
-
   const { space } = creatorSpaceEntity || {}
-  const { info } = eraStake || {}
 
   const { name, ownedByAccount, image } = space || {}
-  const { backersCount, totalStaked } = info || {}
 
   const owner = ownedByAccount?.id
 
@@ -192,25 +182,6 @@ const StakingModal = ({
     actionButton,
     amountInput,
   } = modalData[modalVariant]
-
-  const totalValue = (
-    <FormatBalance
-      value={totalStaked || '0'}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  )
-
-  const desc = (
-    <>
-      {pluralize({
-        count: backersCount || '0',
-        singularText: 'staker',
-      })}{' '}
-      · {totalValue} staked
-    </>
-  )
 
   const StakingTxButton = actionButton
 
@@ -229,7 +200,6 @@ const StakingModal = ({
       <div className='flex flex-col md:gap-6 gap-4'>
         <CreatorPreview
           title={name}
-          desc={desc}
           imgSize={isMobile ? 60 : 80}
           avatar={image}
           owner={owner}
