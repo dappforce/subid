@@ -31,16 +31,16 @@ const SortByDropDown = ({
       text: 'Default',
       onClick: () => changeSortBy('default'),
     },
-    {
-      key: 'total-stake',
-      text: 'Total stake',
-      onClick: () => changeSortBy('total-stake'),
-    },
-    {
-      key: 'backers',
-      text: 'Stakers',
-      onClick: () => changeSortBy('backers'),
-    },
+    // {
+    //   key: 'total-stake',
+    //   text: 'Total stake',
+    //   onClick: () => changeSortBy('total-stake'),
+    // },
+    // {
+    //   key: 'backers',
+    //   text: 'Stakers',
+    //   onClick: () => changeSortBy('backers'),
+    // },
     {
       key: 'my-stake',
       text: 'My stake',
