@@ -7,9 +7,9 @@ import store from 'store'
 import clsx from 'clsx'
 import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 
-const BANNER_STORAGE_KEY = 'df.open_comm_banner'
+const BANNER_STORAGE_KEY = 'df.creator_staking_banner'
 
-export const ProposalBannerSection = () => {
+export const CreatorStakingBannerSection = () => {
   const { isMobile } = useResponsiveSize()
 
   const bannerFromStorage = store.get(BANNER_STORAGE_KEY)
@@ -20,8 +20,8 @@ export const ProposalBannerSection = () => {
 
   if (!showBanner) return null
 
-  const backgroundImage = `/images/banners/open-comm-${
-    isMobile ? 'mobile.png' : 'desktop.jpg'
+  const backgroundImage = `/images/banners/creator-staking-${
+    isMobile ? 'mobile.png' : 'desktop.png'
   }`
 
   const closeBanner = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -47,9 +47,9 @@ export const ProposalBannerSection = () => {
 const ProposalBanner = () => {
   const sendEvent = useBuildSendEvent('click_opencomm_banner')
 
-  return <Link href='https://polkadot.polkassembly.io/referenda/119' legacyBehavior>
+  return <Link href='https://sub.id/creators' legacyBehavior>
     <a target='_blank' rel='noreferrer' onClick={sendEvent}>
-      <ProposalBannerSection />
+      <CreatorStakingBannerSection />
     </a>
   </Link>
 }

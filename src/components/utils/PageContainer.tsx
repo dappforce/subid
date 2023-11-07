@@ -1,4 +1,4 @@
-import React, { useEffect, FC,/* , useMemo */ } from 'react'
+import React, { useEffect, FC, useMemo } from 'react'
 import {
   getAddressFromStorage } from '../utils/index'
 import { PageContent } from './PageWrapper'
@@ -16,7 +16,7 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
 const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
-// const ProposalBanner = dynamic(import('./banners/ProposalBanner/index'), { ssr: false })
+const CreatorStakingBanner = dynamic(import('./banners/CreatorStakingBanner/index'), { ssr: false })
 
 type PageContainerProps = {
   isHomePage?: boolean
@@ -50,7 +50,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
 
   }, [ addressFromStorage, isSignIn ])
 
-  // const banner = useMemo(() => <ProposalBanner />, [])
+  const banner = useMemo(() => <CreatorStakingBanner />, [])
     
   if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
     <div className='layout-wrapper'>
@@ -66,7 +66,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
         {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
           ? <NoData description='Address is not valid' />
           : <>
-            {/* {isHomePage && banner} */}
+            {isHomePage && banner}
             <AccountInfo
               addresses={addresses}
               addressFromStorage={addressFromStorage}
