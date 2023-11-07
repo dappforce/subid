@@ -7,6 +7,9 @@
   display: flex
   padding: 0.313rem
 
+  span
+    margin-right: 0 !important
+
 .TableActionButtons
   display: flex
   align-items: center
@@ -14,3 +17,15 @@
 
 .MenuStyles
   min-width: 176px
+  border-right: none !important
+  border-radius: $border_radius_normal
+  overflow: hidden
+
+  \:global .ant-menu-item-selected
+    path
+      fill: $color_primary
+
+  li
+    &:hover
+      path
+        fill: $color_primary

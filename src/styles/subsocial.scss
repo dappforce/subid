@@ -329,6 +329,12 @@ a {
 
 .ant-btn {
   border-radius: $border_radius_large;
+
+  &:hover {
+    path {
+      fill: $color_primary;
+    } 
+  }
 }
 .ant-btn-sm {
   border-radius: $border_radius_normal;

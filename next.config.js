@@ -26,6 +26,11 @@ const nextConfig = {
 
     config.module.rules.push(
       {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.(raw)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: 'raw-loader',
       },
@@ -33,18 +38,6 @@ const nextConfig = {
         test: /\.md$/,
         use: ['html-loader', 'markdown-loader'],
       },
-      {
-        test: /\.(png|svg|eot|otf|ttf|woff|woff2|gif)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 8192,
-            publicPath: '/_next/static/',
-            outputPath: 'static/',
-            name: '[name].[ext]',
-          },
-        },
-      }
     )
 
     return config

@@ -11,6 +11,8 @@ import {
   LineChartOutlined,
   MenuOutlined,
 } from '@ant-design/icons'
+import TokenCentricIcon from '@/assets/icons/token-centric.svg'
+import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
 
 type LabelWithIconProps = {
   label: string
@@ -37,7 +39,7 @@ export const balanceVariantsOpt = [
     label: (
       <LabelWithIcon
         label={'Chain-centric'}
-        iconSrc={'/images/icons/chain-centric.svg'}
+        iconSrc={<ChainCentricIcon />}
       />
     ),
     key: 'chains',
@@ -46,7 +48,7 @@ export const balanceVariantsOpt = [
     label: (
       <LabelWithIcon
         label={'Tokens-centric'}
-        iconSrc={'/images/icons/token-centric.svg'}
+        iconSrc={<TokenCentricIcon />}
       />
     ),
     key: 'tokens',

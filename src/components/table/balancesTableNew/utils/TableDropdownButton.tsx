@@ -16,7 +16,7 @@ const MenuItems = ({
 }: MenuItemsProps) => (
   <Menu
     className={className}
-    defaultValue={defaultValue}
+    defaultSelectedKeys={[defaultValue]}
     onClick={(item) => onClick?.(item.key.toString())}
   >
     {items.map(({ key, label }) => (
