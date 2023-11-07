@@ -335,6 +335,12 @@ a {
       fill: $color_primary;
     } 
   }
+  
+  &:focus {
+    path {
+      fill: $color_primary;
+    } 
+  }
 }
 .ant-btn-sm {
   border-radius: $border_radius_normal;

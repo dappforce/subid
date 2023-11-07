@@ -8,13 +8,11 @@ import { RelayChain } from '../../types'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { useDotsamaContributions } from 'src/rtk/features/contributions/contributionsHooks'
-import { useFetchNfts } from 'src/rtk/features/nfts/nftsHooks'
 
 const CrowdloansTable = dynamic(() => import('../table/contributionsTable/CrowdloanTable'), { ssr: false })
 
 const CrowdloanPage: NextPage = () => {
   useDotsamaContributions()
-  useFetchNfts()
   
   const addresses = useCurrentAccount()
   const chainsInfo = useChainInfo()

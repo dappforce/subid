@@ -5,7 +5,6 @@ import { useCurrentAccount } from '../providers/MyExtensionAccountsContext'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { useFetchBalances } from 'src/rtk/features/balances/balancesHooks'
-import { useFetchNfts } from 'src/rtk/features/nfts/nftsHooks'
 
 const BalancesTable = dynamic(
   () => import('../table/balancesTable/BalanceTable'),
@@ -14,7 +13,6 @@ const BalancesTable = dynamic(
 
 const BalancesPage: NextPage = () => {
   useFetchBalances()
-  useFetchNfts()
 
   const addresses = useCurrentAccount()
   const chainsInfo = useChainInfo()

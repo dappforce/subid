@@ -10,7 +10,7 @@ import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import store from 'store'
 import { MutedSpan } from '../utils/MutedText'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
-import { fetchNfts, useManyNfts } from '../../rtk/features/nfts/nftsHooks'
+import { fetchNfts, useFetchNfts, useManyNfts } from '../../rtk/features/nfts/nftsHooks'
 import { Nft } from '../../rtk/features/nfts/types'
 import { useAppDispatch } from '../../rtk/app/store'
 import { useIdentitiesByAccounts } from '../../rtk/features/identities/identitiesHooks'
@@ -106,6 +106,8 @@ type NftsLayoutProps = {
 }
 
 const NtfLayout = ({ addresses }: NftsLayoutProps) => {
+  useFetchNfts()
+  
   const [ page, setPage ] = useState<number>(DEFAULT_PAGE)
   const isMulti = useIsMulti()
   const { isMobile } = useResponsiveSize()
