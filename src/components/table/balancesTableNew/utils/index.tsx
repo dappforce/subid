@@ -24,7 +24,7 @@ const LabelWithIcon = ({ label, iconSrc }: LabelWithIconProps) => {
     <div className={'d-flex align-items-center'}>
       <div className={clsx(styles.IconCircle, 'bs-mr-2')}>
         {typeof iconSrc === 'string' ? (
-          <Image src={iconSrc} alt='' height={14} width={14} />
+          <Image src={iconSrc} alt='' height={16} width={16} />
         ) : (
           iconSrc
         )}
@@ -57,15 +57,15 @@ export const balanceVariantsOpt = [
 
 export const balancesViewOpt = [
   {
-    label: <LabelWithIcon iconSrc={<MenuOutlined />} label={'Table'} />,
+    label: <LabelWithIcon iconSrc={<MenuOutlined width={16} />} label={'Table'} />,
     key: 'table',
   },
   {
-    label: <LabelWithIcon iconSrc={<AppstoreOutlined />} label={'Cards'} />,
+    label: <LabelWithIcon iconSrc={<AppstoreOutlined width={16} />} label={'Cards'} />,
     key: 'cards',
   },
   {
-    label: <LabelWithIcon iconSrc={<LineChartOutlined />} label={'Chart'} />,
+    label: <LabelWithIcon iconSrc={<LineChartOutlined width={16} />} label={'Chart'} />,
     key: 'pie',
   },
 ]
