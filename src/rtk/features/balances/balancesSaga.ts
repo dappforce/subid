@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from '@redux-saga/core/effects'
 import {
-  getAccountInfo,
   getAccountBalancesByNetwork,
+  getAccountBalances,
 } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
@@ -32,7 +32,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
       let balances = balancesEntity?.balances
 
       if (isEmptyEntity(balances) || reload) {
-        balances = yield call(getAccountInfo, account)
+        balances = yield call(getAccountBalances, account)
       }
 
       return {
