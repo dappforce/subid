@@ -79,8 +79,6 @@ export const useGetTableData = (
 
   const balancesLoading = isDataLoading(balancesEntities)
 
-  console.log(balancesLoading)
-
   const data = useMemo(() => {
     if (!addresses || !chainsInfo) return []
     setLoading(true)
