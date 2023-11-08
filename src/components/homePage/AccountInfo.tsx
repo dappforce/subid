@@ -1,7 +1,6 @@
 import React from 'react'
 import { MutedDiv } from '../utils/MutedText'
 import Section from '../utils/Section'
-import Name from './address-views/Name'
 import { CopyAddress } from './address-views/utils'
 import { LARGE_AVATAR_SIZE } from '../utils/Size.config'
 import { toShortAddress, convertAddressToChainFormat } from '../utils/index'
@@ -26,6 +25,7 @@ import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
 import { SubsocialProfile } from '../identity/types'
 import { Overview } from '../overview/Overview'
+import NameWithIdentity from './NameWithIdentity'
 
 export type Props = {
   addresses?: string[]
@@ -136,6 +136,13 @@ export const AccountInfo = (props: Props) => {
     />
   )
 
+  const name =
+    address || isMulti === false ? (
+      <NameWithIdentity address={address} addresses={addresses} />
+    ) : (
+      t('general.allAccounts')
+    )
+
   return (
     <Section
       className={clsx(
@@ -161,14 +168,7 @@ export const AccountInfo = (props: Props) => {
                 'header DfAccountTitle justify-content-between'
               )}
             >
-              {address || isMulti === false ? (
-                <Name
-                  identities={identities}
-                  address={address || addressFromStorage}
-                />
-              ) : (
-                t('general.allAccounts')
-              )}
+              {name}
               {!isMobile && actionButtons}
             </h1>
             {addressView}

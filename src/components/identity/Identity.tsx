@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, Tooltip } from 'antd'
 import { isDef } from '@subsocial/utils'
-import { identityInfoKeys, IdentityBareProps, Identity, AccountIdentities } from './types'
+import {
+  identityInfoKeys,
+  IdentityBareProps,
+  Identity,
+  AccountIdentities,
+} from './types'
 import { getIconUrl, startWithUpperCase } from '../utils'
 import { getKusamaItem } from './utils'
 import styles from './Identity.module.sass'
-import { InfoPanel, InfoPanelProps } from '../homePage/address-views/InfoSection/index'
+import {
+  InfoPanel,
+  InfoPanelProps,
+} from '../homePage/address-views/InfoSection/index'
 import { DfBgImg } from '../utils/DfBgImg'
 import { CheckCircleFilled } from '@ant-design/icons'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
@@ -28,11 +36,15 @@ type IdentityProps = IdentityBareProps & {
 type TabNameWithLogoProps = {
   network: string
   isVerify: boolean
+  showLabel?: boolean
 }
 
 const VerifiedIcon = <CheckCircleFilled className={styles.VerifiedIcon} />
 
-export const IdentityTitle = ({ isVerify, network }: TabNameWithLogoProps) => {
+export const IdentityTitle = ({
+  isVerify,
+  network,
+}: Omit<TabNameWithLogoProps, 'showLabel'>) => {
   const title = (
     <div>
       {isVerify ? (
@@ -49,24 +61,30 @@ export const IdentityTitle = ({ isVerify, network }: TabNameWithLogoProps) => {
   return <span className={styles.TitleText}>{title}</span>
 }
 
-const TabNameWithLogo = ({ network, isVerify }: TabNameWithLogoProps) => {
-  const chains = useChainInfo()
-  const chainIcon = chains[network].icon
+export const IdentityPreview = ({
+  network,
+  isVerify,
+  showLabel = true,
+}: TabNameWithLogoProps) => {
+  const chainsInfo = useChainInfo()
+  const chainIcon = chainsInfo[network].icon
   const imgUrl = getIconUrl(chainIcon)
 
   return (
-    <div className='d-flex'>
+    <div className={styles.IdentityPreview}>
       <Tooltip
         placement='top'
         color='#fafafa'
         title={<IdentityTitle isVerify={isVerify} network={network} />}
       >
-        <span className={`${styles.IdentityIcon} ${isVerify ? styles.verified : ''}`}>
+        <span
+          className={clsx(styles.IdentityIcon, { [styles.verified]: isVerify })}
+        >
           <DfBgImg src={imgUrl} size={16} rounded />
         </span>
       </Tooltip>
 
-      <span>{startWithUpperCase(network)}</span>
+      {showLabel && <span>{startWithUpperCase(network)}</span>}
     </div>
   )
 }
@@ -83,25 +101,30 @@ const getTab = (identities?: AccountIdentities): ChainWithIdentity | '' => {
   return ''
 }
 
-export const IdentityView = ({ details, ...props }: IdentityProps) => {
+export const IdentityView = ({
+  identity,
+  withSection,
+  withTitle,
+  ...props
+}: IdentityProps) => {
   const { isMobile } = useResponsiveSize()
-  const tab = getTab(details)
+  const tab = getTab(identity)
 
   const [ tabKey, setTab ] = useState(tab)
 
   useEffect(() => setTab(tab), [ tab ])
 
-  if (!details) return null
+  if (!identity) return null
 
-  const chain = tabKey && details[tabKey]
+  const identityByNetwork = tabKey && identity[tabKey]
 
-  if (!chain) return null
+  if (!identityByNetwork) return null
 
-  const { info, isVerify } = chain as Identity
+  const { info, isVerify } = identityByNetwork as Identity
   const items = identityInfoKeys
     .map((key) => ({
       label: startWithUpperCase(key),
-      value: getKusamaItem(key, info[key] || '')
+      value: getKusamaItem(key, info[key] || ''),
     }))
     .filter((x) => isDef(x.value))
 
@@ -112,32 +135,43 @@ export const IdentityView = ({ details, ...props }: IdentityProps) => {
     items,
     className: styles.IdentitySection,
     column: isMobile ? 1 : 2,
-    layout: isMobile ? 'horizontal' : 'vertical'
+    layout: isMobile ? 'horizontal' : 'vertical',
   }
 
   const renderTab = (network: ChainWithIdentity) =>
-    details[network] && (
-      <TabPane tab={<TabNameWithLogo isVerify={isVerify} network={network} />} key={network} />
+    identity[network] && (
+      <TabPane
+        tab={<IdentityPreview isVerify={isVerify} network={network} />}
+        key={network}
+      />
     )
 
   const kusamaTab = renderTab('kusama')
   const polkadotTab = renderTab('polkadot')
   const shidenTab = renderTab('shiden')
 
+  const identityBlock = (
+    <>
+      <Tabs activeKey={tabKey} onChange={onTabChange} className='bs-mb-0'>
+        {polkadotTab}
+        {kusamaTab}
+        {shidenTab}
+      </Tabs>
+      <InfoPanel {...infoProps} />
+    </>
+  )
+
   return (
     <div>
-      <SectionTitle 
+      {withTitle && <SectionTitle
         title='On-chain identity'
         className={clsx({ ['pr-3 pl-3']: isMobile }, styles.TitleMargin)}
-      /> 
-      <div className={styles.IdentityBlock}>
-        <Tabs activeKey={tabKey} onChange={onTabChange} className='bs-mb-0'>
-          {polkadotTab}
-          {kusamaTab}
-          {shidenTab}
-        </Tabs>
-        <InfoPanel {...infoProps} />
-      </div>
+      />}
+      {withSection ? (
+        <div className={styles.IdentityBlock}>{identityBlock}</div>
+      ) : (
+        identityBlock
+      )}
     </div>
   )
 }

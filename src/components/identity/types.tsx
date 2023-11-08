@@ -4,7 +4,7 @@ import BN from 'bignumber.js'
 
 export type IdentityBareProps = BareProps & {
   address: AnyAccountId
-  details?: AccountIdentities
+  identity?: AccountIdentities
 }
 
 export type Info = {
