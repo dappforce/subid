@@ -23,12 +23,12 @@ type ShortMoneyProps = {
   num: number
   prefix?: string
   fractions?: number
-  custonFraction?: number
+  customFraction?: number
 }
 
-function moneyToString ({ num, prefix, fractions = 2, custonFraction }: ShortMoneyProps) {
+function moneyToString ({ num, prefix, fractions = 2, customFraction }: ShortMoneyProps) {
   const _fractions = num < 1 ? fractions : 1
-  return `${prefix ? prefix : ''}${num.toFixed(custonFraction || fractions)}`
+  return `${prefix ? prefix : ''}${num.toFixed(customFraction || _fractions)}`
 }
 
 const num1K = 1000

@@ -634,9 +634,9 @@ video {
   margin: 0.25rem;
 }
 
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .mx-4 {
@@ -667,16 +667,6 @@ video {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.mx-0 {
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-.\!mx-3 {
-  margin-left: 0.75rem !important;
-  margin-right: 0.75rem !important;
 }
 
 .-ml-2 {
@@ -890,17 +880,17 @@ video {
   width: auto;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-full {
   width: 100%;
 }
 
 .w-screen {
   width: 100vw;
-}
-
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
 }
 
 .min-w-fit {
@@ -1177,11 +1167,6 @@ video {
   border-top-right-radius: 1rem;
 }
 
-.rounded-t {
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-
 .rounded-t-none {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -1359,6 +1344,10 @@ video {
 
 .bg-staking-bg {
   background-image: url(/images/banners/staking-bg.png);
+}
+
+.bg-staking-bg-mobile {
+  background-image: url(/images/banners/staking-bg-mobile.png);
 }
 
 .bg-cover {
@@ -1611,6 +1600,10 @@ video {
   font-size: 16px;
 }
 
+.text-\[19px\] {
+  font-size: 19px;
+}
+
 .text-\[20px\] {
   font-size: 20px;
 }
@@ -1638,18 +1631,6 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-\[22px\] {
-  font-size: 22px;
-}
-
-.text-\[29px\] {
-  font-size: 29px;
-}
-
-.text-\[19px\] {
-  font-size: 19px;
 }
 
 .font-bold {
@@ -2225,31 +2206,16 @@ video {
   .sm\:flex {
     display: flex;
   }
+
+  .sm\:bg-staking-bg {
+    background-image: url(/images/banners/staking-bg.png);
+  }
 }
 
 @media (min-width: 768px) {
-  .md\:mx-3 {
-    margin-left: 0.75rem;
-    margin-right: 0.75rem;
-  }
-
-  .md\:mx-0 {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  .md\:mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
   .md\:\!mx-4 {
     margin-left: 1rem !important;
     margin-right: 1rem !important;
-  }
-
-  .md\:mb-3 {
-    margin-bottom: 0.75rem;
   }
 
   .md\:mb-4 {
@@ -2280,32 +2246,17 @@ video {
     gap: 1.5rem;
   }
 
-  .md\:rounded-\[20px\] {
-    border-radius: 20px;
-  }
-
-  .md\:rounded {
-    border-radius: 0.25rem;
-  }
-
-  .md\:rounded-t-none {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-  }
-
-  .md\:rounded-t {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-  }
-
-  .md\:rounded-t-\[\] {
-    border-top-left-radius: ;
-    border-top-right-radius: ;
-  }
-
   .md\:rounded-t-\[20px\] {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+  }
+
+  .md\:bg-staking-bg-mobile {
+    background-image: url(/images/banners/staking-bg-mobile.png);
+  }
+
+  .md\:bg-staking-bg {
+    background-image: url(/images/banners/staking-bg.png);
   }
 
   .md\:p-6 {
@@ -2329,10 +2280,6 @@ video {
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
-  }
-
-  .md\:text-\[19px\] {
-    font-size: 19px;
   }
 }
 

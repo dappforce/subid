@@ -81,7 +81,7 @@ const Banner = () => {
     <div className='md:!mx-4 mx-0'>
       <div
         className={clsx(
-          'bg-staking-bg bg-no-repeat bg-cover',
+          'sm:bg-staking-bg bg-staking-bg-mobile bg-no-repeat bg-cover',
           'w-full flex gap-6 flex-col md:p-6 p-4 rounded-[20px] md:rounded-t-[20px] rounded-t-none'
         )}
       >
