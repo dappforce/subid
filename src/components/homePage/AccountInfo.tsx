@@ -24,7 +24,7 @@ import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
 import ActionButtons from './ActionButtons'
 import { SubsocialProfile } from '../identity/types'
-import { Overview } from '../overview/Overview'
+import { AccountDashboard } from '../accountDashboard'
 import NameWithIdentity from './NameWithIdentity'
 
 export type Props = {
@@ -180,7 +180,7 @@ export const AccountInfo = (props: Props) => {
             )}
           </div>
         </div>
-        <Overview />
+        <AccountDashboard />
       </div>
     </Section>
   )
