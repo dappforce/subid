@@ -15,7 +15,7 @@ export type SpacesFetchProps = {
   ids: string[]
 }
 
-type CreatorSpace = {
+export type CreatorSpace = {
   id: string
   image: string
   hidden: boolean

@@ -235,7 +235,7 @@ const CreatorCard = ({
                 owner={owner}
                 imgSize={66}
                 titleClassName='leading-[20px]'
-                descClassName='p-[1px] leading-none'
+                descClassName='p-[1px] leading-none w-fit'
                 infoClassName='flex flex-col gap-1'
                 titleRef={cardRef}
               />
