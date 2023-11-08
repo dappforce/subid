@@ -2,34 +2,44 @@ import { useTranslation } from 'react-i18next'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
 import { useTableContext } from '../../customTable/TableContext'
 import { useMyExtensionAccount } from 'src/components/providers/MyExtensionAccountsContext'
-import { Button, Checkbox, Tooltip } from 'antd'
+import { Button, Checkbox, Divider, Dropdown, Radio, Tooltip } from 'antd'
 import TableDropdownButton from './TableDropdownButton'
 import { BalanceVariant } from '../types'
-import { balanceVariantsOpt, balancesViewOpt } from '.'
+import { balanceVariantsWithIconOpt, balancesViewOpt } from '.'
 import { TableView } from '../../types'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 import { fetchBalances } from 'src/rtk/features/balances/balancesHooks'
 import { useAppDispatch } from 'src/rtk/app/store'
 import styles from './Index.module.sass'
-import { MutedSpan } from '../../../utils/MutedText'
+import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
+import { useMemo } from 'react'
+import { useResponsiveSize } from '@/components/responsive'
+import { balanceVariantsOpt } from '../../balancesTable/BalanceTable'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
+import { BALANCE_TABLE_VARIANT } from '../../utils'
+import store from 'store'
+import SwitchIcon from '@/assets/icons/switch.svg'
+import clsx from 'clsx'
 
-type ActionPannelProps = {
+type CommonProps = {
   balancesVariant: BalanceVariant
   setBalancesVariant: (value: BalanceVariant) => void
+}
+
+type ActionPannelProps = CommonProps & {
   addresses: string[]
   loading: boolean
 }
 
 const ActionPannel = ({
-  balancesVariant,
-  setBalancesVariant,
   addresses,
   loading,
+  ...balanceVariantProps
 }: ActionPannelProps) => {
+  const { isMobile } = useResponsiveSize()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { tableView, showZeroBalances, setTableView, setShowZeroBalances } =
-    useTableContext()
+  const { showZeroBalances, setShowZeroBalances } = useTableContext()
 
   const {
     balances: { freeChainBalances, lockedChainBalances },
@@ -43,8 +53,14 @@ const ActionPannel = ({
     setShowZeroBalances(e.target.checked)
   }
 
+  const buttons = isMobile ? (
+    <MobileButtons {...balanceVariantProps} />
+  ) : (
+    <DesktopButtons {...balanceVariantProps} />
+  )
+
   return (
-    <div className='bs-mb-3'>
+    <div className={clsx('bs-mb-3', {['bs-px-3']: isMobile})}>
       <div className='d-flex align-items-center justify-content-between'>
         <div
           className={'d-flex aling-items-center font-weight-bold FontNormal'}
@@ -53,20 +69,7 @@ const ActionPannel = ({
           <BalanceView value={totalBalance} symbol='$' startWithSymbol />
         </div>
         <div className={styles.TableActionButtons}>
-          <TableDropdownButton
-            menu={balanceVariantsOpt}
-            defaultValue={balancesVariant}
-            value={balancesVariant}
-            onChange={(value) => setBalancesVariant(value as BalanceVariant)}
-            menuClassName={styles.MenuStyles}
-          />
-          <TableDropdownButton
-            menu={balancesViewOpt}
-            defaultValue={tableView}
-            value={tableView}
-            onChange={(value) => setTableView(value as TableView)}
-            menuClassName={styles.MenuStyles}
-          />
+          {buttons}
           <Tooltip title={t('table.balances.refreshText')}>
             <Button
               onClick={fetchBalancesFunc}
@@ -79,9 +82,88 @@ const ActionPannel = ({
         </div>
       </div>
 
+      {!isMobile && (
+        <Checkbox checked={showZeroBalances} onChange={onCheckboxChange}>
+          <MutedSpan>{t('table.balances.checkBoxText')}</MutedSpan>
+        </Checkbox>
+      )}
+    </div>
+  )
+}
+
+const DesktopButtons = ({
+  balancesVariant,
+  setBalancesVariant,
+}: CommonProps) => {
+  const { tableView, setTableView } = useTableContext()
+  return (
+    <>
+      <TableDropdownButton
+        menu={balanceVariantsWithIconOpt}
+        defaultValue={balancesVariant}
+        value={balancesVariant}
+        onChange={(value) => setBalancesVariant(value as BalanceVariant)}
+        menuClassName={styles.MenuStyles}
+      />
+      <TableDropdownButton
+        menu={balancesViewOpt}
+        defaultValue={tableView}
+        value={tableView}
+        onChange={(value) => setTableView(value as TableView)}
+        menuClassName={styles.MenuStyles}
+      />
+    </>
+  )
+}
+
+const MobileButtons = (props: CommonProps) => {
+  return (
+    <Dropdown
+      overlay={<DrowdownOverlay {...props} />}
+      placement='bottomCenter'
+      trigger={[ 'click' ]}
+    >
+      <Button shape='circle'>
+        <SwitchIcon />
+      </Button>
+    </Dropdown>
+  )
+}
+
+const DrowdownOverlay = ({
+  balancesVariant,
+  setBalancesVariant,
+}: CommonProps) => {
+  const { t } = useTranslation()
+  const { showZeroBalances, setShowZeroBalances } = useTableContext()
+  const sendEvent = useSendEvent()
+
+  const onCheckboxChange = (e: any) => {
+    setShowZeroBalances(e.target.checked)
+  }
+
+  const onRadioTilesChange = (e: any) => {
+    const newTableView = e.target.value
+    sendEvent('change_balance_table_variant', { newTableView })
+    setBalancesVariant(newTableView)
+    store.set(BALANCE_TABLE_VARIANT, newTableView)
+  }
+
+  return (
+    <div className={styles.MobileButtonsOverlay}>
       <Checkbox checked={showZeroBalances} onChange={onCheckboxChange}>
-        <MutedSpan>{t('table.balances.checkBoxText')}</MutedSpan>
+        <MutedSpan className='FontNormal'>{t('table.balances.checkBoxText')}</MutedSpan>
       </Checkbox>
+      <Divider className={styles.DropdownDivider} />
+      <div>
+        <MutedDiv>Mode:</MutedDiv>
+        <Radio.Group
+          optionType='button'
+          options={balanceVariantsOpt}
+          onChange={onRadioTilesChange}
+          value={balancesVariant}
+        />
+      </div>
     </div>
   )
 }

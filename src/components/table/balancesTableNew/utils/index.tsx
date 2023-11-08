@@ -34,7 +34,7 @@ const LabelWithIcon = ({ label, iconSrc }: LabelWithIconProps) => {
   )
 }
 
-export const balanceVariantsOpt = [
+export const balanceVariantsWithIconOpt = [
   {
     label: (
       <LabelWithIcon

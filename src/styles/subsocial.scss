@@ -331,15 +331,27 @@ a {
   border-radius: $border_radius_large;
 
   &:hover {
-    path {
-      fill: $color_primary;
+    g[fill] {
+      path {
+        fill: $color_primary;
+      }
     } 
+
+    path[stroke] {
+      stroke: $color_primary;
+    }
   }
   
   &:focus {
-    path {
-      fill: $color_primary;
+    g[fill] {
+      path {
+        fill: $color_primary;
+      }
     } 
+
+    path[stroke] {
+      stroke: $color_primary;
+    }
   }
 }
 .ant-btn-sm {

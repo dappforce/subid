@@ -24,7 +24,7 @@ const TotalSection = ({
   return (
     <>
       <div className={styles.BalanceBlock}>
-        <MutedSpan className={`${styles.FontSmall}`}>
+        <MutedSpan className={styles.FontSmall}>
           {title}
           {description && (
             <Tooltip className='ml-2' title={description}>
@@ -33,13 +33,12 @@ const TotalSection = ({
           )}
         </MutedSpan>
 
-        <span className={`${styles.FontLarge}`}>
-          <BalanceView
-            value={totalBalance.toString()}
-            symbol='$'
-            startWithSymbol
-          />
-        </span>
+        <BalanceView
+          value={totalBalance.toString()}
+          symbol='$'
+          startWithSymbol
+          className={styles.FontLarge}
+        />
       </div>
     </>
   )

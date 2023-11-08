@@ -16,12 +16,16 @@
   align-items: center
   gap: $space_tiny
 
-.MenuStyles
+.CommonOverlay
   border: none
   overflow: hidden
   background: #FFFFFF
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important
   border-radius: $border_radius_huge !important
+
+
+.MenuStyles
+  @extend .CommonOverlay
   min-width: 175px !important
 
   \:global .ant-menu-item-selected
@@ -32,3 +36,17 @@
     &:hover
       path
         fill: $color_primary
+
+.MobileButtonsOverlay
+  @extend .CommonOverlay
+  min-width: 200px !important
+  font-size: $font_normal
+
+  padding: $space_normal
+  display: flex
+  flex-direction: column
+  gap: $space_normal
+
+.DropdownDivider
+  margin: 0 !important
+  border-top: 1px solid #EFEFEF !important
