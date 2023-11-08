@@ -14,6 +14,15 @@ $label_padding_size: 5px
   padding-left: $label_padding_size
   padding-right: $label_padding_size
 
+.TabsPannel
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_normal
+
+  .Tabs
+    width: 100%
+
 .TableLoading
   height: 202px
 
@@ -80,10 +89,9 @@ $label_padding_size: 5px
 
 .NftBlock
   background-color: #fff
-  padding: 0 $space_large $space_small $space_large
+  padding: 0 $space_normal $space_small $space_normal
   box-shadow: $shadow
   border-radius: $border_radius_normal
-  margin-top: $space_tiny
 
   \:global .ant-row
     display: grid
@@ -95,6 +103,10 @@ $label_padding_size: 5px
   filter: grayscale(1) opacity(0.5)
 
 @media ( max-width: $max_mobile_width)
+  .TabsPannel
+    .Tabs
+      width: 87%
+
   .NftBlock
     border-radius: 0
 
