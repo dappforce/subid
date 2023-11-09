@@ -15,7 +15,7 @@ type NameWithIdentityProps = {
 }
 
 const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
-  const [openModal, setOpenModal] = useState(false)
+  const [ openModal, setOpenModal ] = useState(false)
   const addressFromStorage = getAddressFromStorage()
   const identitiesByAccount = useIdentitiesByAccounts(addresses)
 
@@ -30,7 +30,7 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
     const identitiesEntries = Object.entries(identities)
 
     const previews = identitiesEntries
-      .map(([network, identity], i) => {
+      .map(([ network, identity ], i) => {
         if (network === 'subsocial') return
 
         const { isVerify } = identity as Identity
@@ -47,7 +47,7 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
       .filter(isDef)
 
     return previews
-  }, [Object.values(identities || {}).length, address])
+  }, [ Object.values(identities || {}).length, address ])
 
   const showIdentities = !!identityPreviews?.length
 

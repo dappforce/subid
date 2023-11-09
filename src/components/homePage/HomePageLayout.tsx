@@ -13,7 +13,7 @@ export const MAX_ITEMS_FOR_TABLE = 6
 type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
-  const [activeTab, setActiveTab] = useState<HomePageTabKeys>('portfolio')
+  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>('portfolio')
 
   const tabs = [
     {

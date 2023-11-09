@@ -59,7 +59,7 @@ const ActionPannel = ({
   )
 
   return (
-    <div className={clsx('bs-mb-3', {['bs-px-3']: isMobile})}>
+    <div className={clsx('bs-mb-3', { ['bs-px-3']: isMobile })}>
       <div className='d-flex align-items-center justify-content-between'>
         <div
           className={'d-flex aling-items-center font-weight-bold FontNormal'}
