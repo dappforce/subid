@@ -33,7 +33,7 @@ export const ContentViewSwitch = ({
         alt={name}
         src={`/images/${stubImage}`}
         className={styles.ImageMuted}
-        onLoad={onLoad}
+        loader={({ src }) => src}
         layout='fill'
         quality={imageQuality}
       />
@@ -46,7 +46,7 @@ export const ContentViewSwitch = ({
       return (
         <Image
           alt={name}
-          src={`/api/imageProxy?imageUrl=${src}`}
+          src={src}
           className={loading ? 'd-none' : 'd-block'}
           layout='fill'
           quality={imageQuality}
