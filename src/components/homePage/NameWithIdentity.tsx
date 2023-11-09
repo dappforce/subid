@@ -46,24 +46,31 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
       })
       .filter(isDef)
 
-    return <div className={styles.IdentitiesPreviews}>{previews}</div>
+    return previews
   }, [Object.values(identities || {}).length, address])
+
+  const showIdentities = !!identityPreviews?.length
 
   return (
     <>
       <div
         className={styles.NameWithIdentity}
-        onClick={() => setOpenModal(true)}
+        style={{ cursor: showIdentities ? 'pointer' : 'default' }}
+        onClick={() => showIdentities && setOpenModal(true)}
       >
         <Name identities={identities} address={address || addressFromStorage} />
-        {identityPreviews}
+        {showIdentities && (
+          <div className={styles.IdentitiesPreviews}>{identityPreviews}</div>
+        )}
       </div>
-      <IdentitiesModal
-        open={openModal}
-        close={() => setOpenModal(false)}
-        identities={identities}
-        address={address}
-      />
+      {showIdentities && (
+        <IdentitiesModal
+          open={openModal}
+          close={() => setOpenModal(false)}
+          identities={identities}
+          address={address}
+        />
+      )}
     </>
   )
 }

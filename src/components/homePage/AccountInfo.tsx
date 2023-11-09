@@ -180,7 +180,7 @@ export const AccountInfo = (props: Props) => {
             )}
           </div>
         </div>
-        <AccountDashboard />
+       {isHomePage && <AccountDashboard />}
       </div>
     </Section>
   )

@@ -80,11 +80,11 @@ const parseBalancesEntities = (
 
       const chainInfo = chainsInfo[network]
 
-      const { ss58Format } = chainInfo
+      const { ss58Format } = chainInfo || {}
 
       const balanceInfoBySymbol: Record<string, any> = {}
 
-      Object.entries(balanceInfo).forEach(([ symbol, info ]) => {
+      Object.entries(balanceInfo || {}).forEach(([ symbol, info ]) => {
         const { decimal } = getDecimalsAndSymbol(chainInfo, symbol)
 
         if (!decimal) return
