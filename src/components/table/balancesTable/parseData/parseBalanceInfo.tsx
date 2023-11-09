@@ -172,6 +172,8 @@ export const parseBalancesTableInfo = ({
     tokenPrices
   )
 
+  console.log(supportedNetworks)
+
   const parsedData = [ ...supportedNetworks, ...evmLikeNetworks ].map(
     (supportedNetwork) => {
       const chainInfo = chainsInfo[supportedNetwork]

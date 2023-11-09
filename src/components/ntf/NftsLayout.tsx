@@ -190,7 +190,7 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
           <TabPane key='statemine' tab={<TabWithLogo count={statemine.length.toString()} icon={getIconUrl('statemine.svg')} text='Statemine' />} />
         </Tabs>
         <Tooltip title={t('tooltip.refreshNFTs')}>
-          <Button onClick={onReloadClick} disabled={loading} shape='circle'>
+          <Button onClick={onReloadClick} className={styles.RefreshButton} disabled={loading} shape='circle'>
             {loading
               ? <LoadingOutlined />
               : <ReloadOutlined />

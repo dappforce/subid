@@ -5,6 +5,7 @@ import {
 } from '../rtk/features/multiChainInfo/types'
 import { sendGetRequest } from './utils'
 import { AnyAddress } from '../components/utils/index'
+import { isDef } from '@subsocial/utils'
 
 type BalanceByNetworkProps = {
   account: AnyAddress
@@ -24,24 +25,37 @@ export const getAccountBalancesByNetwork = async ({
   return res ? { network, info: res } : undefined
 }
 
-export const getAccountBalances = async (account: string) => {
-  const networks = isEthereumAddress(account)
-    ? evmLikeNetworks
-    : supportedNetworks
-
-  const res = await sendGetRequest({
+const getAccountBalancesRequest = async (account: string, networks: string[]) => {
+  return sendGetRequest({
     params: {
       url: 'balances',
       config: {
         params: {
           networks,
-          account
+          account,
         },
       },
     },
     onFailReturnedValue: undefined,
     onFailedText: 'Failed to get balances',
   })
+}
 
-  return res
+export const getAccountBalances = async (account: string) => {
+  const networks = isEthereumAddress(account)
+    ? [ ...evmLikeNetworks ]
+    : [ ...supportedNetworks ]
+
+  const middleIndex = Math.ceil(networks.length / 2)
+
+  const firstHalf = networks.splice(0, middleIndex)
+  const secondHalf = networks.splice(-middleIndex)
+
+  const promise = [ firstHalf, secondHalf ].map(async (networksChunk) =>
+    getAccountBalancesRequest(account, networksChunk)
+  )
+
+  const res = await Promise.all(promise)
+
+  return res.filter(isDef).flat()
 }
