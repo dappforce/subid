@@ -38,7 +38,7 @@ export const InfoPanel = ({ title, size = 'small', layout = 'vertical', column =
       </AntdDesc.Item>
     ))}
   </AntdDesc> :
-    <Row>
+    <Row className='bs-mb-3'>
       {items?.map(({ label, value }, key) => (
         <>
           <Col key={key} span={6} >

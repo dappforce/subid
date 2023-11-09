@@ -118,7 +118,7 @@ const MobileButtons = (props: CommonProps) => {
   return (
     <Dropdown
       overlay={<DrowdownOverlay {...props} />}
-      placement='bottomCenter'
+      placement='bottomLeft'
       trigger={[ 'click' ]}
     >
       <Button shape='circle'>
@@ -153,13 +153,14 @@ const DrowdownOverlay = ({
         <MutedSpan className='FontNormal'>{t('table.balances.checkBoxText')}</MutedSpan>
       </Checkbox>
       <Divider className={styles.DropdownDivider} />
-      <div>
+      <div className='w-100'>
         <MutedDiv>Mode:</MutedDiv>
         <Radio.Group
           optionType='button'
           options={balanceVariantsOpt}
           onChange={onRadioTilesChange}
           value={balancesVariant}
+          className={styles.BalanceVariantRadioGroup}
         />
       </div>
     </div>
