@@ -2,7 +2,7 @@ import NtfLayout from '../ntf/NftsLayout'
 import { Tabs } from 'antd'
 import { useState } from 'react'
 import styles from './Index.module.sass'
-import BalancesTableNew from '../table/balancesTableNew'
+import BalancesTableNew from '../table/balancesTable'
 
 type OverviewSectionProps = {
   addresses: string[]

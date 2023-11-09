@@ -2,7 +2,7 @@ import { useReducer, useMemo, useState } from 'react'
 import {
   ParseBalanceTableInfoProps,
   parseTokenCentricView,
-} from '../../balancesTable/parseTokenCentricView'
+} from '../parseData/parseTokenCentricView'
 import {
   useIsMulti,
   useMyExtensionAccount,
@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { isEmptyArray } from '@subsocial/utils'
 import { BalancesTableInfo } from '../../types'
 import { BalanceVariant } from '../types'
-import { parseBalancesTableInfo } from '../../balancesTable/parseBalanceInfo'
+import { parseBalancesTableInfo } from '../parseData/parseBalanceInfo'
 import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 import { useResponsiveSize } from 'src/components/responsive'
 import { calculateDashboardBalances } from '../calculateDashboardBalances'

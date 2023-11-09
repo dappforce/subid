@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import { useResponsiveSize } from '../../responsive/ResponsiveContext'
 import { useIsMulti } from '../../providers/MyExtensionAccountsContext'
 import CardAdditionalView from './CardAdditionalView'
-import { NetworksIcons } from '../balancesTable/parseTokenCentricView'
+import { NetworksIcons } from '../balancesTable/parseData/parseTokenCentricView'
 
 export type BalanceCardsProps<T> = {
   data: T[]

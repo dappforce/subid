@@ -7,7 +7,7 @@ import {
   pluralize,
   toShortMoney,
 } from '@subsocial/utils'
-import { MutedSpan, MutedDiv } from '../../utils/MutedText'
+import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
 import {
   ChainData,
   getBalanceWithDecimals,
@@ -18,26 +18,26 @@ import {
   AccountPreview,
   getParentBalances,
   resolveAccountDataImage,
-} from '../utils'
+} from '../../utils'
 import styles from '../Table.module.sass'
-import { BalancesTableInfo } from '../types'
+import { BalancesTableInfo } from '../../types'
 import clsx from 'clsx'
-import { BalanceEntityRecord } from '../../../rtk/features/balances/balancesSlice'
+import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesSlice'
 import {
   MultiChainInfo,
   supportedNetworks,
   evmLikeNetworks,
-} from '../../../rtk/features/multiChainInfo/types'
-import { convertAddressToChainFormat, SubIcon } from '../../utils/index'
-import { AccountIdentitiesRecord } from '../../../rtk/features/identities/identitiesSlice'
-import { AccountInfoByChain } from '../../identity/types'
-import { getSubsocialIdentityByAccount } from '../../../rtk/features/identities/identitiesHooks'
-import BaseAvatar from '../../utils/DfAvatar'
-import { BalanceView } from '../../homePage/address-views/utils/index'
+} from '../../../../rtk/features/multiChainInfo/types'
+import { convertAddressToChainFormat, SubIcon } from '../../../utils/index'
+import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
+import { AccountInfoByChain } from '../../../identity/types'
+import { getSubsocialIdentityByAccount } from '../../../../rtk/features/identities/identitiesHooks'
+import BaseAvatar from '../../../utils/DfAvatar'
+import { BalanceView } from '../../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
-import { LinksButton } from '../links/Links'
+import { LinksButton } from '../../links/Links'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info

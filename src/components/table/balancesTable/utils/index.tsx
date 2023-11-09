@@ -14,6 +14,49 @@ import {
 import TokenCentricIcon from '@/assets/icons/token-centric.svg'
 import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
 
+export const allowedTokensByNetwork: Record<string, string[]> = {
+  statemine: [
+    'BTC',
+    'CHAOS',
+    'USDC',
+    'USDT',
+    'DOT',
+    'CHRWNA',
+    'RMRK',
+    'KSM',
+    'BILL',
+    'KODA',
+    'SHIB',
+  ],
+  parallel: [
+    'LDOT',
+    'INTR',
+    'ACA',
+    'DOT',
+    'IBTC',
+    'AUSD',
+    'USDT',
+    'lcDOT',
+    'GLMR',
+    'CLV',
+    'ASTR',
+    'PHA',
+    'PARA',
+  ],
+  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'BUSD' ],
+}
+
+export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (
+  <div className={clsx('d-grid', withMargin && 'bs-mr-4')}>{balance}</div>
+)
+
+export const encodeTokenId = (address: string, tokenId: string) => `${address}-and-${tokenId}`
+
+export const decodeTokenId = (tokenId: string) => {
+  const [ address, id ] = tokenId.split('-and-')
+  return { address, id }
+}
+
 type LabelWithIconProps = {
   label: string
   iconSrc: string | React.ReactNode
@@ -53,6 +96,11 @@ export const balanceVariantsWithIconOpt = [
     ),
     key: 'tokens',
   },
+]
+
+export const balanceVariantsOpt = [
+  { label: 'Chains', value: 'chains' },
+  { label: 'Tokens', value: 'tokens' },
 ]
 
 export const balancesViewOpt = [
