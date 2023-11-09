@@ -53,7 +53,7 @@ jobs:
                   GH_IPFS_URL=https://ipfs.subsocial.network
                   GH_GA_ID=fake
                   GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
-                  GH_NEXT_SHARP_PATH=/subid/node_modules/sharp
+                  GH_NEXT_SHARP_PATH=/tmp/node_modules/sharp
           tags: |
                   ${{ env.image }}
           cache-from: type=local,src=/tmp/.buildx-cache
