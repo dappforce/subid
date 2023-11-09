@@ -19,7 +19,7 @@ import {
   getParentBalances,
   resolveAccountDataImage,
 } from '../../utils'
-import styles from '../Table.module.sass'
+import styles from '../../Table.module.sass'
 import { BalancesTableInfo } from '../../types'
 import clsx from 'clsx'
 import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesSlice'

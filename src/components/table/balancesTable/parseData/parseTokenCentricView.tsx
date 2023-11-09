@@ -21,7 +21,7 @@ import { convertToBalanceWithDecimal, isDef, nonEmptyArr, pluralize, } from '@su
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import { MutedDiv } from 'src/components/utils/MutedText'
 import clsx from 'clsx'
-import styles from '../Table.module.sass'
+import styles from '../../Table.module.sass'
 import { convertAddressToChainFormat, SubIcon } from 'src/components/utils'
 import { LinksButton } from '../../links/Links'
 import { Button } from 'antd'
