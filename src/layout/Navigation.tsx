@@ -53,7 +53,7 @@ const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) =>
 const Navigation = (props: Props): JSX.Element => {
   const { children } = props
   const { state: { asDrawer } } = useSidebarCollapsed()
-  const { isLargeDesktop } = useResponsiveSize()
+  // const { isLargeDesktop } = useResponsiveSize()
   const { asPath } = useRouter()
 
   const currentAccount = useCurrentAccount()
@@ -77,7 +77,7 @@ const Navigation = (props: Props): JSX.Element => {
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
-      {!isHomePage && !isCreatorStakingPage() && isLargeDesktop && <ChatSidePanel />}
+      {/* {!isHomePage && !isCreatorStakingPage() && isLargeDesktop && <ChatSidePanel />} */}
     </Layout>
   </Layout>
 }

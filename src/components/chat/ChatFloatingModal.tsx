@@ -19,7 +19,6 @@ type ChatFloatingModalProps = {
 export default function ChatFloatingModal ({
   position = 'bottom',
 }: ChatFloatingModalProps) {
-  const { isLargeDesktop } = useResponsiveSize()
   const sendEvent = useSendEvent()
   const { open, setOpen, setSpaceId, setMetadata } = useChatContext()
 
@@ -68,9 +67,9 @@ export default function ChatFloatingModal ({
     hasOpened.current = true
   }
 
-  if (isLargeDesktop && !isCreatorStakingPage()) {
-    return null
-  }
+  // if (isLargeDesktop && !isCreatorStakingPage()) {
+  //   return null
+  // }
 
   const onUnreadCountChange = (count: number) => {
     if (count > 0) {

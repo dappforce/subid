@@ -43,6 +43,7 @@ main {
 
 body {
   background-color: $color_page_bg !important;
+  overflow: auto !important;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -337,6 +338,10 @@ a {
       }
     } 
 
+    path[fill] {
+      fill: $color_primary;
+    }
+
     path[stroke] {
       stroke: $color_primary;
     }
@@ -348,6 +353,10 @@ a {
         fill: $color_primary;
       }
     } 
+
+    path[fill] {
+      fill: $color_primary;
+    }
 
     path[stroke] {
       stroke: $color_primary;
