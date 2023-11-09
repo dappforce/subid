@@ -35,6 +35,7 @@ export const ContentViewSwitch = ({
         className={styles.ImageMuted}
         loader={({ src }) => src}
         layout='fill'
+        loading={'lazy'}
         quality={imageQuality}
       />
     )
@@ -50,6 +51,7 @@ export const ContentViewSwitch = ({
           className={loading ? 'd-none' : 'd-block'}
           layout='fill'
           quality={imageQuality}
+          loading={'lazy'}
           onLoad={onLoad}
         />
       )
@@ -83,6 +85,7 @@ export const ContentViewSwitch = ({
           className={loading ? 'd-none' : 'd-block'}
           layout='fill'
           quality={imageQuality}
+          loading={'lazy'}
           onLoad={onLoad}
         />
       )
