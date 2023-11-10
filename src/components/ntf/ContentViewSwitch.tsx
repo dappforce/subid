@@ -5,7 +5,7 @@ import styles from './NftsLayout.module.sass'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
-const imageQuality = 1
+const imageQuality = 75
 
 type ContentViewSwitchProps = {
   contentType: CONTENT_TYPES
