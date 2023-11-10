@@ -495,14 +495,14 @@ type GetAccountDataValuesParams = BalancesStruct & {
 }
 
 function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
-  const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info
+  const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    {
-      key: 'frozen',
-      label: t('table.balances.frozen'),
-      value: frozenBalance?.toString() || '0',
-    },
+    // {
+    //   key: 'frozen',
+    //   label: t('table.balances.frozen'),
+    //   value: frozenBalance?.toString() || '0',
+    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),

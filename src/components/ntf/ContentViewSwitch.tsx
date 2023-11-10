@@ -5,8 +5,6 @@ import styles from './NftsLayout.module.sass'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
-const imageQuality = 75
-
 type ContentViewSwitchProps = {
   contentType: CONTENT_TYPES
   isImage: boolean
@@ -19,75 +17,26 @@ type ContentViewSwitchProps = {
 
 const ModelViewer = dynamic(() => import('../model-viewer'), { ssr: false })
 
-export const ContentViewSwitch = ({
-  name,
-  loading,
-  onLoad,
-  src,
-  contentType,
-  stubImage,
-}: ContentViewSwitchProps) => {
-  if (!src)
-    return (
-      <Image
-        alt={name}
-        src={`/images/${stubImage}`}
-        className={styles.ImageMuted}
-        loader={({ src }) => src}
-        layout='fill'
-        loading={'lazy'}
-        quality={imageQuality}
-      />
-    )
+export const ContentViewSwitch = ({ name, loading, onLoad, src, contentType, stubImage }: ContentViewSwitchProps) => {
+  if(!src) return <img alt={name} src={`/images/${stubImage}`} className={styles.ImageMuted} onLoad={onLoad} />
 
   switch (contentType) {
     case CONTENT_TYPES.audio:
     case CONTENT_TYPES.gif:
     case CONTENT_TYPES.image:
-      return (
-        <Image
-          alt={name}
-          src={src}
-          className={loading ? 'd-none' : 'd-block'}
-          layout='fill'
-          quality={imageQuality}
-          loading={'lazy'}
-          onLoad={onLoad}
-        />
-      )
+      return <Image alt={name} src={`/api/imageProxy?imageUrl=${src}`} className={loading ? 'd-none' : 'd-block'} layout='fill' onLoad={onLoad} />
     case CONTENT_TYPES.video:
-      return (
-        <video
-          autoPlay
-          loop
-          muted
-          src={src}
-          className={clsx(styles.NftContent, loading ? 'd-none' : 'd-block')}
-          onLoadStart={onLoad}
-        />
-      )
+      return <video autoPlay loop muted src={src} className={clsx(styles.NftContent, loading ? 'd-none' : 'd-block')} onLoadStart={onLoad} />
     case CONTENT_TYPES.model:
-      return (
-        <ModelViewer
-          id={name}
-          src={src}
-          autoplay
-          alt={name}
-          className={styles.NftContent}
-          style={{ position: 'absolute', height: '100%' }}
-        />
-      )
+      return <ModelViewer
+        id={name}
+        src={src}
+        autoplay
+        alt={name}
+        className={styles.NftContent}
+        style={{ position: 'absolute', height: '100%' }}
+      />
     default:
-      return (
-        <Image
-          alt={name}
-          src={src}
-          className={loading ? 'd-none' : 'd-block'}
-          layout='fill'
-          quality={imageQuality}
-          loading={'lazy'}
-          onLoad={onLoad}
-        />
-      )
+      return <img alt={name} src={src} className={loading ? 'd-none' : 'd-block'} onLoad={onLoad} />
   }
 }
