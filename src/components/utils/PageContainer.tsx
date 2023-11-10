@@ -12,6 +12,7 @@ import { isDef, isEmptyArray } from '@subsocial/utils'
 import { isValidAddresses, isValidAddress, parseAddressFromUrl } from './index'
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
+import { useFetchIdentities } from '@/rtk/features/identities/identitiesHooks'
 
 const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), { ssr: false })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
@@ -27,12 +28,13 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const { query, replace, asPath } = useRouter()
   const { address: maybeAddress } = query
   const { isMobile } = useResponsiveSize()
-
+  
   const addressFromUrl = maybeAddress?.toString()
   const parsedAddressFromUrl = parseAddressFromUrl(addressFromUrl)
-
+  
   const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(x => isDef(x) && !!x)
-
+  useFetchIdentities(addresses)
+  
   const isServerSide = typeof window === 'undefined'
 
   const isValid = isValidAddresses(addresses)

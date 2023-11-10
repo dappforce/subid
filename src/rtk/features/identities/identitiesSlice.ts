@@ -13,6 +13,7 @@ import {
 import { isEmptyArray, isEmptyStr } from '@subsocial/utils'
 import { AccountIdentities } from '../../../components/identity/types'
 import { upsertManyEntity } from '../../app/util'
+import { isServerSide } from '@/components/utils'
 
 export type IdentitiesEntity = {
   /** An account address by which we fetch identities. */
@@ -47,6 +48,12 @@ export const selectManyIdentities = (state: RootState, accounts?: string[]) => {
 
   return identities
 }
+
+const extraReducer = isServerSide() ? {
+  extraReducers: {
+    [HYDRATE]: hydrateExtraReducer('identities'),
+  },
+} : {}
 
 const slice = createSlice({
   name: 'identities',
@@ -90,9 +97,7 @@ const slice = createSlice({
       return
     },
   },
-  extraReducers: {
-    [HYDRATE]: hydrateExtraReducer('identities'),
-  },
+  ...extraReducer
 })
 
 export const identitiesActions = slice.actions
