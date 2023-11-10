@@ -20,7 +20,6 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'CHAOS',
     'USDC',
     'USDT',
-    'DOT',
     'CHRWNA',
     'RMRK',
     'KSM',
@@ -29,21 +28,19 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'SHIB',
   ],
   parallel: [
-    'LDOT',
     'INTR',
     'ACA',
     'DOT',
     'IBTC',
     'AUSD',
     'USDT',
-    'lcDOT',
     'GLMR',
     'CLV',
     'ASTR',
     'PHA',
     'PARA',
   ],
-  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'BUSD' ],
+  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'BUSD' ],
 }
 
 export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (

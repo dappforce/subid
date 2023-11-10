@@ -1,10 +1,9 @@
-import React, { useEffect, FC,/* , useMemo */ } from 'react'
-import {
-  getAddressFromStorage } from '../utils/index'
+import React, { useEffect, FC /* , useMemo */ } from 'react'
+import { getAddressFromStorage } from '../utils/index'
 import { PageContent } from './PageWrapper'
 import {
   useIsSignedIn,
-  useCurrentAccount
+  useCurrentAccount,
 } from '../providers/MyExtensionAccountsContext'
 import NoData from '../utils/EmptyList'
 import { useRouter } from 'next/router'
@@ -14,9 +13,13 @@ import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
 import { useFetchIdentities } from '@/rtk/features/identities/identitiesHooks'
 
-const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), { ssr: false })
+const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), {
+  ssr: false,
+})
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
-const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
+const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), {
+  ssr: false,
+})
 // const ProposalBanner = dynamic(import('./banners/ProposalBanner/index'), { ssr: false })
 
 type PageContainerProps = {
@@ -28,13 +31,15 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const { query, replace, asPath } = useRouter()
   const { address: maybeAddress } = query
   const { isMobile } = useResponsiveSize()
-  
+
   const addressFromUrl = maybeAddress?.toString()
   const parsedAddressFromUrl = parseAddressFromUrl(addressFromUrl)
-  
-  const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(x => isDef(x) && !!x)
+
+  const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(
+    (x) => isDef(x) && !!x
+  )
   useFetchIdentities(addresses)
-  
+
   const isServerSide = typeof window === 'undefined'
 
   const isValid = isValidAddresses(addresses)
@@ -44,43 +49,56 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   useEffect(() => {
     const addressFromPath = asPath.split('/').pop()
 
-    if (asPath.includes('#') && addressFromPath && isValidAddress(addressFromPath)) {
-        addressFromPath && replace('/[address]', addressFromPath)
+    if (
+      asPath.includes('#') &&
+      addressFromPath &&
+      isValidAddress(addressFromPath)
+    ) {
+      addressFromPath && replace('/[address]', addressFromPath)
     } else {
-      if (isSignIn && !addressFromUrl && addressFromStorage) replace(addressFromStorage)
+      if (isSignIn && !addressFromUrl && addressFromStorage)
+        replace(addressFromStorage)
     }
-
   }, [ addressFromStorage, isSignIn ])
 
   // const banner = useMemo(() => <ProposalBanner />, [])
-    
-  if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
-    <div className='layout-wrapper'>
-      <OnlySearch />
-    </div>
-    <Footer />
-  </>
 
+  if (isEmptyArray(parsedAddressFromUrl) && !isServerSide && !isSignIn)
+    return (
+      <>
+        <div className='layout-wrapper'>
+          <OnlySearch />
+        </div>
+        <Footer />
+      </>
+    )
 
-  return <>
-    <div className='layout-wrapper'>
-      <PageContent>
-        {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
-          ? <NoData description='Address is not valid' />
-          : <>
-            {/* {isHomePage && banner} */}
-            <AccountInfo
-              addresses={addresses}
-              addressFromStorage={addressFromStorage}
-              size={isMobile ? 60 : 90}
-              isHomePage={isHomePage}
-            />
-            {children}
-          </>}
-      </PageContent>
-    </div>
-    <Footer />
-  </>
+  return (
+    <>
+      <div className='layout-wrapper'>
+        <PageContent>
+          {!isValid &&
+          !isServerSide &&
+          asPath !== '/' &&
+          !asPath.includes('#') ? (
+            <NoData description='Address is not valid' />
+          ) : (
+            <>
+              {/* {isHomePage && banner} */}
+              <AccountInfo
+                addresses={addresses}
+                addressFromStorage={addressFromStorage}
+                size={isMobile ? 60 : 90}
+                isHomePage={isHomePage}
+              />
+              {children}
+            </>
+          )}
+        </PageContent>
+      </div>
+      <Footer />
+    </>
+  )
 }
 
 export default PageContainer

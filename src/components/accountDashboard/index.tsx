@@ -64,7 +64,7 @@ export const AccountDashboard = () => {
     const lockedBalancesValues = Object.values(lockedCrowdloanBalances)
 
     let balance = BIGNUMBER_ZERO
-    lockedBalancesValues.map((value) => (balance = balance.plus(value)))
+    lockedBalancesValues.forEach((value) => (balance = balance.plus(value)))
 
     setLockedBalance(balance)
   }, [ JSON.stringify(lockedCrowdloanBalances) ])

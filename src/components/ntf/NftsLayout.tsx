@@ -176,11 +176,6 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
   const data = dataByKey[tabKey]
 
   return (<div>
-    {/* <Row justify='space-between' className='align-items-center'>
-      <Col className={`${isMobile ? 'bs-mr-3' : ''} align-self-center`}>
-        
-      </Col>
-    </Row> */}
     <div className={styles.NftBlock}>
       <div className={styles.TabsPannel}>
         <Tabs onChange={onTabKeyChange} activeKey={tabKey} className={styles.Tabs}>
