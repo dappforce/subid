@@ -64,15 +64,17 @@ const CreatorsStaking = () => {
       <StakingContextWrapper network='subsocial'>
         <Banner />
 
-        {isMulti ? (
-          <MultiAccountWarning />
-        ) : (
-          <>
-            <CreatorDashboard />
-            <MyStakingSection />
-          </>
-        )}
-        <CreatorsSection />
+        <div className='mx-4'>
+          {isMulti ? (
+            <MultiAccountWarning />
+          ) : (
+            <>
+              <CreatorDashboard />
+              <MyStakingSection />
+            </>
+          )}
+          <CreatorsSection />
+        </div>
       </StakingContextWrapper>
     </div>
   )

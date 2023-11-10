@@ -10,14 +10,13 @@ import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backer
 import { FormatBalance } from 'src/components/common/balances'
 import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
 import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
-import { CreatorPreview } from '../../utils/CreatorPreview'
-import { useResponsiveSize } from 'src/components/responsive'
 import Checkbox from '../../tailwind-components/Checkbox'
 import { linkTextStyles } from '../../tailwind-components/LinkText'
 import store from 'store'
 import clsx from 'clsx'
 import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
+import AccountPreview from '../AccountPreview'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -150,7 +149,6 @@ const StakingModal = ({
   amount,
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const { isMobile } = useResponsiveSize()
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
   const [ isCheckboxChecked, setIsCheckboxChecked ] = useState(false)
   const betaversionAgreement = store.get(
@@ -169,10 +167,6 @@ const StakingModal = ({
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
   const { space } = creatorSpaceEntity || {}
-
-  const { name, ownedByAccount, image } = space || {}
-
-  const owner = ownedByAccount?.id
 
   const {
     title,
@@ -198,14 +192,7 @@ const StakingModal = ({
       }}
     >
       <div className='flex flex-col md:gap-6 gap-4'>
-        <CreatorPreview
-          title={name}
-          imgSize={isMobile ? 60 : 80}
-          avatar={image}
-          owner={owner}
-          titleClassName='ml-2 mb-3 text-2xl'
-          descClassName='text-base ml-2 text-text-muted leading-5'
-        />
+        <AccountPreview spaceId={spaceId} space={space} />
         {modalVariant === 'increaseStake' && <CurrentStake spaceId={spaceId} />}
         <AmountInput
           amount={amount}
@@ -220,7 +207,9 @@ const StakingModal = ({
           modalVariant={modalVariant}
         />
 
-        <DaysToWithdrawWarning unbondingPeriodInEras={stakingConsts?.unbondingPeriodInEras} />
+        <DaysToWithdrawWarning
+          unbondingPeriodInEras={stakingConsts?.unbondingPeriodInEras}
+        />
 
         {!betaversionAgreement && (
           <BetaVersionAgreement

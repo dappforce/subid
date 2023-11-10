@@ -3,8 +3,7 @@ import Modal from '../../tailwind-components/Modal'
 import StakeActionButtons from '../StakeActionButtons'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
-import { CreatorPreview } from '../../utils/CreatorPreview'
-import { useResponsiveSize } from 'src/components/responsive'
+import AccountPreview from '../AccountPreview'
 
 type AboutModalProps = {
   open: boolean
@@ -24,16 +23,13 @@ const AboutModal = ({
   setAmount,
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const { isMobile } = useResponsiveSize()
 
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
 
   const { space } = creatorSpaceEntity || {}
 
-  const { name, ownedByAccount, image, about } = space || {}
-
-  const owner = ownedByAccount?.id
+  const { about } = space || {}
 
   return (
     <>
@@ -47,14 +43,7 @@ const AboutModal = ({
         }}
       >
         <div className='flex flex-col md:gap-6 gap-4'>
-          <CreatorPreview
-            title={name}
-            imgSize={isMobile ? 60 : 80}
-            avatar={image}
-            owner={owner}
-            titleClassName='ml-2 md:mb-3 mb-2 md:text-2xl text-xl'
-            descClassName='text-base ml-2 text-text-muted leading-5'
-          />
+          <AccountPreview spaceId={spaceId} space={space} />
 
           {about && (
             <div className='flex flex-col gap-1 p-4 bg-gray-50 rounded-2xl'>

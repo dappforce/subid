@@ -461,7 +461,7 @@
   margin: auto !important;
 }
 
-.mx-0 {
+.bs-mx-0 {
   margin-right: 0 !important;
   margin-left: 0 !important;
 }
@@ -476,12 +476,12 @@
   margin-left: 0.5rem !important;
 }
 
-.mx-3 {
+.bs-mx-3 {
   margin-right: 1rem !important;
   margin-left: 1rem !important;
 }
 
-.mx-4 {
+.bs-mx-4 {
   margin-right: 1.5rem !important;
   margin-left: 1.5rem !important;
 }

@@ -634,9 +634,9 @@ video {
   margin: 0.25rem;
 }
 
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .mx-4 {
@@ -878,6 +878,11 @@ video {
 
 .w-auto {
   width: auto;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .w-full {
@@ -1162,6 +1167,11 @@ video {
   border-top-right-radius: 1rem;
 }
 
+.rounded-t-none {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
 .border {
   border-width: 1px;
 }
@@ -1332,8 +1342,8 @@ video {
   --tw-bg-opacity: 0.25;
 }
 
-.bg-staking-bg {
-  background-image: url(/images/banners/staking-bg.png);
+.bg-staking-bg-mobile {
+  background-image: url(/images/banners/staking-bg-mobile.png);
 }
 
 .bg-cover {
@@ -1584,6 +1594,10 @@ video {
 
 .text-\[16px\] {
   font-size: 16px;
+}
+
+.text-\[19px\] {
+  font-size: 19px;
 }
 
 .text-\[20px\] {
@@ -2188,11 +2202,16 @@ video {
   .sm\:flex {
     display: flex;
   }
+
+  .sm\:bg-staking-bg {
+    background-image: url(/images/banners/staking-bg.png);
+  }
 }
 
 @media (min-width: 768px) {
-  .md\:mb-3 {
-    margin-bottom: 0.75rem;
+  .md\:\!mx-4 {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
   }
 
   .md\:mb-4 {
@@ -2223,6 +2242,11 @@ video {
     gap: 1.5rem;
   }
 
+  .md\:rounded-t-\[20px\] {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
   .md\:p-6 {
     padding: 1.5rem;
   }
@@ -2235,6 +2259,10 @@ video {
   .md\:py-6 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+  }
+
+  .md\:text-left {
+    text-align: left;
   }
 
   .md\:text-2xl {

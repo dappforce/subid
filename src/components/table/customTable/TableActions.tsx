@@ -98,7 +98,7 @@ export const TitleAndControls = <T extends TableInfo>({
   const isCrowdloanTable = balanceKind === 'Crowdloan'
 
   return (
-    <div className={clsx({ ['mx-3']: isMobile })}>
+    <div className={clsx({ ['bs-mx-3']: isMobile })}>
       <div className='d-flex justify-content-between align-items-center'>
         <SectionTitle title={title} className='bs-mb-0' />
         <div className={styles.TitleAndControlsRight}>

@@ -1,9 +1,10 @@
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import CardWrapper from '../utils/CardWrapper'
-import { convertToBalanceWithDecimal, toShortMoney } from '@subsocial/utils'
+import { convertToBalanceWithDecimal } from '@subsocial/utils'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { toShortMoney } from 'src/components/common/balances'
 
 type StatsCardProps = {
   title: string
@@ -20,7 +21,7 @@ export const DashboardCard = ({ title, value, desc, infoTitle }: StatsCardProps)
         {infoTitle && <Tooltip title={infoTitle}><QuestionCircleOutlined /></Tooltip>}
       </div>
       <div>
-        <div className='text-white text-2xl font-semibold'>{value}</div>
+        <div className='text-white md:text-2xl text-[19px]  font-semibold'>{value}</div>
         {desc && <div className='text-white/80 text-sm'>{desc}</div>}
       </div>
     </CardWrapper>
@@ -46,7 +47,7 @@ export const TotalStakedBalance = ({ value, loading }: SubsocialBalanceProps) =>
 
   return (
     <ValueOrSkeleton
-      value={<>{toShortMoney({ num: balanceWithDecimal.toNumber() })} {symbol}</>}
+      value={<>{toShortMoney({ num: balanceWithDecimal.toNumber(), customFraction: 2 })} {symbol}</>}
       skeletonClassName='h-[20px] mb-3'
       loading={loading}
     />

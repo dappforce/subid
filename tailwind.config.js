@@ -21,6 +21,8 @@ export const theme = {
   extend: {
     backgroundImage: {
       'staking-bg': 'url(/images/banners/staking-bg.png)',
+      'staking-bg-mobile': 'url(/images/banners/staking-bg-mobile.png)'
+
     },
     fontFamily: {
       sans: ['var(--source-sans-pro)', ..._fontFamily.sans],

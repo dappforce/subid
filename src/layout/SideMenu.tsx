@@ -67,7 +67,7 @@ function SideMenu () {
         )}
       </Menu>
       {!collapsed && (
-        <div className={clsx('mx-4 my-4 my-lg-3')}>
+        <div className={clsx('bs-mx-4 my-4 my-lg-3')}>
           <Dropdown
             trigger={[ 'click' ]}
             visible={visible}
