@@ -109,7 +109,6 @@ export const parseCrowdloansTableInfo = ({
   const crowdloans = crowdloansInfo.map((crowdloan) => {
     const { paraId, isCapped, isWinner, isEnded, raised, cap } = crowdloan
 
-    console.log(paraId, excludeParaId.includes(paraId.toString()))
     if(excludeParaId.includes(paraId.toString())) return
 
     const networkNameByParaId = networkByParaId[`${paraId}-${relayChain}`]

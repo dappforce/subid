@@ -5,14 +5,12 @@ import { useCurrentAccount } from '../providers/MyExtensionAccountsContext'
 import PageContainer from '../utils/PageContainer'
 import { isDef } from '@subsocial/utils'
 import dynamic from 'next/dynamic'
-import { useFetchDataByAddresses } from 'src/rtk/app/util'
-import { useFetchNfts } from 'src/rtk/features/nfts/nftsHooks'
+import { useFetchBalances } from '@/rtk/features/balances/balancesHooks'
 
-const OverviewSection = dynamic(() => import('../homePage/OverviewSection'), { ssr: false })
+const HomePageLayout = dynamic(() => import('../homePage/HomePageLayout'), { ssr: false })
 
 const HomePage: NextPage = () => {
-  useFetchDataByAddresses()
-  useFetchNfts()
+  useFetchBalances()
 
   const { query } = useRouter()
   const { address: maybeAddress } = query
@@ -22,7 +20,7 @@ const HomePage: NextPage = () => {
 
   return (
     <PageContainer isHomePage >
-      <OverviewSection addresses={addresses} />
+      <HomePageLayout addresses={addresses} />
     </PageContainer>
   )
 }

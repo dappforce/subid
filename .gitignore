@@ -67,6 +67,8 @@ typings/
 .env
 public/env.js
 
+tsconfig.tsbuildinfo
+
 # next.js build output
 .next
 out

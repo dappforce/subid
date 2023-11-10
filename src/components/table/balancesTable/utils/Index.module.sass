@@ -1,0 +1,59 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.IconCircle
+  text-align: center
+  display: flex
+
+  svg
+    height: 16px
+    width: 16px
+
+  span
+    margin-right: 0 !important
+
+.TableActionButtons
+  display: flex
+  align-items: center
+  gap: $space_tiny
+
+.CommonOverlay
+  border: none
+  overflow: hidden
+  background: #FFFFFF
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important
+  border-radius: $border_radius_huge !important
+
+
+.BalanceVariantRadioGroup
+  display: flex
+  width: 100%
+
+  label
+    width: 100%
+
+.MenuStyles
+  @extend .CommonOverlay
+  min-width: 175px !important
+
+  \:global .ant-menu-item-selected
+    path
+      fill: $color_primary
+
+  li
+    &:hover
+      path
+        fill: $color_primary
+
+.MobileButtonsOverlay
+  @extend .CommonOverlay
+  min-width: 200px !important
+  font-size: $font_normal
+
+  padding: $space_normal
+  display: flex
+  flex-direction: column
+  gap: $space_normal
+
+.DropdownDivider
+  margin: 0 !important
+  border-top: 1px solid #EFEFEF !important

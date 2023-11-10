@@ -16,7 +16,6 @@ export function* fetchGeneeralEraInfoWorker (action: PayloadAction<GeneralEraInf
 
   try {
     const selectedData: GeneralErainfoEntity = yield select(selectGeneralEraInfo)
-    console.log('selectedData', selectedData)
 
     if(!selectedData?.info || reload) {
       const response: GeneralEraInfo | undefined = yield call(getGeneralEraInfo)

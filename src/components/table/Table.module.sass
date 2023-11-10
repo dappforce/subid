@@ -62,7 +62,7 @@ $zero_margin: 0
 
 .BalanceBlock
   background-color: #fff
-  padding: $space_small
+  padding: $space_normal
   box-shadow: $shadow
   border-radius: $border_radius_normal
   margin-bottom: 0.1rem
@@ -265,7 +265,7 @@ $zero_margin: 0
   width: 40px
   height: 40px
   background: linear-gradient(138deg, #FFB1D3 0%, #FF9BD7 0.01%, #E860FF 100%)
-  color: #fff
+  color: $color_white
   font-weight: bold
   font-size: $font_normal
   text-transform: uppercase
@@ -288,6 +288,7 @@ $zero_margin: 0
   .Card
     min-height: 3.75rem
     border: none
+    background: #fff
 
     \:global .ant-card-body
       min-height: 3.75rem
@@ -312,7 +313,7 @@ $zero_margin: 0
   .BalanceBlock
     padding-left: 0
     padding-right: 0
-    background: none
+    background: #fff !important
 
   .TableActions
     padding-left: $space_normal

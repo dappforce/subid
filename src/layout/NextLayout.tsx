@@ -8,7 +8,7 @@ import { useAppDispatch } from '../rtk/app/store'
 import { pricesActions } from '../rtk/features/prices/pricesSlice'
 import { getChainsNamesForCoinGecko } from '../rtk/features/prices/pricesHooks'
 import { useChainInfo } from '../rtk/features/multiChainInfo/multiChainInfoHooks'
-import { MINUTES, isCreatorStakingPage } from '../components/utils/index'
+import { MINUTES } from '../components/utils/index'
 import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
 import { ChatContextWrapper } from 'src/components/providers/ChatContext'
@@ -55,7 +55,7 @@ const NextLayout: React.FunctionComponent = (props) => {
                   <Navigation>
                     <Page {...props} />
                   </Navigation>
-                  <ChatFloatingModal position={isCreatorStakingPage() ? 'right' : 'bottom'} />
+                  <ChatFloatingModal position={'right'} />
                 </ChatContextWrapper>
               </ClaimCrowdloanProvider>
             </LazyConnectionsProvider>

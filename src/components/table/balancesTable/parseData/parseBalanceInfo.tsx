@@ -7,7 +7,7 @@ import {
   pluralize,
   toShortMoney,
 } from '@subsocial/utils'
-import { MutedSpan, MutedDiv } from '../../utils/MutedText'
+import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
 import {
   ChainData,
   getBalanceWithDecimals,
@@ -18,36 +18,36 @@ import {
   AccountPreview,
   getParentBalances,
   resolveAccountDataImage,
-} from '../utils'
-import styles from '../Table.module.sass'
-import { BalancesTableInfo } from '../types'
+} from '../../utils'
+import styles from '../../Table.module.sass'
+import { BalancesTableInfo } from '../../types'
 import clsx from 'clsx'
-import { BalanceEntityRecord } from '../../../rtk/features/balances/balancesSlice'
+import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesSlice'
 import {
   MultiChainInfo,
   supportedNetworks,
   evmLikeNetworks,
-} from '../../../rtk/features/multiChainInfo/types'
-import { convertAddressToChainFormat, SubIcon } from '../../utils/index'
-import { AccountIdentitiesRecord } from '../../../rtk/features/identities/identitiesSlice'
-import { AccountInfoByChain } from '../../identity/types'
-import { getSubsocialIdentityByAccount } from '../../../rtk/features/identities/identitiesHooks'
-import BaseAvatar from '../../utils/DfAvatar'
-import { BalanceView } from '../../homePage/address-views/utils/index'
+} from '../../../../rtk/features/multiChainInfo/types'
+import { convertAddressToChainFormat, SubIcon } from '../../../utils/index'
+import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
+import { AccountInfoByChain } from '../../../identity/types'
+import { getSubsocialIdentityByAccount } from '../../../../rtk/features/identities/identitiesHooks'
+import BaseAvatar from '../../../utils/DfAvatar'
+import { BalanceView } from '../../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
-import { LinksButton } from '../links/Links'
+import { LinksButton } from '../../links/Links'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
-  const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info
+  const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    {
-      key: 'frozen',
-      label: t('table.balances.frozen'),
-      value: frozenBalance?.toString() || '0',
-    },
+    // {
+    //   key: 'frozen',
+    //   label: t('table.balances.frozen'),
+    //   value: frozenBalance?.toString() || '0',
+    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),
@@ -80,11 +80,11 @@ const parseBalancesEntities = (
 
       const chainInfo = chainsInfo[network]
 
-      const { ss58Format } = chainInfo
+      const { ss58Format } = chainInfo || {}
 
       const balanceInfoBySymbol: Record<string, any> = {}
 
-      Object.entries(balanceInfo).forEach(([ symbol, info ]) => {
+      Object.entries(balanceInfo || {}).forEach(([ symbol, info ]) => {
         const { decimal } = getDecimalsAndSymbol(chainInfo, symbol)
 
         if (!decimal) return
@@ -154,7 +154,7 @@ const createChildrenTokenData = () => {
   }
 }
 
-export const parseBalancesTableInfo = async ({
+export const parseBalancesTableInfo = ({
   chainsInfo,
   tokenPrices,
   identities,
@@ -162,7 +162,7 @@ export const parseBalancesTableInfo = async ({
   balancesEntities,
   onTransferClick,
   t,
-}: ParseBalanceTableInfoProps): Promise<BalancesTableInfo[]> => {
+}: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
   if (!balancesEntities) return []
 
   const balancesByKey = parseBalancesEntities(
@@ -486,9 +486,7 @@ export const parseBalancesTableInfo = async ({
     }
   )
 
-  const result = await Promise.all(parsedData)
-
-  const balancesInfo = result.filter(isDef).flat()
+  const balancesInfo = parsedData.filter(isDef).flat()
 
   const balancesInfoSorted = balancesInfo.sort((a, b) =>
     b.totalTokensValue.minus(a.totalTokensValue).toNumber()

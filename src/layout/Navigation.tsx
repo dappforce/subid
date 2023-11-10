@@ -6,9 +6,9 @@ import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
-import ChatSidePanel from 'src/components/chat/ChatSidePanel'
-import { useResponsiveSize } from 'src/components/responsive'
-import { isCreatorStakingPage } from 'src/components/utils'
+import ChatSidePanel from '@/components/chat/ChatSidePanel'
+import { useResponsiveSize } from '@/components/responsive'
+import { isCreatorStakingPage } from '@/components/utils'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })

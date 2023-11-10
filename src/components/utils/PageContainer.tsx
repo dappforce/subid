@@ -4,7 +4,7 @@ import {
 import { PageContent } from './PageWrapper'
 import {
   useIsSignedIn,
-  useCurrentAccount
+  useCurrentAccount,
 } from '../providers/MyExtensionAccountsContext'
 import NoData from '../utils/EmptyList'
 import { useRouter } from 'next/router'
@@ -12,8 +12,11 @@ import { isDef, isEmptyArray } from '@subsocial/utils'
 import { isValidAddresses, isValidAddress, parseAddressFromUrl } from './index'
 import dynamic from 'next/dynamic'
 import { useResponsiveSize } from '../responsive/ResponsiveContext'
+import { useFetchIdentities } from '@/rtk/features/identities/identitiesHooks'
 
-const AccountInfo = dynamic(() => import('../homePage/OverviewPage'), { ssr: false })
+const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), {
+  ssr: false,
+})
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
 const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
 const CreatorStakingBanner = dynamic(import('./banners/CreatorStakingBanner/index'), { ssr: false })
@@ -31,7 +34,10 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const addressFromUrl = maybeAddress?.toString()
   const parsedAddressFromUrl = parseAddressFromUrl(addressFromUrl)
 
-  const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(x => isDef(x) && !!x)
+  const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(
+    (x) => isDef(x) && !!x
+  )
+  useFetchIdentities(addresses)
 
   const isServerSide = typeof window === 'undefined'
 
@@ -42,12 +48,16 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   useEffect(() => {
     const addressFromPath = asPath.split('/').pop()
 
-    if (asPath.includes('#') && addressFromPath && isValidAddress(addressFromPath)) {
-        addressFromPath && replace('/[address]', addressFromPath)
+    if (
+      asPath.includes('#') &&
+      addressFromPath &&
+      isValidAddress(addressFromPath)
+    ) {
+      addressFromPath && replace('/[address]', addressFromPath)
     } else {
-      if (isSignIn && !addressFromUrl && addressFromStorage) replace(addressFromStorage)
+      if (isSignIn && !addressFromUrl && addressFromStorage)
+        replace(addressFromStorage)
     }
-
   }, [ addressFromStorage, isSignIn ])
 
   const banner = useMemo(() => <CreatorStakingBanner />, [])
@@ -59,6 +69,15 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
     <Footer />
   </>
 
+  if (isEmptyArray(parsedAddressFromUrl) && !isServerSide && !isSignIn)
+    return (
+      <>
+        <div className='layout-wrapper'>
+          <OnlySearch />
+        </div>
+        <Footer />
+      </>
+    )
 
   return <>
     <div className='layout-wrapper'>

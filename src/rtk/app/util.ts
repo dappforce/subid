@@ -11,7 +11,6 @@ import { isValidAddress } from '../../components/utils/index'
 import { GenericAccountId } from '@polkadot/types'
 import {
   FETCH_CHIAN_INFO_WITH_PRICES,
-  FETCH_DOTSAMA_CROWDLOAN_INFO,
 } from './actions'
 import { AssetBalance } from '../features/assetsBalances/types'
 import {
@@ -31,7 +30,6 @@ import {
   getOwnerByDomain,
   getAllAccountsLength,
 } from 'src/api'
-import { fetchOverviewAccounts } from '../features/interestingAccounts/interestingAccountsHooks'
 import { shuffle } from 'lodash'
 import { currentAccountActions } from '../features/accounts/currentAccountSlice'
 import { isEthereumAddress } from '@polkadot/util-crypto'
@@ -85,11 +83,6 @@ export function dispatchWithGenericAccounts (
 
 export const fetchData = (dispatch: Dispatch<AnyAction>) => {
   dispatch({ type: FETCH_CHIAN_INFO_WITH_PRICES })
-  fetchOverviewAccounts(dispatch)
-  dispatch({
-    type: FETCH_DOTSAMA_CROWDLOAN_INFO,
-    payload: relayChains,
-  })
 }
 
 export const getInitialAccoutsData = async () => {
@@ -181,7 +174,7 @@ export const upsertOneEntity = <T extends UpsertedEntities>({
   if (reload || entity?.loading === undefined) {
     const updatedBalance = entity
       ? { ...entity, loading }
-      : { id, loading, [fieldName]: undefined }
+      : { id, loading, [fieldName]: null }
 
     adapter.upsertOne(state, updatedBalance as T)
   }
@@ -210,7 +203,7 @@ export const upsertManyEntity = <T extends UpsertedEntities>({
     if (reload || entity?.loading === undefined) {
       const newEntity = entity
         ? { ...entity, loading }
-        : { id: subId ? `${id}-${subId}` : id, loading, [fieldName]: undefined }
+        : { id: subId ? `${id}-${subId}` : id, loading, [fieldName]: null }
       
       return newEntity
     }

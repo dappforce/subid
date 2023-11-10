@@ -43,6 +43,7 @@ main {
 
 body {
   background-color: $color_page_bg !important;
+  overflow: auto !important;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -329,6 +330,38 @@ a {
 
 .ant-btn {
   border-radius: $border_radius_large;
+
+  &:hover {
+    g[fill] {
+      path {
+        fill: $color_primary;
+      }
+    } 
+
+    path[fill] {
+      fill: $color_primary;
+    }
+
+    path[stroke] {
+      stroke: $color_primary;
+    }
+  }
+  
+  &:focus {
+    g[fill] {
+      path {
+        fill: $color_primary;
+      }
+    } 
+
+    path[fill] {
+      fill: $color_primary;
+    }
+
+    path[stroke] {
+      stroke: $color_primary;
+    }
+  }
 }
 .ant-btn-sm {
   border-radius: $border_radius_normal;

@@ -5,10 +5,10 @@ import { HiChevronDown } from 'react-icons/hi2'
 import ChatIframe from './ChatIframe'
 import clsx from 'clsx'
 import { createPortal } from 'react-dom'
-import { useResponsiveSize } from '../responsive'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { isCreatorStakingPage } from '../utils'
 import { useChatContext } from '../providers/ChatContext'
+import { useResponsiveSize } from '../responsive'
 
 const storageName = 'grill:unreadCount'
 
@@ -19,9 +19,9 @@ type ChatFloatingModalProps = {
 export default function ChatFloatingModal ({
   position = 'bottom',
 }: ChatFloatingModalProps) {
-  const { isLargeDesktop } = useResponsiveSize()
   const sendEvent = useSendEvent()
   const { open, setOpen, setSpaceId, setMetadata } = useChatContext()
+  const { isLargeDesktop } = useResponsiveSize()
 
   const [ unreadCount, setUnreadCount ] = useState(0)
 

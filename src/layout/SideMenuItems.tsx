@@ -1,10 +1,8 @@
 import React from 'react'
 import {
-  DollarOutlined,
   HomeOutlined,
   BugOutlined,
   BulbOutlined,
-  PictureOutlined,
   UsergroupAddOutlined,
   WifiOutlined,
   ClockCircleOutlined,
@@ -102,11 +100,6 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       icon: <HomeOutlined />,
     },
     {
-      name: t('table.balances.title'),
-      page: [ '/[address]/balances', `/${addressForUrl}/balances` ],
-      icon: <DollarOutlined />,
-    },
-    {
       name: t('crowdloan.crowdloans'),
       page: [ '/[address]/crowdloans', `/${addressForUrl}/crowdloans` ],
       icon: <img className='anticon' src='/images/crowdloan.svg' />,
@@ -126,11 +119,6 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
           ],
         },
       ],
-    },
-    {
-      name: t('general.nfts'),
-      page: [ '/[address]/nfts', `/${addressForUrl}/nfts` ],
-      icon: <PictureOutlined />,
     },
     {
       name: t('interestingAccounts.title'),

@@ -1,0 +1,44 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.OverviewBlock
+  padding: $space_normal
+  display: grid
+  grid-template-columns: repeat(4, 1fr)
+  gap: $space_normal
+  background: linear-gradient(91deg, #FCFDFE 0.47%, #F7FAFC 100.61%)
+
+  .BalanceBlock
+    display: flex
+    width: 100%
+    flex-direction: column
+
+    &:not(:nth-child(4))
+      border-right: 1px solid rgba(0, 0, 0, .06)
+
+.FontSmall
+  font-size: .875rem
+
+.FontLarge
+  font-size: $space_large
+
+@media ( max-width: 830px)
+  .FontSmall
+    font-size: .775rem
+
+  .FontLarge
+    font-size: $font_normal
+
+@media ( max-width: 775px)
+  .OverviewBlock
+    grid-template-columns: repeat(2, 1fr)
+    row-gap: 0
+
+    .BalanceBlock
+      &:nth-child(1)
+        padding-bottom: $space_normal
+
+      &:not(:nth-child(4))
+        border-right: none
+
+      &:nth-child(odd)
+        border-right: 1px solid rgba(0, 0, 0, .06)

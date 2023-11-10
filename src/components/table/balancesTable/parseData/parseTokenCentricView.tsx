@@ -1,7 +1,7 @@
-import { BalancesTableInfo } from '../types'
-import { BalanceEntityRecord } from '../../../rtk/features/balances/balancesSlice'
-import { MultiChainInfo } from '../../../rtk/features/multiChainInfo/types'
-import { AccountIdentitiesRecord } from '../../../rtk/features/identities/identitiesSlice'
+import { BalancesTableInfo } from '../../types'
+import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesSlice'
+import { MultiChainInfo } from '../../../../rtk/features/multiChainInfo/types'
+import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { TFunction } from 'i18next'
 import { AccountInfoByChain, BalancesStruct } from 'src/components/identity/types'
 import BN from 'bignumber.js'
@@ -15,20 +15,20 @@ import {
   getParentBalances,
   getPrice,
   resolveAccountDataImage,
-} from '../utils'
+} from '../../utils'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
 import { convertToBalanceWithDecimal, isDef, nonEmptyArr, pluralize, } from '@subsocial/utils'
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import { MutedDiv } from 'src/components/utils/MutedText'
 import clsx from 'clsx'
-import styles from '../Table.module.sass'
+import styles from '../../Table.module.sass'
 import { convertAddressToChainFormat, SubIcon } from 'src/components/utils'
-import { LinksButton } from '../links/Links'
+import { LinksButton } from '../../links/Links'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
-import { allowedTokensByNetwork, decodeTokenId, encodeTokenId, getBalancePart, } from './utils'
+import { allowedTokensByNetwork, decodeTokenId, encodeTokenId, getBalancePart, } from '../utils'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -80,7 +80,7 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
   return <div className={'d-flex alignt-items-center'}>{icons}</div>
 }
 
-export const parseTokenCentricView = async ({
+export const parseTokenCentricView = ({
   chainsInfo,
   tokenPrices,
   identities,
@@ -89,7 +89,7 @@ export const parseTokenCentricView = async ({
   isMobile,
   onTransferClick,
   t,
-}: ParseBalanceTableInfoProps): Promise<BalancesTableInfo[]> => {
+}: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
   if (!balancesEntities) return []
 
   const { balancesByToken, tokenIds } = parseBalancesByToken(
@@ -286,9 +286,7 @@ export const parseTokenCentricView = async ({
     }
   })
 
-  const result = await Promise.all(parsedData)
-
-  const balancesInfo = result.filter(isDef).flat()
+  const balancesInfo = parsedData.filter(isDef).flat()
 
   return balancesInfo.sort((a, b) =>
       b.totalTokensValue.minus(a.totalTokensValue).toNumber()
@@ -497,14 +495,14 @@ type GetAccountDataValuesParams = BalancesStruct & {
 }
 
 function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
-  const { reservedBalance, frozenBalance, freeBalance, lockedBalance } = info
+  const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    {
-      key: 'frozen',
-      label: t('table.balances.frozen'),
-      value: frozenBalance?.toString() || '0',
-    },
+    // {
+    //   key: 'frozen',
+    //   label: t('table.balances.frozen'),
+    //   value: frozenBalance?.toString() || '0',
+    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),
