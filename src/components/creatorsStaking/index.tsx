@@ -64,7 +64,7 @@ const CreatorsStaking = () => {
       <StakingContextWrapper network='subsocial'>
         <Banner />
 
-        <div className='mx-4'>
+        <div className='flex flex-col gap-10 mx-4'>
           {isMulti ? (
             <MultiAccountWarning />
           ) : (
