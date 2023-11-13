@@ -5,6 +5,7 @@ import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { useRouter } from 'next/router'
+import TxHistoryLayout from '../txHistory'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -33,6 +34,11 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       tab: 'NFTs',
       children: <NtfLayout addresses={addresses} />,
     },
+    {
+      key: 'history',
+      tab: 'History',
+      children: <TxHistoryLayout addresses={addresses} />,
+    }
   ]
 
   const onTabChanged = (tab: string) => {
