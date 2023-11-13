@@ -3,6 +3,7 @@ import { Tabs } from 'antd'
 import { useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
+import TxHistoryLayout from '../txHistory'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -26,6 +27,11 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       tab: 'NFTs',
       children: <NtfLayout addresses={addresses} />,
     },
+    {
+      key: 'history',
+      tab: 'History',
+      children: <TxHistoryLayout addresses={addresses} />,
+    }
   ]
 
   return (
