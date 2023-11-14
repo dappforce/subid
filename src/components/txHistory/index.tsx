@@ -1,12 +1,30 @@
 import { useCallback } from 'react'
-import { InfinitePageList } from '../list'
+import { InfiniteListByData, InfinitePageList } from '../list'
 import styles from './Index.module.sass'
-import useGetTxHistory from './useGetTxHistory'
+import { getTxHistory } from '@/api/txHistory'
+import { TransferRow } from './transactions/Transfer'
+import { Transaction } from './types'
+import CustomDataList from './CustomDataList'
 
-const loadMore = async () => {
-  console.log('loadMore')
+const itemsByTxKind: Record<string, any> = {
+  TRANSFER_FROM: TransferRow,
+  TRANSFER_TO: TransferRow,
+}
 
-  return []
+type LoadMoreProps = {
+  address: string
+  page: number
+  size: number
+}
+
+const loadMore = async ({ address, page, size }: LoadMoreProps) => {
+  const offset = (page - 1) * size
+
+  console.log(offset, size)
+
+  const history = await getTxHistory({ address, pageSize: size, offset })
+
+  return history.txs
 }
 
 type TxHistoryLayoutProps = {
@@ -15,38 +33,30 @@ type TxHistoryLayoutProps = {
 
 const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const address = addresses[0]
-  const { txs, actualData } = useGetTxHistory(address)
 
-  console.log(txs, actualData)
 
-  const renderItem = () => {
-    return (
-      <div>
-        <div>renderItem</div>
-      </div>
-    )
+  const renderItem = (item: Transaction) => {
+    const { txKind } = item
+
+    const Component = itemsByTxKind[txKind]
+
+    return <Component item={item} />
   }
-
-  const List = useCallback(() => {
-
-    return (
-      <InfinitePageList
-        withLoadMoreLink
-        loadingLabel='Loading more accounts...'
-        loadMore={(page, size) => loadMore()}
-        totalCount={60}
-        dataSource={txs}
-        noDataDesc='No spaces yet'
-        getKey={(account: any) => account.account}
-        isCards
-        renderItem={renderItem}
-      />
-    )
-  }, [ txs.length ])
 
   return (
     <div className={styles.HistoryBlock}>
-      <List />
+      <InfinitePageList
+        loadingLabel='Loading more transactions...'
+        loadMore={(page, size) => loadMore({ address, page, size })}
+        totalCount={1000}
+        noDataDesc='No transactions yet'
+        getKey={(data: any) => data.id}
+        renderItem={renderItem}
+      >
+        {(dataListProps) => {
+          return <CustomDataList {...dataListProps} />
+        }}
+      </InfinitePageList>
     </div>
   )
 }
