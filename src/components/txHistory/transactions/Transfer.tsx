@@ -16,6 +16,10 @@ import { FormatBalance } from '@/components/common/balances'
 import { convertToBalanceWithDecimal } from '@subsocial/utils'
 import { BalanceView } from '../../homePage/address-views/utils/index'
 import { ExternalLink } from '../../identity/utils'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 
 const subscanLinksByNetwork: Record<string, string> = {
   polkadot: 'https://polkadot.subscan.io/extrinsic/',
@@ -52,12 +56,9 @@ export const TransferRow = ({ item }: TransferRowProps) => {
     <BalanceView value={totalBalanceBN} symbol='$' startWithSymbol />
   )
 
-  const titleByKind = txKind === 'TRANSFER_TO' ? 'Sent' : 'Received'
+  const titleByKind = txKind === 'TRANSFER_TO' ? 'Received' : 'Sent'
 
-  const time = new Date(item.timestamp).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-  })
+  const time = dayjs(item.timestamp).utc(false).format('HH:mm')
 
   const balance = (
     <FormatBalance
@@ -105,12 +106,12 @@ export const TransferRow = ({ item }: TransferRowProps) => {
             />
             <div>
               <div className='font-weight-semibold FontNormal'>{title}</div>
-              <MutedDiv>{time}</MutedDiv>
+              <MutedDiv>{time} (+UTC)</MutedDiv>
             </div>
           </div>
         </div>
         <div>
-          <MutedDiv>{txKind === 'TRANSFER_TO' ? 'To' : 'From'}</MutedDiv>
+          <MutedDiv>{txKind === 'TRANSFER_TO' ? 'From' : 'To'}</MutedDiv>
           <AccountPreview withAddress={false} account={address} />
           <Address
             name='Polkadot'
@@ -123,7 +124,7 @@ export const TransferRow = ({ item }: TransferRowProps) => {
         <div className='text-right'>
           <div
             className={clsx(styles.Tokens, {
-              [styles.RecievedTokens]: txKind === 'TRANSFER_FROM',
+              [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
             })}
           >
             {balance}
