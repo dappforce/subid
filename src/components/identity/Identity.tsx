@@ -46,11 +46,11 @@ export const IdentityTitle = ({
   network,
 }: Omit<TabNameWithLogoProps, 'showLabel'>) => {
   const title = (
-    <div>
+    <div className='d-flex align-items-center'>
       {isVerify ? (
         <>
           {VerifiedIcon}
-          <span>Verified {network} identity</span>
+          <span>Verified {startWithUpperCase(network)} identity</span>
         </>
       ) : (
         <>{startWithUpperCase(network)} identity</>

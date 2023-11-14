@@ -1770,6 +1770,18 @@ video {
   color: rgb(255 255 255 / 0.8);
 }
 
+.text-\[\#64748B80\] {
+  color: #64748B80;
+}
+
+.text-\[\#64748B80\]\/50 {
+  color: rgb(100 116 139 / 0.5);
+}
+
+.text-text-muted\/50 {
+  color: rgb(var(--text-muted) / 0.5);
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -2031,6 +2043,10 @@ video {
   color: rgb(var(--text-primary));
 }
 
+.hover\:\!text-text-primary:hover {
+  color: rgb(var(--text-primary)) !important;
+}
+
 .hover\:underline:hover {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
@@ -2281,4 +2297,20 @@ video {
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.hover\:\[\&\>\*\]\:text-text-primary>*:hover {
+  color: rgb(var(--text-primary));
+}
+
+.\[\&\>\*\]\:hover\:text-text-primary:hover>* {
+  color: rgb(var(--text-primary));
+}
+
+.hover\:\[\&\>svg\]\:text-text-primary>svg:hover {
+  color: rgb(var(--text-primary));
+}
+
+.\[\&\>svg\]\:hover\:text-text-primary:hover>svg {
+  color: rgb(var(--text-primary));
 }
