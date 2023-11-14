@@ -18,7 +18,7 @@ import { useChatContext } from 'src/components/providers/ChatContext'
 import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
-// import { useEraStakesById } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import { MdArrowOutward } from 'react-icons/md'
 
 type CreatorNameProps = {
   name?: string
@@ -101,8 +101,8 @@ type CreatorCardProps = {
 
 const CreatorCard = ({
   spaceId,
-  // era
-}: CreatorCardProps) => {
+}: // era
+CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
@@ -184,17 +184,23 @@ const CreatorCard = ({
   }
 
   const postsLink = (
-    <a
-      href={`https://polkaverse.com/${spaceId}`}
-      onClick={(e) => e.stopPropagation()}
-      target='_blank'
-      rel='noreferrer'
-      className={clsx(
-        'text-[#64748B] text-sm font-normal hover:text-text-primary leading-none duration-0'
-      )}
-    >
-      {pluralize({ count: parseInt(postsCount || '0'), singularText: 'post' })}
-    </a>
+    <Tooltip title={'See their posts on Polkaverse'}>
+      <a
+        href={`https://polkaverse.com/${spaceId}`}
+        onClick={(e) => e.stopPropagation()}
+        target='_blank'
+        rel='noreferrer'
+        className={clsx(
+          'text-[#64748B] text-sm font-normal hover:text-text-primary [&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
+        )}
+      >
+        {pluralize({
+          count: parseInt(postsCount || '0'),
+          singularText: 'post',
+        })}
+        <MdArrowOutward size={18} className='text-[#64748B80]/50' />
+      </a>
+    </Tooltip>
   )
 
   const accountDesc = (

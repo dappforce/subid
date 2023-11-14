@@ -60,7 +60,7 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
       >
         <Name identities={identities} address={address || addressFromStorage} />
         {showIdentities && (
-          <div className={styles.IdentitiesPreviews}>{identityPreviews}</div>
+          <div className={styles.IdentitiesPreviews}>{identityPreviews.reverse()}</div>
         )}
       </div>
       {showIdentities && (
