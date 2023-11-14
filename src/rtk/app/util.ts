@@ -118,8 +118,6 @@ export const fetchDataByAccount = async (
         payload: toGenericAccountIds(addresses).join(','),
       })
     }
-
-    fetchIdentities(dispatch, addresses, reload)
   }
 }
 

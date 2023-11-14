@@ -6,12 +6,10 @@ import {
 } from '@reduxjs/toolkit'
 import { RootState } from '../../app/rootReducer'
 import { AccountInfoItem } from '../../../components/identity/types'
-import { HYDRATE } from 'next-redux-wrapper'
 import { isEmptyArray, isEmptyObj, isEmptyStr } from '@subsocial/utils'
 import { upsertManyEntity } from '../../app/util'
 import {
   FetchProps,
-  hydrateExtraReducer,
 } from '../../app/util'
 
 
@@ -104,10 +102,7 @@ const slice = createSlice({
       })
       return
     },
-  },
-  extraReducers: {
-    [HYDRATE]: hydrateExtraReducer('balances'),
-  },
+  }
 })
 
 export const balancesActions = slice.actions

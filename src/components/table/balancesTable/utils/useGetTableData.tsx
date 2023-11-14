@@ -21,6 +21,7 @@ import { parseBalancesTableInfo } from '../parseData/parseBalanceInfo'
 import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 import { useResponsiveSize } from 'src/components/responsive'
 import { calculateDashboardBalances } from '../calculateDashboardBalances'
+import { getBalancesFromStoreByAddresses } from '.'
 
 type TransferModalState = {
   open: boolean
@@ -64,10 +65,9 @@ export const useGetTableData = (
   const sendTransferEvent = useBuildSendEvent('click_on_transfer_button')
   const { isMobile } = useResponsiveSize()
   const { setBalances } = useMyExtensionAccount()
-  const [ loading, setLoading ] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
-
-  const [ transferModalState, transferModalDispatch ] = useReducer(
+  const [transferModalState, transferModalDispatch] = useReducer(
     transferModalReducer,
     initialTransferModalState
   )
@@ -81,14 +81,17 @@ export const useGetTableData = (
 
   const data = useMemo(() => {
     if (!addresses || !chainsInfo) return []
+    const balancesFromStore = getBalancesFromStoreByAddresses(addresses)
+
     setLoading(true)
 
+    console.log(!balancesLoading ? 'entityFromRedux' : 'entityFromStore')
     const props: ParseBalanceTableInfoProps = {
       chainsInfo,
       tokenPrices,
       identities,
       isMulti,
-      balancesEntities,
+      balancesEntities: !balancesLoading ? balancesEntities : balancesFromStore,
       isMobile,
       onTransferClick: (token, network, tokenId) => {
         transferModalDispatch({
@@ -119,10 +122,16 @@ export const useGetTableData = (
   }, [
     addresses?.join(','),
     JSON.stringify(balancesEntities || {}),
+    balancesLoading,
     isMulti,
     language,
     balancesVariant,
   ])
 
-  return { loading: balancesLoading || loading, data, transferModalState, transferModalDispatch }
+  return {
+    loading,
+    data,
+    transferModalState,
+    transferModalDispatch,
+  }
 }
