@@ -1,12 +1,20 @@
 import { sendGetRequest } from './utils'
 
-export const getTxHistory = async (address: string) =>
+type GetTxHistory = { 
+  address: string
+  pageSize: number
+  offset: number 
+}
+
+export const getTxHistory = async ({ address, pageSize, offset }: GetTxHistory) =>
   sendGetRequest({
     params: {
       url: 'tx/history',
       config: {
         params: {
           address,
+          pageSize,
+          offset
         },
       },
     },

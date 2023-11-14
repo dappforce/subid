@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
 import { getTxHistory } from '../../api/txHistory'
+import { Transaction } from './types';
 
 type Txs = {
-  txs: any[]
+  txs: Transaction[]
   actualData: boolean
 }
 
-const useGetTxHistory = (address?: string) => {
+const useGetInitialTxHistoryData = (address?: string) => {
   const [txs, setTxs] = useState<Txs>({ txs: [], actualData: false })
 
   useEffect(() => {
     if (!address) return
 
     const getHistory = async () => {
-      const history = await getTxHistory(address)
+      const history = await getTxHistory({ address, pageSize: 30, offset: 0})
 
       setTxs(history)
     }
@@ -21,7 +22,7 @@ const useGetTxHistory = (address?: string) => {
     getHistory()
   }, [address])
 
-  return txs
+  return txs || {}
 }
 
-export default useGetTxHistory
+export default useGetInitialTxHistoryData

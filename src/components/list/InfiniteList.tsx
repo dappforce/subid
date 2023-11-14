@@ -1,14 +1,18 @@
-import DataList, { DataListProps } from './DataList'
-import { useState, useCallback, useEffect } from 'react'
-import { Loading, isClientSide, isServerSide } from '../utils'
-import { nonEmptyArr, isEmptyArray } from '@subsocial/utils'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { useLinkParams } from './utils'
+import { isEmptyArray, nonEmptyArr } from '@subsocial/utils'
 import { useRouter } from 'next/router'
-import { DataListItemProps, InnerLoadMoreFn, CanHaveMoreDataFn } from './types'
-import { tryParseInt, ButtonLink } from '../utils/index'
+import { useCallback, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import {
+  ButtonLink,
+  isClientSide,
+  isServerSide,
+  Loading,
+  tryParseInt,
+} from '../utils'
+import DataList, { DataListProps } from './DataList'
+import { CanHaveMoreDataFn, DataListItemProps, InnerLoadMoreFn } from './types'
+import { useLinkParams } from './utils'
 import { DEFAULT_FIRST_PAGE, DEFAULT_PAGE_SIZE } from './ListData.config'
-import styles from './Index.module.sass'
 
 const DEFAULT_THRESHOLD = isClientSide() ? window.innerHeight / 2 : undefined
 const DEFAULT_MODAL_THRESHOLD = isClientSide()
@@ -23,7 +27,7 @@ type InnerInfiniteListProps<T> = Partial<DataListProps<T>> &
     scrollableTarget?: string
     withLoadMoreLink?: boolean // Helpful for SEO
     canHaveMoreData: CanHaveMoreDataFn<T>
-    isCards?: boolean
+    children?: (props: DataListProps<T>) => JSX.Element
   }
 
 type InfiniteListPropsByData<T> = Omit<
@@ -81,13 +85,14 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     totalCount,
     canHaveMoreData,
     scrollableTarget,
-    isCards = false,
+    children,
     ...otherProps
   } = props
 
   const {
     query: { page: pagePath },
   } = useRouter()
+
   const hasInitialData = nonEmptyArr(dataSource)
 
   const initialPage = pagePath
@@ -96,7 +101,9 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
 
   const [ page, setPage ] = useState(initialPage)
   const [ data, setData ] = useState(dataSource || [])
-  const [ loading, setLoading ] = useState(false)
+
+  const loadingInitialState = !hasInitialData
+  const [ loading, setLoading ] = useState(loadingInitialState)
 
   const [ hasMore, setHasMore ] = useState(canHaveMoreData(dataSource, page))
 
@@ -112,10 +119,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
 
     setData([ ...data ])
 
-    if (!canHaveMoreData(newData, page)) {
-      setHasMore(false)
-    }
-
+    setHasMore(canHaveMoreData(newData, page))
     setPage(page + 1)
     setLoading(false)
   }, [])
@@ -131,6 +135,16 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
 
   const linkProps = getLinksParams(page + 1)
 
+  const dataListProps = {
+    ...otherProps,
+    totalCount,
+    dataSource: data,
+    getKey,
+    renderItem,
+  }
+
+  console.log(DEFAULT_THRESHOLD)
+
   // Default height for modals is set to 300, hence threshold for them is 150.
   return (
     <InfiniteScroll
@@ -145,25 +159,14 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
       scrollableTarget={scrollableTarget}
       loader={<Loading label={loadingLabel} />}
     >
-      {isCards ? (
-        <div className={styles.CardGrid}>
-          {data.map((x, i) => (
-            <div className={styles.GridItem} key={i}>
-              {renderItem(x, i)}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <DataList
-          {...otherProps}
-          totalCount={totalCount}
-          dataSource={data}
-          getKey={getKey}
-          renderItem={renderItem}
-        />
-      )}
-      {withLoadMoreLink && !loading && hasMore && isServerSide() && (
-        <ButtonLink block {...linkProps} className='bs-mb-2'>
+      {children ? children(dataListProps) : <DataList {...dataListProps} />}
+      {withLoadMoreLink && !loading && hasMore && (
+        <ButtonLink
+          block
+          {...linkProps}
+          className='mb-2'
+          style={{ opacity: isServerSide() ? 0 : 1 }}
+        >
           Load more
         </ButtonLink>
       )}
