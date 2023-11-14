@@ -1,6 +1,6 @@
 import { FormatBalance } from 'src/components/common/balances'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { useEraStakesByIds } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import DashboardCard from '../utils/DashboardCard'
@@ -18,7 +18,7 @@ type DashboardCardsProps = {
 
 const DashboardCards = ({ creators }: DashboardCardsProps) => {
   const { decimal, tokenSymbol: symbol } =
-    useGetDecimalsAndSymbolByNetwork('subsocial')
+    useGetChainDataByNetwork('subsocial')
   const myAddress = useMyAddress()
   const creatorRewards = useCreatorRewards(myAddress)
   const eraInfo = useGeneralEraInfo()

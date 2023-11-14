@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import BN from 'bignumber.js'
 import { convertToBalanceWithDecimal } from '@subsocial/utils'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 const blockReward = new BN(6)
 const eraReward = blockReward.multipliedBy(new BN(7200))
@@ -11,7 +11,7 @@ const backerPercent = new BN(0.6)
 
 export const useCalculateApr = () => {
   const generalEraInfo = useGeneralEraInfo()
-  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal } = useGetChainDataByNetwork('subsocial')
 
   const { info, loading } = generalEraInfo || {}
 

@@ -8,14 +8,19 @@ import {
 import { MutedDiv } from '../../utils/MutedText'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import clsx from 'clsx'
-import { Divider } from 'antd'
 import { Transaction } from '../types'
 import { toGenericAccountId } from '@/rtk/app/util'
 import { usePrices } from '@/rtk/features/prices/pricesHooks'
-import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { FormatBalance } from '@/components/common/balances'
 import { convertToBalanceWithDecimal } from '@subsocial/utils'
 import { BalanceView } from '../../homePage/address-views/utils/index'
+import { ExternalLink } from '../../identity/utils'
+
+const subscanLinksByNetwork: Record<string, string> = {
+  polkadot: 'https://polkadot.subscan.io/extrinsic/',
+  kusama: 'https://kusama.subscan.io/extrinsic/',
+}
 
 type TransferRowProps = {
   item: Transaction
@@ -23,9 +28,15 @@ type TransferRowProps = {
 
 export const TransferRow = ({ item }: TransferRowProps) => {
   const prices = usePrices()
-  const { txKind, amount, senderOrTargetPublicKey, blockchainTag } = item
+  const {
+    txKind,
+    amount,
+    senderOrTargetPublicKey,
+    blockchainTag,
+    transaction,
+  } = item
 
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork(
+  const { decimal, tokenSymbol, icon } = useGetChainDataByNetwork(
     blockchainTag.toLowerCase()
   )
 
@@ -43,6 +54,11 @@ export const TransferRow = ({ item }: TransferRowProps) => {
 
   const titleByKind = txKind === 'TRANSFER_TO' ? 'Sent' : 'Received'
 
+  const time = new Date(item.timestamp).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+
   const balance = (
     <FormatBalance
       value={amount || '0'}
@@ -52,12 +68,23 @@ export const TransferRow = ({ item }: TransferRowProps) => {
     />
   )
 
+  const extrinsicHash = transaction.transferNative.extrinsicHash
+
+  const subscanUrl = `${
+    subscanLinksByNetwork[blockchainTag.toLowerCase()]
+  }${extrinsicHash}`
+
   const title = (
     <div className={styles.TransferTitle}>
       {titleByKind} <span>•</span>{' '}
-      <MutedDiv className='d-flex align-items-center font-weight-normal'>
-        Transfer <HiOutlineExternalLink className='ml-1' />
-      </MutedDiv>
+      <ExternalLink
+        url={subscanUrl}
+        value={
+          <MutedDiv className='d-flex align-items-center font-weight-normal'>
+            Transfer <HiOutlineExternalLink className='ml-1' />
+          </MutedDiv>
+        }
+      />
     </div>
   )
 
@@ -72,18 +99,18 @@ export const TransferRow = ({ item }: TransferRowProps) => {
             )}
           >
             <AvatarOrSkeleton
-              icon={'/polkadot.svg'}
+              icon={icon}
               size={'large'}
               className='bs-mr-2 align-items-start flex-shrink-none'
             />
             <div>
-              <div className='font-weight-bold FontNormal'>{title}</div>
-              <MutedDiv>21:34</MutedDiv>
+              <div className='font-weight-semibold FontNormal'>{title}</div>
+              <MutedDiv>{time}</MutedDiv>
             </div>
           </div>
         </div>
         <div>
-          <MutedDiv>To</MutedDiv>
+          <MutedDiv>{txKind === 'TRANSFER_TO' ? 'To' : 'From'}</MutedDiv>
           <AccountPreview withAddress={false} account={address} />
           <Address
             name='Polkadot'
@@ -104,7 +131,7 @@ export const TransferRow = ({ item }: TransferRowProps) => {
           <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
         </div>
       </div>
-      <Divider className={clsx('m-0', styles.RowDivider)} />
+      {/* <Divider className={clsx('m-0', styles.RowDivider)} /> */}
     </div>
   )
 }
