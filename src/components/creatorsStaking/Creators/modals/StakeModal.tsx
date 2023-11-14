@@ -9,7 +9,7 @@ import React, { useEffect, useState, ChangeEvent } from 'react'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { FormatBalance } from 'src/components/common/balances'
 import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import Checkbox from '../../tailwind-components/Checkbox'
 import { linkTextStyles } from '../../tailwind-components/LinkText'
 import store from 'store'
@@ -80,7 +80,7 @@ type CurrentStakeProps = {
 const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
   const myAddress = useMyAddress()
   const backerInfo = useBackerInfo(spaceId, myAddress)
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
 
   const { info } = backerInfo || {}
 
@@ -176,7 +176,7 @@ const StakingModal = ({
 
   const stakingConsts = useStakingConsts()
 
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
 
   const { space } = creatorSpaceEntity || {}
 

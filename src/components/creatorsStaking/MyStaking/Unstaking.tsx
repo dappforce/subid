@@ -8,7 +8,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import BN from 'bignumber.js'
 import { useStakingContext } from 'src/components/staking/collators/StakingContext'
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { useGetNextEraTime } from '../hooks/useGetNextEraTime'
 import { useResponsiveSize } from 'src/components/responsive'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
@@ -66,7 +66,7 @@ const TimeRemaining = ({ unlockEra, className }: TimeRemainingProps) => {
 
 const Unstaking = () => {
   const myAddress = useMyAddress()
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
   const { isMobile } = useResponsiveSize()
 
   const columns: Column[] = [
