@@ -53,7 +53,10 @@ const MyRewards = () => {
 
   const myCreatorsIds = useGetMyCreatorsIds(creatorsSpaceIds)
 
-  useFetchBackerRewards(myAddress, myCreatorsIds)
+  useFetchBackerRewards(
+    myAddress,
+    myCreatorsIds.length ? myCreatorsIds : creatorsSpaceIds
+  )
 
   const backerLedger = useBackerLedger(myAddress)
 
@@ -116,13 +119,15 @@ const MyRewards = () => {
           restake={restake}
         />
       ),
-      tooltipTitle: 'The estimated amount of SUB you have available to claim as staking rewards',
+      tooltipTitle:
+        'The estimated amount of SUB you have available to claim as staking rewards',
     },
     {
       title: 'Re-Stake After Claiming',
       value: <div className='font-semibold'>{restake ? 'ON' : 'OFF'}</div>,
       button: <RestakeButton restake={restake} setRestake={setRestake} />,
-      tooltipTitle: 'Turning this on will automatically stake your rewards after you claim them',
+      tooltipTitle:
+        'Turning this on will automatically stake your rewards after you claim them',
     },
   ]
 
