@@ -185,7 +185,6 @@ const AccountsLayout = ({
         }
         noDataDesc='No spaces yet'
         getKey={(account: AccountCardType) => account.account}
-        isCards
         renderItem={renderItem}
       />
     )

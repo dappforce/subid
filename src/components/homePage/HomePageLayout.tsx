@@ -1,6 +1,6 @@
 import NtfLayout from '../ntf/NftsLayout'
 import { Tabs } from 'antd'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
 import TxHistoryLayout from '../txHistory'
@@ -34,11 +34,13 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
     }
   ]
 
+  const onChangeTab = useCallback((tab) => setActiveTab(tab as HomePageTabKeys), [])
+
   return (
     <>
       <Tabs
         activeKey={activeTab}
-        onChange={(tab) => setActiveTab(tab as HomePageTabKeys)}
+        onChange={(tab) => onChangeTab(tab)}
         renderTabBar={(props, DefaultTabBar) => (
           <div className={styles.TabName}>
             <DefaultTabBar {...props} />
