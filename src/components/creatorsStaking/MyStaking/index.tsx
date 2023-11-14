@@ -7,22 +7,31 @@ import {
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import MyRewards from './MyRewards'
 import Unstaking from './Unstaking'
-import { isEmptyArray } from '@subsocial/utils'
+import { isEmptyArray, isEmptyObj } from '@subsocial/utils'
 import WithdrawTxButton from './WithdrawTxButton'
+import { useBackerRewards } from '@/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 
 const MyStakingSection = () => {
   const myAddress = useMyAddress()
   const [ tab, setTab ] = useState(0)
   const backerLedger = useBackerLedger(myAddress)
+  const rewards = useBackerRewards(myAddress)
+
+  rewards?.data
 
   const { ledger } = backerLedger || {}
 
   const { locked, unbondingInfo } = ledger || {}
-  const unbondingChunks = unbondingInfo?.unbondingChunks 
+  const unbondingChunks = unbondingInfo?.unbondingChunks
 
   useFetchBackerLedger(myAddress)
 
-  if(!locked || locked === '0') return null
+  const hideSection =
+    (!locked || locked === '0') &&
+    !unbondingChunks?.length &&
+    isEmptyObj(rewards?.data?.availableClaimsBySpaceId || {})
+
+  if (hideSection) return null
 
   const tabs: TabsProps['tabs'] = [
     {
@@ -49,7 +58,11 @@ const MyStakingSection = () => {
           tabs={tabs}
           withHashIntegration={false}
           hideBeforeHashLoaded
-          tabsRightElement={tab === 1 ? <WithdrawTxButton switchToFirstTab={() => setTab(0)} /> : null}
+          tabsRightElement={
+            tab === 1 ? (
+              <WithdrawTxButton switchToFirstTab={() => setTab(0)} />
+            ) : null
+          }
           manualTabControl={{
             selectedTab: tab,
             setSelectedTab: (selectedTab) => setTab(selectedTab),
