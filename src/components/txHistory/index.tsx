@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
-import { InfiniteListByData, InfinitePageList } from '../list'
+import { InfiniteListByData } from '../list'
 import styles from './Index.module.sass'
 import { getTxHistory } from '@/api/txHistory'
 import { TransferRow } from './transactions/Transfer'
 import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
+import { useCallback } from 'react'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -20,8 +20,6 @@ type LoadMoreProps = {
 const loadMore = async ({ address, page, size }: LoadMoreProps) => {
   const offset = (page - 1) * size
 
-  console.log(offset, size)
-
   const history = await getTxHistory({ address, pageSize: size, offset })
 
   return history.txs
@@ -34,7 +32,6 @@ type TxHistoryLayoutProps = {
 const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const address = addresses[0]
 
-
   const renderItem = (item: Transaction) => {
     const { txKind } = item
 
@@ -43,20 +40,26 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     return <Component item={item} />
   }
 
-  return (
-    <div className={styles.HistoryBlock}>
-      <InfinitePageList
+  const List = useCallback(() => {
+    return (
+      <InfiniteListByData
         loadingLabel='Loading more transactions...'
         loadMore={(page, size) => loadMore({ address, page, size })}
-        totalCount={1000}
         noDataDesc='No transactions yet'
-        getKey={(data: any) => data.id}
+        // dataSource={[initialData]}
+        getKey={(data) => data.id}
         renderItem={renderItem}
       >
         {(dataListProps) => {
           return <CustomDataList {...dataListProps} />
         }}
-      </InfinitePageList>
+      </InfiniteListByData>
+    )
+  }, [addresses.join(',')])
+
+  return (
+    <div className={styles.HistoryBlock}>
+      <List />
     </div>
   )
 }

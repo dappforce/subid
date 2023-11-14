@@ -32,7 +32,7 @@ type InnerInfiniteListProps<T> = Partial<DataListProps<T>> &
 
 type InfiniteListPropsByData<T> = Omit<
   InnerInfiniteListProps<T>,
-  'canHaveMoreData'
+  'canHaveMoreData' | 'totalCount'
 >
 
 type InfiniteListByPageProps<T> = InfiniteListPropsByData<T> & {
@@ -99,41 +99,40 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     ? tryParseInt(pagePath.toString(), DEFAULT_FIRST_PAGE)
     : DEFAULT_FIRST_PAGE
 
-  const [ page, setPage ] = useState(initialPage)
+  const [ pageValue, setPageValue ] = useState(initialPage)
   const [ data, setData ] = useState(dataSource || [])
 
   const loadingInitialState = !hasInitialData
   const [ loading, setLoading ] = useState(loadingInitialState)
 
-  const [ hasMore, setHasMore ] = useState(canHaveMoreData(dataSource, page))
+  const [ hasMore, setHasMore ] = useState(canHaveMoreData(dataSource, pageValue))
 
   const getLinksParams = useLinkParams({
     defaultSize: DEFAULT_PAGE_SIZE,
-    triggers: [ page ],
+    triggers: [ pageValue ],
   })
 
   const handleInfiniteOnLoad = useCallback(async (page: number) => {
     setLoading(true)
     const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
-    data.push(...newData)
 
-    setData([ ...data ])
+    setData([...data, ...newData])
 
-    setHasMore(canHaveMoreData(newData, page))
-    setPage(page + 1)
     setLoading(false)
-  }, [])
+    setHasMore(canHaveMoreData(newData, page))
+    setPageValue(page + 1)
+  }, [data.length])
 
   useEffect(() => {
-    if (hasInitialData) return setPage(page + 1)
+    if (hasInitialData) return setPageValue(pageValue + 1)
 
-    handleInfiniteOnLoad(page)
+    handleInfiniteOnLoad(pageValue)
   }, [])
 
   if (!hasInitialData && isEmptyArray(data) && loading)
     return <Loading label={loadingLabel} />
 
-  const linkProps = getLinksParams(page + 1)
+  const linkProps = getLinksParams(pageValue + 1)
 
   const dataListProps = {
     ...otherProps,
@@ -142,8 +141,6 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     getKey,
     renderItem,
   }
-
-  console.log(DEFAULT_THRESHOLD)
 
   // Default height for modals is set to 300, hence threshold for them is 150.
   return (
@@ -154,7 +151,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
           ? DEFAULT_MODAL_THRESHOLD
           : DEFAULT_THRESHOLD
       }
-      next={() => handleInfiniteOnLoad(page)}
+      next={() => handleInfiniteOnLoad(pageValue)}
       hasMore={hasMore}
       scrollableTarget={scrollableTarget}
       loader={<Loading label={loadingLabel} />}
