@@ -32,7 +32,7 @@ import store from 'store'
 import SwitchIcon from '@/assets/icons/switch.svg'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { isDef, isEmptyArray, isEmptyObj } from '@subsocial/utils'
+import { isDef, isEmptyArray } from '@subsocial/utils'
 
 type CommonProps = {
   balancesVariant: BalanceVariant
@@ -78,7 +78,7 @@ const ActionPannel = ({
     const balances = Object.values(balancesFromStore || {}).map(items => items?.balances)
 
     return !isEmptyArray(balances.filter(isDef))
-  }, [JSON.stringify(balancesFromStore || {})])
+  }, [ JSON.stringify(balancesFromStore || {}) ])
 
   const totalBalance = loading ? (
     <Tooltip title={showInfoIcon ? 'Balance data is being refreshed, the currently displayed balances may be incorrect' : ''}>
