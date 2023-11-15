@@ -37,6 +37,7 @@ export type ParseBalanceTableInfoProps = {
   isMulti?: boolean
   balancesEntities?: BalanceEntityRecord
   isMobile: boolean
+  loading: boolean
   onTransferClick: (
     token: string,
     network: string,
@@ -87,6 +88,7 @@ export const parseTokenCentricView = ({
   isMulti,
   balancesEntities,
   isMobile,
+  loading,
   onTransferClick,
   t,
 }: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
@@ -150,6 +152,7 @@ export const parseTokenCentricView = ({
           isMulti,
           identities,
           priceValue,
+          loading,
           tokenId,
           chainsInfo,
           onTransferClick,
@@ -211,7 +214,7 @@ export const parseTokenCentricView = ({
           networkIcons,
           transferAction: (
             <Button
-              disabled={!chainInfo.isTransferable}
+              disabled={!chainInfo.isTransferable || loading}
               size='small'
               shape={'circle'}
               onClick={onButtonClick}
@@ -363,6 +366,7 @@ type GetChildrenBalanceParams = {
   chainsInfo: MultiChainInfo
   tokenId: string
   priceValue: string
+  loading: boolean
   identities?: AccountIdentitiesRecord
   onTransferClick: (
     token: string,
@@ -378,6 +382,7 @@ function getChildrenBalances ({
   chainsInfo,
   tokenId,
   priceValue,
+  loading,
   onTransferClick,
   t,
 }: GetChildrenBalanceParams) {
@@ -464,6 +469,7 @@ function getChildrenBalances ({
           network={network}
           action={onButtonClick}
           showActionButton={false}
+          disableTransferButton={!chainInfo.isTransferable || loading}
         />
       ),
       showLinks: (isShow: boolean) => (
@@ -471,11 +477,12 @@ function getChildrenBalances ({
           action={onButtonClick}
           network={network}
           showActionButton={isShow}
+          disableTransferButton={!chainInfo.isTransferable || loading}
         />
       ),
       transferAction: (
         <Button
-          disabled={!chainInfo.isTransferable}
+          disabled={!chainInfo.isTransferable || loading}
           size='small'
           shape={'circle'}
           onClick={onButtonClick}

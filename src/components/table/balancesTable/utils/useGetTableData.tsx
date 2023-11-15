@@ -1,9 +1,10 @@
-import { useReducer, useMemo, useState } from 'react'
+import { useReducer, useMemo, useState, useEffect } from 'react'
 import {
   ParseBalanceTableInfoProps,
   parseTokenCentricView,
 } from '../parseData/parseTokenCentricView'
 import {
+  defaultBalances,
   useIsMulti,
   useMyExtensionAccount,
 } from 'src/components/providers/MyExtensionAccountsContext'
@@ -21,6 +22,7 @@ import { parseBalancesTableInfo } from '../parseData/parseBalanceInfo'
 import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 import { useResponsiveSize } from 'src/components/responsive'
 import { calculateDashboardBalances } from '../calculateDashboardBalances'
+import { getBalancesFromStoreByAddresses } from '.'
 
 type TransferModalState = {
   open: boolean
@@ -66,7 +68,6 @@ export const useGetTableData = (
   const { setBalances } = useMyExtensionAccount()
   const [ loading, setLoading ] = useState<boolean>(false)
 
-
   const [ transferModalState, transferModalDispatch ] = useReducer(
     transferModalReducer,
     initialTransferModalState
@@ -76,11 +77,16 @@ export const useGetTableData = (
   const chainsInfo = useChainInfo()
   const identities = useIdentitiesByAccounts(addresses)
   const balancesEntities = useManyBalances(addresses)
+  const { setRefreshBalances } = useMyExtensionAccount()
 
   const balancesLoading = isDataLoading(balancesEntities)
 
+  useEffect(() => setRefreshBalances(balancesLoading), [ balancesLoading ])
+
   const data = useMemo(() => {
     if (!addresses || !chainsInfo) return []
+    const balancesFromStore = getBalancesFromStoreByAddresses(addresses)
+
     setLoading(true)
 
     const props: ParseBalanceTableInfoProps = {
@@ -88,8 +94,9 @@ export const useGetTableData = (
       tokenPrices,
       identities,
       isMulti,
-      balancesEntities,
+      balancesEntities: !balancesLoading ? balancesEntities : balancesFromStore,
       isMobile,
+      loading: !!balancesLoading,
       onTransferClick: (token, network, tokenId) => {
         transferModalDispatch({
           type: 'OPEN',
@@ -106,11 +113,11 @@ export const useGetTableData = (
         : parseTokenCentricView(props)
 
     if (tableInfo && !isEmptyArray(tableInfo)) {
-      const data = calculateDashboardBalances(
+      const data = !balancesLoading ? calculateDashboardBalances(
         tableInfo,
         balancesVariant,
         isMulti
-      )
+      ) : defaultBalances
       setBalances(data)
       setLoading(false)
     }
@@ -119,10 +126,17 @@ export const useGetTableData = (
   }, [
     addresses?.join(','),
     JSON.stringify(balancesEntities || {}),
+    balancesLoading,
     isMulti,
     language,
     balancesVariant,
   ])
 
-  return { loading: balancesLoading || loading, data, transferModalState, transferModalDispatch }
+  return {
+    loading,
+    balancesLoading,
+    data,
+    transferModalState,
+    transferModalDispatch,
+  }
 }

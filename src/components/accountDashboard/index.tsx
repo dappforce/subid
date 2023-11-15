@@ -1,25 +1,28 @@
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Tooltip } from 'antd'
+import { Skeleton, Tooltip } from 'antd'
 import { MutedSpan } from '../utils/MutedText'
 import styles from './Index.module.sass'
-import { useMyBalances } from '../providers/MyExtensionAccountsContext'
+import {
+  useMyBalances,
+  useMyExtensionAccount,
+} from '../providers/MyExtensionAccountsContext'
 import { BalanceView } from '../homePage/address-views/utils/index'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 
 type TotalSectionProps = {
   title: string
   totalBalance: string
+  loading?: boolean
   description?: string
-  withDivider?: boolean
-  withMargin?: boolean
 }
 
 const TotalSection = ({
   title,
   totalBalance,
   description,
+  loading,
 }: TotalSectionProps) => {
   return (
     <>
@@ -33,22 +36,30 @@ const TotalSection = ({
           )}
         </MutedSpan>
 
-        <BalanceView
-          value={totalBalance.toString()}
-          symbol='$'
-          startWithSymbol
-          className={styles.FontLarge}
-        />
+        {loading ? (
+          <Skeleton
+            active
+            title={false}
+            paragraph={{ rows: 1, className: styles.SkeletonParagraph }}
+            className={styles.Skeleton}
+          />
+        ) : (
+          <BalanceView
+            value={totalBalance.toString()}
+            symbol='$'
+            startWithSymbol
+            className={styles.FontLarge}
+          />
+        )}
       </div>
     </>
   )
 }
 
 export const AccountDashboard = () => {
-  const [ totalBalance, setTotalBalance ] = useState(BIGNUMBER_ZERO)
-  const [ lockedBalance, setLockedBalance ] = useState(BIGNUMBER_ZERO)
   const { t } = useTranslation()
   const balances = useMyBalances()
+  const { refreshBalances } = useMyExtensionAccount()
 
   const {
     freeChainBalances,
@@ -60,24 +71,23 @@ export const AccountDashboard = () => {
   const freeBalance = freeChainBalances
   const nonTransferableBalance = lockedChainBalances.plus(assetLockedBalance)
 
-  useEffect(() => {
+  const lockedBalance = useMemo(() => {
     const lockedBalancesValues = Object.values(lockedCrowdloanBalances)
 
     let balance = BIGNUMBER_ZERO
     lockedBalancesValues.forEach((value) => (balance = balance.plus(value)))
 
-    setLockedBalance(balance)
+    return balance
   }, [ JSON.stringify(lockedCrowdloanBalances) ])
 
-  useEffect(() => {
-    setTotalBalance(
-      freeBalance.plus(nonTransferableBalance).plus(lockedBalance)
-    )
-  }, [
-    freeBalance.toString(),
-    nonTransferableBalance.toString(),
-    lockedBalance.toString(),
-  ])
+  const totalBalance = useMemo(
+    () => freeBalance.plus(nonTransferableBalance).plus(lockedBalance),
+    [
+      freeBalance.toString(),
+      nonTransferableBalance.toString(),
+      lockedBalance.toString(),
+    ]
+  )
 
   const rows = [
     {
@@ -109,6 +119,7 @@ export const AccountDashboard = () => {
         title={title}
         totalBalance={balance.toFixed(2)}
         description={description}
+        loading={refreshBalances}
       />
     )
   })

@@ -1,8 +1,5 @@
 import { call, put, select, takeEvery } from '@redux-saga/core/effects'
-import {
-  getAccountBalancesByNetwork,
-  getAccountBalances,
-} from 'src/api'
+import { getAccountBalancesByNetwork, getAccountBalances } from 'src/api'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import {
@@ -14,8 +11,9 @@ import {
 import { all } from 'redux-saga/effects'
 import { FetchProps, log, isEmptyEntity } from '../../app/util'
 import { AccountInfoItem } from 'src/components/identity/types'
+import { setBalancesToStore } from '@/components/table/balancesTable/utils'
 
-function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
+function* fetchBalancesWorker(action: PayloadAction<FetchProps>) {
   const { accounts, reload = false } = action.payload
 
   try {
@@ -33,6 +31,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
 
       if (isEmptyEntity(balances) || reload) {
         balances = yield call(getAccountBalances, account)
+        setBalancesToStore(account, balances)
       }
 
       return {
@@ -52,7 +51,7 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
   }
 }
 
-function* fetchBalancesByNetwork (account: string, network: string) {
+function* fetchBalancesByNetwork(account: string, network: string) {
   if (!account || !network) return
 
   const balancesEntity: BalancesEntity = yield select(selectBalances, account)
@@ -62,7 +61,7 @@ function* fetchBalancesByNetwork (account: string, network: string) {
     { account, network }
   )
 
-  const augmentedBalances = [ ...(balancesEntity.balances ?? []) ]
+  const augmentedBalances = [...(balancesEntity.balances ?? [])]
   let found = false
   for (let i = 0; i < augmentedBalances.length; i++) {
     const balance = augmentedBalances[i]
@@ -83,7 +82,7 @@ function* fetchBalancesByNetwork (account: string, network: string) {
   }
 }
 
-function* fetchBalancesByNetworkWorker (
+function* fetchBalancesByNetworkWorker(
   action: PayloadAction<FetchBalanceByNetworkProps>
 ) {
   const { accounts, network } = action.payload
@@ -92,7 +91,10 @@ function* fetchBalancesByNetworkWorker (
 
   try {
     const dataMap = accounts.map(function* (account) {
-      const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(account, network)
+      const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(
+        account,
+        network
+      )
 
       return accountBalanceByNetwork
     })
@@ -107,11 +109,11 @@ function* fetchBalancesByNetworkWorker (
   }
 }
 
-export function* watchBalances () {
+export function* watchBalances() {
   yield takeEvery(balancesActions.fetchBalances.type, fetchBalancesWorker)
 }
 
-export function* watchBalancesByNetwork () {
+export function* watchBalancesByNetwork() {
   yield takeEvery(
     balancesActions.fetchBalanceByNetwork.type,
     fetchBalancesByNetworkWorker

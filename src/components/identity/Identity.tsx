@@ -67,7 +67,7 @@ export const IdentityPreview = ({
   showLabel = true,
 }: TabNameWithLogoProps) => {
   const chainsInfo = useChainInfo()
-  const chainIcon = chainsInfo[network].icon
+  const chainIcon = chainsInfo[network]?.icon || ''
   const imgUrl = getIconUrl(chainIcon)
 
   return (

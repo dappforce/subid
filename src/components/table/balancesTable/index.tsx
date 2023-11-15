@@ -39,7 +39,7 @@ const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
     tableVariantFromStore || 'chains'
   )
 
-  const { loading, data, transferModalState, transferModalDispatch } =
+  const { loading, balancesLoading, data, transferModalState, transferModalDispatch } =
     useGetTableData(addresses, balancesVariant)
 
   const { t } = useTranslation()
@@ -49,7 +49,7 @@ const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
       <ActionPannel
         balancesVariant={balancesVariant}
         setBalancesVariant={setBalancesVariant}
-        loading={loading}
+        loading={!!balancesLoading}
         addresses={addresses}
       />
 

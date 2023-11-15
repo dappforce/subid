@@ -13,6 +13,9 @@ import {
 } from '@ant-design/icons'
 import TokenCentricIcon from '@/assets/icons/token-centric.svg'
 import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
+import store from 'store'
+import { AccountInfoItem } from '@/components/identity/types'
+import { BalanceEntityRecord } from '@/rtk/features/balances/balancesSlice'
 
 export const allowedTokensByNetwork: Record<string, string[]> = {
   statemine: [
@@ -43,11 +46,41 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
   statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'BUSD' ],
 }
 
+const BALANCES_KEY = 'balances'
+
+export const getBalancesFromStore = () => store.get(BALANCES_KEY)
+
+export const setBalancesToStore = (
+  address: string,
+  balances?: AccountInfoItem[]
+) => {
+  const balancesFromStore = getBalancesFromStore()
+
+  balances &&
+    store.set(BALANCES_KEY, {
+      ...balancesFromStore,
+      [address]: balances,
+    })
+}
+
+export const getBalancesFromStoreByAddresses = (addresses: string[]) => {
+  const balancesFromStore = getBalancesFromStore()
+
+  const entity: Record<string, { balances: AccountInfoItem[] }> = {}
+
+  addresses.forEach(
+    (address) => (entity[address] = { balances: balancesFromStore?.[address] })
+  )
+
+  return entity as BalanceEntityRecord
+}
+
 export const getBalancePart = (balance: JSX.Element, withMargin?: boolean) => (
   <div className={clsx('d-grid', withMargin && 'bs-mr-4')}>{balance}</div>
 )
 
-export const encodeTokenId = (address: string, tokenId: string) => `${address}-and-${tokenId}`
+export const encodeTokenId = (address: string, tokenId: string) =>
+  `${address}-and-${tokenId}`
 
 export const decodeTokenId = (tokenId: string) => {
   const [ address, id ] = tokenId.split('-and-')
@@ -77,19 +110,13 @@ const LabelWithIcon = ({ label, iconSrc }: LabelWithIconProps) => {
 export const balanceVariantsWithIconOpt = [
   {
     label: (
-      <LabelWithIcon
-        label={'Chain-centric'}
-        iconSrc={<ChainCentricIcon />}
-      />
+      <LabelWithIcon label={'Chain-centric'} iconSrc={<ChainCentricIcon />} />
     ),
     key: 'chains',
   },
   {
     label: (
-      <LabelWithIcon
-        label={'Tokens-centric'}
-        iconSrc={<TokenCentricIcon />}
-      />
+      <LabelWithIcon label={'Tokens-centric'} iconSrc={<TokenCentricIcon />} />
     ),
     key: 'tokens',
   },
@@ -102,15 +129,27 @@ export const balanceVariantsOpt = [
 
 export const balancesViewOpt = [
   {
-    label: <LabelWithIcon iconSrc={<MenuOutlined width={16} />} label={'Table'} />,
+    label: (
+      <LabelWithIcon iconSrc={<MenuOutlined width={16} />} label={'Table'} />
+    ),
     key: 'table',
   },
   {
-    label: <LabelWithIcon iconSrc={<AppstoreOutlined width={16} />} label={'Cards'} />,
+    label: (
+      <LabelWithIcon
+        iconSrc={<AppstoreOutlined width={16} />}
+        label={'Cards'}
+      />
+    ),
     key: 'cards',
   },
   {
-    label: <LabelWithIcon iconSrc={<LineChartOutlined width={16} />} label={'Chart'} />,
+    label: (
+      <LabelWithIcon
+        iconSrc={<LineChartOutlined width={16} />}
+        label={'Chart'}
+      />
+    ),
     key: 'pie',
   },
 ]

@@ -233,6 +233,10 @@
   min-width: 100vw !important;
 }
 
+.bs-min-w-fit {
+  min-width: fit-content !important;
+}
+
 .h-25 {
   height: 25% !important;
 }

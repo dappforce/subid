@@ -17,8 +17,10 @@ export type ExtensionAccountContext = {
   isMulti: boolean
   balances: Balances
   currentStep: number
+  refreshBalances: boolean
   setIsMulti: (isMulti: boolean) => void
   setBalances: (balance: Partial<Balances>) => void
+  setRefreshBalances: (refresh: boolean) => void
   setMyAddress: (address: string) => void
   signOut: () => void
   openModal: () => void
