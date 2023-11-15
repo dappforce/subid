@@ -81,7 +81,7 @@ const ActionPannel = ({
   }, [JSON.stringify(balancesFromStore || {})])
 
   const totalBalance = loading ? (
-    <Tooltip title={showInfoIcon ? 'Refreshing balances' : ''}>
+    <Tooltip title={showInfoIcon ? 'Balance data is being refreshed, the currently displayed balances may be incorrect' : ''}>
       <div className='d-flex align-items-center'>
         <Skeleton
           active
@@ -89,7 +89,7 @@ const ActionPannel = ({
           paragraph={{ rows: 1, className: styles.SkeletonParagraph }}
           className={styles.Skeleton}
         />
-        {showInfoIcon && <InfoCircleOutlined className={styles.WarningIcon} color={'#faad14'} />}
+        {showInfoIcon && <InfoCircleOutlined className={styles.WarningIcon} />}
       </div>
     </Tooltip>
   ) : (
