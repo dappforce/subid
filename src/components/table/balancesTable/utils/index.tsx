@@ -43,7 +43,7 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'PHA',
     'PARA',
   ],
-  statemint: ['WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'BUSD'],
+  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'BUSD' ],
 }
 
 const BALANCES_KEY = 'balances'
@@ -83,7 +83,7 @@ export const encodeTokenId = (address: string, tokenId: string) =>
   `${address}-and-${tokenId}`
 
 export const decodeTokenId = (tokenId: string) => {
-  const [address, id] = tokenId.split('-and-')
+  const [ address, id ] = tokenId.split('-and-')
   return { address, id }
 }
 
@@ -97,7 +97,7 @@ const LabelWithIcon = ({ label, iconSrc }: LabelWithIconProps) => {
     <div className={'d-flex align-items-center'}>
       <div className={clsx(styles.IconCircle, 'bs-mr-2')}>
         {typeof iconSrc === 'string' ? (
-          <Image src={iconSrc} alt="" height={16} width={16} />
+          <Image src={iconSrc} alt='' height={16} width={16} />
         ) : (
           iconSrc
         )}

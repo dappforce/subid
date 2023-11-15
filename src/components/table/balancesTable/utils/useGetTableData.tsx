@@ -1,9 +1,10 @@
-import { useReducer, useMemo, useState } from 'react'
+import { useReducer, useMemo, useState, useEffect } from 'react'
 import {
   ParseBalanceTableInfoProps,
   parseTokenCentricView,
 } from '../parseData/parseTokenCentricView'
 import {
+  defaultBalances,
   useIsMulti,
   useMyExtensionAccount,
 } from 'src/components/providers/MyExtensionAccountsContext'
@@ -65,9 +66,9 @@ export const useGetTableData = (
   const sendTransferEvent = useBuildSendEvent('click_on_transfer_button')
   const { isMobile } = useResponsiveSize()
   const { setBalances } = useMyExtensionAccount()
-  const [loading, setLoading] = useState<boolean>(false)
+  const [ loading, setLoading ] = useState<boolean>(false)
 
-  const [transferModalState, transferModalDispatch] = useReducer(
+  const [ transferModalState, transferModalDispatch ] = useReducer(
     transferModalReducer,
     initialTransferModalState
   )
@@ -76,8 +77,11 @@ export const useGetTableData = (
   const chainsInfo = useChainInfo()
   const identities = useIdentitiesByAccounts(addresses)
   const balancesEntities = useManyBalances(addresses)
+  const { setRefreshBalances } = useMyExtensionAccount()
 
   const balancesLoading = isDataLoading(balancesEntities)
+
+  useEffect(() => setRefreshBalances(balancesLoading), [ balancesLoading ])
 
   const data = useMemo(() => {
     if (!addresses || !chainsInfo) return []
@@ -85,7 +89,6 @@ export const useGetTableData = (
 
     setLoading(true)
 
-    console.log(!balancesLoading ? 'entityFromRedux' : 'entityFromStore')
     const props: ParseBalanceTableInfoProps = {
       chainsInfo,
       tokenPrices,
@@ -93,6 +96,7 @@ export const useGetTableData = (
       isMulti,
       balancesEntities: !balancesLoading ? balancesEntities : balancesFromStore,
       isMobile,
+      loading: !!balancesLoading,
       onTransferClick: (token, network, tokenId) => {
         transferModalDispatch({
           type: 'OPEN',
@@ -109,11 +113,11 @@ export const useGetTableData = (
         : parseTokenCentricView(props)
 
     if (tableInfo && !isEmptyArray(tableInfo)) {
-      const data = calculateDashboardBalances(
+      const data = !balancesLoading ? calculateDashboardBalances(
         tableInfo,
         balancesVariant,
         isMulti
-      )
+      ) : defaultBalances
       setBalances(data)
       setLoading(false)
     }
@@ -130,6 +134,7 @@ export const useGetTableData = (
 
   return {
     loading,
+    balancesLoading,
     data,
     transferModalState,
     transferModalDispatch,

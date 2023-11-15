@@ -16,7 +16,7 @@ getInitialPropsWithRedux(HomePage, async ({ dispatch, context }) => {
     await fetchDataByAccount(dispatch, accounts, false, true)
 
     if (accounts.length === 1) {
-      fetchIdentities(dispatch, [accounts[0]], true)
+      fetchIdentities(dispatch, [ accounts[0] ], true)
     }
   }
 

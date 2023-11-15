@@ -121,6 +121,7 @@ type ParseBalanceTableInfoProps = {
   isMulti?: boolean
   balancesEntities?: BalanceEntityRecord
   isMobile: boolean
+  loading: boolean
   onTransferClick: (token: string, network: string) => void
   t: TFunction
 }
@@ -161,6 +162,7 @@ export const parseBalancesTableInfo = ({
   isMulti,
   balancesEntities,
   onTransferClick,
+  loading,
   t,
 }: ParseBalanceTableInfoProps): BalancesTableInfo[] => {
   if (!balancesEntities) return []
@@ -392,6 +394,7 @@ export const parseBalancesTableInfo = ({
                   network={supportedNetwork}
                   action={onButtonClick}
                   showActionButton={false}
+                  disableTransferButton={!chainInfo.isTransferable || loading}
                 />
               ),
               showLinks: (isShow: boolean) => (
@@ -399,11 +402,12 @@ export const parseBalancesTableInfo = ({
                   action={onButtonClick}
                   network={supportedNetwork}
                   showActionButton={isShow}
+                  disableTransferButton={!chainInfo.isTransferable || loading}
                 />
               ),
               transferAction: (
                 <Button
-                  disabled={!chainInfo.isTransferable}
+                  disabled={!chainInfo.isTransferable || loading}
                   size='small'
                   shape={'circle'}
                   onClick={onButtonClick}

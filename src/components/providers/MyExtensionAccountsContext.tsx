@@ -18,7 +18,7 @@ const defaultCrowdloanBalances = {
   polkadot: BIGNUMBER_ZERO
 }
 
-const defaultBalances = {
+export const defaultBalances = {
   freeChainBalances: BIGNUMBER_ZERO,
   lockedChainBalances: BIGNUMBER_ZERO,
   lockedCrowdloanBalances: defaultCrowdloanBalances,
@@ -45,6 +45,7 @@ export function ExtensionAccountProvider (props: React.PropsWithChildren<{}>) {
   const [ myAccount, setMyAccount ] = useState<string>()
   const [ isMulti, setIsMulti ] = useState(currentAddress ? checkIsMulti(currentAddress.join(',')) : false)
   const [ balances, setBalances ] = useState<Balances>(defaultBalances)
+  const [ refreshBalances, setRefreshBalances ] = useState(false)
   const dispatch = useAppDispatch()
 
   const { query: { address: addressOrDomainFromUrl } } = useRouter()
@@ -96,6 +97,8 @@ export function ExtensionAccountProvider (props: React.PropsWithChildren<{}>) {
     balances,
     currentStep,
     isMulti,
+    refreshBalances,
+    setRefreshBalances,
     setBalances: (balances: Partial<Balances>) => setBalances(b => ({ ...b, ...balances })),
     setMyAddress: (address: string) => setMyAccount(address),
     setIsMulti: (isMulti: boolean) => setIsMulti(isMulti),

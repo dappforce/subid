@@ -2,12 +2,25 @@ import { useTranslation } from 'react-i18next'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
 import { useTableContext } from '../../customTable/TableContext'
 import { useMyExtensionAccount } from 'src/components/providers/MyExtensionAccountsContext'
-import { Button, Checkbox, Divider, Dropdown, Radio, Tooltip } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Dropdown,
+  Radio,
+  Skeleton,
+  Tooltip,
+} from 'antd'
 import TableDropdownButton from './TableDropdownButton'
 import { BalanceVariant } from '../types'
-import { balanceVariantsOpt, balanceVariantsWithIconOpt, balancesViewOpt } from '.'
+import {
+  balanceVariantsOpt,
+  balanceVariantsWithIconOpt,
+  balancesViewOpt,
+  getBalancesFromStoreByAddresses,
+} from '.'
 import { TableView } from '../../types'
-import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 import { fetchBalances } from 'src/rtk/features/balances/balancesHooks'
 import { useAppDispatch } from 'src/rtk/app/store'
 import styles from './Index.module.sass'
@@ -18,6 +31,8 @@ import { BALANCE_TABLE_VARIANT } from '../../utils'
 import store from 'store'
 import SwitchIcon from '@/assets/icons/switch.svg'
 import clsx from 'clsx'
+import { useMemo } from 'react'
+import { isDef, isEmptyArray, isEmptyObj } from '@subsocial/utils'
 
 type CommonProps = {
   balancesVariant: BalanceVariant
@@ -39,13 +54,15 @@ const ActionPannel = ({
   const dispatch = useAppDispatch()
   const { showZeroBalances, setShowZeroBalances } = useTableContext()
 
+  const balancesFromStore = getBalancesFromStoreByAddresses(addresses)
+
   const {
     balances: { freeChainBalances, lockedChainBalances },
   } = useMyExtensionAccount()
 
   const fetchBalancesFunc = () => fetchBalances(dispatch, addresses, true)
 
-  const totalBalance = freeChainBalances.plus(lockedChainBalances)
+  const totalBalanceBN = freeChainBalances.plus(lockedChainBalances)
 
   const onCheckboxChange = (e: any) => {
     setShowZeroBalances(e.target.checked)
@@ -57,14 +74,36 @@ const ActionPannel = ({
     <DesktopButtons {...balanceVariantProps} />
   )
 
+  const showInfoIcon = useMemo(() => {
+    const balances = Object.values(balancesFromStore || {}).map(items => items?.balances)
+
+    return !isEmptyArray(balances.filter(isDef))
+  }, [JSON.stringify(balancesFromStore || {})])
+
+  const totalBalance = loading ? (
+    <Tooltip title={showInfoIcon ? 'Refreshing balances' : ''}>
+      <div className='d-flex align-items-center'>
+        <Skeleton
+          active
+          title={false}
+          paragraph={{ rows: 1, className: styles.SkeletonParagraph }}
+          className={styles.Skeleton}
+        />
+        {showInfoIcon && <InfoCircleOutlined className={styles.WarningIcon} color={'#faad14'} />}
+      </div>
+    </Tooltip>
+  ) : (
+    <BalanceView value={totalBalanceBN} symbol='$' startWithSymbol />
+  )
+
   return (
     <div className={clsx('bs-mb-3', { ['bs-px-3']: isMobile })}>
       <div className='d-flex align-items-center justify-content-between'>
         <div
           className={'d-flex aling-items-center font-weight-bold FontNormal'}
         >
-          <div className='bs-mr-2'>{t('general.total')}</div>
-          <BalanceView value={totalBalance} symbol='$' startWithSymbol />
+          <div className='bs-mr-2 bs-min-w-fit'>{t('general.total')}</div>
+          {totalBalance}
         </div>
         <div className={styles.TableActionButtons}>
           {buttons}
@@ -150,7 +189,9 @@ const DrowdownOverlay = ({
   return (
     <div className={styles.MobileButtonsOverlay}>
       <Checkbox checked={showZeroBalances} onChange={onCheckboxChange}>
-        <MutedSpan className='FontNormal'>{t('table.balances.checkBoxText')}</MutedSpan>
+        <MutedSpan className='FontNormal'>
+          {t('table.balances.checkBoxText')}
+        </MutedSpan>
       </Checkbox>
       <Divider className={styles.DropdownDivider} />
       <div className='w-100'>

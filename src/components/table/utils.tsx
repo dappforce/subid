@@ -309,7 +309,7 @@ export const BalancePart = <T extends TableInfo>({
     store.set(storeShowZeroBalance, showZeroBalances)
   }, [ showZeroBalances ])
 
-  if (!data || !skeleton) return <Loading />
+  if (!data || !skeleton) return <TableLoading loadingLabel={loadingLabel} />
 
   let tableData = skeleton
 
@@ -638,7 +638,7 @@ type EntitiesRecord =
   | StakingCandidateInfoRecord
 
 export const isDataLoading = <T extends EntitiesRecord>(data?: T) => {
-  if (!data) return
+  if (!data) return true
 
   const dataValues = Object.values(data)
 
