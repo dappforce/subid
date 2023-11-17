@@ -11,6 +11,16 @@
   flex-direction: column
   gap: $space_big
 
+.ColoredIcon
+  path
+    fill: auto !important
+    stroke: auto !important
+
+.IconBox
+  svg
+    height: auto
+    width: auto
+
 .TxHistoryActionButtons
   display: flex
   align-items: center
@@ -22,15 +32,18 @@
   align-items: center
   gap: $space_tiny
 
+.TransactionByDateContainer
+  display: flex
+  flex-direction: column
+  gap: $space_tiny
+
 .LeftPart,
 .RightPart
   @extend .CommonActionButtonsParts
 
-
 .Date
   font-size: $font_normal
   font-weight: 600
-  margin-bottom: $space_tiny
 
 .GroupedData
   display: flex

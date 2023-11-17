@@ -3,14 +3,17 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import { MenuItem } from './types'
 import styles from './Index.module.sass'
+import { FaCheck } from 'react-icons/fa'
 
 export type DropdownActionKind = 'select' | 'deselect'
 
+type SelectbleMenuItem = MenuItem & {}
+
 type MenuItemsProps = {
-  items: MenuItem[]
+  items: SelectbleMenuItem[]
   className?: string
   onChange?: (keys: string[], kind: DropdownActionKind) => void
-  defaultValue: string,
+  defaultValue: string
   values: string[]
 }
 
@@ -22,7 +25,7 @@ const MenuItems = ({
   defaultValue,
 }: MenuItemsProps) => (
   <Menu
-    className={clsx(styles.MenuStyles, className)}
+    className={clsx(styles.SelectbleMenuStyles, className)}
     defaultSelectedKeys={[ defaultValue ]}
     selectedKeys={values}
     onSelect={(item) => onChange?.(item.selectedKeys as string[], 'select')}
@@ -30,9 +33,14 @@ const MenuItems = ({
     selectable
     multiple
   >
-    {items.map(({ key, label }) => (
-      <Menu.Item key={key}>{label}</Menu.Item>
-    ))}
+    {items.map(({ key, label }) => {
+      const isSelected = values.includes(key)
+      return (
+        <Menu.Item key={key} className={styles.SelectbleMenuItem}>
+          {label} {isSelected && <FaCheck />}
+        </Menu.Item>
+      )
+    })}
   </Menu>
 )
 
@@ -71,7 +79,7 @@ const SelectbleDropdown = ({
       placement='bottomCenter'
       trigger={[ 'click' ]}
     >
-      <Button>{label}</Button>
+      <Button className='ColoredIcon'>{label}</Button>
     </Dropdown>
   )
 }

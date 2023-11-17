@@ -91,12 +91,13 @@ type LabelWithIconProps = {
   label: string
   iconSrc: string | React.ReactNode
   iconSize?: number
+  iconClassName?: string
 }
 
-export const LabelWithIcon = ({ label, iconSrc, iconSize = 16 }: LabelWithIconProps) => {
+export const LabelWithIcon = ({ label, iconSrc, iconSize = 16, iconClassName }: LabelWithIconProps) => {
   return (
     <div className={'d-flex align-items-center'}>
-      <div className={clsx(styles.IconCircle, 'bs-mr-2')}>
+      <div className={clsx(styles.IconCircle, iconClassName, 'bs-mr-2')}>
         {typeof iconSrc === 'string' ? (
           <Image src={iconSrc} alt='' className={styles.IconInLabel} height={iconSize} width={iconSize} />
         ) : (

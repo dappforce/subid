@@ -19,3 +19,17 @@
     &:hover
       path
         fill: $color_primary
+
+.SelectbleMenuStyles
+  @extend .CommonOverlay
+  
+  min-width: 175px !important
+
+  \:global .ant-menu-item-selected
+    background: none !important
+
+
+.SelectbleMenuItem
+  display: flex
+  align-items: center
+  justify-content: space-between
