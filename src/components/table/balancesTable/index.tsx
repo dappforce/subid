@@ -61,6 +61,7 @@ const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
         storeTableView={storeTableView}
         storeShowZeroBalance={storeShowZeroBalance}
         tableView={tableView}
+        tableTab={balancesVariant}
         showZeroBalances={showZeroBalances}
         loading={loading}
         data={data || []}
