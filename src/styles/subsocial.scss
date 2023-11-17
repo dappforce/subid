@@ -329,7 +329,7 @@ a {
 /* ---------------------------------------- */
 
 .ant-btn {
-  border-radius: $border_radius_large;
+  border-radius: 18px !important;
 
   &:hover {
     g[fill] {

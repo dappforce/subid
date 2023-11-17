@@ -1,5 +1,7 @@
 import { Button, Dropdown, Menu } from 'antd'
-import { MenuItem } from '../types'
+import styles from './Index.module.sass'
+import clsx from 'clsx'
+import { MenuItem } from './types'
 
 type MenuItemsProps = {
   items: MenuItem[]
@@ -15,7 +17,7 @@ const MenuItems = ({
   defaultValue,
 }: MenuItemsProps) => (
   <Menu
-    className={className}
+    className={clsx(styles.MenuStyles, className)}
     defaultSelectedKeys={[ defaultValue ]}
     onClick={(item) => onClick?.(item.key.toString())}
   >

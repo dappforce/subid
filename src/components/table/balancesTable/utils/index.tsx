@@ -90,14 +90,15 @@ export const decodeTokenId = (tokenId: string) => {
 type LabelWithIconProps = {
   label: string
   iconSrc: string | React.ReactNode
+  iconSize?: number
 }
 
-const LabelWithIcon = ({ label, iconSrc }: LabelWithIconProps) => {
+export const LabelWithIcon = ({ label, iconSrc, iconSize = 16 }: LabelWithIconProps) => {
   return (
     <div className={'d-flex align-items-center'}>
       <div className={clsx(styles.IconCircle, 'bs-mr-2')}>
         {typeof iconSrc === 'string' ? (
-          <Image src={iconSrc} alt='' height={16} width={16} />
+          <Image src={iconSrc} alt='' className={styles.IconInLabel} height={iconSize} width={iconSize} />
         ) : (
           iconSrc
         )}
