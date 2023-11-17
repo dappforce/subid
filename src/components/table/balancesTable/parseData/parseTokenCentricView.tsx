@@ -336,6 +336,8 @@ function parseBalancesByToken (
         const { totalBalance: newTotalBalance } = balances
         const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
+        if(!decimal) return
+
         const totalBalanceValue = (totalBalanceSum || new BN('0')).plus(
           newTotalBalance || '0'
         )
@@ -399,6 +401,8 @@ function getChildrenBalances ({
     const { icon, name } = chainInfo
 
     const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
+
+    if(!decimal) return
 
     const balanceValue = getBalanceWithDecimals({
       totalBalance: totalBalance ?? '0',
