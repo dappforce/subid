@@ -17,7 +17,7 @@ import {
   resolveAccountDataImage,
 } from '../../utils'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
-import { convertToBalanceWithDecimal, isDef, nonEmptyArr, pluralize, } from '@subsocial/utils'
+import { convertToBalanceWithDecimal, isDef, isEmptyObj, nonEmptyArr, pluralize, } from '@subsocial/utils'
 import BaseAvatar from 'src/components/utils/DfAvatar'
 import { MutedDiv } from 'src/components/utils/MutedText'
 import clsx from 'clsx'
@@ -314,6 +314,8 @@ function parseBalancesByToken (
 
   Object.entries(balancesEntities).forEach(([ address, balancesEntity ]) => {
     balancesEntity.balances?.forEach(({ network, info }) => {
+      if (!info || isEmptyObj(info)) return
+
       const chainInfo = multiChainInfo[network]
       const allowedTokens = allowedTokensByNetwork[network]
 
