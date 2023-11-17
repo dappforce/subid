@@ -4,6 +4,10 @@ import { DataListProps } from '../list'
 import { groupBy } from 'lodash'
 import { Transaction } from './types'
 import styles from './Index.module.sass'
+import utc from 'dayjs/plugin/utc'
+import dayjs from 'dayjs'
+
+dayjs.extend(utc)
 
 function CustomDataList(props: DataListProps<Transaction>) {
   const {
@@ -19,15 +23,9 @@ function CustomDataList(props: DataListProps<Transaction>) {
 
   const hasData = total > 0
 
-  const groupedData = groupBy(dataSource, (x) => {
-    const date = new Date(x.timestamp)
-
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  })
+  const groupedData = groupBy(dataSource, (x) =>
+    dayjs(x.timestamp).utc(false).format('MMMM D, YYYY')
+  )
 
   if (!hasData) {
     return (

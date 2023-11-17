@@ -18,12 +18,14 @@ import { BalanceView } from '../../homePage/address-views/utils/index'
 import { ExternalLink } from '../../identity/utils'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import BN from 'bignumber.js';
 
 dayjs.extend(utc)
 
 const subscanLinksByNetwork: Record<string, string> = {
   polkadot: 'https://polkadot.subscan.io/extrinsic/',
   kusama: 'https://kusama.subscan.io/extrinsic/',
+  astar: 'https://astar.subscan.io/extrinsic/',
 }
 
 type TransferRowProps = {
@@ -62,7 +64,7 @@ export const TransferRow = ({ item }: TransferRowProps) => {
 
   const balance = (
     <FormatBalance
-      value={amount || '0'}
+      value={new BN(amount).toFormat({ decimalSeparator: '' })}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}

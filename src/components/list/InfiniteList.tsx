@@ -115,8 +115,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
   const handleInfiniteOnLoad = useCallback(async (page: number) => {
     setLoading(true)
     const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
-
-    setData([...data, ...newData])
+    setData([...data, ...newData || []])
 
     setLoading(false)
     setHasMore(canHaveMoreData(newData, page))

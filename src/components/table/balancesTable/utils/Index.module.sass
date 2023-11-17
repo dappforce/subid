@@ -17,6 +17,10 @@
   \:global .ant-skeleton-content
     vertical-align: middle
 
+.IconInLabel
+  border-radius: 50%
+
+
 .IconCircle
   text-align: center
   display: flex
@@ -40,7 +44,6 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important
   border-radius: $border_radius_huge !important
 
-
 .BalanceVariantRadioGroup
   display: flex
   width: 100%
@@ -48,18 +51,6 @@
   label
     width: 100%
 
-.MenuStyles
-  @extend .CommonOverlay
-  min-width: 175px !important
-
-  \:global .ant-menu-item-selected
-    path
-      fill: $color_primary
-
-  li
-    &:hover
-      path
-        fill: $color_primary
 
 .MobileButtonsOverlay
   @extend .CommonOverlay

@@ -11,7 +11,6 @@ import {
   Skeleton,
   Tooltip,
 } from 'antd'
-import TableDropdownButton from './TableDropdownButton'
 import { BalanceVariant } from '../types'
 import {
   balanceVariantsOpt,
@@ -33,6 +32,7 @@ import SwitchIcon from '@/assets/icons/switch.svg'
 import clsx from 'clsx'
 import { useMemo } from 'react'
 import { isDef, isEmptyArray } from '@subsocial/utils'
+import TableDropdownButton from '@/components/utils/Dropdowns/Dropdown'
 
 type CommonProps = {
   balancesVariant: BalanceVariant
@@ -140,14 +140,12 @@ const DesktopButtons = ({
         defaultValue={balancesVariant}
         value={balancesVariant}
         onChange={(value) => setBalancesVariant(value as BalanceVariant)}
-        menuClassName={styles.MenuStyles}
       />
       <TableDropdownButton
         menu={balancesViewOpt}
         defaultValue={tableView}
         value={tableView}
         onChange={(value) => setTableView(value as TableView)}
-        menuClassName={styles.MenuStyles}
       />
     </>
   )
