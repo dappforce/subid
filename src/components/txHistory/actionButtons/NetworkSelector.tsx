@@ -57,12 +57,10 @@ const NetworkSelector = ({ networks, setNetworks }: NetworkSelectorProps) => {
 
     if (kind === 'select' && values.includes('all') && !isAll) {
       setNetworks(values.filter((x) => x !== 'all'))
-      return
     } else if (kind === 'select' && isAll) {
-      setNetworks([ 'all' ])
-      return
+      setNetworks(['all'])
     } else if (kind === 'deselect' && values.length < 1) {
-      return
+      setNetworks(['all'])
     } else {
       setNetworks(values)
     }

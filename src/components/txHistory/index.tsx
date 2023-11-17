@@ -96,8 +96,6 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     events.join(','),
   ])
 
-  console.log(events)
-
   return (
     <div className={styles.HistoryBlock}>
       <div className={styles.TxHistoryActionButtons}>

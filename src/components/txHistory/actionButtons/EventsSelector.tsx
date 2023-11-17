@@ -3,6 +3,9 @@ import SelectbleDropdown, {
   DropdownActionKind,
 } from '@/components/utils/Dropdowns/SelectbleDropdown'
 import EventsIcon from '@/assets/icons/events.svg'
+import SentIcon from '@/assets/icons/sent-big.svg'
+import ReceivedIcon from '@/assets/icons/received-big.svg'
+import styles from '../Index.module.sass'
 
 type EventSelectorProps = {
   events: string[]
@@ -15,11 +18,23 @@ export const eventsVariantsOpt = [
     key: 'all',
   },
   {
-    label: 'Sent',
+    label: (
+      <LabelWithIcon
+        iconClassName={styles.IconBox}
+        label={'Sent'}
+        iconSrc={<SentIcon className={styles.ColoredIcon} />}
+      />
+    ),
     key: 'transfer_from',
   },
   {
-    label: 'Received',
+    label: (
+      <LabelWithIcon
+        iconClassName={styles.IconBox}
+        label={'Received'}
+        iconSrc={<ReceivedIcon className={styles.ColoredIcon} />}
+      />
+    ),
     key: 'transfer_to',
   },
 ]
@@ -32,12 +47,10 @@ const EventSelector = ({ events, setEvents }: EventSelectorProps) => {
 
     if (kind === 'select' && values.includes('all') && !isAll) {
       setEvents(values.filter((x) => x !== 'all'))
-      return
     } else if (kind === 'select' && isAll) {
-      setEvents([ 'all' ])
-      return
+      setEvents(['all'])
     } else if (kind === 'deselect' && values.length < 1) {
-      return
+      setEvents(['all'])
     } else {
       setEvents(values)
     }
@@ -50,9 +63,7 @@ const EventSelector = ({ events, setEvents }: EventSelectorProps) => {
         defaultValue={events[0]}
         onChange={onChange}
         values={events}
-        label={
-          <LabelWithIcon label={'Events'} iconSrc={<EventsIcon />} />
-        }
+        label={<LabelWithIcon label={'Events'} iconSrc={<EventsIcon />} />}
       />
     </>
   )

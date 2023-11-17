@@ -59,7 +59,7 @@ const TableDropdownButton = ({
       placement='bottomCenter'
       trigger={[ 'click' ]}
     >
-      <Button>{label || itemLabel}</Button>
+      <Button className='ColoredIcon'>{label || itemLabel}</Button>
     </Dropdown>
   )
 }
