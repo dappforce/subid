@@ -18,7 +18,7 @@ import { BalanceView } from '../../homePage/address-views/utils/index'
 import { ExternalLink } from '../../identity/utils'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import BN from 'bignumber.js';
+import BN from 'bignumber.js'
 
 dayjs.extend(utc)
 

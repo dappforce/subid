@@ -3,11 +3,13 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import { MenuItem } from './types'
 import styles from './Index.module.sass'
-import { FaCheck } from 'react-icons/fa'
+import { IoCheckmarkSharp } from 'react-icons/io5'
 
 export type DropdownActionKind = 'select' | 'deselect'
 
-type SelectbleMenuItem = MenuItem & {}
+type SelectbleMenuItem = MenuItem & {
+  className?: string
+}
 
 type MenuItemsProps = {
   items: SelectbleMenuItem[]
@@ -33,11 +35,11 @@ const MenuItems = ({
     selectable
     multiple
   >
-    {items.map(({ key, label }) => {
+    {items.map(({ key, label, className }) => {
       const isSelected = values.includes(key)
       return (
-        <Menu.Item key={key} className={styles.SelectbleMenuItem}>
-          {label} {isSelected && <FaCheck />}
+        <Menu.Item key={key} className={clsx(styles.SelectbleMenuItem, className)}>
+          {label} {isSelected && <IoCheckmarkSharp />}
         </Menu.Item>
       )
     })}

@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 
 dayjs.extend(utc)
 
-function CustomDataList(props: DataListProps<Transaction>) {
+function CustomDataList (props: DataListProps<Transaction>) {
   const {
     dataSource,
     renderItem,
@@ -37,7 +37,7 @@ function CustomDataList(props: DataListProps<Transaction>) {
 
   return (
     <div className={styles.GroupedData}>
-      {Object.entries(groupedData).map(([date, item], i) => {
+      {Object.entries(groupedData).map(([ date, item ], i) => {
         return (
           <div key={date + i}>
             <div className={styles.Date}>{date}</div>

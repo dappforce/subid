@@ -4,6 +4,7 @@ import SelectbleDropdown, {
   DropdownActionKind,
 } from '@/components/utils/Dropdowns/SelectbleDropdown'
 import { getIconUrl } from '@/components/utils'
+import styles from '../Index.module.sass'
 
 type NetworkSelectorProps = {
   networks: string[]
@@ -13,7 +14,7 @@ type NetworkSelectorProps = {
 export const networksVariantsWithIconOpt = [
   {
     label: (
-      <LabelWithIcon label={'All Networks'} iconSrc={<PiShareNetworkLight />} />
+      <LabelWithIcon label={'All Networks'} iconClassName={styles.MenuItemAll} iconSrc={<PiShareNetworkLight />} />
     ),
     key: 'all',
   },
@@ -58,9 +59,9 @@ const NetworkSelector = ({ networks, setNetworks }: NetworkSelectorProps) => {
     if (kind === 'select' && values.includes('all') && !isAll) {
       setNetworks(values.filter((x) => x !== 'all'))
     } else if (kind === 'select' && isAll) {
-      setNetworks(['all'])
+      setNetworks([ 'all' ])
     } else if (kind === 'deselect' && values.length < 1) {
-      setNetworks(['all'])
+      setNetworks([ 'all' ])
     } else {
       setNetworks(values)
     }
@@ -74,7 +75,13 @@ const NetworkSelector = ({ networks, setNetworks }: NetworkSelectorProps) => {
         onChange={onChange}
         values={networks}
         label={
-          <LabelWithIcon label={'Networks'} iconSrc={<PiShareNetworkLight />} />
+          <div className={styles.LabelWithCount}>
+            <LabelWithIcon
+              label={'Networks'}
+              iconSrc={<PiShareNetworkLight />}
+            />
+            {!networks.includes('all') ? `(${networks.length})` : ''}
+          </div>
         }
       />
     </>
