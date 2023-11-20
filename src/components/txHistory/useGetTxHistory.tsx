@@ -7,12 +7,24 @@ type Txs = {
   actualData: boolean
 }
 
-const useGetInitialTxHistoryData = (address?: string) => {
-  const [ txs, setTxs ] = useState<Txs>({ txs: [], actualData: false })
+type GetIniTitalTxHistoryDataProps = {
+  address?: string
+  refresh: boolean
+  setRefresh: (refresh: boolean) => void
+}
+
+const useGetInitialTxHistoryData = ({
+  address,
+  refresh,
+  setRefresh,
+}: GetIniTitalTxHistoryDataProps) => {
+  const [txs, setTxs] = useState<Txs>({ txs: [], actualData: false })
   let intervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
+  useEffect(() => setRefresh(true), [address])
+
   useEffect(() => {
-    if (!address) return
+    if (!address || !refresh) return
 
     intervalRef.current = setInterval(async () => {
       const history: Txs = await getTxHistoryQueue({
@@ -25,6 +37,7 @@ const useGetInitialTxHistoryData = (address?: string) => {
       if (history.actualData) {
         clearInterval(intervalRef.current)
         intervalRef.current = undefined
+        setRefresh(false)
 
         return
       }
@@ -34,7 +47,8 @@ const useGetInitialTxHistoryData = (address?: string) => {
       clearInterval(intervalRef.current)
       intervalRef.current = undefined
     }
-  }, [ address ])
+  }, [address, refresh])
+
 
   return txs || {}
 }

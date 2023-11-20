@@ -2,14 +2,17 @@
 
 .HistoryBlock
   background-color: #fff
-  padding: $space_normal
+  // padding: $space_normal
   box-shadow: $shadow
   border-radius: $border_radius_normal
   margin-bottom: 0.1rem
 
   display: flex
   flex-direction: column
-  gap: $space_big
+  gap: $space_tiny
+
+.TransactionsList
+  padding: 0 $space_normal $space_normal $space_normal
 
 .MenuItemAll
   height: 24px
@@ -45,6 +48,11 @@
   align-items: center
   justify-content: space-between
   gap: $space_normal
+  position: sticky
+  top: 64px
+  background-color: #fff
+  border-radius: inherit
+  padding: $space_normal
 
 .CommonActionButtonsParts
   display: flex
@@ -70,7 +78,7 @@
 
   &:focus
     path[stroke]
-      stroke: $color_primary
+      stroke: $color_primary  
 
 .LeftPart,
 .RightPart
@@ -79,6 +87,9 @@
 .Date
   font-size: $font_medium
   font-weight: 600
+
+.InfiniteListLoading
+  height: 300px !important
 
 .GroupedData
   display: flex
