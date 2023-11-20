@@ -19,6 +19,8 @@ import { ExternalLink } from '../../identity/utils'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import BN from 'bignumber.js'
+import { useResponsiveSize } from '@/components/responsive'
+import useGetProfileName from '@/hooks/useGetProfileName'
 
 dayjs.extend(utc)
 
@@ -33,6 +35,7 @@ type TransferRowProps = {
 }
 
 export const TransferRow = ({ item }: TransferRowProps) => {
+  const { isMobile } = useResponsiveSize()
   const prices = usePrices()
   const {
     txKind,
@@ -58,9 +61,13 @@ export const TransferRow = ({ item }: TransferRowProps) => {
     <BalanceView value={totalBalanceBN} symbol='$' startWithSymbol />
   )
 
-  const titleByKind = txKind === 'TRANSFER_TO' ? 'Received' : 'Sent'
-
   const time = dayjs(item.timestamp).utc(false).format('HH:mm')
+
+  const extrinsicHash = transaction.transferNative.extrinsicHash
+
+  const subscanUrl = `${
+    subscanLinksByNetwork[blockchainTag.toLowerCase()]
+  }${extrinsicHash}`
 
   const balance = (
     <FormatBalance
@@ -71,11 +78,50 @@ export const TransferRow = ({ item }: TransferRowProps) => {
     />
   )
 
-  const extrinsicHash = transaction.transferNative.extrinsicHash
+  return isMobile ? (
+    <MobileTransfer
+      icon={icon}
+      subscanUrl={subscanUrl}
+      time={time}
+      address={address}
+      balance={balance}
+      totalBalance={totalBalance}
+      txKind={txKind}
+    />
+  ) : (
+    <DescktopTransfer
+      icon={icon}
+      subscanUrl={subscanUrl}
+      time={time}
+      address={address}
+      balance={balance}
+      totalBalance={totalBalance}
+      txKind={txKind}
+    />
+  )
+}
 
-  const subscanUrl = `${
-    subscanLinksByNetwork[blockchainTag.toLowerCase()]
-  }${extrinsicHash}`
+type DesktopTransferRowProps = {
+  icon: string
+  subscanUrl: string
+  time: string
+  address: string
+  balance: React.ReactNode
+  totalBalance: React.ReactNode
+  txKind: string
+}
+
+const DescktopTransfer = ({
+  icon,
+  time,
+  address,
+  balance,
+  subscanUrl,
+  totalBalance,
+  txKind,
+}: DesktopTransferRowProps) => {
+  const name = useGetProfileName(address)
+  const titleByKind = txKind === 'TRANSFER_TO' ? 'Received' : 'Sent'
 
   const title = (
     <div className={styles.TransferTitle}>
@@ -92,29 +138,24 @@ export const TransferRow = ({ item }: TransferRowProps) => {
   )
 
   return (
-    <div>
-      <div className={styles.TransferRow}>
-        <div className={styles.FirstCol}>
-          <div
-            className={clsx(
-              'd-flex align-items-center',
-              styles.FirstColContent
-            )}
-          >
-            <AvatarOrSkeleton
-              icon={icon}
-              size={'large'}
-              className='bs-mr-2 align-items-start flex-shrink-none'
-            />
-            <div>
-              <div className='font-weight-semibold FontNormal'>{title}</div>
-              <MutedDiv>{time} (+UTC)</MutedDiv>
-            </div>
+    <div className={styles.TransferRow}>
+      <div className={styles.FirstCol}>
+        <div className={clsx('d-flex align-items-center')}>
+          <AvatarOrSkeleton
+            icon={icon}
+            size={'large'}
+            className='bs-mr-2 align-items-start flex-shrink-none'
+          />
+          <div>
+            <div className='font-weight-semibold FontNormal'>{title}</div>
+            <MutedDiv>{time} (+UTC)</MutedDiv>
           </div>
         </div>
-        <div>
-          <MutedDiv>{txKind === 'TRANSFER_TO' ? 'From' : 'To'}</MutedDiv>
-          <AccountPreview withAddress={false} account={address} />
+      </div>
+      <div>
+        <MutedDiv>{txKind === 'TRANSFER_TO' ? 'From' : 'To'}</MutedDiv>
+        <AccountPreview withAddress={false} account={address} />
+        {name && (
           <Address
             name='Polkadot'
             accountId={address}
@@ -122,19 +163,58 @@ export const TransferRow = ({ item }: TransferRowProps) => {
             withCopy
             withQr={false}
           />
+        )}
+      </div>
+      <div className='text-right'>
+        <div
+          className={clsx(styles.Tokens, {
+            [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
+          })}
+        >
+          {balance}
         </div>
-        <div className='text-right'>
-          <div
-            className={clsx(styles.Tokens, {
-              [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
-            })}
-          >
-            {balance}
-          </div>
-          <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
+        <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
+      </div>
+    </div>
+  )
+}
+
+const MobileTransfer = ({
+  icon,
+  address,
+  balance,
+  totalBalance,
+  txKind,
+}: DesktopTransferRowProps) => {
+  const titleByKind = txKind === 'TRANSFER_TO' ? 'Received from' : 'Sent to'
+
+  return (
+    <div className={styles.TransferRow}>
+      <div className={clsx('d-flex align-items-center')}>
+        <AvatarOrSkeleton
+          icon={icon}
+          size={34}
+          className='bs-mr-2 align-items-start flex-shrink-none'
+        />
+        <div>
+          <MutedDiv>{titleByKind}</MutedDiv>
+          <AccountPreview
+            withAvatar={false}
+            withAddress={false}
+            account={address}
+          />
         </div>
       </div>
-      {/* <Divider className={clsx('m-0', styles.RowDivider)} /> */}
+      <div className='text-right'>
+        <div
+          className={clsx(styles.Tokens, {
+            [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
+          })}
+        >
+          {balance}
+        </div>
+        <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
+      </div>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { MutedSpan } from '../../utils/MutedText'
 import { useExtensionName } from './utils'
 import { AccountIdentities, Identity } from '../../identity/types'
 import { getSubsocialIdentity } from '../../../rtk/features/identities/identitiesHooks'
+import useGetProfileName from '@/hooks/useGetProfileName'
 
 type Props = AddressProps & {
   isShort?: boolean
@@ -15,26 +16,21 @@ type Props = AddressProps & {
 
 export const Name = ({
   address,
-  identities,
   isShort = true,
   withShortAddress,
-  className
+  className,
 }: Props) => {
-  const { name: profileName } = getSubsocialIdentity(identities) || {}
+  const name = useGetProfileName(address.toString())
 
-  const extensionName = useExtensionName(address)
   const shortAddress = toShortAddress(address)
   const addressString = isShort ? shortAddress : address.toString()
 
-  const kusamaIdentity = identities?.kusama as Identity | undefined
-  const polkadotIdentity = identities?.polkadot as Identity | undefined
-
-  const nonSubsocialIdentityName = kusamaIdentity?.info?.display || polkadotIdentity?.info?.display
-
-  const name = profileName || nonSubsocialIdentityName || extensionName
-
   const title = name ? (
-    <span className={withShortAddress ? 'd-flex justify-content-between flex-wrap w-100' : ''}>
+    <span
+      className={
+        withShortAddress ? 'd-flex justify-content-between flex-wrap w-100' : ''
+      }
+    >
       <span className='align-items-center'>{name}</span>
       {withShortAddress && (
         <MutedSpan>
