@@ -26,6 +26,8 @@ type InnerInfiniteListProps<T> = Partial<DataListProps<T>> &
     loadingLabel?: string
     scrollableTarget?: string
     withLoadMoreLink?: boolean // Helpful for SEO
+    dataLoading?: boolean
+    dataLoadingClassName?: string
     canHaveMoreData: CanHaveMoreDataFn<T>
     children?: (props: DataListProps<T>) => JSX.Element
   }
@@ -86,6 +88,8 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     canHaveMoreData,
     scrollableTarget,
     children,
+    dataLoading,
+    dataLoadingClassName,
     ...otherProps
   } = props
 
@@ -128,8 +132,8 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     handleInfiniteOnLoad(pageValue)
   }, [])
 
-  if (!hasInitialData && isEmptyArray(data) && loading)
-    return <Loading label={loadingLabel} />
+  if ((!hasInitialData && isEmptyArray(data) && loading) || dataLoading)
+    return <Loading label={loadingLabel} className={dataLoadingClassName} />
 
   const linkProps = getLinksParams(pageValue + 1)
 

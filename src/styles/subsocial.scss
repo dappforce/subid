@@ -328,9 +328,11 @@ a {
 /* Other Styles */
 /* ---------------------------------------- */
 
-.ColoredIcon {
+.ant-btn {
   border-radius: 18px !important;
+}
 
+.ColoredIcon {
   &:hover {
     g[fill] {
       path {
@@ -411,7 +413,7 @@ a {
   z-index: 10;
   // top: $height_top_menu;
   // height: 93.5%;
-  overflow: auto;
+  // overflow: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
@@ -507,6 +509,7 @@ a {
   padding: 4rem 0;
   padding-bottom: 0;
   overflow-wrap: break-word;
+  overflow-x: visible !important;
   margin: 0 auto;
   color: $color_font_normal;
 }

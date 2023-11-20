@@ -8,9 +8,9 @@ import { useCallback, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
 import NetworkSelector from './actionButtons/NetworkSelector'
 import { Button } from 'antd'
-import { LabelWithIcon } from '../table/balancesTable/utils'
-import { GrDownload } from 'react-icons/gr'
 import EventSelector from './actionButtons/EventsSelector'
+import { isEmptyArray } from '@subsocial/utils'
+import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -53,8 +53,13 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const [ networks, setNetworks ] = useState<string[]>([ 'all' ])
   const [ events, setEvents ] = useState<string[]>([ 'all' ])
   const address = addresses[0]
+  const [ refresh, setRefresh ] = useState(false)
 
-  const initialData = useGetInitialTxHistoryData(address)
+  const initialData = useGetInitialTxHistoryData({
+    address,
+    refresh,
+    setRefresh,
+  })
 
   const renderItem = (item: Transaction) => {
     const { txKind } = item
@@ -66,7 +71,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
 
   const List = useCallback(() => {
     return (
-      <>
+      <div className={styles.TransactionsList}>
         <InfiniteListByData
           loadingLabel='Loading more transactions...'
           loadMore={(page, size) =>
@@ -78,8 +83,14 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
               events: events.filter((x) => x !== 'all'),
             })
           }
+          dataLoading={isEmptyArray(initialData.txs) && !initialData.actualData}
+          dataLoadingClassName={styles.InfiniteListLoading}
           noDataDesc='No transactions yet'
-          dataSource={networks.includes('all') && events.includes('all') ? initialData.txs : undefined}
+          dataSource={
+            networks.includes('all') && events.includes('all')
+              ? initialData.txs
+              : undefined
+          }
           getKey={(data) => data.id}
           renderItem={renderItem}
         >
@@ -87,7 +98,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
             return <CustomDataList {...dataListProps} />
           }}
         </InfiniteListByData>
-      </>
+      </div>
     )
   }, [
     address,
@@ -104,8 +115,15 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           <EventSelector events={events} setEvents={setEvents} />
         </div>
         <div className={styles.RightPart}>
-          <Button className={styles.DownloadButton}>
-            <LabelWithIcon label={'Download CSV'} iconSrc={<GrDownload />} />
+          <Button
+            onClick={() => setRefresh(true)}
+            disabled={
+              (isEmptyArray(initialData.txs) && !initialData.actualData) ||
+              refresh
+            }
+            shape='circle'
+          >
+            {refresh ? <LoadingOutlined /> : <ReloadOutlined />}
           </Button>
         </div>
       </div>
