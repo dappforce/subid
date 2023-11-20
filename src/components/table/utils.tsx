@@ -50,6 +50,7 @@ import { StakingCandidateInfoRecord } from '../../rtk/features/stakingCandidates
 import {
   useIdentities,
   getSubsocialIdentity,
+  useFetchIdentities,
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 
@@ -712,6 +713,7 @@ type AccountPreviewProps = {
   halfLength?: number
   isMonosizedFont?: boolean
   withName?: boolean
+  withAvatar?: boolean
   withAddress?: boolean
   largeAvatar?: boolean
 }
@@ -727,8 +729,10 @@ export const AccountPreview = ({
   isMonosizedFont = true,
   withName = true,
   withAddress = true,
+  withAvatar = true,
   largeAvatar = false,
 }: AccountPreviewProps) => {
+  useFetchIdentities([account])
   const identities = useIdentities(account)
 
   const address = (
@@ -755,11 +759,11 @@ export const AccountPreview = ({
           className
         )}
       >
-        <BaseAvatar
+        {withAvatar && <BaseAvatar
           size={largeAvatar ? 36 : 24}
           address={account}
           avatar={avatar ? avatar : subsocialAvatar}
-        />
+        />}
         <div>
           <div className={clsx({ ['font-weight-bold']: withName })}>
             {withName && accountName}
