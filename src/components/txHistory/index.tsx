@@ -104,7 +104,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           <EventSelector events={events} setEvents={setEvents} />
         </div>
         <div className={styles.RightPart}>
-          <Button>
+          <Button className={styles.DownloadButton}>
             <LabelWithIcon label={'Download CSV'} iconSrc={<GrDownload />} />
           </Button>
         </div>

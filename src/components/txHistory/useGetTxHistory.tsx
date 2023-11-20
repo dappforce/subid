@@ -8,7 +8,7 @@ type Txs = {
 }
 
 const useGetInitialTxHistoryData = (address?: string) => {
-  const [txs, setTxs] = useState<Txs>({ txs: [], actualData: false })
+  const [ txs, setTxs ] = useState<Txs>({ txs: [], actualData: false })
   let intervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const useGetInitialTxHistoryData = (address?: string) => {
       clearInterval(intervalRef.current)
       intervalRef.current = undefined
     }
-  }, [address])
+  }, [ address ])
 
   return txs || {}
 }

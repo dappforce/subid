@@ -11,15 +11,34 @@
   flex-direction: column
   gap: $space_big
 
-.ColoredIcon
-  path
-    fill: auto !important
-    stroke: auto !important
+.MenuItemAll
+  height: 24px
+  width: 24px
+  align-items: center
+  justify-content: center
+  background: #F0F0F0
+  border-radius: 50%
+
+.AllEventsIcon
+  svg
+    margin-top: 1px
+    margin-left: 2px
 
 .IconBox
   svg
     height: auto
     width: auto
+
+.AllEvents
+  &:global(.ant-menu-item-selected)
+    svg
+      path
+        stroke: $color_primary !important
+
+      li
+        &:hover
+          path
+            stroke: $color_primary !important
 
 .TxHistoryActionButtons
   display: flex
@@ -37,12 +56,28 @@
   flex-direction: column
   gap: $space_tiny
 
+.LabelWithCount
+  display: flex
+  align-items: center
+  gap: $space_mini
+
+.DownloadButton
+  border-radius: 18px
+
+  &:hover
+    path[stroke]
+      stroke: $color_primary
+
+  &:focus
+    path[stroke]
+      stroke: $color_primary
+
 .LeftPart,
 .RightPart
   @extend .CommonActionButtonsParts
 
 .Date
-  font-size: $font_normal
+  font-size: $font_medium
   font-weight: 600
 
 .GroupedData

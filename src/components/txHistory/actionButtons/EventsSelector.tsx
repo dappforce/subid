@@ -6,6 +6,7 @@ import EventsIcon from '@/assets/icons/events.svg'
 import SentIcon from '@/assets/icons/sent-big.svg'
 import ReceivedIcon from '@/assets/icons/received-big.svg'
 import styles from '../Index.module.sass'
+import clsx from 'clsx'
 
 type EventSelectorProps = {
   events: string[]
@@ -14,15 +15,22 @@ type EventSelectorProps = {
 
 export const eventsVariantsOpt = [
   {
-    label: <LabelWithIcon label={'All Events'} iconSrc={<EventsIcon />} />,
+    label: (
+      <LabelWithIcon
+        label={'All Events'}
+        iconClassName={clsx(styles.MenuItemAll, styles.AllEventsIcon)}
+        iconSrc={<EventsIcon />}
+      />
+    ),
     key: 'all',
+    className: styles.AllEvents,
   },
   {
     label: (
       <LabelWithIcon
         iconClassName={styles.IconBox}
         label={'Sent'}
-        iconSrc={<SentIcon className={styles.ColoredIcon} />}
+        iconSrc={<SentIcon />}
       />
     ),
     key: 'transfer_from',
@@ -32,7 +40,7 @@ export const eventsVariantsOpt = [
       <LabelWithIcon
         iconClassName={styles.IconBox}
         label={'Received'}
-        iconSrc={<ReceivedIcon className={styles.ColoredIcon} />}
+        iconSrc={<ReceivedIcon />}
       />
     ),
     key: 'transfer_to',
@@ -48,9 +56,9 @@ const EventSelector = ({ events, setEvents }: EventSelectorProps) => {
     if (kind === 'select' && values.includes('all') && !isAll) {
       setEvents(values.filter((x) => x !== 'all'))
     } else if (kind === 'select' && isAll) {
-      setEvents(['all'])
+      setEvents([ 'all' ])
     } else if (kind === 'deselect' && values.length < 1) {
-      setEvents(['all'])
+      setEvents([ 'all' ])
     } else {
       setEvents(values)
     }
@@ -63,7 +71,12 @@ const EventSelector = ({ events, setEvents }: EventSelectorProps) => {
         defaultValue={events[0]}
         onChange={onChange}
         values={events}
-        label={<LabelWithIcon label={'Events'} iconSrc={<EventsIcon />} />}
+        label={
+          <div className={styles.LabelWithCount}>
+            <LabelWithIcon label={'Events'} iconSrc={<EventsIcon />} />
+            {!events.includes('all') ? `(${events.length})` : ''}
+          </div>
+        }
       />
     </>
   )
