@@ -32,6 +32,8 @@ const subscanLinksByNetwork: Record<string, string> = {
   polkadot: 'https://polkadot.subscan.io/extrinsic/',
   kusama: 'https://kusama.subscan.io/extrinsic/',
   astar: 'https://astar.subscan.io/extrinsic/',
+  moonbeam: 'https://moonbeam.subscan.io/extrinsic/',
+  moonriver: 'https://moonriver.subscan.io/extrinsic/',
 }
 
 type TransferRowProps = {
@@ -169,16 +171,11 @@ const DesktopTransfer = ({
           />
         )}
       </div>
-      <div className='text-right'>
-        <div
-          className={clsx(styles.Tokens, {
-            [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
-          })}
-        >
-          {balance}
-        </div>
-        <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
-      </div>
+      <BalancePart
+        balance={balance}
+        totalBalance={totalBalance}
+        txKind={txKind}
+      />
     </div>
   )
 }
@@ -206,19 +203,33 @@ const MobileTransfer = ({
           />
         </div>
       </div>
-      <div className='text-right'>
-        <div
-          className={clsx(styles.Tokens, {
-            [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
-          })}
-        >
-          {balance}
-        </div>
-        <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
-      </div>
+      <BalancePart
+        balance={balance}
+        totalBalance={totalBalance}
+        txKind={txKind}
+      />
     </div>
   )
 }
+
+type BalancePartProps = {
+  txKind: string
+  balance: React.ReactNode
+  totalBalance: React.ReactNode
+}
+
+const BalancePart = ({ txKind, balance, totalBalance }: BalancePartProps) => (
+  <div className='text-right'>
+    <div
+      className={clsx(styles.Tokens, {
+        [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
+      })}
+    >
+      {balance}
+    </div>
+    <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
+  </div>
+)
 
 type TxHistoryImageProps = {
   icon: string
