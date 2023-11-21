@@ -6,13 +6,16 @@ import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
 import { useCallback, useEffect, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
-import NetworkSelector from './actionButtons/NetworkSelector'
 import { Button } from 'antd'
-import EventSelector from './actionButtons/EventsSelector'
 import { SubDate, isEmptyArray } from '@subsocial/utils'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 import { MutedSpan } from '../utils/MutedText'
 import { useResponsiveSize } from '../responsive'
+import ListFilter from './filter/ListFilter'
+import {
+  eventsVariantsOpt,
+  networksVariantsWithIconOpt,
+} from './filter/filterItems'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -69,7 +72,12 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
 
     const Component = itemsByTxKind[txKind]
 
-    return <Component item={item} isLastElement={dataLength ? i === dataLength - 1 : false} />
+    return (
+      <Component
+        item={item}
+        isLastElement={dataLength ? i === dataLength - 1 : false}
+      />
+    )
   }
 
   const List = useCallback(() => {
@@ -115,8 +123,16 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
       <div className={styles.TxHistoryActionBlock}>
         <div className={styles.TxHistoryButtons}>
           <div className={styles.LeftPart}>
-            <NetworkSelector networks={networks} setNetworks={setNetworks} />
-            <EventSelector events={events} setEvents={setEvents} />
+            <ListFilter
+              menus={networksVariantsWithIconOpt}
+              filters={networks}
+              setFilters={setNetworks}
+            />
+            <ListFilter
+              menus={eventsVariantsOpt}
+              filters={events}
+              setFilters={setEvents}
+            />
           </div>
           <div className={styles.RightPart}>
             {!isMobile && (
