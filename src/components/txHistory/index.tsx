@@ -64,12 +64,12 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     setRefresh,
   })
 
-  const renderItem = (item: Transaction) => {
+  const renderItem = (item: Transaction, i: number, dataLength?: number) => {
     const { txKind } = item
 
     const Component = itemsByTxKind[txKind]
 
-    return <Component item={item} />
+    return <Component item={item} isLastElement={dataLength ? i === dataLength - 1 : false} />
   }
 
   const List = useCallback(() => {
