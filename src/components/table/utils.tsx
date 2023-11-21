@@ -732,7 +732,7 @@ export const AccountPreview = ({
   withAvatar = true,
   largeAvatar = false,
 }: AccountPreviewProps) => {
-  useFetchIdentities([account])
+  useFetchIdentities([ account ])
   const identities = useIdentities(account)
 
   const address = (

@@ -2,9 +2,7 @@ import React from 'react'
 import { AddressProps } from './utils/types'
 import { toShortAddress } from '../../utils/index'
 import { MutedSpan } from '../../utils/MutedText'
-import { useExtensionName } from './utils'
-import { AccountIdentities, Identity } from '../../identity/types'
-import { getSubsocialIdentity } from '../../../rtk/features/identities/identitiesHooks'
+import { AccountIdentities } from '../../identity/types'
 import useGetProfileName from '@/hooks/useGetProfileName'
 
 type Props = AddressProps & {

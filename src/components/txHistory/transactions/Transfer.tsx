@@ -21,6 +21,9 @@ import utc from 'dayjs/plugin/utc'
 import BN from 'bignumber.js'
 import { useResponsiveSize } from '@/components/responsive'
 import useGetProfileName from '@/hooks/useGetProfileName'
+import { AvatarSize } from 'antd/lib/avatar/SizeContext'
+import SentIcon from '@/assets/icons/sent.svg'
+import RecievedIcon from '@/assets/icons/received.svg'
 
 dayjs.extend(utc)
 
@@ -141,11 +144,7 @@ const DescktopTransfer = ({
     <div className={styles.TransferRow}>
       <div className={styles.FirstCol}>
         <div className={clsx('d-flex align-items-center')}>
-          <AvatarOrSkeleton
-            icon={icon}
-            size={'large'}
-            className='bs-mr-2 align-items-start flex-shrink-none'
-          />
+          <TxHistoryImage icon={icon} txKind={txKind} size={'large'} />
           <div>
             <div className='font-weight-semibold FontNormal'>{title}</div>
             <MutedDiv>{time} (+UTC)</MutedDiv>
@@ -191,11 +190,7 @@ const MobileTransfer = ({
   return (
     <div className={styles.TransferRow}>
       <div className={clsx('d-flex align-items-center')}>
-        <AvatarOrSkeleton
-          icon={icon}
-          size={34}
-          className='bs-mr-2 align-items-start flex-shrink-none'
-        />
+        <TxHistoryImage icon={icon} txKind={txKind} size={34} />
         <div>
           <MutedDiv>{titleByKind}</MutedDiv>
           <AccountPreview
@@ -215,6 +210,27 @@ const MobileTransfer = ({
         </div>
         <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
       </div>
+    </div>
+  )
+}
+
+type TxHistoryImageProps = {
+  icon: string
+  size: AvatarSize
+  txKind: string
+}
+
+const TxHistoryImage = ({ icon, size, txKind }: TxHistoryImageProps) => {
+  const TxIconByTxKind = txKind === 'TRANSFER_TO' ? RecievedIcon : SentIcon
+
+  return (
+    <div className='bs-mr-2 position-relative'>
+      <AvatarOrSkeleton
+        icon={icon}
+        size={size}
+        className='align-items-start flex-shrink-none'
+      />
+      <TxIconByTxKind className={styles.TransactionIcon} />
     </div>
   )
 }
