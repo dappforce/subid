@@ -18,10 +18,11 @@ const useGetInitialTxHistoryData = ({
   refresh,
   setRefresh,
 }: GetIniTitalTxHistoryDataProps) => {
-  const [txs, setTxs] = useState<Txs>({ txs: [], actualData: false })
+  const [ txs, setTxs ] = useState<Txs>({ txs: [], actualData: false })
   let intervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const [ lastUpdateDate, setLastUpdateDate ] = useState<Date | undefined>(undefined)
 
-  useEffect(() => setRefresh(true), [address])
+  useEffect(() => setRefresh(true), [ address ])
 
   useEffect(() => {
     if (!address || !refresh) return
@@ -38,19 +39,20 @@ const useGetInitialTxHistoryData = ({
         clearInterval(intervalRef.current)
         intervalRef.current = undefined
         setRefresh(false)
+        setLastUpdateDate(new Date())
 
         return
       }
-    }, 1000)
+    }, 2000)
 
     return () => {
       clearInterval(intervalRef.current)
       intervalRef.current = undefined
     }
-  }, [address, refresh])
+  }, [ address, refresh ])
 
 
-  return txs || {}
+  return { initialData: txs || {}, lastUpdateDate }
 }
 
 export default useGetInitialTxHistoryData

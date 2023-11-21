@@ -4,13 +4,14 @@ import { getTxHistory } from '@/api/txHistory'
 import { TransferRow } from './transactions/Transfer'
 import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
 import NetworkSelector from './actionButtons/NetworkSelector'
 import { Button } from 'antd'
 import EventSelector from './actionButtons/EventsSelector'
-import { isEmptyArray } from '@subsocial/utils'
+import { SubDate, isEmptyArray } from '@subsocial/utils'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
+import { MutedSpan } from '../utils/MutedText'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -55,7 +56,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const address = addresses[0]
   const [ refresh, setRefresh ] = useState(false)
 
-  const initialData = useGetInitialTxHistoryData({
+  const { initialData, lastUpdateDate } = useGetInitialTxHistoryData({
     address,
     refresh,
     setRefresh,
@@ -115,6 +116,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           <EventSelector events={events} setEvents={setEvents} />
         </div>
         <div className={styles.RightPart}>
+          <LastUpdate lastUpdateDate={lastUpdateDate} refresh={refresh} />
           <Button
             onClick={() => setRefresh(true)}
             disabled={
@@ -131,6 +133,21 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
       <List />
     </div>
   )
+}
+
+type LastUpdateProps = {
+  lastUpdateDate?: Date
+  refresh: boolean
+}
+
+const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
+  const lastUpdate = useMemo(() => {
+    if(!lastUpdateDate) return null
+
+    return SubDate.formatDate(lastUpdateDate.getTime())
+  }, [ lastUpdateDate?.getTime() ])
+
+  return <MutedSpan>{refresh || !lastUpdateDate ? 'updating...' : lastUpdate}</MutedSpan>
 }
 
 export default TxHistoryLayout

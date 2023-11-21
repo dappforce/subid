@@ -755,7 +755,7 @@ export const AccountPreview = ({
   largeAvatar = false,
   eventSource,
 }: AccountPreviewProps) => {
-  useFetchIdentities([account])
+  useFetchIdentities([ account ])
   const identities = useIdentities(account)
 
   const address = (
