@@ -24,6 +24,7 @@ import useGetProfileName from '@/hooks/useGetProfileName'
 import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 import SentIcon from '@/assets/icons/sent.svg'
 import RecievedIcon from '@/assets/icons/received.svg'
+import { Divider } from 'antd'
 
 dayjs.extend(utc)
 
@@ -35,9 +36,10 @@ const subscanLinksByNetwork: Record<string, string> = {
 
 type TransferRowProps = {
   item: Transaction
+  isLastElement?: boolean
 }
 
-export const TransferRow = ({ item }: TransferRowProps) => {
+export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
   const { isMobile } = useResponsiveSize()
   const prices = usePrices()
   const {
@@ -81,26 +83,29 @@ export const TransferRow = ({ item }: TransferRowProps) => {
     />
   )
 
-  return isMobile ? (
-    <MobileTransfer
-      icon={icon}
-      subscanUrl={subscanUrl}
-      time={time}
-      address={address}
-      balance={balance}
-      totalBalance={totalBalance}
-      txKind={txKind}
-    />
-  ) : (
-    <DescktopTransfer
-      icon={icon}
-      subscanUrl={subscanUrl}
-      time={time}
-      address={address}
-      balance={balance}
-      totalBalance={totalBalance}
-      txKind={txKind}
-    />
+  const props = {
+    icon: icon,
+    subscanUrl: subscanUrl,
+    time: time,
+    address: address,
+    balance: balance,
+    totalBalance: totalBalance,
+    txKind: txKind,
+  }
+
+  return (
+    <div>
+      {isMobile ? (
+        <MobileTransfer {...props} />
+      ) : (
+        <DesktopTransfer {...props} />
+      )}
+      {!isLastElement && !isMobile && (
+        <div className={styles.TransactionDivider}>
+          <Divider />
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -114,7 +119,7 @@ type DesktopTransferRowProps = {
   txKind: string
 }
 
-const DescktopTransfer = ({
+const DesktopTransfer = ({
   icon,
   time,
   address,
@@ -197,6 +202,7 @@ const MobileTransfer = ({
             withAvatar={false}
             withAddress={false}
             account={address}
+            className='FontNormal'
           />
         </div>
       </div>

@@ -43,7 +43,7 @@ function CustomDataList (props: DataListProps<Transaction>) {
             <div className={styles.Date}>{date}</div>
             <div className={styles.TransactionByDateContainer}>
               {item.map((x, i) => (
-                <div key={getKey(x)}>{renderItem(x, i)}</div>
+                <div key={getKey(x)}>{renderItem(x, i, item.length)}</div>
               ))}
             </div>
           </div>

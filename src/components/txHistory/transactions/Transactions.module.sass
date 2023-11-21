@@ -21,10 +21,21 @@
 .TransferTitle
   display: flex
   align-items: center
-  gap: 0.25rem
+  gap: $space_mini
 
 .RecievedTokens
   color: #16A34A
+
+.TransactionDivider
+  display: flex
+  justify-content: flex-end
+
+  \:global .ant-divider
+    margin: 0
+    margin-top: $space_mini
+    max-width: 94.5%
+    min-width: auto
+    border-top-color: #f0f0f0
 
 .TransactionIcon
   position: absolute
