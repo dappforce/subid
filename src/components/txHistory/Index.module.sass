@@ -43,17 +43,21 @@
           path
             stroke: $color_primary !important
 
-.TxHistoryActionButtons
-  display: flex
-  align-items: center
-  justify-content: space-between
-  gap: $space_normal
+.TxHistoryActionBlock
   position: sticky
   z-index: 10
   top: 64px
   background-color: #fff
   border-radius: inherit
+  border-bottom-left-radius: 0
+  border-bottom-right-radius: 0
   padding: $space_normal
+
+.TxHistoryButtons
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_normal
 
 .CommonActionButtonsParts
   display: flex
@@ -96,3 +100,18 @@
   display: flex
   flex-direction: column
   gap: $space_big
+
+@media ( max-width: $max_mobile_width )
+  .TransactionsList
+    \:global .infinite-scroll-component 
+      margin-top: 1rem
+
+  .HistoryBlock
+    gap: 0
+
+  .TxHistoryActionBlock
+    border-bottom: 1px solid #F0F0F0
+
+  .TransactionByDateContainer
+    gap: 0
+  

@@ -4,7 +4,7 @@ import { getTxHistory } from '@/api/txHistory'
 import { TransferRow } from './transactions/Transfer'
 import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
 import NetworkSelector from './actionButtons/NetworkSelector'
 import { Button } from 'antd'
@@ -12,6 +12,7 @@ import EventSelector from './actionButtons/EventsSelector'
 import { SubDate, isEmptyArray } from '@subsocial/utils'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 import { MutedSpan } from '../utils/MutedText'
+import { useResponsiveSize } from '../responsive'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -55,6 +56,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const [ events, setEvents ] = useState<string[]>([ 'all' ])
   const address = addresses[0]
   const [ refresh, setRefresh ] = useState(false)
+  const { isMobile } = useResponsiveSize()
 
   const { initialData, lastUpdateDate } = useGetInitialTxHistoryData({
     address,
@@ -110,24 +112,34 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
 
   return (
     <div className={styles.HistoryBlock}>
-      <div className={styles.TxHistoryActionButtons}>
-        <div className={styles.LeftPart}>
-          <NetworkSelector networks={networks} setNetworks={setNetworks} />
-          <EventSelector events={events} setEvents={setEvents} />
+      <div className={styles.TxHistoryActionBlock}>
+        <div className={styles.TxHistoryButtons}>
+          <div className={styles.LeftPart}>
+            <NetworkSelector networks={networks} setNetworks={setNetworks} />
+            <EventSelector events={events} setEvents={setEvents} />
+          </div>
+          <div className={styles.RightPart}>
+            {!isMobile && (
+              <LastUpdate lastUpdateDate={lastUpdateDate} refresh={refresh} />
+            )}
+            <Button
+              onClick={() => setRefresh(true)}
+              disabled={
+                (isEmptyArray(initialData.txs) && !initialData.actualData) ||
+                refresh
+              }
+              shape='circle'
+            >
+              {refresh ? <LoadingOutlined /> : <ReloadOutlined />}
+            </Button>
+          </div>
         </div>
-        <div className={styles.RightPart}>
-          <LastUpdate lastUpdateDate={lastUpdateDate} refresh={refresh} />
-          <Button
-            onClick={() => setRefresh(true)}
-            disabled={
-              (isEmptyArray(initialData.txs) && !initialData.actualData) ||
-              refresh
-            }
-            shape='circle'
-          >
-            {refresh ? <LoadingOutlined /> : <ReloadOutlined />}
-          </Button>
-        </div>
+        {isMobile && (
+          <div className='bs-mt-2 FontNormal'>
+            <span>Last update: </span>
+            <LastUpdate lastUpdateDate={lastUpdateDate} refresh={refresh} />
+          </div>
+        )}
       </div>
 
       <List />
@@ -141,13 +153,26 @@ type LastUpdateProps = {
 }
 
 const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
-  const lastUpdate = useMemo(() => {
-    if(!lastUpdateDate) return null
+  const [ lastUpdate, setLastUpdate ] = useState<string | null>(null)
 
-    return SubDate.formatDate(lastUpdateDate.getTime())
+  useEffect(() => {
+    if (!lastUpdateDate) return
+
+    const intervalId = setInterval(() => {
+      setLastUpdate(SubDate.formatDate(lastUpdateDate.getTime()))
+    }, 1000)
+
+    return () => {
+      console.log('clear interval')
+      clearInterval(intervalId)
+    }
   }, [ lastUpdateDate?.getTime() ])
 
-  return <MutedSpan>{refresh || !lastUpdateDate ? 'updating...' : lastUpdate}</MutedSpan>
+  return (
+    <MutedSpan>
+      {refresh || !lastUpdateDate ? 'updating...' : lastUpdate}
+    </MutedSpan>
+  )
 }
 
 export default TxHistoryLayout
