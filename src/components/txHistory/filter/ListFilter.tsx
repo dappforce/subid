@@ -27,6 +27,8 @@ const ListFilter = ({ filters, setFilters, menus }: ListFilterProps) => {
     } else {
       setFilters(values)
     }
+
+    window.scrollTo(0, 0)
   }
 
   return (
