@@ -1,6 +1,6 @@
 import { Button, Dropdown, Menu } from 'antd'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MenuItem } from './types'
 import styles from './Index.module.sass'
 import { IoCheckmarkSharp } from 'react-icons/io5'
@@ -38,7 +38,10 @@ const MenuItems = ({
     {items.map(({ key, label, className }) => {
       const isSelected = values.includes(key)
       return (
-        <Menu.Item key={key} className={clsx(styles.SelectbleMenuItem, className)}>
+        <Menu.Item
+          key={key}
+          className={clsx(styles.SelectbleMenuItem, className)}
+        >
           {label} {isSelected && <IoCheckmarkSharp />}
         </Menu.Item>
       )
@@ -64,6 +67,18 @@ const SelectbleDropdown = ({
   values,
 }: TableDropdownButtonProps) => {
   const [ visible, setVisible ] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('wheel', () => {
+      setVisible(false)
+    })
+
+    return () => {
+      window.removeEventListener('wheel', () => {
+        setVisible(false)
+      })
+    }
+  }, [])
 
   return (
     <Dropdown

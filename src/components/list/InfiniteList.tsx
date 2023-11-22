@@ -116,22 +116,25 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     triggers: [ pageValue ],
   })
 
-  const handleInfiniteOnLoad = useCallback(async (page: number) => {
-    setLoading(true)
-    const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
-    setData([ ...data, ...newData || [] ])
+  const handleInfiniteOnLoad = useCallback(
+    async (page: number) => {
+      setLoading(true)
+      const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
+      setData([ ...data, ...(newData || []) ])
 
-    setLoading(false)
-    setHasMore(canHaveMoreData(newData, page))
-    setPageValue(page + 1)
-  }, [ data.length ])
+      setLoading(false)
+      setHasMore(canHaveMoreData(newData, page))
+      setPageValue(page + 1)
+    },
+    [ data.length ]
+  )
 
   useEffect(() => {
     if (hasInitialData) return setPageValue(pageValue + 1)
 
     handleInfiniteOnLoad(pageValue)
   }, [])
-
+  
   if ((!hasInitialData && isEmptyArray(data) && loading) || dataLoading)
     return <Loading label={loadingLabel} className={dataLoadingClassName} />
 

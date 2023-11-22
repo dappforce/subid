@@ -6,10 +6,10 @@ import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
 import { useCallback, useEffect, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { SubDate, isEmptyArray } from '@subsocial/utils'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
-import { MutedSpan } from '../utils/MutedText'
+import { MutedDiv } from '../utils/MutedText'
 import { useResponsiveSize } from '../responsive'
 import ListFilter from './filter/ListFilter'
 import {
@@ -80,6 +80,8 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     )
   }
 
+  const dataLoading = isEmptyArray(initialData.txs) && !initialData.actualData
+
   const List = useCallback(() => {
     return (
       <div className={styles.TransactionsList}>
@@ -94,7 +96,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
               events: events.filter((x) => x !== 'all'),
             })
           }
-          dataLoading={isEmptyArray(initialData.txs) && !initialData.actualData}
+          dataLoading={dataLoading}
           dataLoadingClassName={styles.InfiniteListLoading}
           noDataDesc='No transactions yet'
           dataSource={
@@ -112,6 +114,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
       </div>
     )
   }, [
+    dataLoading,
     address,
     JSON.stringify(initialData.txs),
     networks.join(','),
@@ -179,15 +182,18 @@ const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
     }, 1000)
 
     return () => {
-      console.log('clear interval')
       clearInterval(intervalId)
     }
   }, [ lastUpdateDate?.getTime() ])
 
   return (
-    <MutedSpan>
-      {refresh || !lastUpdateDate ? 'updating...' : lastUpdate}
-    </MutedSpan>
+    <Tooltip title='Last update'>
+      <div>
+        <MutedDiv>
+          {refresh || !lastUpdateDate ? 'updating...' : lastUpdate}
+        </MutedDiv>
+      </div>
+    </Tooltip>
   )
 }
 
