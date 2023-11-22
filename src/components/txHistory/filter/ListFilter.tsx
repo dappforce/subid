@@ -10,9 +10,11 @@ type ListFilterProps = {
   menus: MenuItem[]
   filters: string[]
   setFilters: (filter: string[]) => void
+  label: string
+  labelImage: React.ReactNode
 }
 
-const ListFilter = ({ filters, setFilters, menus }: ListFilterProps) => {
+const ListFilter = ({ filters, setFilters, menus, label, labelImage }: ListFilterProps) => {
   const onChange = (values: string[], kind: DropdownActionKind) => {
     const newValue = values.find((x) => !filters.includes(x))
 
@@ -41,8 +43,8 @@ const ListFilter = ({ filters, setFilters, menus }: ListFilterProps) => {
         label={
           <div className={styles.LabelWithCount}>
             <LabelWithIcon
-              label={'Networks'}
-              iconSrc={<PiShareNetworkLight />}
+              label={label}
+              iconSrc={labelImage}
             />
             {!filters.includes('all') ? `(${filters.length})` : ''}
           </div>

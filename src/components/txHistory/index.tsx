@@ -12,10 +12,12 @@ import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
 import { MutedDiv } from '../utils/MutedText'
 import { useResponsiveSize } from '../responsive'
 import ListFilter from './filter/ListFilter'
+import EventsIcon from '@/assets/icons/events.svg'
 import {
   eventsVariantsOpt,
   networksVariantsWithIconOpt,
 } from './filter/filterItems'
+import { PiShareNetworkLight } from 'react-icons/pi'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -130,11 +132,15 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
               menus={networksVariantsWithIconOpt}
               filters={networks}
               setFilters={setNetworks}
+              label={'Networks'}
+              labelImage={<PiShareNetworkLight />}
             />
             <ListFilter
               menus={eventsVariantsOpt}
               filters={events}
               setFilters={setEvents}
+              label={'Events'}
+              labelImage={<EventsIcon />}
             />
           </div>
           <div className={styles.RightPart}>
