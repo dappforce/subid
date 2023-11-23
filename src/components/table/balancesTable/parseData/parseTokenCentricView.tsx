@@ -192,6 +192,7 @@ export const parseTokenCentricView = ({
             account={address}
             avatar={subsocialIdentity?.image}
             withQr={false}
+            eventSource='balance_table'
           />
         )
 
@@ -437,6 +438,7 @@ function getChildrenBalances ({
       name={name} 
       avatarSize={'small'} 
       isBoldName={false} 
+      eventSource='balance_table'
     />
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -457,7 +459,7 @@ function getChildrenBalances ({
     networkIcons.push(icon)
 
     return {
-      key: network,
+      key: `${network}-${tokenId}`,
       chain: <div className='ml-5'>{chain}</div>,
       balance: getBalancePart(balance, true),
       price: <></>,
@@ -469,6 +471,7 @@ function getChildrenBalances ({
       totalValue: totalValue,
       balanceWithoutChildren: getBalancePart(balance, false),
       balanceValue: balanceValue,
+      chainName: name,
       balanceView: getBalancePart(balance, true),
       links: (
         <LinksButton

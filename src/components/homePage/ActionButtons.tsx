@@ -40,7 +40,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
     'click_on_the_follow_button'
   )
   const sendEditEvent = useBuildSendEvent('click_on_the_edit_button')
-  const sendDonateEvent = useBuildSendEvent('click_on_the_donate_button')
+  const sendDonateEvent = useBuildSendEvent('transfer_modal_opened')
 
   const onAddButtonClick = () => {
     setRefresh(true)
@@ -52,7 +52,7 @@ const ActionButtons = ({ address, showFollowButton, identities }: ActionButtonsP
         type='primary'
         onClick={() => {
           setOpenTransferModal(true)
-          sendDonateEvent()
+          sendDonateEvent({ eventSource: 'dashboard' })
         }}
         className={styles.FollowButton}
       >

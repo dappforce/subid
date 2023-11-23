@@ -1,4 +1,12 @@
-import React, { useState, createContext, useContext, useEffect, useMemo, useRef, useCallback } from 'react'
+import React, {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from 'react'
 import { BrowserClient, BaseEvent } from '@amplitude/analytics-types'
 import { createInstance } from '@amplitude/analytics-browser'
 import { ampId } from 'src/config/env'
@@ -10,7 +18,7 @@ type AnalyticContextState = {
 
 const initialState: AnalyticContextState = {
   amp: null,
-  deviceId: undefined
+  deviceId: undefined,
 }
 
 export type AnalyticContextProps = {
@@ -26,14 +34,14 @@ export async function createAmplitudeInstance () {
 
   try {
     const amp = createInstance()
-    await amp.init(ampId, undefined, { identityStorage: 'localStorage' }).promise
+    await amp.init(ampId, undefined, { identityStorage: 'localStorage' })
+      .promise
     return amp
   } catch (e) {
     console.error('Error initializing amplitude', e)
     return null
   }
 }
-
 
 export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
   const [ state, setState ] = useState(initialState)
@@ -46,17 +54,17 @@ export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
 
     async function initAmp () {
       const amp = await createAmplitudeInstance()
-  
+
       let deviceId = localStorage.getItem('device_id') || undefined
       if (!deviceId) {
         deviceId = amp?.getDeviceId()
       }
-  
+
       setState({ amp, deviceId })
       queuedEvents.forEach((props) => {
         amp?.logEvent({
           ...props,
-          device_id: deviceId
+          device_id: deviceId,
         })
       })
     }
@@ -65,22 +73,31 @@ export function AnalyticProvider (props: React.PropsWithChildren<{}>) {
 
   const contextValue: AnalyticContextProps = useMemo(() => {
     return {
-      sendEvent: (name: string, properties?: Record<string, any>) => {
+      sendEvent: (
+        name: string,
+        properties?: Record<string, any>,
+        userProperties?: Record<string, any>
+      ) => {
         const eventProps = {
           event_type: name,
           device_id: state.deviceId,
           event_properties: properties,
+          user_properties: userProperties,
         }
         if (!state.amp) {
           setQueuedEvents((prev) => [ ...prev, eventProps ])
           return
         }
         state.amp.logEvent(eventProps)
-      }
+      },
     }
   }, [ state ])
 
-  return <AnalyticContext.Provider value={contextValue}>{props.children}</AnalyticContext.Provider>
+  return (
+    <AnalyticContext.Provider value={contextValue}>
+      {props.children}
+    </AnalyticContext.Provider>
+  )
 }
 
 export function useSendEvent () {
@@ -90,9 +107,12 @@ export function useSendEvent () {
 export function useBuildSendEvent (eventName: string) {
   const sendEvent = useSendEvent()
 
-  return useCallback((properties?: Record<string, any>) => {
-    sendEvent(eventName, properties)
-  }, [ eventName ])
+  return useCallback(
+    (properties?: Record<string, any>) => {
+      sendEvent(eventName, properties)
+    },
+    [ eventName ]
+  )
 }
 
 export default AnalyticProvider

@@ -52,6 +52,7 @@ import {
   getSubsocialIdentity,
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
 export const BALANCE_TABLE_VARIANT = 'BalanceTableVariant'
@@ -148,42 +149,51 @@ export const InnerBalancesTable = <T extends TableInfo>({
   columns,
   loading,
   noData,
-}: InnerBalancesTableProps<T>) => (
-  <>
-    {isEmptyArray(tableData) ? (
-      <NoData description={noData} />
-    ) : (
-      <Table
-        key='balance-table'
-        style={{ marginBottom: 1 }}
-        columns={columns}
-        dataSource={tableData}
-        pagination={false}
-        expandable={{
-          rowExpandable: (record) => !!record.children,
-          expandIconColumnIndex: 1,
-          expandRowByClick: true,
-          expandIcon: ({ expanded, record }) => {
-            if (loading || !record.children) return <></>
+}: InnerBalancesTableProps<T>) => {
+  const sendEvent = useSendEvent()
 
-            const icon = expanded ? <UpOutlined /> : <DownOutlined />
-            return <MutedDiv className={styles.ExpandIcon}>{icon}</MutedDiv>
-          },
-          onExpand: (expanded, record) => {
-            return (
-              record.children &&
-              (!expanded
-                ? (record.balance = <>{record.balanceView}</>)
-                : (record.balance = (
-                    <div className='bs-mr-4'>{record.balanceWithoutChildren}</div>
-                  )))
-            )
-          },
-        }}
-      />
-    )}
-  </>
-)
+  return (
+    <>
+      {isEmptyArray(tableData) ? (
+        <NoData description={noData} />
+      ) : (
+        <Table
+          key='balance-table'
+          style={{ marginBottom: 1 }}
+          columns={columns}
+          dataSource={tableData}
+          pagination={false}
+          expandable={{
+            rowExpandable: (record) => !!record.children,
+            expandIconColumnIndex: 1,
+            expandRowByClick: true,
+            expandIcon: ({ expanded, record }) => {
+              if (loading || !record.children) return <></>
+
+              const icon = expanded ? <UpOutlined /> : <DownOutlined />
+              return <MutedDiv className={styles.ExpandIcon}>{icon}</MutedDiv>
+            },
+            onExpand: (expanded, record) => {
+              if(expanded && record.chainName) {
+                sendEvent('balances_details_expanded', { network: record.chainName })
+              }
+              return (
+                record.children &&
+                (!expanded
+                  ? (record.balance = <>{record.balanceView}</>)
+                  : (record.balance = (
+                      <div className='bs-mr-4'>
+                        {record.balanceWithoutChildren}
+                      </div>
+                    )))
+              )
+            },
+          }}
+        />
+      )}
+    </>
+  )
+}
 
 type LinkWithIconProps = {
   title?: string
@@ -297,7 +307,7 @@ export const BalancePart = <T extends TableInfo>({
   showCheckBox,
   noData,
   relayChain,
-  tableTab
+  tableTab,
 }: BalancePartType<T>) => {
   const { isMobile } = useResponsiveSize()
 
@@ -376,6 +386,7 @@ type ChainProps = {
   withQr?: boolean
   desc?: JSX.Element
   isBoldName?: boolean
+  eventSource?: string
 }
 
 type AvatarOrSkeletonProps = BareProps & {
@@ -430,6 +441,7 @@ export const ChainData = ({
   withQr = true,
   isBoldName = true,
   desc,
+  eventSource
 }: ChainProps) => {
   const { isMobile } = useResponsiveSize()
 
@@ -440,6 +452,7 @@ export const ChainData = ({
       isShortAddress={isShortAddress}
       halfLength={halfLength}
       withCopy={withCopy}
+      eventSource={eventSource}
       isMonosizedFont={isMonosizedFont}
       withQr={withQr}
     />
@@ -455,7 +468,12 @@ export const ChainData = ({
         />
         <div>
           {name && (
-            <div className={clsx({ ['font-weight-bold']: isBoldName }, 'FontNormal')}>
+            <div
+              className={clsx(
+                { ['font-weight-bold']: isBoldName },
+                'FontNormal'
+              )}
+            >
               {name}
             </div>
           )}
@@ -663,6 +681,7 @@ type AddressProps = {
   halfLength?: number
   withQr?: boolean
   isMonosizedFont?: boolean
+  eventSource?: string
 }
 
 export const Address = ({
@@ -673,6 +692,7 @@ export const Address = ({
   halfLength = 6,
   withQr = true,
   isMonosizedFont = false,
+  eventSource
 }: AddressProps) => (
   <div className='d-flex align-items-center'>
     {withCopy ? (
@@ -682,6 +702,7 @@ export const Address = ({
           ['MonosizedFont']: isMonosizedFont,
           ['bs-mr-2']: withQr,
         })}
+        eventSource={eventSource}
         address={accountId}
         iconVisibility
       >
@@ -714,6 +735,7 @@ type AccountPreviewProps = {
   withName?: boolean
   withAddress?: boolean
   largeAvatar?: boolean
+  eventSource?: string
 }
 
 export const AccountPreview = ({
@@ -728,6 +750,7 @@ export const AccountPreview = ({
   withName = true,
   withAddress = true,
   largeAvatar = false,
+  eventSource,
 }: AccountPreviewProps) => {
   const identities = useIdentities(account)
 
@@ -737,6 +760,7 @@ export const AccountPreview = ({
       accountId={account}
       isMonosizedFont={isMonosizedFont}
       withQr={withQr}
+      eventSource={eventSource}
       withCopy={withCopy}
       halfLength={halfLength}
     />

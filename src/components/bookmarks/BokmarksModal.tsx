@@ -12,6 +12,7 @@ import { setFavoriteAccounts, getFavoriteAccountsFromStorage, removeFromFavorite
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 type FormFields = {
   desc: string
@@ -42,6 +43,7 @@ const ModalBody = ({
   const [ desc, setDesc ] = useState<string>(notes || '')
   const currentAddress = useCurrentAccount()
   const { asPath } = useRouter()
+  const sendEvent = useSendEvent()
 
   const identitiesByAccount = useIdentitiesByAccounts([ address ])
   const favoriteAccountsKeys = Object.keys(favoriteAccounts)
@@ -63,6 +65,8 @@ const ModalBody = ({
 
   const onFinish = () => {
     setFavoriteAccounts(address, desc)
+
+    sendEvent('favorites_added')
 
     hide()
     additionalAddFn?.()
@@ -152,6 +156,7 @@ export const BookmarksModal = ({
   const [ showModal, setShowModal ] = useState(false)
   const currentAccounts = useCurrentAccount()
   const { t } = useTranslation()
+  const sendEvent = useSendEvent()
 
   const currentAccount = address ? address : currentAccounts.join(',')
 
@@ -162,6 +167,8 @@ export const BookmarksModal = ({
   const open = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
     e.preventDefault()
+
+    sendEvent('favorites_modal_opened')
 
     setOpened(true)
     setShowModal(true)

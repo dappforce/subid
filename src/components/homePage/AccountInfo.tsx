@@ -100,7 +100,7 @@ export const AccountInfo = (props: Props) => {
         {address && (
           <MutedDiv className='d-flex bs-mr-2 align-items-center'>
             <img src='/images/wallet.svg' className={styles.Icon} />{' '}
-            <CopyAddress address={address} iconVisibility>
+            <CopyAddress address={address} iconVisibility eventSource='dashboard'>
               {isMobile ? toShortAddress(genericAccountId) : genericAccountId}
             </CopyAddress>
           </MutedDiv>

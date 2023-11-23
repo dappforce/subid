@@ -353,6 +353,7 @@ export const parseBalancesTableInfo = ({
                 halfLength={6}
                 icon={icon}
                 name={name}
+                eventSource='balance_table'
               />
             ) : (
               <AccountPreview
@@ -360,6 +361,7 @@ export const parseBalancesTableInfo = ({
                 account={account}
                 avatar={subsocialIdentity?.image}
                 withQr={false}
+                eventSource='balance_table'
               />
             )
 
@@ -384,6 +386,7 @@ export const parseBalancesTableInfo = ({
               totalTokensValue,
               icon,
               name,
+              chainName: !isMulti ? name : undefined,
               address: account,
               totalValue,
               balanceWithoutChildren: getBalancePart(false),
@@ -476,6 +479,7 @@ export const parseBalancesTableInfo = ({
             total,
             icon,
             name,
+            chainName: name,
             totalTokensValue: totalValueBN,
             totalValue: totalValueBN,
             balanceWithoutChildren: getBalancePart(false),
