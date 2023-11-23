@@ -46,7 +46,7 @@ export default function ChatFloatingModal ({
     if(open) {
       document.documentElement.style.overflow = 'hidden'
     } else {
-      document.documentElement.style.overflow = 'auto'
+      document.documentElement.style.overflow = 'visible'
     }
   }, [ open ])
 

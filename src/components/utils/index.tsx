@@ -12,7 +12,13 @@ import { CURRENT_WALLET } from '../wallets/wallet-list/WalletsList'
 import { InstallUrl, Urls } from '../wallets/types'
 import BN from 'bignumber.js'
 import { usePrices } from '../../rtk/features/prices/pricesHooks'
-import { getPrice, getTotalBalance } from '../table/utils'
+import {
+  BALANCE_SHOW_ZERO_BALANCES,
+  BALANCE_TABLE_VARIANT,
+  BALANCE_TABLE_VIEW,
+  getPrice,
+  getTotalBalance,
+} from '../table/utils'
 import { useChainInfo } from '../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { BalanceView } from '../homePage/address-views/utils/index'
 import { SubmittableResult } from '@polkadot/api'
@@ -23,7 +29,6 @@ import { asAccountId } from '@subsocial/api'
 import { CID } from 'ipfs-http-client'
 import registry from '@subsocial/api/utils/registry'
 import { AnyAccountId } from '@subsocial/api/types'
-
 
 export const MINUTES = 1000 * 60
 
@@ -433,3 +438,11 @@ export const SectionTitle = ({ title, className }: SectionTitleProps) => (
     <h2>{title}</h2>
   </div>
 )
+
+export const getLocalStorageData = () => {
+  const balanceView = store.get(BALANCE_TABLE_VIEW)
+  const showZeroBalances = store.get(BALANCE_SHOW_ZERO_BALANCES)
+  const tableVariant = store.get(BALANCE_TABLE_VARIANT)
+
+  return { balancesMode: tableVariant, showZeroBalances, balanceView }
+}

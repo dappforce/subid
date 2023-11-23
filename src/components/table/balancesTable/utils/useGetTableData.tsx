@@ -19,10 +19,14 @@ import { isEmptyArray } from '@subsocial/utils'
 import { BalancesTableInfo } from '../../types'
 import { BalanceVariant } from '../types'
 import { parseBalancesTableInfo } from '../parseData/parseBalanceInfo'
-import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
+import {
+  useBuildSendEvent,
+  useSendEvent,
+} from 'src/components/providers/AnalyticContext'
 import { useResponsiveSize } from 'src/components/responsive'
 import { calculateDashboardBalances } from '../calculateDashboardBalances'
 import { getBalancesFromStoreByAddresses } from '.'
+import BN from 'bignumber.js'
 
 type TransferModalState = {
   open: boolean
@@ -63,7 +67,7 @@ export const useGetTableData = (
 ) => {
   const { i18n: language, t } = useTranslation()
   const isMulti = useIsMulti()
-  const sendTransferEvent = useBuildSendEvent('click_on_transfer_button')
+  const sendTransferEvent = useBuildSendEvent('transfer_modal_opened')
   const { isMobile } = useResponsiveSize()
   const { setBalances } = useMyExtensionAccount()
   const [ loading, setLoading ] = useState<boolean>(false)
@@ -78,6 +82,7 @@ export const useGetTableData = (
   const identities = useIdentitiesByAccounts(addresses)
   const balancesEntities = useManyBalances(addresses)
   const { setRefreshBalances } = useMyExtensionAccount()
+  const sendEvent = useSendEvent()
 
   const balancesLoading = isDataLoading(balancesEntities)
 
@@ -102,7 +107,7 @@ export const useGetTableData = (
           type: 'OPEN',
           payload: { token, network, tokenId },
         })
-        sendTransferEvent()
+        sendTransferEvent({ eventSource: 'balance_table' })
       },
       t,
     }
@@ -113,11 +118,30 @@ export const useGetTableData = (
         : parseTokenCentricView(props)
 
     if (tableInfo && !isEmptyArray(tableInfo)) {
-      const data = !balancesLoading ? calculateDashboardBalances(
-        tableInfo,
-        balancesVariant,
-        isMulti
-      ) : defaultBalances
+      const data = !balancesLoading
+        ? calculateDashboardBalances(tableInfo, balancesVariant, isMulti)
+        : defaultBalances
+
+      if (!balancesLoading) {
+        const balanceEntityEntries = Object.entries(balancesEntities || {})
+        balanceEntityEntries.forEach(([ _, balancesEntity ]) => {
+          if (!balancesEntity.balances) return
+
+          balancesEntity.balances?.forEach((balance) => {
+            const { nativeToken, tokenSymbols } = chainsInfo[balance.network]
+
+            const nativeSymbol = nativeToken || tokenSymbols[0]
+
+            const nativeBalance = balance.info[nativeSymbol]?.totalBalance
+
+            if (!new BN(nativeBalance).isZero()) {
+              sendEvent('balances_tokens_found', {
+                network: balance.network,
+              })
+            }
+          })
+        })
+      }
       setBalances(data)
       setLoading(false)
     }

@@ -65,6 +65,7 @@ export type BalancesTableInfo = CommonTableInfo & {
   children?: Partial<BalancesTableInfo>[]
   networkIcons?: string[]
   decimals: number
+  chainName: string
 
   transferAction?: React.ReactNode
 }

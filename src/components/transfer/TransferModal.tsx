@@ -18,7 +18,6 @@ import { useTokenAmountInUsd } from 'src/rtk/features/prices/pricesHooks'
 import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-// import { isTokenBridgeable } from './configs/cross-chain'
 import styles from './TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 
@@ -149,15 +148,15 @@ export default function TransferModal ({
               <Tabs.TabPane
                 key={getTabKey('cross-chain')}
                 tab={
-                  // <Tooltip title='Will be availible soon'>
-                    <span className='FontMedium'>{t('transfer.crossChain')}</span>
-                  // </Tooltip>
+                  <span className='FontMedium'>{t('transfer.crossChain')}</span>
                 }
                 disabled={disableCrossChainTab}
               />
             </Tabs>
             <MutedSpan className='bs-mb-3'>
-              {activeTab === 'same-chain' ? t('transfer.subtitle.sameChain') : t('transfer.subtitle.crossChain')}
+              {activeTab === 'same-chain'
+                ? t('transfer.subtitle.sameChain')
+                : t('transfer.subtitle.crossChain')}
             </MutedSpan>
             {formSection}
           </div>
@@ -221,7 +220,9 @@ function SuccessContent ({
       />
       <div className='d-flex flex-column align-items-stretch GapNormal position-relative'>
         <div className='d-flex flex-column align-items-center bs-mb-2'>
-          <span className='FontBig font-weight-semibold'>{amount} {token}</span>
+          <span className='FontBig font-weight-semibold'>
+            {amount} {token}
+          </span>
           {tokenAmountInUsd ? (
             <MutedSpan>${toShortMoney({ num: tokenAmountInUsd })}</MutedSpan>
           ) : null}
@@ -238,7 +239,15 @@ function SuccessContent ({
             content={secondCardContent}
           />
         )}
-        <Button onClick={closeModal} type='primary' block size='large' className='bs-mt-2'>{t('buttons.gotIt')}</Button>
+        <Button
+          onClick={closeModal}
+          type='primary'
+          block
+          size='large'
+          className='bs-mt-2'
+        >
+          {t('buttons.gotIt')}
+        </Button>
       </div>
     </div>
   )

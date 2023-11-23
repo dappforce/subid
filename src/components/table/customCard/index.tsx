@@ -104,6 +104,7 @@ const CustomCard = <T extends TableInfo>({
               withCopy={!isMulti && balanceKind !== 'StatemineAsset'}
               isMonosizedFont={!isMulti}
               avatarSize={isMobile ? 'small' : 'large'}
+              eventSource='balance_table'
               icon={icon}
               desc={
                 networkIcons ? (

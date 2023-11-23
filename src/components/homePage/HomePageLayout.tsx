@@ -3,6 +3,7 @@ import { Tabs } from 'antd'
 import { useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -14,6 +15,7 @@ type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>('portfolio')
+  const sendEvent = useSendEvent()
 
   const tabs = [
     {
@@ -28,11 +30,16 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
     },
   ]
 
+  const onTabChanged = (tab: string) => {
+    setActiveTab(tab as HomePageTabKeys)
+    sendEvent('home_tab_changed', { value: tab })
+  }
+
   return (
     <>
       <Tabs
         activeKey={activeTab}
-        onChange={(tab) => setActiveTab(tab as HomePageTabKeys)}
+        onChange={onTabChanged}
         renderTabBar={(props, DefaultTabBar) => (
           <div className={styles.TabName}>
             <DefaultTabBar {...props} />

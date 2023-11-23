@@ -20,14 +20,18 @@ import {
   getBalancesFromStoreByAddresses,
 } from '.'
 import { TableView } from '../../types'
-import { InfoCircleOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons'
+import {
+  InfoCircleOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons'
 import { fetchBalances } from 'src/rtk/features/balances/balancesHooks'
 import { useAppDispatch } from 'src/rtk/app/store'
 import styles from './Index.module.sass'
 import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
 import { useResponsiveSize } from '@/components/responsive'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
-import { BALANCE_TABLE_VARIANT } from '../../utils'
+import { BALANCE_TABLE_VARIANT, BALANCE_TABLE_VIEW } from '../../utils'
 import store from 'store'
 import SwitchIcon from '@/assets/icons/switch.svg'
 import clsx from 'clsx'
@@ -53,6 +57,7 @@ const ActionPannel = ({
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { showZeroBalances, setShowZeroBalances } = useTableContext()
+  const sendEvent = useSendEvent()
 
   const balancesFromStore = getBalancesFromStoreByAddresses(addresses)
 
@@ -60,12 +65,16 @@ const ActionPannel = ({
     balances: { freeChainBalances, lockedChainBalances },
   } = useMyExtensionAccount()
 
-  const fetchBalancesFunc = () => fetchBalances(dispatch, addresses, true)
+  const fetchBalancesFunc = () => {
+    fetchBalances(dispatch, addresses, true)
+    sendEvent('balances_reload')
+  }
 
   const totalBalanceBN = freeChainBalances.plus(lockedChainBalances)
 
   const onCheckboxChange = (e: any) => {
     setShowZeroBalances(e.target.checked)
+    sendEvent('balances_zero_balances_toggled', { value: e.target.checked })
   }
 
   const buttons = isMobile ? (
@@ -75,13 +84,21 @@ const ActionPannel = ({
   )
 
   const showInfoIcon = useMemo(() => {
-    const balances = Object.values(balancesFromStore || {}).map(items => items?.balances)
+    const balances = Object.values(balancesFromStore || {}).map(
+      (items) => items?.balances
+    )
 
     return !isEmptyArray(balances.filter(isDef))
   }, [ JSON.stringify(balancesFromStore || {}) ])
 
   const totalBalance = loading ? (
-    <Tooltip title={showInfoIcon ? 'Balance data is being refreshed, the currently displayed balances may be incorrect' : ''}>
+    <Tooltip
+      title={
+        showInfoIcon
+          ? 'Balance data is being refreshed, the currently displayed balances may be incorrect'
+          : ''
+      }
+    >
       <div className='d-flex align-items-center'>
         <Skeleton
           active
@@ -133,20 +150,34 @@ const DesktopButtons = ({
   setBalancesVariant,
 }: CommonProps) => {
   const { tableView, setTableView } = useTableContext()
+  const sendEvent = useSendEvent()
+
+  const onBalanceVariantChange = (value: string) => {
+    setBalancesVariant(value as BalanceVariant)
+    sendEvent('balances_grouping_mode_changed', { value })
+    store.set(BALANCE_TABLE_VARIANT, value)
+  }
+
+  const onTableViewChange = (value: string) => {
+    setTableView(value as TableView)
+    sendEvent('balances_view_changed', { value })
+    store.set(BALANCE_TABLE_VIEW, value)
+  }
+
   return (
     <>
       <TableDropdownButton
         menu={balanceVariantsWithIconOpt}
         defaultValue={balancesVariant}
         value={balancesVariant}
-        onChange={(value) => setBalancesVariant(value as BalanceVariant)}
+        onChange={onBalanceVariantChange}
         menuClassName={styles.MenuStyles}
       />
       <TableDropdownButton
         menu={balancesViewOpt}
         defaultValue={tableView}
         value={tableView}
-        onChange={(value) => setTableView(value as TableView)}
+        onChange={onTableViewChange}
         menuClassName={styles.MenuStyles}
       />
     </>
@@ -177,13 +208,14 @@ const DrowdownOverlay = ({
 
   const onCheckboxChange = (e: any) => {
     setShowZeroBalances(e.target.checked)
+    sendEvent('balances_zero_balances_toggled', { value: e.target.checked })
   }
 
   const onRadioTilesChange = (e: any) => {
-    const newTableView = e.target.value
-    sendEvent('change_balance_table_variant', { newTableView })
-    setBalancesVariant(newTableView)
-    store.set(BALANCE_TABLE_VARIANT, newTableView)
+    const newTableVariant = e.target.value
+    sendEvent('balances_grouping_mode_changed', { value: newTableVariant })
+    setBalancesVariant(newTableVariant)
+    store.set(BALANCE_TABLE_VARIANT, newTableVariant)
   }
 
   return (

@@ -45,10 +45,11 @@ export const CreatorStakingBannerSection = () => {
 }
 
 const ProposalBanner = () => {
-  const sendEvent = useBuildSendEvent('click_opencomm_banner')
+  const href = 'https://sub.id/creators'
+  const sendEvent = useBuildSendEvent('promo_banner_clicked')
 
   return <Link href='https://sub.id/creators' legacyBehavior>
-    <a target='_blank' rel='noreferrer' onClick={sendEvent}>
+    <a target='_blank' rel='noreferrer' onClick={() => sendEvent({ value: href })}>
       <CreatorStakingBannerSection />
     </a>
   </Link>

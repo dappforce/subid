@@ -8,6 +8,7 @@ import { Identity } from '../identity/types'
 import styles from './Index.module.sass'
 import { isDef } from '@subsocial/utils'
 import IdentitiesModal from '../identity/IdentitiesModal'
+import { useSendEvent } from '../providers/AnalyticContext'
 
 type NameWithIdentityProps = {
   addresses?: string[]
@@ -18,6 +19,7 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
   const [ openModal, setOpenModal ] = useState(false)
   const addressFromStorage = getAddressFromStorage()
   const identitiesByAccount = useIdentitiesByAccounts(addresses)
+  const sendEvent = useSendEvent()
 
   const identities =
     address && identitiesByAccount
@@ -51,16 +53,29 @@ const NameWithIdentity = ({ address, addresses }: NameWithIdentityProps) => {
 
   const showIdentities = !!identityPreviews?.length
 
+  const onOpenModalClick = () => {
+    if (showIdentities) {
+      setOpenModal(true)
+      const identityKeys = Object.keys(identities || {}).filter(
+        (key) => key !== 'subsocial'
+      )
+
+      sendEvent('identity_modal_opened', { value: identityKeys.join(',') })
+    }
+  }
+
   return (
     <>
       <div
         className={styles.NameWithIdentity}
         style={{ cursor: showIdentities ? 'pointer' : 'default' }}
-        onClick={() => showIdentities && setOpenModal(true)}
+        onClick={onOpenModalClick}
       >
         <Name identities={identities} address={address || addressFromStorage} />
         {showIdentities && (
-          <div className={styles.IdentitiesPreviews}>{identityPreviews.reverse()}</div>
+          <div className={styles.IdentitiesPreviews}>
+            {identityPreviews.reverse()}
+          </div>
         )}
       </div>
       {showIdentities && (
