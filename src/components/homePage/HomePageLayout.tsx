@@ -4,6 +4,7 @@ import { useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
 import { useSendEvent } from '../providers/AnalyticContext'
+import { useRouter } from 'next/router'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -14,7 +15,11 @@ export const MAX_ITEMS_FOR_TABLE = 6
 type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
-  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>('portfolio')
+  const { query: queryParams, pathname, replace } = useRouter()
+
+  const [activeTab, setActiveTab] = useState<HomePageTabKeys>(
+    (queryParams?.tab as HomePageTabKeys) || 'portfolio'
+  )
   const sendEvent = useSendEvent()
 
   const tabs = [
@@ -33,6 +38,10 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const onTabChanged = (tab: string) => {
     setActiveTab(tab as HomePageTabKeys)
     sendEvent('home_tab_changed', { value: tab })
+
+    const query = { ...queryParams, tab }
+
+    replace({ pathname, query })
   }
 
   return (
