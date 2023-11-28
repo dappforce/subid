@@ -19,7 +19,7 @@ const PricesWarning = () => {
 
   const { isCachedData, lastUpdate } = pricesData || {}
 
-  if (isCachedData) return null
+  if (!isCachedData) return null
 
   const lastUpdateDate = lastUpdate
     ? new Date(lastUpdate)
