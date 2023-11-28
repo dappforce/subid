@@ -19,6 +19,7 @@ import { AccountIdentitiesRecord } from '../../rtk/features/identities/identitie
 import clsx from 'clsx'
 import NftItem from './NftItem'
 import { SubsocialProfile } from '../identity/types'
+import { useGetTableData } from '../table/balancesTable/utils/useGetTableData'
 
 const { TabPane } = Tabs
 
@@ -110,6 +111,7 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
   const isMulti = useIsMulti()
   const { isMobile } = useResponsiveSize()
   const { t } = useTranslation()
+  useGetTableData(addresses || [], 'chains')
 
   const identities = useIdentitiesByAccounts(addresses)
 

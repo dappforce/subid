@@ -12,7 +12,7 @@ import { useIdentitiesByAccounts } from 'src/rtk/features/identities/identitiesH
 import { useManyBalances } from 'src/rtk/features/balances/balancesHooks'
 import { isDataLoading } from '../../utils'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { usePrices } from 'src/rtk/features/prices/pricesHooks'
+import { usePricesData } from 'src/rtk/features/prices/pricesHooks'
 import { TransferFormDefaultToken } from 'src/components/transfer/TransferForm'
 import { useTranslation } from 'react-i18next'
 import { isEmptyArray } from '@subsocial/utils'
@@ -77,12 +77,14 @@ export const useGetTableData = (
     initialTransferModalState
   )
 
-  const tokenPrices = usePrices()
+  const pricesEntity = usePricesData()
   const chainsInfo = useChainInfo()
   const identities = useIdentitiesByAccounts(addresses)
   const balancesEntities = useManyBalances(addresses)
   const { setRefreshBalances } = useMyExtensionAccount()
   const sendEvent = useSendEvent()
+
+  const { isCachedData, prices: tokenPrices } = pricesEntity?.pricesData || {}
 
   const balancesLoading = isDataLoading(balancesEntities)
 
@@ -96,7 +98,7 @@ export const useGetTableData = (
 
     const props: ParseBalanceTableInfoProps = {
       chainsInfo,
-      tokenPrices,
+      tokenPrices: tokenPrices || [],
       identities,
       isMulti,
       balancesEntities: !balancesLoading ? balancesEntities : balancesFromStore,
@@ -152,6 +154,7 @@ export const useGetTableData = (
     JSON.stringify(balancesEntities || {}),
     balancesLoading,
     isMulti,
+    isCachedData,
     language,
     balancesVariant,
   ])

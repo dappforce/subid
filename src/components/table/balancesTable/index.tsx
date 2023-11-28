@@ -19,6 +19,7 @@ import store from 'store'
 import { useGetTableData } from './utils/useGetTableData'
 import ActionPannel from './utils/ActionPannel'
 import TransferModal from 'src/components/transfer/TransferModal'
+import PricesWarning from './PricesWarning'
 
 type BalancesTableProps = {
   addresses: string[]
@@ -85,6 +86,8 @@ const BalancesTableNew = (props: BalancesTableProps) => {
 
   return (
     <TableContextWrapper {...storeProps}>
+      <PricesWarning />
+
       <BalancesTableNewInner {...storeProps} {...props} />
     </TableContextWrapper>
   )
