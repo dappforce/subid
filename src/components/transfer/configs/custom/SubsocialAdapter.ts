@@ -24,7 +24,7 @@ chains.subsocial = {
     display: 'Subsocial',
     type: 'substrate',
     icon: 'https://sub.id/images/subsocial.svg',
-    paraChainId: 2021,
+    paraChainId: 2100,
     ss58Prefix: 28
 }
 export const subsocialRouteConfigs = createRouteConfigs('subsocial' as any, [
