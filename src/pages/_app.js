@@ -35,9 +35,6 @@ const App = (props) => {
 
   return (
     <>
-      <Head>
-        <script src='/env.js' />
-      </Head>
       <HeadMeta {...head} />
       <GoogleAnalytics trackPageViews gaMeasurementId={gaId} />
       <NextLayout>

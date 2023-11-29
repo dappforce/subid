@@ -85,7 +85,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
         {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
           ? <NoData description='Address is not valid' />
           : <>
-            {isHomePage && banner}
+            {false && banner}
             <AccountInfo
               addresses={addresses}
               addressFromStorage={addressFromStorage}

@@ -63,5 +63,6 @@ const tokenImages = {
   FREN: 'gm.jpg',
   EFI: 'efinity.svg',
   PDEX: 'polkadex.svg',
+  SUB: 'subsocial.svg',
 }
 export default tokenImages
