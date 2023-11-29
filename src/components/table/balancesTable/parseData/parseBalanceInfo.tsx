@@ -180,7 +180,7 @@ export const parseBalancesTableInfo = ({
 
       if (!chainInfo) return []
 
-      const { tokenSymbols, name, icon, nativeToken, id } = chainInfo
+      const { tokenSymbols, name, icon, nativeToken, id } = chainInfo || {}
 
       if (!tokenSymbols) return
 

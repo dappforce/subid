@@ -1,9 +1,12 @@
 @import 'src/styles/subsocial-vars.scss'
 
-.AlertPanel
+.Alert
   display: flex
-  padding: $space_small $space_normal
+  align-items: flex-start
+  justify-content: space-between
+  gap: $space_small
   border-radius: $border_radius_large
+  padding: $space_small $space_normal
 
   &.Info
     background-color: $color_info
@@ -18,6 +21,9 @@
 
     .Icon
       color: $color_warning_text
+
+.AlertPanel
+  display: flex
   
   .MobileIcon
     display: none

@@ -9,8 +9,8 @@ const NftsPage = () => {
   useEffect(() => {
     if(!address) return
     
-    replace({ pathname: '/[address]', query: { ...query, tab: 'nfts' }})
-  }, [address])
+    replace({ pathname: '/[address]', query: { ...query, tab: 'nfts' } })
+  }, [ address ])
 
   return <></>
 }

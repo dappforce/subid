@@ -17,12 +17,15 @@ const alertTypes = {
   },
 }
 
-export interface AlertPanelProps extends Omit<HTMLProps<HTMLDivElement>, 'title'> {
+export interface AlertPanelProps
+  extends Omit<HTMLProps<HTMLDivElement>, 'title'> {
   title?: string | JSX.Element
   desc?: string | JSX.Element
   icon?: JSX.Element
   alertType?: keyof typeof alertTypes
   showDefaultIcon?: boolean
+  actionButton?: JSX.Element
+  alertPanelClassName?: string
 }
 
 export default function AlertPanel ({
@@ -31,6 +34,8 @@ export default function AlertPanel ({
   icon,
   alertType = 'info',
   showDefaultIcon,
+  actionButton,
+  alertPanelClassName,
   ...props
 }: AlertPanelProps) {
   const alertProps = alertType && alertTypes[alertType]
@@ -39,25 +44,28 @@ export default function AlertPanel ({
   if (!title && !desc) return null
 
   return (
-    <div {...props} className={clsx(styles.AlertPanel, alertProps?.className, props.className)}>
-      {displayedIcon && (
-        <div className={styles.Icon} style={alertProps.desktopStyle}>
-          {displayedIcon}
+    <div className={clsx(styles.Alert, alertProps.className, props.className)}>
+      <div {...props} className={clsx(styles.AlertPanel, alertPanelClassName)}>
+        {displayedIcon && (
+          <div className={styles.Icon} style={alertProps.desktopStyle}>
+            {displayedIcon}
+          </div>
+        )}
+        <div className={styles.Content}>
+          {title && (
+            <span className={styles.Title}>
+              <span className={styles.MobileIcon}>{icon}</span>
+              {title}
+            </span>
+          )}
+          {desc && title ? (
+            <MutedSpan className={styles.Desc}>{desc}</MutedSpan>
+          ) : (
+            <span className={styles.Desc}>{desc}</span>
+          )}
         </div>
-      )}
-      <div className={styles.Content}>
-        {title && (
-          <span className={styles.Title}>
-            <span className={styles.MobileIcon}>{icon}</span>
-            {title}
-          </span>
-        )}
-        {desc && title ? (
-          <MutedSpan className={styles.Desc}>{desc}</MutedSpan>
-        ) : (
-          <span className={styles.Desc}>{desc}</span>
-        )}
       </div>
+      {actionButton}
     </div>
   )
 }

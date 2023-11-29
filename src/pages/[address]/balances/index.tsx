@@ -10,7 +10,7 @@ const BalancesPage = () => {
     if (!address) return
     
     replace({ pathname: '/[address]', query: { ...query, tab: 'portfolio' } })
-  }, [address])
+  }, [ address ])
 
   return <></>
 }

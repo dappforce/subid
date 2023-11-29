@@ -1,8 +1,5 @@
 import { call, put, select, takeLatest } from '@redux-saga/core/effects'
-import {
-  chainInfoActions,
-  selectChainInfoList,
-} from './multiChainInfoSlice'
+import { chainInfoActions, selectChainInfoList } from './multiChainInfoSlice'
 import { getChainsInfo, getStakingConstsByNetwork } from 'src/api'
 import { isEmptyObj } from '@subsocial/utils'
 import { MultiChainInfo, ChainInfo, StakingConsts } from './types'
@@ -22,15 +19,18 @@ function* fetchChainInfoWorker () {
 
     const response: MultiChainInfo = yield call(getChainsInfo)
 
-    const chainInfoEntity = Object.entries(response).map(([ id, info ]) => {
-      return {
-        ...info,
-        id,
-      }
-    })
+    if (response) {
+      const chainInfoEntity = Object.entries(response).map(([ id, info ]) => {
+        return {
+          ...info,
+          id,
+        }
+      })
 
-    yield put(chainInfoActions.fetchChainInfoSuccess(chainInfoEntity))
-
+      yield put(chainInfoActions.fetchChainInfoSuccess(chainInfoEntity))
+    } else {
+      log.error('Failed to fetch info of multiple chains')
+    }
   } catch (error) {
     log.error('Failed to fetch info of multiple chains', error)
 
@@ -41,7 +41,7 @@ function* fetchChainInfoWorker () {
 function* storeNetworkByParaId (action: PayloadAction<MultiChainInfo>) {
   const chainsInfo = action.payload
 
-  if(isEmptyObj(chainsInfo)) return
+  if (isEmptyObj(chainsInfo)) return
 
   try {
     const chainInfoValues = Object.values(chainsInfo)
@@ -49,7 +49,7 @@ function* storeNetworkByParaId (action: PayloadAction<MultiChainInfo>) {
     const networkByParaId: NetworkByParaId = {}
 
     chainInfoValues.map(({ paraId, id, relayChain }) => {
-      if(paraId && relayChain) {
+      if (paraId && relayChain) {
         networkByParaId[`${paraId}-${relayChain}`] = id
       }
     })
@@ -70,7 +70,6 @@ function* fetchChainInfoWithPriceWorker () {
   yield fetchPricesWorker({ payload: chainsInfoNames, type: '' })
 }
 
-
 export function* watchChainInfoWithPrices () {
   yield takeLatest(FETCH_CHIAN_INFO_WITH_PRICES, fetchChainInfoWithPriceWorker)
 }
@@ -81,11 +80,17 @@ function* fetchStakingConstsWithChainInfo (action: PayloadAction<string>) {
   const network = action.payload
 
   try {
-    const chainInfoByNetwork: ChainInfo = yield select(selectChainInfoByNetwork, network)
+    const chainInfoByNetwork: ChainInfo = yield select(
+      selectChainInfoByNetwork,
+      network
+    )
 
     if (chainInfoByNetwork && !isEmptyObj(chainInfoByNetwork?.staking)) return
 
-    const response: StakingConsts = yield call(getStakingConstsByNetwork, network)
+    const response: StakingConsts = yield call(
+      getStakingConstsByNetwork,
+      network
+    )
 
     const newChainInfo = {
       ...chainInfoByNetwork,
@@ -93,7 +98,6 @@ function* fetchStakingConstsWithChainInfo (action: PayloadAction<string>) {
     }
 
     yield put(chainInfoActions.fetchStakingConstsSuccess(newChainInfo))
-
   } catch (error) {
     log.error('Failed to fetch info of multiple chains', error)
 
@@ -102,5 +106,8 @@ function* fetchStakingConstsWithChainInfo (action: PayloadAction<string>) {
 }
 
 export function* watchStakingConsts () {
-  yield takeLatest(chainInfoActions.fetchStakingConsts.type, fetchStakingConstsWithChainInfo)
+  yield takeLatest(
+    chainInfoActions.fetchStakingConsts.type,
+    fetchStakingConstsWithChainInfo
+  )
 }
