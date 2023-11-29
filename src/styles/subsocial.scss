@@ -43,7 +43,7 @@ main {
 
 body {
   background-color: $color_page_bg !important;
-  overflow: auto !important;
+  overflow: visible !important;
 }
 
 input[type=number]::-webkit-outer-spin-button,
