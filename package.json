@@ -55,7 +55,10 @@
     "@types/react": "^17.x.x",
     "@polkadot/types": "10.9.1",
     "@polkadot/api": "10.9.1",
-    "@polkadot/util": "12.5.1"
+    "@polkadot/util": "12.5.1",
+    "@polkadot/keyring": "12.5.1",
+    "@polkadot/x-bigint": "12.5.1",
+    "@polkadot/util-crypto": "12.5.1"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.2.2",
