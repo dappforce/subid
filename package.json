@@ -52,12 +52,15 @@
     "typescript": "4.9.5"
   },
   "resolutions": {
-    "@types/react": "^17.x.x"
+    "@types/react": "^17.x.x",
+    "@polkadot/types": "^10.9.1",
+    "@polkadot/api": "^10.9.1",
+    "@polkadot/util": "^12.5.1"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.2.2",
     "@ant-design/charts": "^1.2.14",
-    "@ant-design/icons": "4.6.2",
+    "@ant-design/icons": "^4.6.2",
     "@blazity/next-image-proxy": "^1.0.2",
     "@floating-ui/react": "^0.25.1",
     "@google/model-viewer": "^1.10.1",
