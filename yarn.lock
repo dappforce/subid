@@ -4518,7 +4518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^10.9.1":
+"@polkadot/api@npm:10.9.1":
   version: 10.9.1
   resolution: "@polkadot/api@npm:10.9.1"
   dependencies:
@@ -5010,7 +5010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^10.9.1":
+"@polkadot/types@npm:10.9.1":
   version: 10.9.1
   resolution: "@polkadot/types@npm:10.9.1"
   dependencies:
@@ -5231,18 +5231,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:^12.5.1":
-  version: 12.6.1
-  resolution: "@polkadot/util@npm:12.6.1"
+"@polkadot/util@npm:12.5.1":
+  version: 12.5.1
+  resolution: "@polkadot/util@npm:12.5.1"
   dependencies:
-    "@polkadot/x-bigint": 12.6.1
-    "@polkadot/x-global": 12.6.1
-    "@polkadot/x-textdecoder": 12.6.1
-    "@polkadot/x-textencoder": 12.6.1
-    "@types/bn.js": ^5.1.5
+    "@polkadot/x-bigint": 12.5.1
+    "@polkadot/x-global": 12.5.1
+    "@polkadot/x-textdecoder": 12.5.1
+    "@polkadot/x-textencoder": 12.5.1
+    "@types/bn.js": ^5.1.1
     bn.js: ^5.2.1
     tslib: ^2.6.2
-  checksum: 495cd6b4c5c3ef93f8e80487d484aa5e315aeaf7b1af346941e4a56e11a811026317d70f271038f64959f5384c8ef4658310205fb4e3651f9c5982215bf23bae
+  checksum: 955d41c01cb3c7da72c4f5f8faed13e1af1fa9603a3a1dd9f282eb69b5ebbffb889e76c595d1252ff5f9665cb3c55f1a96f908b020dc79356f92b2d5ce1aa81e
   languageName: node
   linkType: hard
 
@@ -5797,23 +5797,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-textdecoder@npm:12.6.1":
-  version: 12.6.1
-  resolution: "@polkadot/x-textdecoder@npm:12.6.1"
+"@polkadot/x-textdecoder@npm:12.5.1":
+  version: 12.5.1
+  resolution: "@polkadot/x-textdecoder@npm:12.5.1"
   dependencies:
-    "@polkadot/x-global": 12.6.1
+    "@polkadot/x-global": 12.5.1
     tslib: ^2.6.2
-  checksum: f5420c6539c598ede18a984dc0e2e11a0d80fe7be5813cfe9fdd162bfbd3a852131b27385d13587aefac976dd82fc06f2c6707acc8049a40ec13b8fb0b891055
+  checksum: 202a9e216e9b89cc74012fa3f6c96eeb368dc3e6fa3c943f28c37c20941a6c678506cbc136946e9ff100123aa43846eab7765af074de94dfdd23f4ce2242c794
   languageName: node
   linkType: hard
 
-"@polkadot/x-textencoder@npm:12.6.1":
-  version: 12.6.1
-  resolution: "@polkadot/x-textencoder@npm:12.6.1"
+"@polkadot/x-textencoder@npm:12.5.1":
+  version: 12.5.1
+  resolution: "@polkadot/x-textencoder@npm:12.5.1"
   dependencies:
-    "@polkadot/x-global": 12.6.1
+    "@polkadot/x-global": 12.5.1
     tslib: ^2.6.2
-  checksum: 59fb9f3a650d37c621277b62f377899acd80c6f5196be919db05dc5572740333199ca9723c9049f9bc0f04c558db969eb35940c0df2921d371720729c9afa5b2
+  checksum: 7a8d99d203cbd9537e55405d737667ae8cd9ad40a9e3de52f2ef7580a23d27ebf7f7c52da4e0eca6ca34dc97aae33a97bab36afb54aaa7714f54a31931f94113
   languageName: node
   linkType: hard
 
@@ -6814,7 +6814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bn.js@npm:^5.1.5":
+"@types/bn.js@npm:^5.1.1":
   version: 5.1.5
   resolution: "@types/bn.js@npm:5.1.5"
   dependencies:
