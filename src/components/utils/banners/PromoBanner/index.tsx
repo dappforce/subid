@@ -45,7 +45,7 @@ export const BannerSection = () => {
 }
 
 const PromoBanner = () => {
-  const href = 'https://app.hydradx.io/trade/swap?assetIn=5&assetOut=24'
+  const href = 'https://docs.subsocial.network/docs/tutorials/get-sub'
   const sendEvent = useBuildSendEvent('promo_banner_clicked')
 
   return <Link href={href} legacyBehavior>
