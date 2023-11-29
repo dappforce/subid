@@ -41,7 +41,10 @@ hydraRouteConfigs.push({
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-hydraTokensConfig.SUB = subsocialTokensConfig.SUB
+hydraTokensConfig.SUB = {
+  ...subsocialTokensConfig.SUB,
+  toRaw: () => 24, // 24 is the token id for SUB in Hydra DX
+}
 
 console.log(hydraRouteConfigs, hydraTokensConfig)
 
