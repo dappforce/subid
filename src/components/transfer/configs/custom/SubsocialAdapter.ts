@@ -24,7 +24,7 @@ chains.subsocial = {
     display: 'Subsocial',
     type: 'substrate',
     icon: 'https://sub.id/images/subsocial.svg',
-    paraChainId: 2100,
+    paraChainId: 2101,
     ss58Prefix: 28
 }
 export const subsocialRouteConfigs = createRouteConfigs('subsocial' as any, [
@@ -32,7 +32,7 @@ export const subsocialRouteConfigs = createRouteConfigs('subsocial' as any, [
         to: 'hydradx',
         token: 'SUB',
         xcm: {
-            fee: { token: 'SUB', amount: '63199000' },
+            fee: { token: 'SUB', amount: '65000000' },
         },
     },
 ])
