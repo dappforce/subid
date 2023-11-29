@@ -27,8 +27,8 @@ jobs:
       - name: Update deploy file
         run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-frontend:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/deploy.yaml
 
-#      - name: Remove hpa
-#        run: kubectl -n sub-id delete hpa subid-front
+      - name: Remove hpa
+        run: kubectl -n sub-id delete hpa subid-front
         
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/deployment/production/deploy.yaml

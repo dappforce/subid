@@ -35,6 +35,7 @@ type SendGetRequestProps = {
   params: GetParams
   onFailReturnedValue: any
   onFailedText: string
+  timeout?: number
 }
 
 export const sendGetRequest = ({ params: { url, config }, ...otherProps }: SendGetRequestProps) => (

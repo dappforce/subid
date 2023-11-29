@@ -9,7 +9,6 @@ import 'src/styles/subsocial.scss'
 import 'src/styles/subsocial-mobile.scss'
 
 import React, { useEffect } from 'react'
-import Head from 'next/head'
 import { GoogleAnalytics } from 'nextjs-google-analytics'
 import NextLayout from '../layout/NextLayout'
 import { wrapper } from '../rtk/app/store'
@@ -35,9 +34,6 @@ const App = (props) => {
 
   return (
     <>
-      <Head>
-        <script src='/env.js' />
-      </Head>
       <HeadMeta {...head} />
       <GoogleAnalytics trackPageViews gaMeasurementId={gaId} />
       <NextLayout>

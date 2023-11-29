@@ -7,9 +7,9 @@ import store from 'store'
 import clsx from 'clsx'
 import { useBuildSendEvent } from 'src/components/providers/AnalyticContext'
 
-const BANNER_STORAGE_KEY = 'df.creator_staking_banner'
+const BANNER_STORAGE_KEY = 'df.promo_banner'
 
-export const CreatorStakingBannerSection = () => {
+export const BannerSection = () => {
   const { isMobile } = useResponsiveSize()
 
   const bannerFromStorage = store.get(BANNER_STORAGE_KEY)
@@ -20,7 +20,7 @@ export const CreatorStakingBannerSection = () => {
 
   if (!showBanner) return null
 
-  const backgroundImage = `/images/banners/creator-staking-${
+  const backgroundImage = `/images/banners/sub-${
     isMobile ? 'mobile.png' : 'desktop.png'
   }`
 
@@ -44,15 +44,15 @@ export const CreatorStakingBannerSection = () => {
   )
 }
 
-const ProposalBanner = () => {
-  const href = 'https://sub.id/creators'
+const PromoBanner = () => {
+  const href = 'https://app.hydradx.io/trade/swap?assetIn=5&assetOut=24'
   const sendEvent = useBuildSendEvent('promo_banner_clicked')
 
-  return <Link href='https://sub.id/creators' legacyBehavior>
+  return <Link href={href} legacyBehavior>
     <a target='_blank' rel='noreferrer' onClick={() => sendEvent({ value: href })}>
-      <CreatorStakingBannerSection />
+      <BannerSection />
     </a>
   </Link>
 }
 
-export default ProposalBanner
+export default PromoBanner

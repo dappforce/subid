@@ -3,7 +3,12 @@ import { AstarAdapter, ShidenAdapter } from '@polkawallet/bridge/adapters/astar'
 import { AltairAdapter } from '@polkawallet/bridge/adapters/centrifuge'
 import { ShadowAdapter } from '@polkawallet/bridge/adapters/crust'
 import { CrabAdapter } from '@polkawallet/bridge/adapters/darwinia'
-import { BasiliskAdapter, HydraAdapter } from '@polkawallet/bridge/adapters/hydradx'
+import {
+  BasiliskAdapter,
+  HydraAdapter,
+  hydraRouteConfigs,
+  hydraTokensConfig,
+} from '@polkawallet/bridge/adapters/hydradx'
 import { InterlayAdapter, KintsugiAdapter } from '@polkawallet/bridge/adapters/interlay'
 import { KicoAdapter } from '@polkawallet/bridge/adapters/kico'
 import { PichiuAdapter } from '@polkawallet/bridge/adapters/kylin'
@@ -19,6 +24,29 @@ import { IntegriteeAdapter } from '@polkawallet/bridge/adapters/integritee'
 import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
 import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
 import { ZeitgeistAdapter } from '@polkawallet/bridge/adapters/zeitgeist'
+import { SubsocialAdapter, subsocialTokensConfig } from './custom/SubsocialAdapter'
+
+// Add SUB for Hydra DX
+hydraRouteConfigs.push({
+  from: 'hydradx',
+  to: 'subsocial' as ChainId,
+  token: 'SUB',
+  xcm: {
+    fee: {
+      token: 'SUB',
+      amount: '63199000',
+    },
+  },
+})
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+hydraTokensConfig.SUB = {
+  ...subsocialTokensConfig.SUB,
+  toRaw: () => 24, // 24 is the token id for SUB in Hydra DX
+}
+
+console.log(hydraRouteConfigs, hydraTokensConfig)
 
 const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
@@ -53,7 +81,7 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   },
   'darwinia-crab-parachain': {
     adapter: new CrabAdapter(),
-    chainName: 'crab'
+    chainName: 'crab',
   },
   basilisk: {
     adapter: new BasiliskAdapter(),
@@ -84,7 +112,7 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   },
   bifrostKusama: {
     adapter: new BifrostAdapter(),
-    chainName: 'bifrost'
+    chainName: 'bifrost',
   },
   integritee: {
     adapter: new IntegriteeAdapter(),
@@ -97,14 +125,17 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   },
   heiko: {
     adapter: new HeikoAdapter(),
-    chainName: 'heiko'
+    chainName: 'heiko',
   },
   hydradx: {
     adapter: new HydraAdapter(),
   },
   zeitgeist: {
     adapter: new ZeitgeistAdapter(),
-  }
+  },
+  subsocial: {
+    adapter: new SubsocialAdapter(),
+  },
 }
 
 function getPolkawalletChainName (chain: string) {
@@ -115,7 +146,7 @@ function getPolkawalletChainName (chain: string) {
 }
 
 const polkawalletChainToSubidNetworkMap = Object.entries(
-  availableAdapters
+  availableAdapters,
 ).reduce((acc, [ subIdNetwork, { chainName } ]) => {
   acc[chainName || subIdNetwork as ChainId] = subIdNetwork
   return acc
@@ -176,6 +207,7 @@ type AugmentedRouterFilter = {
   to?: string
   token?: string
 }
+
 export function getRouteOptions (type: 'dest', params: Omit<AugmentedRouterFilter, 'to'>): string[]
 export function getRouteOptions (type: 'source', params: Omit<AugmentedRouterFilter, 'from'>): string[]
 export function getRouteOptions (type: 'source' | 'dest', params: AugmentedRouterFilter): string[] {
@@ -185,7 +217,7 @@ export function getRouteOptions (type: 'source' | 'dest', params: AugmentedRoute
     const parsedParams: RouterFilter = deleteUndefinedAttributes({
       token: params.token,
       from: getPolkawalletChainName(params.from ?? ''),
-      to: getPolkawalletChainName(params.to ?? '')
+      to: getPolkawalletChainName(params.to ?? ''),
     })
     if (type === 'source') {
       options = bridge.router.getFromChains(parsedParams)
@@ -197,3 +229,4 @@ export function getRouteOptions (type: 'source' | 'dest', params: AugmentedRoute
   }
   return options.map(({ id }) => polkawalletChainToSubidNetworkMap[id as ChainId])
 }
+

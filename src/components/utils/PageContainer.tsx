@@ -19,7 +19,7 @@ const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), {
 })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
 const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
-const CreatorStakingBanner = dynamic(import('./banners/CreatorStakingBanner/index'), { ssr: false })
+const PromoBanner = dynamic(import('./banners/PromoBanner/index'), { ssr: false })
 
 type PageContainerProps = {
   isHomePage?: boolean
@@ -60,7 +60,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
     }
   }, [ addressFromStorage, isSignIn ])
 
-  const banner = useMemo(() => <CreatorStakingBanner />, [])
+  const banner = useMemo(() => <PromoBanner />, [])
     
   if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
     <div className='layout-wrapper'>
@@ -85,7 +85,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
         {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
           ? <NoData description='Address is not valid' />
           : <>
-            {isHomePage && banner}
+            {false && banner}
             <AccountInfo
               addresses={addresses}
               addressFromStorage={addressFromStorage}
