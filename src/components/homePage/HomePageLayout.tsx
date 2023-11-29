@@ -17,7 +17,7 @@ type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const { query: queryParams, pathname, replace } = useRouter()
 
-  const [activeTab, setActiveTab] = useState<HomePageTabKeys>(
+  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>(
     (queryParams?.tab as HomePageTabKeys) || 'portfolio'
   )
   const sendEvent = useSendEvent()

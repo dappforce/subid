@@ -1,19 +1,19 @@
 import { useAppSelector } from '../../app/store'
-import { selectPrices } from './pricesSlice'
+import { PricesEntity, selectPrices } from './pricesSlice'
 import { MultiChainInfo } from '../multiChainInfo/types'
 
 export const overriddenChainNames: Record<string, string> = {
-  'bifrostKusama': 'bifrost-native-coin',
-  'khala': 'pha',
-  'calamari': 'calamari-network',
-  'darwinia': 'darwinia-network-native-token',
+  bifrostKusama: 'bifrost-native-coin',
+  khala: 'pha',
+  calamari: 'calamari-network',
+  darwinia: 'darwinia-network-native-token',
   'darwinia-crab': 'darwinia-crab-network',
-  'crust': 'crust-network',
-  'kilt': 'kilt-protocol',
-  'robonomics': 'robonomics-network',
-  'bitCountry': 'metaverse-network-pioneer',
-  'parallel': 'parallel-finance',
-  'pendulum': 'pendulum-chain'
+  crust: 'crust-network',
+  kilt: 'kilt-protocol',
+  robonomics: 'robonomics-network',
+  bitCountry: 'metaverse-network-pioneer',
+  parallel: 'parallel-finance',
+  pendulum: 'pendulum-chain',
 }
 
 export const statemineAssets = [ 'rmrk' ]
@@ -24,22 +24,29 @@ export const getChainsNamesForCoinGecko = (chainsInfo: MultiChainInfo) => {
 
   chainInfoKeys.push(...statemineAssets, ...additionalTokens)
 
-  return chainInfoKeys.map((network) => overriddenChainNames[network] || network).join(',')
+  return chainInfoKeys
+    .map((network) => overriddenChainNames[network] || network)
+    .join(',')
+}
+
+export const usePricesData = () => {
+  return useAppSelector<PricesEntity | undefined>(selectPrices)
 }
 
 export const usePrices = () => {
-  return useAppSelector<any[] | undefined>(selectPrices)
+  return usePricesData()?.pricesData?.prices
 }
 
 export const useTokenPrice = (token: string) => {
-  const tokenPrices = usePrices()
+  const prices = usePrices()
+
   if (!token) return 0
 
-  let tokenData = tokenPrices?.find((priceData) => {
+  let tokenData = prices?.find((priceData) => {
     return priceData.symbol === token.toLowerCase()
   })
   if (!tokenData) return 0
-  
+
   return parseFloat(tokenData.current_price)
 }
 
