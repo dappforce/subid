@@ -32,7 +32,7 @@ export const subsocialRouteConfigs = createRouteConfigs('subsocial' as any, [
         to: 'hydradx',
         token: 'SUB',
         xcm: {
-            fee: { token: 'SUB', amount: '225000000' }, // TODO: need to be updated
+            fee: { token: 'SUB', amount: '63199000' },
         },
     },
 ])

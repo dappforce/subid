@@ -34,7 +34,7 @@ hydraRouteConfigs.push({
   xcm: {
     fee: {
       token: 'SUB',
-      amount: '225000000', // TODO: need to be updated
+      amount: '63199000',
     },
   },
 })
