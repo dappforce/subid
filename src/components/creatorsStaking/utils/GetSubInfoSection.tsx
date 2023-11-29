@@ -15,6 +15,8 @@ export const GetSubInfoSection = () => {
   const { balances, loading } = balancesByAccount || {}
 
   const hideInfoSection = useMemo(() => {
+    if(loading === undefined) return true
+
     const balanceByNetwork =
       balances?.find((x) => x.network === 'subsocial') || ({} as any)
 
