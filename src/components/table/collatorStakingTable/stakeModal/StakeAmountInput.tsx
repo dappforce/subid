@@ -1,9 +1,7 @@
 import React from 'react'
-import { Button, Col, FormInstance, Input, Row } from 'antd'
-import { Form } from 'antd'
+import { Button, Col, FormInstance, Input, Row, Form } from 'antd'
 import BigNumber from 'bignumber.js'
 import { nonEmptyStr } from '@subsocial/utils'
-import BN from 'bn.js'
 import { useTranslation } from 'react-i18next'
 import { ChainInfo } from '../../../../rtk/features/multiChainInfo/types'
 import { FormatBalance } from '../../../common/balances/Balance'
@@ -13,6 +11,7 @@ import { convertToBalanceWithDecimal } from '../../../common/balances/utils'
 import styles from '../StakingTable.module.sass'
 import { Action } from './StakingActionButtons'
 import { BIGNUMBER_ZERO } from '../../../../config/app/consts'
+import { BN } from '@polkadot/util'
 
 type StakeAmountInputProps = {
   form: FormInstance

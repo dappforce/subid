@@ -25,34 +25,32 @@ const TotalSection = ({
   loading,
 }: TotalSectionProps) => {
   return (
-    <>
-      <div className={styles.BalanceBlock}>
-        <MutedSpan className={styles.FontSmall}>
-          {title}
-          {description && (
-            <Tooltip className='ml-2' title={description}>
-              <QuestionCircleOutlined />
-            </Tooltip>
-          )}
-        </MutedSpan>
-
-        {loading ? (
-          <Skeleton
-            active
-            title={false}
-            paragraph={{ rows: 1, className: styles.SkeletonParagraph }}
-            className={styles.Skeleton}
-          />
-        ) : (
-          <BalanceView
-            value={totalBalance.toString()}
-            symbol='$'
-            startWithSymbol
-            className={styles.FontLarge}
-          />
+    <div className={styles.BalanceBlock}>
+      <MutedSpan className={styles.FontSmall}>
+        {title}
+        {description && (
+          <Tooltip className='ml-2' title={description}>
+            <QuestionCircleOutlined />
+          </Tooltip>
         )}
-      </div>
-    </>
+      </MutedSpan>
+
+      {loading ? (
+        <Skeleton
+          active
+          title={false}
+          paragraph={{ rows: 1, className: styles.SkeletonParagraph }}
+          className={styles.Skeleton}
+        />
+      ) : (
+        <BalanceView
+          value={totalBalance.toString()}
+          symbol='$'
+          startWithSymbol
+          className={styles.FontLarge}
+        />
+      )}
+    </div>
   )
 }
 

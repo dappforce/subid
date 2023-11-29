@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16 as builder
+FROM node:18-alpine3.18 as builder
 
 ARG GH_BACKEND_URL
 ARG GH_IPFS_URL

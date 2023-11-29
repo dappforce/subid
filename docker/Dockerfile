@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16 as builder
+FROM node:18-alpine3.18 as builder
 
 ARG GH_BACKEND_URL
 ARG GH_IPFS_URL
@@ -22,7 +22,7 @@ RUN set -x \
     && mv ci.env .env \
     && NODE_ENV=production yarn build
 
-FROM gcr.io/distroless/nodejs:16 AS runner
+FROM gcr.io/distroless/nodejs:18 AS runner
 
 ARG GH_BACKEND_URL
 ARG GH_IPFS_URL

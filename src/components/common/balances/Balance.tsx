@@ -1,6 +1,5 @@
 import React from 'react'
-import { formatBalance } from '@polkadot/util'
-import BN from 'bn.js'
+import { formatBalance, BN } from '@polkadot/util'
 import { Compact } from '@polkadot/types'
 
 // for million, 2 * 3-grouping + comma

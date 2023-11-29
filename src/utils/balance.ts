@@ -1,5 +1,4 @@
-import BN from 'bn.js'
-import { BN_ZERO } from '@polkadot/util'
+import { BN_ZERO, BN } from '@polkadot/util'
 import { AccountInfoByChain } from 'src/components/identity/types'
 
 export const getTransferableBalance = (
