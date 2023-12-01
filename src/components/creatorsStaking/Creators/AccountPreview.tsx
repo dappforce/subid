@@ -43,7 +43,7 @@ const AccountPreview = ({ space, spaceId }: AccountPreviewProps) => {
   )
 
   const accountDesc = (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 pb-[1px]'>
       {!!postsCount && postsLink}
       <ContactInfo
         className={clsx('text-[#64748B]')}
