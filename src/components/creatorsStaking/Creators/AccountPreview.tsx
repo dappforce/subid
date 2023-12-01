@@ -17,7 +17,7 @@ const AccountPreview = ({ space, spaceId }: AccountPreviewProps) => {
 
   const { name, ownedByAccount, image, email, links, postsCount } = space || {}
 
-  const contactInfo = { email, links }
+  const contactInfo = { email, links: links?.filter(x => x !== 'null') }
 
   const owner = ownedByAccount?.id
 
