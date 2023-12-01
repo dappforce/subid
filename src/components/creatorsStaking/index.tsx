@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import { linkTextStyles } from './tailwind-components/LinkText'
 import { useState } from 'react'
 import HowToSelectAccountModal from './Creators/modals/HowToSelectAccountModal'
+import GetSubInfoSection from './utils/GetSubInfoSection'
 
 const MultiAccountWarning = () => {
   const [ openModal, setOpenModal ] = useState(false)
@@ -63,6 +64,8 @@ const CreatorsStaking = () => {
     <div className='flex flex-col gap-10'>
       <StakingContextWrapper network='subsocial'>
         <Banner />
+
+        <GetSubInfoSection />
 
         <div className='flex flex-col gap-10 mx-4'>
           {isMulti ? (
