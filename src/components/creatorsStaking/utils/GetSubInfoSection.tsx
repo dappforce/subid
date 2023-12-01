@@ -23,7 +23,7 @@ export const GetSubInfoSection = () => {
     const subBalance = balanceByNetwork?.info?.['SUB']
     const transferableBalance = getTransferableBalance(subBalance)
     return !transferableBalance.isZero() || loading
-  }, [loading])
+  }, [ loading ])
 
   if (hideInfoSection) return null
 

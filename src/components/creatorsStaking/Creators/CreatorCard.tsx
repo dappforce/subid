@@ -166,7 +166,7 @@ CreatorCardProps) => {
     </div>
   )
 
-  const contactInfo = { email, links }
+  const contactInfo = { email, links: links?.filter(x => x !== 'null') }
 
   const onChatButtonClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()

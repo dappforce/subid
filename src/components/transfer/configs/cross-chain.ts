@@ -46,8 +46,6 @@ hydraTokensConfig.SUB = {
   toRaw: () => 24, // 24 is the token id for SUB in Hydra DX
 }
 
-console.log(hydraRouteConfigs, hydraTokensConfig)
-
 const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainName?: ChainId }> = {
   polkadot: {
     adapter: new PolkadotAdapter(),
