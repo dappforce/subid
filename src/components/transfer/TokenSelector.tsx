@@ -25,23 +25,24 @@ export type TokenData = {
   tokenId?: { id: any }
   token: string
   network?: string
+  fullTokenName: string
 }
 
 export const tokenSelectorEncoder = {
-  encode: ({ network, token, tokenId }: TokenData) => {
+  encode: ({ network, token, tokenId, fullTokenName }: TokenData) => {
     const id = tokenId?.id ? JSON.stringify(tokenId) : ''
-    return `${id}|${token}|${network ?? ''}`
+    return `${id}|${token}|${fullTokenName}|${network ?? ''}`
   },
   decode: (encoded: string): TokenData => {
-    if (!encoded) return { token: '' }
-    const [ id, token, network ] = encoded.split('|')
+    if (!encoded) return { token: '', fullTokenName: '' }
+    const [ id, token, fullTokenName, network ] = encoded.split('|')
     let parsedId: TokenData['tokenId']
     if (id) {
       try {
         parsedId = JSON.parse(id)
       } catch {}
     }
-    return { token, network, tokenId: parsedId }
+    return { token, network, tokenId: parsedId, fullTokenName }
   },
 }
 
@@ -54,17 +55,23 @@ const generateAddTokenOption =
     tokenMap: Record<string, SearchableSelectOption>,
     filterCrossChainBridgeable?: boolean
   ) =>
-  (tokenName: string, tokenId?: TokenData['tokenId']) => {
+  (tokenName: string, tokenId?: TokenData['tokenId'], isEvmWrappedToken?: boolean) => {
     const network = showNetwork ? networkName : ''
+    const token = isEvmWrappedToken ? tokenName.replace('xc', '') : tokenName
+
     const tokenData: TokenData = {
       tokenId: showNetwork ? tokenId : undefined,
-      token: tokenName,
+      token,
       network: showNetwork ? networkId : '',
+      fullTokenName: tokenName,
     }
+
+
     const encodedTokenData = tokenSelectorEncoder.encode(tokenData)
 
+
     if (tokenMap[encodedTokenData]) return
-    if (filterCrossChainBridgeable && !isTokenBridgeable(tokenName)) return
+    if (filterCrossChainBridgeable && !isTokenBridgeable(token)) return
 
     const filterNetwork = showNetwork ? networkName : ''
     tokenMap[encodedTokenData] = {
@@ -72,7 +79,7 @@ const generateAddTokenOption =
       label: (
         <TokenOption
           networkImage={showNetwork ? `/images/${icon}` : undefined}
-          token={tokenName}
+          token={token}
           network={network}
         />
       ),
@@ -127,18 +134,17 @@ export default function TokenSelector ({
 
         Object.values(assetsRegistry).forEach((asset) => {
           const tokenSymbol = asset.symbol
-          if (tokenSymbol === nativeTokenSymbol) return
+          if (tokenSymbol.replace('xc', '') === nativeTokenSymbol) return
           const currency = asset.currency
           if (!currency) return
-          const tokenId = currency
-          addTokenOption(tokenSymbol, { id: tokenId })
+          const tokenId = currency.id || currency
+          addTokenOption(tokenSymbol, { id: tokenId }, tokenSymbol.startsWith('xc'))
         })
       }
     )
     return Object.values(tokenMap)
   }, [ chainInfo, showNetwork, myAddress ])
 
-  
   return (
     <div
       {...props}

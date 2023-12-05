@@ -47,6 +47,7 @@ export type TransferFormDefaultToken = {
   token: string
   network: string
   tokenId?: { id: any }
+  fullTokenName: string
 }
 export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   defaultRecipient?: string
@@ -61,7 +62,11 @@ export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   ) => JSX.Element
 }
 
-export const DEFAULT_TOKEN = { network: 'polkadot', token: 'DOT' }
+export const DEFAULT_TOKEN = {
+  network: 'polkadot',
+  token: 'DOT',
+  fullTokenName: 'DOT',
+}
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
@@ -89,6 +94,7 @@ export default function TransferForm ({
   const [ selectedToken, setSelectedToken ] = useState<SelectedTokenChainData>({
     network: '',
     token: '',
+    fullTokenName: '',
   })
 
   const {
@@ -108,6 +114,7 @@ export default function TransferForm ({
       token,
       tokenId,
       network: sourceChain,
+      fullTokenName: token,
       dest: destChain,
     })
 
@@ -142,6 +149,7 @@ export default function TransferForm ({
     form.setFieldsValue({
       [transferFormField('crossChainToken')]: tokenSelectorEncoder.encode({
         token: crossChainToken,
+        fullTokenName: crossChainToken,
       }),
     })
     setCrossChainRouteValue(
@@ -156,6 +164,7 @@ export default function TransferForm ({
       setSelectedToken({
         token: crossChainToken,
         network: crossChainNetworkSource,
+        fullTokenName: crossChainToken,
       })
     } else {
       setSelectedToken(defaultSelectedToken)
@@ -182,7 +191,10 @@ export default function TransferForm ({
       [transferFormField('source')]: undefined,
       [transferFormField('dest')]: undefined,
     })
-    setSelectedToken({ token: tokenSelectorEncoder.decode(token).token })
+    setSelectedToken({
+      token: tokenSelectorEncoder.decode(token).token,
+      fullTokenName: tokenSelectorEncoder.decode(token).fullTokenName,
+    })
   }
 
   const getExtendedTransferData = (): ExtendedTransferFormData => {
@@ -229,11 +241,12 @@ export default function TransferForm ({
 
   type TokenAmountPropsSubset = Pick<
     TokenAmountFormItemProps,
-    'getCrossChainFee' | 'getDestChain' | 'getSourceChain' | 'getToken'
+    'getCrossChainFee' | 'getDestChain' | 'getSourceChain' | 'getToken' | 'getFullTokenName'
   >
   const tokenAmountProps: TokenAmountPropsSubset = {
     getSourceChain: () => getTransferFormData(form, !!crossChain).sourceChain,
     getToken: () => getTransferFormData(form, !!crossChain).token,
+    getFullTokenName: () => getTransferFormData(form, !!crossChain).fullTokenName,
     getDestChain: () => getTransferFormData(form, !!crossChain).destChain,
     getCrossChainFee: () => getCrossChainFee(form).balance,
   }
@@ -275,7 +288,7 @@ export default function TransferForm ({
         <TokenBalanceView
           label={`${t('transfer.transferableBalance')}:`}
           network={selectedToken.network}
-          token={selectedToken.token}
+          token={selectedToken.fullTokenName}
         />
       </div>
       <div
@@ -342,6 +355,7 @@ export default function TransferForm ({
         {() => {
           if (!crossChain) return null
           const fee = getCrossChainFee(form)
+
           if (!fee.balance) return null
           return (
             <CrossChainFee

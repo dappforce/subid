@@ -107,7 +107,7 @@ export const useGetTableData = (
       onTransferClick: (token, network, tokenId) => {
         transferModalDispatch({
           type: 'OPEN',
-          payload: { token, network, tokenId },
+          payload: { token, network, tokenId, fullTokenName: token },
         })
         sendTransferEvent({ eventSource: 'balance_table' })
       },
