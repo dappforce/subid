@@ -13,7 +13,7 @@ import { InterlayAdapter, KintsugiAdapter } from '@polkawallet/bridge/adapters/i
 import { KicoAdapter } from '@polkawallet/bridge/adapters/kico'
 import { PichiuAdapter } from '@polkawallet/bridge/adapters/kylin'
 import { CalamariAdapter } from '@polkawallet/bridge/adapters/manta'
-import { MoonbeamAdapter, MoonriverAdapter } from '@polkawallet/bridge/adapters/moonbeam'
+import { /* MoonbeamAdapter, */ MoonriverAdapter } from '@polkawallet/bridge/adapters/moonbeam'
 import { KhalaAdapter } from '@polkawallet/bridge/adapters/phala'
 import { PolkadotAdapter, KusamaAdapter } from '@polkawallet/bridge/adapters/polkadot'
 import { StatemineAdapter } from '@polkawallet/bridge/adapters/statemint'
@@ -25,6 +25,7 @@ import { TuringAdapter } from '@polkawallet/bridge/adapters/oak'
 import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/parallel'
 import { ZeitgeistAdapter } from '@polkawallet/bridge/adapters/zeitgeist'
 import { SubsocialAdapter, subsocialTokensConfig } from './custom/SubsocialAdapter'
+import { MoonbeamAdapter } from './custom/MoonbeamAdapter'
 
 // Add SUB for Hydra DX
 hydraRouteConfigs.push({

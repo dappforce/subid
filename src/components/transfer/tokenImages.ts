@@ -64,5 +64,6 @@ const tokenImages = {
   EFI: 'efinity.svg',
   PDEX: 'polkadex.svg',
   SUB: 'subsocial.svg',
+  XCSUB: 'subsocial.svg',
 }
 export default tokenImages

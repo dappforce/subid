@@ -54,17 +54,22 @@ const generateAddTokenOption =
     tokenMap: Record<string, SearchableSelectOption>,
     filterCrossChainBridgeable?: boolean
   ) =>
-  (tokenName: string, tokenId?: TokenData['tokenId']) => {
+  (tokenName: string, tokenId?: TokenData['tokenId'], isEvmWrappedToken?: boolean) => {
     const network = showNetwork ? networkName : ''
+    const token = isEvmWrappedToken ? tokenName : tokenName
+
     const tokenData: TokenData = {
       tokenId: showNetwork ? tokenId : undefined,
-      token: tokenName,
+      token,
       network: showNetwork ? networkId : '',
     }
+
+
     const encodedTokenData = tokenSelectorEncoder.encode(tokenData)
 
+
     if (tokenMap[encodedTokenData]) return
-    if (filterCrossChainBridgeable && !isTokenBridgeable(tokenName)) return
+    if (filterCrossChainBridgeable && !isTokenBridgeable(token)) return
 
     const filterNetwork = showNetwork ? networkName : ''
     tokenMap[encodedTokenData] = {
@@ -72,7 +77,7 @@ const generateAddTokenOption =
       label: (
         <TokenOption
           networkImage={showNetwork ? `/images/${icon}` : undefined}
-          token={tokenName}
+          token={token}
           network={network}
         />
       ),
@@ -130,15 +135,14 @@ export default function TokenSelector ({
           if (tokenSymbol === nativeTokenSymbol) return
           const currency = asset.currency
           if (!currency) return
-          const tokenId = currency
-          addTokenOption(tokenSymbol, { id: tokenId })
+          const tokenId = currency.id || currency
+          addTokenOption(tokenSymbol, { id: tokenId }, tokenSymbol)
         })
       }
     )
     return Object.values(tokenMap)
   }, [ chainInfo, showNetwork, myAddress ])
 
-  
   return (
     <div
       {...props}

@@ -61,7 +61,10 @@ export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   ) => JSX.Element
 }
 
-export const DEFAULT_TOKEN = { network: 'polkadot', token: 'DOT' }
+export const DEFAULT_TOKEN = {
+  network: 'polkadot',
+  token: 'DOT',
+}
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
@@ -182,7 +185,9 @@ export default function TransferForm ({
       [transferFormField('source')]: undefined,
       [transferFormField('dest')]: undefined,
     })
-    setSelectedToken({ token: tokenSelectorEncoder.decode(token).token })
+    setSelectedToken({
+      token: tokenSelectorEncoder.decode(token).token,
+    })
   }
 
   const getExtendedTransferData = (): ExtendedTransferFormData => {
@@ -342,6 +347,7 @@ export default function TransferForm ({
         {() => {
           if (!crossChain) return null
           const fee = getCrossChainFee(form)
+
           if (!fee.balance) return null
           return (
             <CrossChainFee

@@ -55,7 +55,8 @@ export const getCrossChainFee = (form: MinimalFormInstance): CrossChainFee => {
       balance: fee.balance.toNumber(),
       token: fee.token
     }
-  } catch {
+  } catch (e) {
+    console.log(e)
     return { balance: 0, token: '' }
   }
 }
