@@ -25,24 +25,23 @@ export type TokenData = {
   tokenId?: { id: any }
   token: string
   network?: string
-  fullTokenName: string
 }
 
 export const tokenSelectorEncoder = {
-  encode: ({ network, token, tokenId, fullTokenName }: TokenData) => {
+  encode: ({ network, token, tokenId }: TokenData) => {
     const id = tokenId?.id ? JSON.stringify(tokenId) : ''
-    return `${id}|${token}|${fullTokenName}|${network ?? ''}`
+    return `${id}|${token}|${network ?? ''}`
   },
   decode: (encoded: string): TokenData => {
-    if (!encoded) return { token: '', fullTokenName: '' }
-    const [ id, token, fullTokenName, network ] = encoded.split('|')
+    if (!encoded) return { token: '' }
+    const [ id, token, network ] = encoded.split('|')
     let parsedId: TokenData['tokenId']
     if (id) {
       try {
         parsedId = JSON.parse(id)
       } catch {}
     }
-    return { token, network, tokenId: parsedId, fullTokenName }
+    return { token, network, tokenId: parsedId }
   },
 }
 
@@ -57,13 +56,12 @@ const generateAddTokenOption =
   ) =>
   (tokenName: string, tokenId?: TokenData['tokenId'], isEvmWrappedToken?: boolean) => {
     const network = showNetwork ? networkName : ''
-    const token = isEvmWrappedToken ? tokenName.replace('xc', '') : tokenName
+    const token = isEvmWrappedToken ? tokenName : tokenName
 
     const tokenData: TokenData = {
       tokenId: showNetwork ? tokenId : undefined,
       token,
       network: showNetwork ? networkId : '',
-      fullTokenName: tokenName,
     }
 
 
@@ -134,11 +132,11 @@ export default function TokenSelector ({
 
         Object.values(assetsRegistry).forEach((asset) => {
           const tokenSymbol = asset.symbol
-          if (tokenSymbol.replace('xc', '') === nativeTokenSymbol) return
+          if (tokenSymbol === nativeTokenSymbol) return
           const currency = asset.currency
           if (!currency) return
           const tokenId = currency.id || currency
-          addTokenOption(tokenSymbol, { id: tokenId }, tokenSymbol.startsWith('xc'))
+          addTokenOption(tokenSymbol, { id: tokenId }, tokenSymbol)
         })
       }
     )

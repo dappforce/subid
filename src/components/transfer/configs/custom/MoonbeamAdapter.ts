@@ -24,12 +24,11 @@ import {
 } from '@polkawallet/bridge/errors'
 import { BaseCrossChainAdapter } from '@polkawallet/bridge/base-chain-adapter'
 import { getDestAccountInfo } from './utils/destination-utils'
-import { balanceWithDecimal } from '@subsocial/utils'
 
 export const moonbeamRouteConfigs = createRouteConfigs('moonbeam', [
   {
     to: 'subsocial' as any,
-    token: 'SUB',
+    token: 'xcSUB',
     xcm: {
       fee: { token: 'SUB', amount: '1000000000' },
     },
@@ -174,16 +173,15 @@ class MoonbeamBaseAdapter extends BaseCrossChainAdapter {
       to
     )
 
-    const tokenData = moonbeamTokensConfig[token]
+    const tokenData = moonbeamTokensConfig[token.replace('xc', '')]
 
     if (!validateAddress(address, addrType)) throw new InvalidAddress(address)
 
     const toChain = chains[to]
-    const amountWithDecimals = balanceWithDecimal(amount.toChainData(), tokenData.decimals)
 
     return this.api.tx.xTokens.transfer(
       tokenData.toRaw(),
-      amountWithDecimals.toString(),
+      amount.toChainData(),
       {
         V3: {
           parents: 1,

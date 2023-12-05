@@ -7,7 +7,6 @@ export type TransferFormData = {
   amount: string
   token: string
   sourceChain: string
-  fullTokenName: string
   destChain?: string
   tokenId: any
 }
@@ -26,7 +25,7 @@ type MinimalFormInstance = { getFieldsValue: FormInstance['getFieldsValue'] }
 export function getTransferFormData (form: MinimalFormInstance, crossChain: boolean): TransferFormData {
   const formValues = form.getFieldsValue()
   const tokenData = formValues[transferFormField(crossChain ? 'crossChainToken' : 'token')]
-  const { token, network = '', tokenId, fullTokenName } = tokenSelectorEncoder.decode(tokenData)
+  const { token, network = '', tokenId } = tokenSelectorEncoder.decode(tokenData)
 
   const source = formValues[transferFormField('source')]
   const dest = formValues[transferFormField('dest')]
@@ -39,7 +38,6 @@ export function getTransferFormData (form: MinimalFormInstance, crossChain: bool
     sourceChain: usedSource,
     destChain: crossChain ? dest : undefined,
     token,
-    fullTokenName,
     tokenId: crossChain ? undefined : tokenId
   }
 }
@@ -57,7 +55,8 @@ export const getCrossChainFee = (form: MinimalFormInstance): CrossChainFee => {
       balance: fee.balance.toNumber(),
       token: fee.token
     }
-  } catch {
+  } catch (e) {
+    console.log(e)
     return { balance: 0, token: '' }
   }
 }

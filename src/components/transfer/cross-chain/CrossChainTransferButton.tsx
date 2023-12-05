@@ -32,7 +32,13 @@ export default function CrossChainTransferButton ({ crossChainParam, ...props }:
     const signedTx = await tx.signAsync(address, { signer })
     return signedTx as any
   }
+
+  const onFiled = (e: any) => {
+    props.onFailed?.(e)
+
+    console.log(e)
+  }
   return (
-    <LazyTxButton customTxBuilder={txBuilder} {...props} />
+    <LazyTxButton customTxBuilder={txBuilder} onFailed={onFiled} {...props} />
   )
 }

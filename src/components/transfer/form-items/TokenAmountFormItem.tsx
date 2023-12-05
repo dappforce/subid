@@ -49,7 +49,6 @@ export type TokenAmountFormItemProps = FormItemProps & {
   getSourceChain: () => string
   getDestChain?: () => string | undefined
   getCrossChainFee?: () => number
-  getFullTokenName?: () => string
   containerProps?: HTMLProps<HTMLDivElement>
   inputProps?: Omit<TokenAmountInputProps, 'onMaxClick'>
 }
@@ -58,14 +57,12 @@ const getTokenData = (
   getToken: TokenAmountFormItemProps['getToken'],
   getSourceChain: TokenAmountFormItemProps['getSourceChain'],
   getDestChain: TokenAmountFormItemProps['getDestChain'],
-  getFullTokenName: TokenAmountFormItemProps['getFullTokenName']
 ) => {
   const token = getToken() || ''
   const sourceChain = getSourceChain() || ''
   const destChain = getDestChain?.() || ''
-  const fullTokenName = getFullTokenName?.() || ''
 
-  return { token, sourceChain, destChain, fullTokenName }
+  return { token, sourceChain, destChain }
 }
 
 export function TokenAmountFormItem ({
@@ -76,20 +73,18 @@ export function TokenAmountFormItem ({
   getToken,
   getCrossChainFee,
   getSourceChain,
-  getFullTokenName,
   getDestChain,
   ...props
 }: TokenAmountFormItemProps) {
   const { t } = useTranslation()
   const { setFieldsValue } = form
-  const { token, sourceChain, destChain, fullTokenName } = getTokenData(
+  const { token, sourceChain, destChain } = getTokenData(
     getToken,
     getSourceChain,
     getDestChain,
-    getFullTokenName
   )
   const { formattedTransferableBalance: currentBalance, tokenDecimal } =
-    useTransferableBalance(fullTokenName, sourceChain)
+    useTransferableBalance(token, sourceChain)
   const { fee, loading } = useFetchTransferFee({
     source: sourceChain,
     dest: destChain,
@@ -167,7 +162,6 @@ export function TokenAmountFormItem ({
                   getCrossChainFee={getCrossChainFee}
                   getSourceChain={getSourceChain}
                   getDestChain={getDestChain}
-                  getFullTokenName={getFullTokenName}
                   getToken={getToken}
                 />
               )}
@@ -188,7 +182,6 @@ type ExistentialDepositAlertProps = Pick<
   | 'getSourceChain'
   | 'getToken'
   | 'getCrossChainFee'
-  | 'getFullTokenName'
   | 'name'
 > & {
   getFieldValue: (name: NamePath) => any
@@ -199,18 +192,16 @@ function ExistentialDepositAlert ({
   name,
   getSourceChain,
   getDestChain,
-  getFullTokenName,
   getToken,
 }: ExistentialDepositAlertProps) {
   const { t } = useTranslation()
 
   const fieldName = name ?? ''
   const currentAmount = parseFloat(getFieldValue(fieldName))
-  const { token, sourceChain, destChain, fullTokenName } = getTokenData(
+  const { token, sourceChain, destChain } = getTokenData(
     getToken,
     getSourceChain,
     getDestChain,
-    getFullTokenName
   )
   const crossChainFee = destChain ? getCrossChainFee?.() || 0 : 0
 
@@ -220,9 +211,9 @@ function ExistentialDepositAlert ({
   const {
     formattedTransferableBalance: currentBalance,
     existentialDeposit: sourceExistentialDeposit = 0,
-  } = useTransferableBalance(fullTokenName, sourceChain)
+  } = useTransferableBalance(token, sourceChain)
   const { existentialDeposit: destExistentialDeposit = 0 } =
-    useTransferableBalance(fullTokenName, destChain || sourceChain)
+    useTransferableBalance(token, destChain || sourceChain)
 
   if (currentAmount <= 0) return null
 
