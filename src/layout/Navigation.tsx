@@ -77,7 +77,7 @@ const Navigation = (props: Props): JSX.Element => {
     <Layout className={clsx('ant-layout-has-sider', { ['mt-0']: asPath === '/' })}>
       {currentAccount && sideMenu}
       {content}
-      {!isHomePage && !isCreatorStakingPage() && isLargeDesktop && <ChatSidePanel />}
+      {/* {!isHomePage && !isCreatorStakingPage() && isLargeDesktop && <ChatSidePanel />} */}
     </Layout>
   </Layout>
 }
