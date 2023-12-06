@@ -20,7 +20,7 @@ import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext
 import { useTranslation } from 'react-i18next'
 import styles from './TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
-import SuccessContent from './SuccessContent'
+import SuccessContent from './transferContent/SuccessContent'
 
 type TransferModalProps = CustomModalProps & {
   defaultSelectedToken?: TransferFormDefaultToken

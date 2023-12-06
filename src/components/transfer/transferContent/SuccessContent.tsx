@@ -1,14 +1,14 @@
 import { toShortMoney } from '@subsocial/utils'
-import { MutedSpan } from '../utils/MutedText'
-import { DfCardSideBySideContent, DfCardSideBySideContentProps } from '../utils/DfCard'
+import { MutedSpan } from '../../utils/MutedText'
+import { DfCardSideBySideContent, DfCardSideBySideContentProps } from '../../utils/DfCard'
 import { Button } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { ExtendedTransferFormData } from './TransferForm'
-import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
+import { ExtendedTransferFormData } from '../TransferForm'
+import { useIsMyConnectedAddress } from '../../providers/MyExtensionAccountsContext'
 import { useTokenAmountInUsd } from '@/rtk/features/prices/pricesHooks'
 import { useRef } from 'react'
 import clsx from 'clsx'
-import { toShortAddress } from '../utils'
+import { toShortAddress } from '../../utils'
 
 function SuccessContent ({
   data,
