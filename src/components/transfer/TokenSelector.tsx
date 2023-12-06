@@ -19,6 +19,7 @@ export type TokenSelectorProps = HTMLProps<HTMLDivElement> & {
   showNetwork?: boolean
   filterCrossChainBridgeable?: boolean
   selectProps?: Omit<SearchableSelectProps, 'options'>
+  changeUrl?: boolean
 }
 
 export type TokenData = {
@@ -94,13 +95,13 @@ export default function TokenSelector ({
   selectProps,
   ...props
 }: TokenSelectorProps) {
-  const chainInfo = useChainInfo()
+  const chainsInfo = useChainInfo()
   const myAddress = useMyAddress()
 
   const options = useMemo(() => {
     const tokenMap: Record<string, SearchableSelectOption> = {}
 
-    Object.values(chainInfo).forEach(
+    Object.values(chainsInfo).forEach(
       ({
         icon,
         nativeToken,
@@ -141,7 +142,7 @@ export default function TokenSelector ({
       }
     )
     return Object.values(tokenMap)
-  }, [ chainInfo, showNetwork, myAddress ])
+  }, [ chainsInfo, showNetwork, myAddress ])
 
   return (
     <div

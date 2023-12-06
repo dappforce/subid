@@ -1,6 +1,7 @@
 import { FormInstance } from 'antd'
 import { tokenSelectorEncoder } from './TokenSelector'
 import { getCrossChainAdapter } from './configs/cross-chain'
+import { TransferFormDefaultToken } from './TransferForm'
 
 export type TransferFormData = {
   recipient: string
@@ -59,4 +60,37 @@ export const getCrossChainFee = (form: MinimalFormInstance): CrossChainFee => {
     console.log(e)
     return { balance: 0, token: '' }
   }
+}
+
+export const getDefaultSelectorOption = (
+  tokensOptions: string[],
+  defaultSelectedToken: TransferFormDefaultToken
+) => {
+  let selectedToken = defaultSelectedToken
+
+  if (!defaultSelectedToken.network || !defaultSelectedToken.tokenId) {
+    const encodedTokenData = tokensOptions.find((item) => {
+      const { token, network } = tokenSelectorEncoder.decode(item)
+
+      if (defaultSelectedToken.network) {
+        return (
+          token === defaultSelectedToken.token &&
+          network === defaultSelectedToken.network
+        )
+      }
+
+      return token === defaultSelectedToken.token
+    })
+
+    const { network, tokenId } =
+      tokenSelectorEncoder.decode(encodedTokenData || '') || {}
+
+    selectedToken = {
+      ...defaultSelectedToken,
+      network: defaultSelectedToken.network || network || 'polkadot',
+      tokenId,
+    }
+  }
+
+  return selectedToken
 }

@@ -12,12 +12,13 @@ import { useTranslation } from 'react-i18next'
 import styles from './TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import { useRouter } from 'next/router'
-import SuccessContent from './SuccessContent'
+import SuccessContent from './transferContent/SuccessContent'
 
 type TransferPageLayoutProps = {
   defaultSelectedToken?: TransferFormDefaultToken
   defaultRecipient?: string
   transferType?: string
+  to?: string
 }
 
 type Tabs = 'same-chain' | 'cross-chain'
@@ -30,7 +31,9 @@ const TransferPageLayout = ({
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
-  const [currentState, setCurrentState] = useState<'form' | 'loading' | 'success'>('form')
+  const [currentState, setCurrentState] = useState<
+    'form' | 'loading' | 'success'
+  >('form')
   const [transferData, setTransferData] = useState<
     ExtendedTransferFormData | undefined
   >()
@@ -73,6 +76,7 @@ const TransferPageLayout = ({
       className='flex-fill h-100'
       defaultSelectedToken={defaultSelectedToken}
       crossChain={activeTab === getTabKey('cross-chain')}
+      changeUrl
     >
       {(formSection, buttonSection) => (
         <div className={styles.TransferLayout}>

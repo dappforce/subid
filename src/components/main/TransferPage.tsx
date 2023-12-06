@@ -9,12 +9,12 @@ import styles from './Main.module.sass'
 type TransferPageProps = {
   transferType?: string
   asset?: string
+  from?: string
+  to?: string
 }
 
 const TransferPage: NextPage<TransferPageProps> = (props) => {
-  const { transferType, asset } = props
-
-  console.log(asset)
+  const { transferType, asset, from, to } = props
 
   return (
     <>
@@ -24,7 +24,8 @@ const TransferPage: NextPage<TransferPageProps> = (props) => {
             transferType={
               transferType === 'cross' ? 'cross-chain' : 'same-chain'
             }
-            defaultSelectedToken={{ token: asset || 'DOT' }}
+            defaultSelectedToken={{ token: asset || 'DOT', network: from }}
+            to={to}
           />
         </PageContent>
       </div>
