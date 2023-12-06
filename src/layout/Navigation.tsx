@@ -6,9 +6,6 @@ import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
-import ChatSidePanel from '@/components/chat/ChatSidePanel'
-import { useResponsiveSize } from '@/components/responsive'
-import { isCreatorStakingPage } from '@/components/utils'
 
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
 const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
@@ -53,7 +50,6 @@ const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) =>
 const Navigation = (props: Props): JSX.Element => {
   const { children } = props
   const { state: { asDrawer } } = useSidebarCollapsed()
-  const { isLargeDesktop } = useResponsiveSize()
   const { asPath } = useRouter()
 
   const currentAccount = useCurrentAccount()

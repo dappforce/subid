@@ -8,7 +8,6 @@ import { createPortal } from 'react-dom'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { isCreatorStakingPage } from '../utils'
 import { useChatContext } from '../providers/ChatContext'
-import { useResponsiveSize } from '../responsive'
 
 const storageName = 'grill:unreadCount'
 
@@ -21,7 +20,6 @@ export default function ChatFloatingModal ({
 }: ChatFloatingModalProps) {
   const sendEvent = useSendEvent()
   const { open, setOpen, setSpaceId, setMetadata } = useChatContext()
-  const { isLargeDesktop } = useResponsiveSize()
 
   const [ unreadCount, setUnreadCount ] = useState(0)
 
