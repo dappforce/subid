@@ -1,3 +1,5 @@
+@import 'src/styles/subsocial-vars.scss'
+
 .TokenSelector
   input
     caret-color: transparent
@@ -12,3 +14,24 @@
 
 .CustomSuccessModalContainer
   height: auto !important
+
+.TransferLayout
+  display: flex
+  flex-direction: column
+  padding: 1.5rem 1rem
+  overflow: hidden
+  max-height: 700px
+  height: 100%
+
+  border-radius: 16px
+  background: #fff
+  padding: $space_big
+
+  \:global .ant-row
+    display: block
+
+.TransferTitle
+  font-weight: bold
+  color: $color_font_normal
+  font-size: $font_big
+  margin-bottom: $space_mini
