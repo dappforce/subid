@@ -45,7 +45,7 @@ export type ExtendedTransferFormData = TransferFormData & {
 }
 export type TransferFormDefaultToken = {
   token: string
-  network: string
+  network?: string
   tokenId?: { id: any }
 }
 export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
