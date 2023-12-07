@@ -11,6 +11,7 @@ import {
 } from './types'
 import { useChatContext } from '../providers/ChatContext'
 import { isCreatorStakingPage } from '../utils'
+import { useRouter } from 'next/router'
 
 const creatorsHubId = '1218'
 
@@ -74,6 +75,7 @@ export default function ChatIframe ({
   const sendEventRef = useWrapInRef(sendEvent)
   const { spaceId, metadata } = useChatContext()
   const [ isLoading, setIsLoading ] = useState(false)
+  const { pathname } = useRouter()
 
   useEffect(() => {
     const config = generateGrillConfig({ spaceId, metadata })
@@ -114,7 +116,7 @@ export default function ChatIframe ({
     return () => {
       if (listener) grill.removeMessageListener(eventListener)
     }
-  }, [ spaceId ])
+  }, [ spaceId, pathname ])
 
   return (
     <div
