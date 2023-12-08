@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import styles from './TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import { useRouter } from 'next/router'
-import SuccessContent from './transferContent/SuccessContent'
+import TransferSuccessModal from './transferContent/SuccessModal'
 
 type TransferPageLayoutProps = {
   defaultSelectedToken?: TransferFormDefaultToken
@@ -31,9 +31,9 @@ const TransferPageLayout = ({
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
-  const [currentState, setCurrentState] = useState<
-    'form' | 'loading' | 'success'
-  >('form')
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+
+  const [currentState, setCurrentState] = useState<'form' | 'loading'>()
   const [transferData, setTransferData] = useState<
     ExtendedTransferFormData | undefined
   >()
@@ -48,6 +48,10 @@ const TransferPageLayout = ({
     const newTransferType = activeTab === 'same-chain' ? 'same' : 'cross'
     const { pathname, query } = router
 
+    if(activeTab === 'same-chain') {
+      delete query.to
+    }
+
     router.replace({
       pathname,
       query: { ...query, transferType: newTransferType },
@@ -57,6 +61,15 @@ const TransferPageLayout = ({
   useEffect(() => {
     setCurrentState('form')
     setTransferData(undefined)
+
+    if(activeTab === 'same-chain') {
+      delete router.query.to
+    } 
+
+    router.replace({
+      pathname: router.pathname,
+      query: { ...router.query, transferType: activeTab },
+    })
   }, [])
 
   const disableCrossChainTab = !isTokenBridgeable(
@@ -65,64 +78,77 @@ const TransferPageLayout = ({
   const isFormVisible = currentState === 'form'
 
   return (
-    <TransferForm
-      onTransferClick={(param) => {
-        setCurrentState('loading')
-        setTransferData(param)
-      }}
-      defaultRecipient={defaultRecipient}
-      onTransferFailed={() => setCurrentState('form')}
-      onTransferSuccess={() => setCurrentState('success')}
-      className='flex-fill h-100'
-      defaultSelectedToken={defaultSelectedToken}
-      crossChain={activeTab === getTabKey('cross-chain')}
-      changeUrl
-    >
-      {(formSection, buttonSection) => (
-        <div className={styles.TransferLayout}>
-          <div className={styles.TransferTitle}>Transfer</div>
-          {currentState === 'loading' && (
-            <div className='d-flex flex-column justify-content-center'>
-              <LoadingTransaction className='mt-3 mb-5' />
-            </div>
-          )}
-          {currentState === 'success' && <SuccessContent data={transferData} />}
-          <div
-            className={clsx(
-              !isFormVisible ? 'd-none' : 'flex-fill d-flex flex-column'
+    <>
+      <TransferForm
+        onTransferClick={(param) => {
+          setCurrentState('loading')
+          setTransferData(param)
+        }}
+        defaultRecipient={defaultRecipient}
+        onTransferFailed={() => setCurrentState('form')}
+        onTransferSuccess={() => {
+          setShowSuccessModal(true)
+          setCurrentState('form')
+        }}
+        className='flex-fill h-100'
+        defaultSelectedToken={defaultSelectedToken}
+        crossChain={activeTab === getTabKey('cross-chain')}
+        changeUrl
+      >
+        {(formSection, buttonSection) => (
+          <div className={styles.TransferLayout}>
+            <div className={styles.TransferTitle}>Transfer</div>
+            {currentState === 'loading' && (
+              <div className='d-flex h-100 flex-column justify-content-center'>
+                <LoadingTransaction className='mt-3 mb-5' />
+              </div>
             )}
-          >
-            <Tabs
-              className='bs-mb-0'
-              centered
-              activeKey={activeTab}
-              onChange={(tab) => setActiveTab(tab as Tabs)}
+            <div
+              className={clsx(
+                !isFormVisible ? 'd-none' : 'flex-fill d-flex flex-column'
+              )}
             >
-              <Tabs.TabPane
-                key={getTabKey('same-chain')}
-                tab={
-                  <span className='FontMedium'>{t('transfer.sameChain')}</span>
-                }
-              />
-              <Tabs.TabPane
-                key={getTabKey('cross-chain')}
-                tab={
-                  <span className='FontMedium'>{t('transfer.crossChain')}</span>
-                }
-                disabled={disableCrossChainTab}
-              />
-            </Tabs>
-            <MutedSpan className='bs-mb-3'>
-              {activeTab === 'same-chain'
-                ? t('transfer.subtitle.sameChain')
-                : t('transfer.subtitle.crossChain')}
-            </MutedSpan>
-            {formSection}
+              <Tabs
+                className='bs-mb-0'
+                centered
+                activeKey={activeTab}
+                onChange={(tab) => setActiveTab(tab as Tabs)}
+              >
+                <Tabs.TabPane
+                  key={getTabKey('same-chain')}
+                  tab={
+                    <span className='FontMedium'>
+                      {t('transfer.sameChain')}
+                    </span>
+                  }
+                />
+                <Tabs.TabPane
+                  key={getTabKey('cross-chain')}
+                  tab={
+                    <span className='FontMedium'>
+                      {t('transfer.crossChain')}
+                    </span>
+                  }
+                  disabled={disableCrossChainTab}
+                />
+              </Tabs>
+              <MutedSpan className='bs-mb-3'>
+                {activeTab === 'same-chain'
+                  ? t('transfer.subtitle.sameChain')
+                  : t('transfer.subtitle.crossChain')}
+              </MutedSpan>
+              {formSection}
+            </div>
+            {currentState === 'form' && buttonSection}
           </div>
-          {buttonSection}
-        </div>
-      )}
-    </TransferForm>
+        )}
+      </TransferForm>
+      <TransferSuccessModal
+        visible={showSuccessModal}
+        close={() => setShowSuccessModal(false)}
+        transferData={transferData}
+      />
+    </>
   )
 }
 
