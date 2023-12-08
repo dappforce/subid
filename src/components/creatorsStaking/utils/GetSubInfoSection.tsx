@@ -41,7 +41,7 @@ export const GetSubInfoSection = () => {
         </div>
       </div>
       <Button
-        href='https://docs.subsocial.network/docs/tutorials/get-sub/'
+        href='https://subsocial.network/get-sub/'
         className='hover:text-white focuf:text-white'
         target='_blank'
         variant='primary'
