@@ -133,7 +133,10 @@
 
   .DfSectionOuter {
     width: 100%;
-    padding: 0 0
+    padding: 0 0;
+
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .item.header.disabled {

@@ -10,6 +10,7 @@ import { tokenSelectorEncoder } from '../TokenSelector'
 import { checkSameAttributesValues } from 'src/components/utils'
 import { showWarnMessage } from '../../utils/Message'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
 
 export type CrossChainRouteSelectorProps = Omit<
   HTMLProps<HTMLDivElement>,
@@ -99,13 +100,7 @@ function CrossChainRouteSelectorContent ({
   ...props
 }: CrossChainRouteSelectorContentProps) {
   const { t } = useTranslation()
-
-  useEffect(() => {
-    onSourceChainChange?.(source)
-  }, [ source ])
-  useEffect(() => {
-    onDestChainChange?.(dest)
-  }, [ dest ])
+  const router = useRouter()
 
   const onSwapChain = () => {
     const source = form.getFieldValue(sourceChainFieldName)
@@ -125,13 +120,26 @@ function CrossChainRouteSelectorContent ({
       'dest',
       { token, from: dest }
     ))
+    
     if (!isChanged.every((value) => value)) {
       showWarnMessage({ message: t('transfer.errors.swapRouteNotFound') })
       return
     }
+
     form.setFieldsValue({
       [destChainFieldName]: source,
       [sourceChainFieldName]: dest,
+    })
+
+    console.log('Swap routes')
+
+    router.replace({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        from: source,
+        to: dest,
+      },
     })
   }
 
@@ -149,6 +157,7 @@ function CrossChainRouteSelectorContent ({
         className='bs-mb-0'
         name={sourceChainFieldName}
         label={t('transfer.source')}
+        onChange={onSourceChainChange}
       />
       <MutedDiv>
         <Button
@@ -160,6 +169,7 @@ function CrossChainRouteSelectorContent ({
         </Button>
       </MutedDiv>
       <TransferChainSelectorFormItem
+        onChange={onDestChainChange}
         chainFilters={destOptions}
         style={{ flexBasis: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}

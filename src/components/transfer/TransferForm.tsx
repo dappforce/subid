@@ -135,7 +135,7 @@ export default function TransferForm({
     }
   }, [crossChain])
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     if (!defaultSelectedToken) return
     form.resetFields()
 
@@ -176,26 +176,29 @@ export default function TransferForm({
     } else {
       setSelectedToken(selectedToken)
     }
-  }, [
-    defaultSelectedToken?.network,
-    defaultSelectedToken?.token,
-    defaultRecipient,
-  ])
+
+    console.log('resetForm')
+  }
 
   useEffect(() => {
     resetForm()
-  }, [resetForm])
+  }, [])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
     const decodedToken = tokenSelectorEncoder.decode(token)
 
-    setSelectedToken(decodedToken)
     changeUrl &&
       router.replace({
         pathname: router.pathname,
-        query: { ...router.query, asset: decodedToken.token, from: decodedToken.network },
+        query: {
+          ...router.query,
+          asset: decodedToken.token,
+          from: decodedToken.network,
+        },
       })
+
+    setSelectedToken(decodedToken)
   }
 
   const onCrossChainTokenChange = (token: string) => {
@@ -208,15 +211,21 @@ export default function TransferForm({
 
     const decodedToken = tokenSelectorEncoder.decode(token)
 
+    changeUrl &&
+      router.replace({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          asset: decodedToken.token,
+          from: decodedToken.network,
+        },
+      })
+
     setSelectedToken({
       token: decodedToken.token,
     })
 
-    changeUrl &&
-      router.replace({
-        pathname: router.pathname,
-        query: { ...router.query, asset: decodedToken.token, from: decodedToken.network },
-      })
+    console.log('onCrossChainTokenChange')
   }
 
   const getExtendedTransferData = (): ExtendedTransferFormData => {
@@ -283,19 +292,25 @@ export default function TransferForm({
   }
 
   const onSourceChainChange = (source: string) => {
+    changeUrl &&
+      router.replace({
+        pathname: router.pathname,
+        query: { ...router.query, from: source },
+      })
     setSelectedToken((prev) => ({ ...prev, network: source }))
-    changeUrl && router.replace({
-      pathname: router.pathname,
-      query: { ...router.query, from: source },
-    })
+
+    console.log('onSourceChainChange')
   }
 
   const onDestChainChange = (dest: string) => {
+    changeUrl &&
+      router.replace({
+        pathname: router.pathname,
+        query: { ...router.query, to: dest },
+      })
     setSelectedToken((prev) => ({ ...prev, dest }))
-    changeUrl && router.replace({
-      pathname: router.pathname,
-      query: { ...router.query, to: dest },
-    })
+
+    console.log('onDestChainChange')
   }
 
   const formSection = (
