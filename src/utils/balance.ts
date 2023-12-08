@@ -14,12 +14,11 @@ export const calculateBalanceForStaking = (
     lockId?: string
 ) => {
   if (!data) return BN_ZERO
-  const { totalBalance, lockedBalance, locks } = data
+  const { totalBalance, locks } = data
 
   const stakingLockedBalance = locks?.find(({ id }) => id === lockId)
 
-  if (!stakingLockedBalance ||
-      lockedBalance === stakingLockedBalance?.amount) return totalBalance
+  if (!stakingLockedBalance) return totalBalance
 
   return new BN(totalBalance).sub(new BN(stakingLockedBalance.amount))
 }
