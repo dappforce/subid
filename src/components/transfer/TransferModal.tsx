@@ -12,7 +12,7 @@ import { toShortAddress } from '../utils'
 import { MutedSpan } from '../utils/MutedText'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-import styles from './transferContent/TokenSelector.module.sass'
+import styles from './Index.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import SuccessContent from './transferContent/SuccessContent'
 

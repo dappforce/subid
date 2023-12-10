@@ -3,7 +3,7 @@ import { ExtendedTransferFormData } from './TransferForm'
 import SuccessContent from './SuccessContent'
 import CustomModal from '@/components/utils/CustomModal'
 import { useTranslation } from 'react-i18next'
-import styles from './TokenSelector.module.sass'
+import styles from '../Index.module.sass'
 
 type TransferSuccessModalProps = {
   visible: boolean

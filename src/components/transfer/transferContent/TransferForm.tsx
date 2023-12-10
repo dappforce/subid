@@ -6,7 +6,7 @@ import {
   TokenAmountFormItemProps,
 } from '../form-items/TokenAmountFormItem'
 import TokenBalanceView from './TokenBalanceView'
-import TokenSelector, { TokenData, tokenSelectorEncoder } from './TokenSelector'
+import TokenSelector, { TokenData, tokenSelectorEncoder } from '../form-items/TokenSelector'
 import clsx from 'clsx'
 import LazyTxButton, { TxButtonProps } from '../../lazy-connection/LazyTxButton'
 import { useMyAddress } from '../../providers/MyExtensionAccountsContext'
@@ -22,7 +22,7 @@ import CrossChainTransferButton, {
   CrossChainTransferButtonProps,
 } from '../cross-chain/CrossChainTransferButton'
 import { checkSameAttributesValues } from '../../utils'
-import RecipientInput from './RecipientInput'
+import RecipientInput from '../form-items/RecipientInput'
 import { isTokenBridgeable } from '../configs/cross-chain'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { useIsMobileWidthOrDevice } from '../../responsive'
