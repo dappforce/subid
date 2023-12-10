@@ -84,6 +84,7 @@ type CrossChainRouteSelectorContentProps = CrossChainRouteSelectorProps & {
   source: string
   dest: string
   token: string
+  changeUrl?: boolean
 }
 function CrossChainRouteSelectorContent ({
   form,
@@ -97,6 +98,7 @@ function CrossChainRouteSelectorContent ({
   decodeToken: _decodeToken,
   onSourceChainChange,
   onDestChainChange,
+  changeUrl,
   ...props
 }: CrossChainRouteSelectorContentProps) {
   const { t } = useTranslation()
@@ -126,7 +128,7 @@ function CrossChainRouteSelectorContent ({
       return
     }
 
-    router.replace({
+    changeUrl && router.replace({
       pathname: router.pathname,
       query: {
         ...router.query,
@@ -139,8 +141,6 @@ function CrossChainRouteSelectorContent ({
       [destChainFieldName]: source,
       [sourceChainFieldName]: dest,
     })
-
-    console.log(source, dest)
   }
 
   let destOptions = getRouteOptions('dest', { from: source as any, token })
