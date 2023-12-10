@@ -28,6 +28,7 @@ const TransferPageLayout = ({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   transferType,
+  to
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
@@ -48,7 +49,7 @@ const TransferPageLayout = ({
     const newTransferType = activeTab === 'same-chain' ? 'same' : 'cross'
     const { pathname, query } = router
 
-    if(activeTab === 'same-chain') {
+    if (activeTab === 'same-chain') {
       delete query.to
     }
 
@@ -61,15 +62,6 @@ const TransferPageLayout = ({
   useEffect(() => {
     setCurrentState('form')
     setTransferData(undefined)
-
-    if(activeTab === 'same-chain') {
-      delete router.query.to
-    } 
-
-    router.replace({
-      pathname: router.pathname,
-      query: { ...router.query, transferType: activeTab },
-    })
   }, [])
 
   const disableCrossChainTab = !isTokenBridgeable(
@@ -86,6 +78,7 @@ const TransferPageLayout = ({
         }}
         defaultRecipient={defaultRecipient}
         onTransferFailed={() => setCurrentState('form')}
+        dest={to}
         onTransferSuccess={() => {
           setShowSuccessModal(true)
           setCurrentState('form')
