@@ -1,7 +1,7 @@
 import { FormInstance } from 'antd'
-import { TokenData, tokenSelectorEncoder } from './TokenSelector'
-import { getCrossChainAdapter } from './configs/cross-chain'
-import { TransferFormDefaultToken } from './TransferForm'
+import { TokenData, tokenSelectorEncoder } from '../transferContent/TokenSelector'
+import { getCrossChainAdapter } from '../configs/cross-chain'
+import { TransferFormDefaultToken } from '../transferContent/TransferForm'
 
 export type TransferFormData = {
   recipient: string
@@ -23,7 +23,7 @@ export type FormFields = {
 export const transferFormField = (name: keyof FormFields) => name
 
 type MinimalFormInstance = { getFieldsValue: FormInstance['getFieldsValue'] }
-export function getTransferFormData(
+export function getTransferFormData (
   form: MinimalFormInstance,
   crossChain: boolean
 ): TransferFormData {

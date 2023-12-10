@@ -1,15 +1,15 @@
 import { Form, FormProps } from 'antd'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import FormSubmitButton from '../utils/FormSubmitButton'
+import FormSubmitButton from '../../utils/FormSubmitButton'
 import {
   TokenAmountFormItem,
   TokenAmountFormItemProps,
-} from './form-items/TokenAmountFormItem'
+} from '../form-items/TokenAmountFormItem'
 import TokenBalanceView from './TokenBalanceView'
 import TokenSelector, { TokenData, tokenSelectorEncoder } from './TokenSelector'
 import clsx from 'clsx'
-import LazyTxButton, { TxButtonProps } from '../lazy-connection/LazyTxButton'
-import { useMyAddress } from '../providers/MyExtensionAccountsContext'
+import LazyTxButton, { TxButtonProps } from '../../lazy-connection/LazyTxButton'
+import { useMyAddress } from '../../providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
 import {
   fetchBalanceByNetwork,
@@ -17,15 +17,15 @@ import {
 } from 'src/rtk/features/balances/balancesHooks'
 import CrossChainRouteSelector, {
   setCrossChainRouteValue,
-} from './cross-chain/CrossChainRouteSelector'
+} from '../cross-chain/CrossChainRouteSelector'
 import CrossChainTransferButton, {
   CrossChainTransferButtonProps,
-} from './cross-chain/CrossChainTransferButton'
-import { checkSameAttributesValues } from '../utils'
+} from '../cross-chain/CrossChainTransferButton'
+import { checkSameAttributesValues } from '../../utils'
 import RecipientInput from './RecipientInput'
-import { isTokenBridgeable } from './configs/cross-chain'
+import { isTokenBridgeable } from '../configs/cross-chain'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { useIsMobileWidthOrDevice } from '../responsive'
+import { useIsMobileWidthOrDevice } from '../../responsive'
 import { useTranslation } from 'react-i18next'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { CrossChainFee, TransferFee } from './TransferFee'
@@ -35,10 +35,10 @@ import {
   getDefaultSelectorOption,
   getTransferFormData,
   transferFormField,
-} from './utils'
-import { useTransferTxBuilder } from './hooks/useTransferTxBuilder'
-import { useSendEvent } from '../providers/AnalyticContext'
-import useGetTokensOptions from './hooks/useGetTokensOptions'
+} from '../utils'
+import { useTransferTxBuilder } from '../hooks/useTransferTxBuilder'
+import { useSendEvent } from '../../providers/AnalyticContext'
+import useGetTokensOptions from '../hooks/useGetTokensOptions'
 import { useRouter } from 'next/router'
 
 export type ExtendedTransferFormData = TransferFormData & {
@@ -73,7 +73,7 @@ export const DEFAULT_TOKEN = {
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
-export default function TransferForm({
+export default function TransferForm ({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   crossChain,
@@ -96,10 +96,10 @@ export default function TransferForm({
   const tokensOptions = useGetTokensOptions()
 
   const myAddress = useMyAddress()
-  useFetchBalances(myAddress ? [myAddress] : [])
+  useFetchBalances(myAddress ? [ myAddress ] : [])
 
-  const [form] = Form.useForm()
-  const [selectedToken, setSelectedToken] = useState<SelectedTokenChainData>({
+  const [ form ] = Form.useForm()
+  const [ selectedToken, setSelectedToken ] = useState<SelectedTokenChainData>({
     network: '',
     token: '',
   })
@@ -126,16 +126,16 @@ export default function TransferForm({
 
     if (crossChain && !recipient) {
       form.setFieldsValue({ [transferFormField('recipient')]: myAddress })
-      form.validateFields([transferFormField('recipient')])
+      form.validateFields([ transferFormField('recipient') ])
     } else if (!crossChain) {
       const isMyAddress =
         toGenericAccountId(myAddress) === toGenericAccountId(recipient)
       if (isMyAddress) {
         form.setFieldsValue({ [transferFormField('recipient')]: '' })
-        form.validateFields([transferFormField('recipient')])
+        form.validateFields([ transferFormField('recipient') ])
       }
     }
-  }, [crossChain])
+  }, [ crossChain ])
 
   const resetForm = useCallback(() => {
     if (!defaultSelectedToken) return
@@ -172,8 +172,8 @@ export default function TransferForm({
       'source',
       { token: crossChainToken }
     )
-    
-    if(dest) {
+
+    if (dest) {
       const routeValueSet = setCrossChainRouteValue(
         form,
         transferFormField('dest'),
@@ -182,10 +182,9 @@ export default function TransferForm({
         { token: crossChainToken }
       )
 
-      if(!routeValueSet) {
+      if (!routeValueSet) {
         delete router.query.to
       }
-
     }
 
     if (crossChain) {
@@ -217,11 +216,11 @@ export default function TransferForm({
         pathname: router.pathname,
         query: newQuery,
       })
-  }, [tokensOptions.join(','), crossChain])
+  }, [ tokensOptions.join(','), crossChain ])
 
   useEffect(() => {
     resetForm()
-  }, [crossChain])
+  }, [ crossChain ])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
@@ -297,12 +296,12 @@ export default function TransferForm({
     if (!myAddress || !submittedData.current) return
     const { sourceChain, destChain, recipient, sender } = submittedData.current
     if (sourceChain) {
-      fetchBalanceByNetwork(dispatch, [sender], sourceChain)
+      fetchBalanceByNetwork(dispatch, [ sender ], sourceChain)
     }
     if (destChain) {
       const WAIT_TIME = 30 * 1000 // 30 seconds
       setTimeout(() => {
-        fetchBalanceByNetwork(dispatch, [recipient], destChain)
+        fetchBalanceByNetwork(dispatch, [ recipient ], destChain)
       }, WAIT_TIME)
     }
   }
@@ -318,7 +317,7 @@ export default function TransferForm({
     getCrossChainFee: () => getCrossChainFee(form).balance,
   }
 
-  const requiredTouchedFields = [transferFormField('amount')]
+  const requiredTouchedFields = [ transferFormField('amount') ]
   if (crossChain) {
     requiredTouchedFields.push(
       transferFormField('source'),
@@ -355,25 +354,17 @@ export default function TransferForm({
           'bs-mt-2 GapMini'
         )}
       >
-        {crossChain ? (
-          <Form.Item
-            name={transferFormField('crossChainToken')}
-            className='m-0'
-          >
-            <TokenSelector
-              setValue={onCrossChainTokenChange}
-              filterCrossChainBridgeable
-            />
-          </Form.Item>
-        ) : (
-          <Form.Item name={transferFormField('token')} className='m-0'>
-            <TokenSelector
-              setValue={onTokenChange}
-              showNetwork
-              changeUrl={changeUrl}
-            />
-          </Form.Item>
-        )}
+        <Form.Item
+          name={transferFormField(crossChain ? 'crossChainToken' : 'token')}
+          className='m-0'
+        >
+          <TokenSelector
+            setValue={crossChain ? onCrossChainTokenChange : onTokenChange}
+            filterCrossChainBridgeable={crossChain}
+            showNetwork={!crossChain}
+            changeUrl={changeUrl}
+          />
+        </Form.Item>
         <TokenBalanceView
           label={`${t('transfer.transferableBalance')}:`}
           network={selectedToken.network}

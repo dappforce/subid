@@ -5,11 +5,11 @@ import TransferForm, {
   TransferFormDefaultToken,
   ExtendedTransferFormData,
   DEFAULT_TOKEN,
-} from './TransferForm'
+} from './transferContent/TransferForm'
 import LoadingTransaction from '../utils/LoadingTransaction'
 import { MutedSpan } from '../utils/MutedText'
 import { useTranslation } from 'react-i18next'
-import styles from './TokenSelector.module.sass'
+import styles from './transferContent/TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import { useRouter } from 'next/router'
 import TransferSuccessModal from './transferContent/SuccessModal'
@@ -32,13 +32,13 @@ const TransferPageLayout = ({
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [ showSuccessModal, setShowSuccessModal ] = useState(false)
 
-  const [currentState, setCurrentState] = useState<'form' | 'loading'>()
-  const [transferData, setTransferData] = useState<
+  const [ currentState, setCurrentState ] = useState<'form' | 'loading'>()
+  const [ transferData, setTransferData ] = useState<
     ExtendedTransferFormData | undefined
   >()
-  const [activeTab, setActiveTab] = useState(
+  const [ activeTab, setActiveTab ] = useState(
     getTabKey((transferType as any) || 'same-chain')
   )
   const router = useRouter()
@@ -57,7 +57,7 @@ const TransferPageLayout = ({
       pathname,
       query: { ...query, transferType: newTransferType },
     })
-  }, [activeTab])
+  }, [ activeTab ])
 
   useEffect(() => {
     setCurrentState('form')

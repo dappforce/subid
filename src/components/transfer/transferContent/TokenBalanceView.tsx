@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { HTMLProps } from 'react'
-import { FormatBalance } from '../common/balances'
-import { MutedSpan } from '../utils/MutedText'
+import { FormatBalance } from '../../common/balances'
+import { MutedSpan } from '../../utils/MutedText'
 import { useTransferableBalance } from 'src/utils/hooks/useTransferableBalance'
 
 export type TokenBalanceViewProps = HTMLProps<HTMLDivElement> & {
