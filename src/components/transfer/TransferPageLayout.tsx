@@ -9,7 +9,7 @@ import TransferForm, {
 import LoadingTransaction from '../utils/LoadingTransaction'
 import { MutedSpan } from '../utils/MutedText'
 import { useTranslation } from 'react-i18next'
-import styles from './transferContent/TokenSelector.module.sass'
+import styles from './Index.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import { useRouter } from 'next/router'
 import TransferSuccessModal from './transferContent/SuccessModal'

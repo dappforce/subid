@@ -1,6 +1,6 @@
 import { useChainInfo } from '@/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { useMemo } from 'react'
-import { tokenSelectorEncoder } from '../transferContent/TokenSelector'
+import { tokenSelectorEncoder } from '../form-items/TokenSelector'
 
 const useGetTokensOptions = () => {
   const chainsInfo = useChainInfo()

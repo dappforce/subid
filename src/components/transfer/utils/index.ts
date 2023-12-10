@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { TokenData, tokenSelectorEncoder } from '../transferContent/TokenSelector'
+import { TokenData, tokenSelectorEncoder } from '../form-items/TokenSelector'
 import { getCrossChainAdapter } from '../configs/cross-chain'
 import { TransferFormDefaultToken } from '../transferContent/TransferForm'
 
