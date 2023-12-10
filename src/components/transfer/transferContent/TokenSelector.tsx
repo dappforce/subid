@@ -3,15 +3,15 @@ import clsx from 'clsx'
 import React, { HTMLProps, useMemo } from 'react'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { MutedSpan } from '../utils/MutedText'
+import { MutedSpan } from '../../utils/MutedText'
 import SearchableSelect, {
   SearchableSelectOption, SearchableSelectProps,
-} from '../utils/SearchableSelect'
-import DualAvatar from '../utils/DualAvatar'
-import { isTokenBridgeable } from './configs/cross-chain'
-import tokenImages from './tokenImages'
+} from '../../utils/SearchableSelect'
+import DualAvatar from '../../utils/DualAvatar'
+import { isTokenBridgeable } from '../configs/cross-chain'
+import tokenImages from '../utils/tokenImages'
 import styles from './TokenSelector.module.sass'
-import { useMyAddress } from '../providers/MyExtensionAccountsContext'
+import { useMyAddress } from '../../providers/MyExtensionAccountsContext'
 
 export type TokenSelectorProps = HTMLProps<HTMLDivElement> & {
   value?: string

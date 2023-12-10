@@ -43,5 +43,5 @@
     "next-env.d.ts",
     "**/*.tsx",
     "src/pages/_app.js"
-  ]
+, "src/components/transfer/utils"  ]
 }

@@ -1,5 +1,5 @@
 import { useChainInfoByNetwork } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { AddressFormItem, AddressFormItemProps } from './form-items/AddressFormItem'
+import { AddressFormItem, AddressFormItemProps } from '../form-items/AddressFormItem'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 

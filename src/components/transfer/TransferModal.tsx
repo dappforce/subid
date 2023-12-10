@@ -1,24 +1,18 @@
-import { Button, Tabs } from 'antd'
+import { Tabs } from 'antd'
 import clsx from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomModal, { CustomModalProps } from '../utils/CustomModal'
 import TransferForm, {
   TransferFormDefaultToken,
   ExtendedTransferFormData,
   DEFAULT_TOKEN,
-} from './TransferForm'
+} from './transferContent/TransferForm'
 import LoadingTransaction from '../utils/LoadingTransaction'
 import { toShortAddress } from '../utils'
 import { MutedSpan } from '../utils/MutedText'
-import {
-  DfCardSideBySideContent,
-  DfCardSideBySideContentProps,
-} from '../utils/DfCard'
-import { useTokenAmountInUsd } from 'src/rtk/features/prices/pricesHooks'
-import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-import styles from './TokenSelector.module.sass'
+import styles from './transferContent/TokenSelector.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
 import SuccessContent from './transferContent/SuccessContent'
 
