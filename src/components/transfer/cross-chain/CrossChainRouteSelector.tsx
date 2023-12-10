@@ -126,21 +126,21 @@ function CrossChainRouteSelectorContent ({
       return
     }
 
+    router.replace({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        from: dest,
+        to: source,
+      },
+    })
+
     form.setFieldsValue({
       [destChainFieldName]: source,
       [sourceChainFieldName]: dest,
     })
 
-    console.log('Swap routes')
-
-    router.replace({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        from: source,
-        to: dest,
-      },
-    })
+    console.log(source, dest)
   }
 
   let destOptions = getRouteOptions('dest', { from: source as any, token })

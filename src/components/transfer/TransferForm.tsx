@@ -59,6 +59,7 @@ export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   onTransferSuccess?: (param: ExtendedTransferFormData) => void
   onTransferFailed?: () => void
   changeUrl?: boolean
+  dest?: string
   children?: (
     formSection: JSX.Element,
     buttonSection: JSX.Element
@@ -80,6 +81,7 @@ export default function TransferForm({
   onTransferSuccess,
   onTransferFailed,
   changeUrl = false,
+  dest,
   children,
   ...props
 }: TransferFormProps) {
@@ -135,23 +137,26 @@ export default function TransferForm({
     }
   }, [crossChain])
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     if (!defaultSelectedToken) return
     form.resetFields()
 
-    const selectedToken = getDefaultSelectorOption(
+    const selectedTokenFromSelectorOptions = getDefaultSelectorOption(
       tokensOptions,
       defaultSelectedToken
     )
 
     form.setFieldsValue({
-      [transferFormField('token')]: tokenSelectorEncoder.encode(selectedToken),
+      [transferFormField('token')]: tokenSelectorEncoder.encode(
+        selectedTokenFromSelectorOptions
+      ),
       [transferFormField('recipient')]: defaultRecipient,
     })
 
-    let crossChainToken = selectedToken.token
-    let crossChainNetworkSource = selectedToken.network
-    if (!isTokenBridgeable(selectedToken.token)) {
+    let crossChainToken = selectedTokenFromSelectorOptions.token
+    let crossChainNetworkSource = selectedTokenFromSelectorOptions.network
+
+    if (!isTokenBridgeable(selectedTokenFromSelectorOptions.token)) {
       crossChainToken = DEFAULT_TOKEN.token
       crossChainNetworkSource = DEFAULT_TOKEN.network
     }
@@ -167,6 +172,21 @@ export default function TransferForm({
       'source',
       { token: crossChainToken }
     )
+    
+    if(dest) {
+      const routeValueSet = setCrossChainRouteValue(
+        form,
+        transferFormField('dest'),
+        dest ?? '',
+        'dest',
+        { token: crossChainToken }
+      )
+
+      if(!routeValueSet) {
+        delete router.query.to
+      }
+
+    }
 
     if (crossChain) {
       setSelectedToken({
@@ -174,15 +194,34 @@ export default function TransferForm({
         network: crossChainNetworkSource,
       })
     } else {
-      setSelectedToken(selectedToken)
+      setSelectedToken(selectedTokenFromSelectorOptions)
     }
 
-    console.log('resetForm')
-  }
+    if (!crossChain) {
+      delete router.query.to
+    }
+
+    const newQuery = {
+      ...router.query,
+      transferType: !crossChain ? 'same' : 'cross',
+      asset: selectedTokenFromSelectorOptions?.token,
+      from: selectedTokenFromSelectorOptions?.network || undefined,
+    }
+
+    if (!selectedTokenFromSelectorOptions.network) {
+      delete newQuery.from
+    }
+
+    changeUrl &&
+      router.replace({
+        pathname: router.pathname,
+        query: newQuery,
+      })
+  }, [tokensOptions.join(','), crossChain])
 
   useEffect(() => {
     resetForm()
-  }, [])
+  }, [crossChain])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
@@ -224,8 +263,6 @@ export default function TransferForm({
     setSelectedToken({
       token: decodedToken.token,
     })
-
-    console.log('onCrossChainTokenChange')
   }
 
   const getExtendedTransferData = (): ExtendedTransferFormData => {
@@ -298,8 +335,6 @@ export default function TransferForm({
         query: { ...router.query, from: source },
       })
     setSelectedToken((prev) => ({ ...prev, network: source }))
-
-    console.log('onSourceChainChange')
   }
 
   const onDestChainChange = (dest: string) => {
@@ -309,8 +344,6 @@ export default function TransferForm({
         query: { ...router.query, to: dest },
       })
     setSelectedToken((prev) => ({ ...prev, dest }))
-
-    console.log('onDestChainChange')
   }
 
   const formSection = (
