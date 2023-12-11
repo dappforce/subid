@@ -13,7 +13,7 @@ export type TokenBalanceViewProps = HTMLProps<HTMLDivElement> & {
   address?: string
 }
 
-export default function TokenBalanceView({
+export default function TokenBalanceView ({
   label,
   network,
   token,
