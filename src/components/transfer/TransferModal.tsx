@@ -24,7 +24,7 @@ type TransferModalProps = CustomModalProps & {
 type Tabs = 'same-chain' | 'cross-chain'
 const getTabKey = (tab: Tabs) => tab
 
-export default function TransferModal({
+export default function TransferModal ({
   defaultSelectedToken = DEFAULT_TOKEN,
   className,
   defaultRecipient,
@@ -32,13 +32,13 @@ export default function TransferModal({
 }: TransferModalProps) {
   const { t } = useTranslation()
 
-  const [currentState, setCurrentState] = useState<
+  const [ currentState, setCurrentState ] = useState<
     'form' | 'loading' | 'success'
   >('form')
-  const [transferData, setTransferData] = useState<
+  const [ transferData, setTransferData ] = useState<
     ExtendedTransferFormData | undefined
   >()
-  const [activeTab, setActiveTab] = useState(getTabKey('same-chain'))
+  const [ activeTab, setActiveTab ] = useState(getTabKey('same-chain'))
   const isSendingToSelf = useIsMyConnectedAddress(transferData?.recipient ?? '')
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function TransferModal({
     setActiveTab('same-chain')
     setCurrentState('form')
     setTransferData(undefined)
-  }, [props.visible])
+  }, [ props.visible ])
 
   const txSummary = (
     <span className='d-block'>

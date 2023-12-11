@@ -71,10 +71,10 @@ function StakingTxButton ({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
-    fetchBackerInfo(dispatch, [spaceId], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
-    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
@@ -92,7 +92,7 @@ function StakingTxButton ({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [spaceId, amountWithDecimals.toString()]
+    return [ spaceId, amountWithDecimals.toString() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
