@@ -101,6 +101,7 @@ export default function TransferModal ({
       onTransferSuccess={() => setCurrentState('success')}
       className='flex-fill'
       isModal
+      isModalVisible={props.visible}
       defaultSelectedToken={defaultSelectedToken}
       crossChain={activeTab === getTabKey('cross-chain')}
     >

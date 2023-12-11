@@ -13,7 +13,7 @@ import { FetchProps, log, isEmptyEntity } from '../../app/util'
 import { AccountInfoItem } from 'src/components/identity/types'
 import { setBalancesToStore } from '@/components/table/balancesTable/utils'
 
-function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
+function* fetchBalancesWorker(action: PayloadAction<FetchProps>) {
   const { accounts, reload = false } = action.payload
 
   try {
@@ -51,41 +51,52 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
   }
 }
 
-function* fetchBalancesByNetwork (account: string, network: string) {
+function* fetchBalancesByNetwork(
+  account: string,
+  network: string,
+  reload: boolean
+) {
   if (!account || !network) return
 
   const balancesEntity: BalancesEntity = yield select(selectBalances, account)
 
-  const balancesByNetwork: AccountInfoItem = yield call(
-    getAccountBalancesByNetwork,
-    { account, network }
-  )
+  if (isEmptyArray(balancesEntity.balances || []) || reload) {
+    const balancesByNetwork: AccountInfoItem = yield call(
+      getAccountBalancesByNetwork,
+      { account, network }
+    )
 
-  const augmentedBalances = [ ...(balancesEntity.balances ?? []) ]
-  let found = false
-  for (let i = 0; i < augmentedBalances.length; i++) {
-    const balance = augmentedBalances[i]
-    if (balance.network === network) {
-      augmentedBalances[i] = balancesByNetwork
-      found = true
-      break
+    const augmentedBalances = [...(balancesEntity.balances ?? [])]
+    let found = false
+    for (let i = 0; i < augmentedBalances.length; i++) {
+      const balance = augmentedBalances[i]
+      if (balance.network === network) {
+        augmentedBalances[i] = balancesByNetwork
+        found = true
+        break
+      }
     }
-  }
-  if (!found) {
-    augmentedBalances.push(balancesByNetwork)
-  }
+    if (!found) {
+      augmentedBalances.push(balancesByNetwork)
+    }
 
-  return {
-    ...balancesEntity,
-    balances: augmentedBalances,
-    loading: false,
+    return {
+      ...balancesEntity,
+      balances: augmentedBalances,
+      loading: false,
+    }
+  } else {
+    return {
+      ...balancesEntity,
+      loading: false,
+    }
   }
 }
 
-function* fetchBalancesByNetworkWorker (
+function* fetchBalancesByNetworkWorker(
   action: PayloadAction<FetchBalanceByNetworkProps>
 ) {
-  const { accounts, network } = action.payload
+  const { accounts, network, reload } = action.payload
 
   if (!network) return
 
@@ -93,13 +104,16 @@ function* fetchBalancesByNetworkWorker (
     const dataMap = accounts.map(function* (account) {
       const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(
         account,
-        network
+        network,
+        reload || true
       )
 
       return accountBalanceByNetwork
     })
 
     const newBalances: BalancesEntity[] = yield all(dataMap)
+
+    console.log(newBalances)
 
     yield put(balancesActions.fetchBalancesSuccess(newBalances))
   } catch (error) {
@@ -109,11 +123,11 @@ function* fetchBalancesByNetworkWorker (
   }
 }
 
-export function* watchBalances () {
+export function* watchBalances() {
   yield takeEvery(balancesActions.fetchBalances.type, fetchBalancesWorker)
 }
 
-export function* watchBalancesByNetwork () {
+export function* watchBalancesByNetwork() {
   yield takeEvery(
     balancesActions.fetchBalanceByNetwork.type,
     fetchBalancesByNetworkWorker
