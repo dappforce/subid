@@ -21,6 +21,7 @@ export type CrossChainRouteSelectorProps = Omit<
   destChainFieldName: string
   tokenFieldName: string
   decodeToken?: boolean
+  isModal?: boolean
   onSourceChainChange?: (sourceChain: string) => void
   onDestChainChange?: (destChain: string) => void
 }
@@ -84,7 +85,7 @@ type CrossChainRouteSelectorContentProps = CrossChainRouteSelectorProps & {
   source: string
   dest: string
   token: string
-  changeUrl?: boolean
+  isModal?: boolean
 }
 function CrossChainRouteSelectorContent ({
   form,
@@ -98,7 +99,7 @@ function CrossChainRouteSelectorContent ({
   decodeToken: _decodeToken,
   onSourceChainChange,
   onDestChainChange,
-  changeUrl,
+  isModal,
   ...props
 }: CrossChainRouteSelectorContentProps) {
   const { t } = useTranslation()
@@ -128,7 +129,7 @@ function CrossChainRouteSelectorContent ({
       return
     }
 
-    changeUrl && router.replace({
+    !isModal && router.replace({
       pathname: router.pathname,
       query: {
         ...router.query,

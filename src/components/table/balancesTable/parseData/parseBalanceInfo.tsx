@@ -76,9 +76,9 @@ const parseBalancesEntities = (
 
   Object.entries(balancesEntities).forEach(([ account, { balances } ]) => {
     balances?.forEach((balance) => {
-      const { network, info: balanceInfo } = balance
+      const { network, info: balanceInfo } = balance || {}
 
-      const chainInfo = chainsInfo[network]
+      const chainInfo = chainsInfo[network] || {}
 
       const { ss58Format } = chainInfo || {}
 

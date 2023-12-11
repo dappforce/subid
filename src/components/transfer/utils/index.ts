@@ -1,6 +1,6 @@
 import { FormInstance } from 'antd'
 import { TokenData, tokenSelectorEncoder } from '../form-items/TokenSelector'
-import { getCrossChainAdapter } from '../configs/cross-chain'
+import { getCrossChainAdapter, getRouteOptions } from '../configs/cross-chain'
 import { TransferFormDefaultToken } from '../transferContent/TransferForm'
 
 export type TransferFormData = {
@@ -23,7 +23,7 @@ export type FormFields = {
 export const transferFormField = (name: keyof FormFields) => name
 
 type MinimalFormInstance = { getFieldsValue: FormInstance['getFieldsValue'] }
-export function getTransferFormData (
+export function getTransferFormData(
   form: MinimalFormInstance,
   crossChain: boolean
 ): TransferFormData {
@@ -72,43 +72,56 @@ export const getCrossChainFee = (form: MinimalFormInstance): CrossChainFee => {
 
 export const getDefaultSelectorOption = (
   tokensOptions: string[],
-  defaultSelectedToken: TransferFormDefaultToken
+  defaultSelectedToken: TransferFormDefaultToken,
+  crossChain?: boolean
 ) => {
-  const encodedTokenData = tokensOptions.find((item) => {
-    const { token, network } = tokenSelectorEncoder.decode(item)
+  if (!crossChain) {
+    const encodedTokenData = tokensOptions.find((item) => {
+      const { token, network } = tokenSelectorEncoder.decode(item)
 
-    if (defaultSelectedToken.network) {
-      return (
-        token.toLowerCase() === defaultSelectedToken.token.toLowerCase() &&
-        network === defaultSelectedToken.network
-      )
-    }
+      if (defaultSelectedToken.network) {
+        return (
+          token.toLowerCase() === defaultSelectedToken.token.toLowerCase() &&
+          network === defaultSelectedToken.network
+        )
+      }
 
-    return (
-      token.toLowerCase() ===
-      defaultSelectedToken.token.toLowerCase()
-    )
-  })
-
-  const decodedTokenData =
-    tokenSelectorEncoder.decode(encodedTokenData || '') || {}
-
-
-  let tokenData: TokenData = decodedTokenData
-
-  if (!decodedTokenData.network) {
-    const firstEncodedTokenDataByToken = tokensOptions.find((item) => {
-      const { token } = tokenSelectorEncoder.decode(item)
       return token.toLowerCase() === defaultSelectedToken.token.toLowerCase()
     })
 
-    tokenData =
-      tokenSelectorEncoder.decode(firstEncodedTokenDataByToken || '') || {}
-  }
+    const decodedTokenData =
+      tokenSelectorEncoder.decode(encodedTokenData || '') || {}
 
-  return {
-    token: tokenData.token || 'DOT',
-    network: tokenData.network || 'polkadot',
-    tokenId: tokenData.tokenId,
+    let tokenData: TokenData = decodedTokenData
+
+    if (!decodedTokenData.network) {
+      const firstEncodedTokenDataByToken = tokensOptions.find((item) => {
+        const { token } = tokenSelectorEncoder.decode(item)
+        return token.toLowerCase() === defaultSelectedToken.token.toLowerCase()
+      })
+
+      tokenData =
+        tokenSelectorEncoder.decode(firstEncodedTokenDataByToken || '') || {}
+    }
+
+    return {
+      token: tokenData.token || 'DOT',
+      network: tokenData.network || 'polkadot',
+      tokenId: tokenData.tokenId,
+    }
+  } else {
+    let sourceOptions = getRouteOptions('source', {
+      token: defaultSelectedToken.token,
+    })
+
+    const selectedNetwork = sourceOptions.find(
+      (network) => network === defaultSelectedToken.network
+    ) || sourceOptions[0]
+
+    return {
+      token: defaultSelectedToken.token,
+      network: selectedNetwork,
+      tokenId: undefined,
+    }
   }
 }

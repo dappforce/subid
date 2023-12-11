@@ -86,7 +86,6 @@ const TransferPageLayout = ({
         className='flex-fill h-100'
         defaultSelectedToken={defaultSelectedToken}
         crossChain={activeTab === getTabKey('cross-chain')}
-        changeUrl
       >
         {(formSection, buttonSection) => (
           <div className={styles.TransferLayout}>

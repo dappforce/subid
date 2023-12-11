@@ -43,9 +43,10 @@ export default function TransferModal ({
 
   useEffect(() => {
     if (!props.visible) return
+
+    setTransferData(undefined)
     setActiveTab('same-chain')
     setCurrentState('form')
-    setTransferData(undefined)
   }, [ props.visible ])
 
   const txSummary = (
@@ -99,6 +100,7 @@ export default function TransferModal ({
       onTransferFailed={() => setCurrentState('form')}
       onTransferSuccess={() => setCurrentState('success')}
       className='flex-fill'
+      isModal
       defaultSelectedToken={defaultSelectedToken}
       crossChain={activeTab === getTabKey('cross-chain')}
     >

@@ -61,7 +61,7 @@ export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   onTransferClick?: (param: ExtendedTransferFormData) => void
   onTransferSuccess?: (param: ExtendedTransferFormData) => void
   onTransferFailed?: () => void
-  changeUrl?: boolean
+  isModal?: boolean
   dest?: string
   children?: (
     formSection: JSX.Element,
@@ -76,14 +76,14 @@ export const DEFAULT_TOKEN = {
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
-export default function TransferForm ({
+export default function TransferForm({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   crossChain,
   onTransferClick,
   onTransferSuccess,
   onTransferFailed,
-  changeUrl = false,
+  isModal = false,
   dest,
   children,
   ...props
@@ -100,8 +100,8 @@ export default function TransferForm ({
 
   const myAddress = useMyAddress()
 
-  const [ form ] = Form.useForm()
-  const [ selectedToken, setSelectedToken ] = useState<SelectedTokenChainData>({
+  const [form] = Form.useForm()
+  const [selectedToken, setSelectedToken] = useState<SelectedTokenChainData>({
     network: '',
     token: '',
   })
@@ -130,25 +130,24 @@ export default function TransferForm ({
 
     if (crossChain && !recipient) {
       form.setFieldsValue({ [transferFormField('recipient')]: myAddress })
-      form.validateFields([ transferFormField('recipient') ])
+      form.validateFields([transferFormField('recipient')])
     } else if (!crossChain) {
       const isMyAddress =
         toGenericAccountId(myAddress) === toGenericAccountId(recipient)
       if (isMyAddress) {
         form.setFieldsValue({ [transferFormField('recipient')]: '' })
-        form.validateFields([ transferFormField('recipient') ])
+        form.validateFields([transferFormField('recipient')])
       }
     }
-  }, [ crossChain ])
+  }, [crossChain])
 
   const resetForm = useCallback(() => {
     if (!defaultSelectedToken) return
     form.resetFields()
 
-    const selectedTokenFromSelectorOptions = getDefaultSelectorOption(
-      tokensOptions,
-      defaultSelectedToken
-    )
+    const selectedTokenFromSelectorOptions = !isModal
+      ? getDefaultSelectorOption(tokensOptions, defaultSelectedToken, crossChain)
+      : defaultSelectedToken
 
     form.setFieldsValue({
       [transferFormField('token')]: tokenSelectorEncoder.encode(
@@ -200,37 +199,43 @@ export default function TransferForm ({
       setSelectedToken(selectedTokenFromSelectorOptions)
     }
 
-    if (!crossChain) {
-      delete router.query.to
-    }
+    if (!isModal) {
+      if (!crossChain) {
+        delete router.query.to
+      }
 
-    const newQuery = {
-      ...router.query,
-      transferType: !crossChain ? 'same' : 'cross',
-      asset: selectedTokenFromSelectorOptions?.token,
-      from: selectedTokenFromSelectorOptions?.network || undefined,
-    }
+      const newQuery = {
+        ...router.query,
+        transferType: !crossChain ? 'same' : 'cross',
+        asset: selectedTokenFromSelectorOptions.token,
+        from: selectedTokenFromSelectorOptions?.network || undefined,
+      }
 
-    if (!selectedTokenFromSelectorOptions.network) {
-      delete newQuery.from
-    }
+      if (!selectedTokenFromSelectorOptions.network) {
+        delete newQuery.from
+      }
 
-    changeUrl &&
       router.replace({
         pathname: router.pathname,
         query: newQuery,
       })
-  }, [ tokensOptions.join(','), crossChain ])
+    }
+  }, [
+    tokensOptions.join(','),
+    crossChain,
+    defaultSelectedToken.network,
+    defaultSelectedToken.token,
+  ])
 
   useEffect(() => {
     resetForm()
-  }, [ crossChain ])
+  }, [resetForm])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
     const decodedToken = tokenSelectorEncoder.decode(token)
 
-    changeUrl &&
+    !isModal &&
       router.replace({
         pathname: router.pathname,
         query: {
@@ -253,7 +258,7 @@ export default function TransferForm ({
 
     const decodedToken = tokenSelectorEncoder.decode(token)
 
-    changeUrl &&
+    !isModal &&
       router.replace({
         pathname: router.pathname,
         query: {
@@ -300,12 +305,12 @@ export default function TransferForm ({
     if (!myAddress || !submittedData.current) return
     const { sourceChain, destChain, recipient, sender } = submittedData.current
     if (sourceChain) {
-      fetchBalanceByNetwork(dispatch, [ sender ], sourceChain)
+      fetchBalanceByNetwork(dispatch, [sender], sourceChain)
     }
     if (destChain) {
       const WAIT_TIME = 30 * 1000 // 30 seconds
       setTimeout(() => {
-        fetchBalanceByNetwork(dispatch, [ recipient ], destChain)
+        fetchBalanceByNetwork(dispatch, [recipient], destChain)
       }, WAIT_TIME)
     }
   }
@@ -321,7 +326,7 @@ export default function TransferForm ({
     getCrossChainFee: () => getCrossChainFee(form).balance,
   }
 
-  const requiredTouchedFields = [ transferFormField('amount') ]
+  const requiredTouchedFields = [transferFormField('amount')]
   if (crossChain) {
     requiredTouchedFields.push(
       transferFormField('source'),
@@ -332,7 +337,7 @@ export default function TransferForm ({
   }
 
   const onSourceChainChange = (source: string) => {
-    changeUrl &&
+    !isModal &&
       router.replace({
         pathname: router.pathname,
         query: { ...router.query, from: source },
@@ -342,7 +347,7 @@ export default function TransferForm ({
   }
 
   const onDestChainChange = (dest: string) => {
-    changeUrl &&
+    !isModal &&
       router.replace({
         pathname: router.pathname,
         query: { ...router.query, to: dest },
@@ -367,7 +372,7 @@ export default function TransferForm ({
             setValue={crossChain ? onCrossChainTokenChange : onTokenChange}
             filterCrossChainBridgeable={crossChain}
             showNetwork={!crossChain}
-            changeUrl={changeUrl}
+            isModal={isModal}
           />
         </Form.Item>
         <TokenBalanceView
@@ -394,6 +399,7 @@ export default function TransferForm ({
             decodeToken
             className='bs-mb-4'
             form={form}
+            isModal={isModal}
             tokenFieldName={transferFormField('crossChainToken')}
             destChainFieldName={transferFormField('dest')}
             sourceChainFieldName={transferFormField('source')}

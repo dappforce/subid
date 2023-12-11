@@ -78,7 +78,7 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
   shadow: {
     adapter: new ShadowAdapter(),
   },
-  'darwinia-crab-parachain': {
+  'darwinia-crab': {
     adapter: new CrabAdapter(),
     chainName: 'crab',
   },
