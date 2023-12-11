@@ -53,6 +53,7 @@ type SelectAccountInputProps = {
   disabled?: boolean
   withAvatar?: boolean
   revalidate: () => void
+  onSelectAction?: (value: string) => void
 }
 
 const filterSelectOptions = (adresses: string[], value?: string) => {
@@ -77,7 +78,8 @@ export const SelectAccountInput = ({
   withAvatar = true,
   disabled,
   form,
-  revalidate
+  revalidate,
+  onSelectAction
 }: SelectAccountInputProps) => {
   const { extensionStatus } = useMyExtensionAccount()
   const extensionAddress = useMyExtensionAddresses()
@@ -108,6 +110,8 @@ export const SelectAccountInput = ({
 
   const onSelectChange = (value: string) => {
     form.setFieldsValue({ ['recipient']: value })
+
+    onSelectAction && onSelectAction(value)
   }
 
   const onSearchHandler = (searchValue: any) => {

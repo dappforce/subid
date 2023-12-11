@@ -5,7 +5,7 @@ import TransferPage from '@/components/main/TransferPage'
 getInitialPropsWithRedux(TransferPage, async ({ dispatch, context }) => {
   fetchData(dispatch)
 
-  const { transferType, asset, from, to } = context.query
+  const { transferType, asset, from, to, recipient, amount } = context.query
 
   const assetValue = asset as string
 
@@ -17,6 +17,8 @@ getInitialPropsWithRedux(TransferPage, async ({ dispatch, context }) => {
     asset: assetValue ? assetValue.toUpperCase() : undefined,
     from: from as string,
     to: to as string,
+    recipient: recipient as string,
+    amount: amount as string,
   }
 })
 

@@ -11,10 +11,12 @@ type TransferPageProps = {
   asset?: string
   from?: string
   to?: string
+  recipient?: string
+  amount?: string
 }
 
 const TransferPage: NextPage<TransferPageProps> = (props) => {
-  const { transferType, asset, from, to } = props
+  const { transferType, asset, from, to, recipient, amount } = props
 
   return (
     <>
@@ -26,6 +28,8 @@ const TransferPage: NextPage<TransferPageProps> = (props) => {
             }
             defaultSelectedToken={{ token: asset || 'DOT', network: from }}
             to={to}
+            defaultRecipient={recipient}
+            amount={amount}
           />
         </PageContent>
       </div>

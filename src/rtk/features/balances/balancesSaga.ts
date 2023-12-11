@@ -13,7 +13,7 @@ import { FetchProps, log, isEmptyEntity } from '../../app/util'
 import { AccountInfoItem } from 'src/components/identity/types'
 import { setBalancesToStore } from '@/components/table/balancesTable/utils'
 
-function* fetchBalancesWorker(action: PayloadAction<FetchProps>) {
+function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
   const { accounts, reload = false } = action.payload
 
   try {
@@ -51,7 +51,7 @@ function* fetchBalancesWorker(action: PayloadAction<FetchProps>) {
   }
 }
 
-function* fetchBalancesByNetwork(
+function* fetchBalancesByNetwork (
   account: string,
   network: string,
   reload: boolean
@@ -66,7 +66,7 @@ function* fetchBalancesByNetwork(
       { account, network }
     )
 
-    const augmentedBalances = [...(balancesEntity.balances ?? [])]
+    const augmentedBalances = [ ...(balancesEntity.balances ?? []) ]
     let found = false
     for (let i = 0; i < augmentedBalances.length; i++) {
       const balance = augmentedBalances[i]
@@ -93,7 +93,7 @@ function* fetchBalancesByNetwork(
   }
 }
 
-function* fetchBalancesByNetworkWorker(
+function* fetchBalancesByNetworkWorker (
   action: PayloadAction<FetchBalanceByNetworkProps>
 ) {
   const { accounts, network, reload } = action.payload
@@ -123,11 +123,11 @@ function* fetchBalancesByNetworkWorker(
   }
 }
 
-export function* watchBalances() {
+export function* watchBalances () {
   yield takeEvery(balancesActions.fetchBalances.type, fetchBalancesWorker)
 }
 
-export function* watchBalancesByNetwork() {
+export function* watchBalancesByNetwork () {
   yield takeEvery(
     balancesActions.fetchBalanceByNetwork.type,
     fetchBalancesByNetworkWorker

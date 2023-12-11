@@ -51,12 +51,13 @@ export type TokenAmountFormItemProps = FormItemProps & {
   getCrossChainFee?: () => number
   containerProps?: HTMLProps<HTMLDivElement>
   inputProps?: Omit<TokenAmountInputProps, 'onMaxClick'>
+  defaultAmount?: string
 }
 
 const getTokenData = (
   getToken: TokenAmountFormItemProps['getToken'],
   getSourceChain: TokenAmountFormItemProps['getSourceChain'],
-  getDestChain: TokenAmountFormItemProps['getDestChain'],
+  getDestChain: TokenAmountFormItemProps['getDestChain']
 ) => {
   const token = getToken() || ''
   const sourceChain = getSourceChain() || ''
@@ -74,6 +75,7 @@ export function TokenAmountFormItem ({
   getCrossChainFee,
   getSourceChain,
   getDestChain,
+  defaultAmount,
   ...props
 }: TokenAmountFormItemProps) {
   const { t } = useTranslation()
@@ -81,7 +83,7 @@ export function TokenAmountFormItem ({
   const { token, sourceChain, destChain } = getTokenData(
     getToken,
     getSourceChain,
-    getDestChain,
+    getDestChain
   )
   const { formattedTransferableBalance: currentBalance, tokenDecimal } =
     useTransferableBalance(token, sourceChain)
@@ -111,6 +113,15 @@ export function TokenAmountFormItem ({
     if (!props.name || !form.isFieldTouched(props.name)) return
     form.validateFields([ props.name ])
   }, [ form, maxTransfer ])
+
+  useEffect(() => {
+    const name = props.name?.toString()
+    if (name) {
+      if (defaultAmount)
+        setFieldsValue({ ['amount']: parseFloat(defaultAmount) })
+      form.validateFields([ name ])
+    }
+  }, [ maxTransfer, defaultAmount ])
 
   const onMaxClick = () => {
     const name = props.name?.toString()
@@ -146,6 +157,7 @@ export function TokenAmountFormItem ({
           {...inputProps}
           disableMaxButton={loading || maxTransfer <= 0}
           onMaxClick={onMaxClick}
+          // defaultValue={new BN(defaultAmount || '0').toNumber()}
         />
       </Form.Item>
       <Form.Item noStyle shouldUpdate>
@@ -178,11 +190,7 @@ const existentialDepositLink =
 
 type ExistentialDepositAlertProps = Pick<
   TokenAmountFormItemProps,
-  | 'getDestChain'
-  | 'getSourceChain'
-  | 'getToken'
-  | 'getCrossChainFee'
-  | 'name'
+  'getDestChain' | 'getSourceChain' | 'getToken' | 'getCrossChainFee' | 'name'
 > & {
   getFieldValue: (name: NamePath) => any
 }
@@ -201,7 +209,7 @@ function ExistentialDepositAlert ({
   const { token, sourceChain, destChain } = getTokenData(
     getToken,
     getSourceChain,
-    getDestChain,
+    getDestChain
   )
   const crossChainFee = destChain ? getCrossChainFee?.() || 0 : 0
 
