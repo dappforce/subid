@@ -105,7 +105,7 @@ export const useBalancesByNetwork = ({
   loading: boolean
 } => {
   const { balances, loading } = useBalances(address) || {}
-  const balancesByNetwork = balances?.find((x) => x.network === network)
+  const balancesByNetwork = balances?.find((x) => x?.network === network)
 
   if (!currency) return { currencyBalance: undefined, loading: false }
 
