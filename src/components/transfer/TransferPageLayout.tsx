@@ -19,6 +19,7 @@ type TransferPageLayoutProps = {
   defaultRecipient?: string
   transferType?: string
   to?: string
+  amount?: string
 }
 
 type Tabs = 'same-chain' | 'cross-chain'
@@ -28,7 +29,8 @@ const TransferPageLayout = ({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   transferType,
-  to
+  to,
+  amount,
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
@@ -78,6 +80,7 @@ const TransferPageLayout = ({
         }}
         defaultRecipient={defaultRecipient}
         onTransferFailed={() => setCurrentState('form')}
+        defaultAmount={amount}
         dest={to}
         onTransferSuccess={() => {
           setShowSuccessModal(true)

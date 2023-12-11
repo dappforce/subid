@@ -23,7 +23,7 @@ export type FormFields = {
 export const transferFormField = (name: keyof FormFields) => name
 
 type MinimalFormInstance = { getFieldsValue: FormInstance['getFieldsValue'] }
-export function getTransferFormData(
+export function getTransferFormData (
   form: MinimalFormInstance,
   crossChain: boolean
 ): TransferFormData {
