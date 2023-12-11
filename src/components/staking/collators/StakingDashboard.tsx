@@ -95,7 +95,7 @@ const StakingDashboard = ({ network }: StakingDashboardProps) => {
   const decimal = getTokenDecimals(network, chainsInfo)
   const nativeSymbol = getTokenSymbol(network, chainsInfo)
 
-  const balancesByCurrency = useBalancesByNetwork({
+  const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({
     address: toGenericAccountId(myAddress),
     network,
     currency: nativeSymbol,

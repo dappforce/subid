@@ -6,13 +6,17 @@ import {
   TokenAmountFormItemProps,
 } from '../form-items/TokenAmountFormItem'
 import TokenBalanceView from './TokenBalanceView'
-import TokenSelector, { TokenData, tokenSelectorEncoder } from '../form-items/TokenSelector'
+import TokenSelector, {
+  TokenData,
+  tokenSelectorEncoder,
+} from '../form-items/TokenSelector'
 import clsx from 'clsx'
 import LazyTxButton, { TxButtonProps } from '../../lazy-connection/LazyTxButton'
 import { useMyAddress } from '../../providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
 import {
   fetchBalanceByNetwork,
+  useFetchBalanceByNetwork,
   useFetchBalances,
 } from 'src/rtk/features/balances/balancesHooks'
 import CrossChainRouteSelector, {
@@ -73,7 +77,7 @@ export const DEFAULT_TOKEN = {
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
-export default function TransferForm ({
+export default function TransferForm({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   crossChain,
@@ -96,13 +100,14 @@ export default function TransferForm ({
   const tokensOptions = useGetTokensOptions()
 
   const myAddress = useMyAddress()
-  useFetchBalances(myAddress ? [ myAddress ] : [])
 
-  const [ form ] = Form.useForm()
-  const [ selectedToken, setSelectedToken ] = useState<SelectedTokenChainData>({
+  const [form] = Form.useForm()
+  const [selectedToken, setSelectedToken] = useState<SelectedTokenChainData>({
     network: '',
     token: '',
   })
+
+  useFetchBalanceByNetwork(selectedToken.network || '', myAddress)
 
   const {
     getSameChainTransferExtrinsic,
@@ -126,16 +131,16 @@ export default function TransferForm ({
 
     if (crossChain && !recipient) {
       form.setFieldsValue({ [transferFormField('recipient')]: myAddress })
-      form.validateFields([ transferFormField('recipient') ])
+      form.validateFields([transferFormField('recipient')])
     } else if (!crossChain) {
       const isMyAddress =
         toGenericAccountId(myAddress) === toGenericAccountId(recipient)
       if (isMyAddress) {
         form.setFieldsValue({ [transferFormField('recipient')]: '' })
-        form.validateFields([ transferFormField('recipient') ])
+        form.validateFields([transferFormField('recipient')])
       }
     }
-  }, [ crossChain ])
+  }, [crossChain])
 
   const resetForm = useCallback(() => {
     if (!defaultSelectedToken) return
@@ -216,11 +221,11 @@ export default function TransferForm ({
         pathname: router.pathname,
         query: newQuery,
       })
-  }, [ tokensOptions.join(','), crossChain ])
+  }, [tokensOptions.join(','), crossChain])
 
   useEffect(() => {
     resetForm()
-  }, [ crossChain ])
+  }, [crossChain])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
@@ -296,12 +301,12 @@ export default function TransferForm ({
     if (!myAddress || !submittedData.current) return
     const { sourceChain, destChain, recipient, sender } = submittedData.current
     if (sourceChain) {
-      fetchBalanceByNetwork(dispatch, [ sender ], sourceChain)
+      fetchBalanceByNetwork(dispatch, [sender], sourceChain)
     }
     if (destChain) {
       const WAIT_TIME = 30 * 1000 // 30 seconds
       setTimeout(() => {
-        fetchBalanceByNetwork(dispatch, [ recipient ], destChain)
+        fetchBalanceByNetwork(dispatch, [recipient], destChain)
       }, WAIT_TIME)
     }
   }
@@ -317,7 +322,7 @@ export default function TransferForm ({
     getCrossChainFee: () => getCrossChainFee(form).balance,
   }
 
-  const requiredTouchedFields = [ transferFormField('amount') ]
+  const requiredTouchedFields = [transferFormField('amount')]
   if (crossChain) {
     requiredTouchedFields.push(
       transferFormField('source'),
@@ -333,6 +338,7 @@ export default function TransferForm ({
         pathname: router.pathname,
         query: { ...router.query, from: source },
       })
+
     setSelectedToken((prev) => ({ ...prev, network: source }))
   }
 

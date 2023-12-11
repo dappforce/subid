@@ -38,14 +38,14 @@ export const useFetchBalanceByNetwork = (network: string, address?: string) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!address) return
+    if (!address || !network) return
 
     const getBalanceByNetwork = () => {
-      fetchBalanceByNetwork(dispatch, [ address ], network)
+      fetchBalanceByNetwork(dispatch, [address], network)
     }
 
     getBalanceByNetwork()
-  }, [ address ])
+  }, [address, network])
 }
 
 export const useFetchBalances = (addressesToFetch?: string[]) => {
@@ -82,10 +82,10 @@ export const useFetchBalances = (addressesToFetch?: string[]) => {
     }
 
     getBalances()
-  }, [ addresses?.join(','), selectedBalancesValues.length ])
+  }, [addresses?.join(','), selectedBalancesValues.length])
 }
 
-export const useBalances = (address?: string) =>
+export const useBalances = (address?: string): BalancesEntity | undefined =>
   useAppSelector<BalancesEntity | undefined>((state) =>
     selectBalances(state, toGenericAccountId(address))
   )
@@ -100,13 +100,19 @@ export const useBalancesByNetwork = ({
   address,
   network,
   currency,
-}: UseBalancesByNetworkProps): AccountInfoByChain | undefined => {
-  const balancesByNetwork = useBalances(address)?.balances?.find(
-    (x) => x.network === network
-  )
-  if (!currency) return undefined
+}: UseBalancesByNetworkProps): {
+  currencyBalance: AccountInfoByChain | undefined
+  loading: boolean
+} => {
+  const { balances, loading } = useBalances(address) || {}
+  const balancesByNetwork = balances?.find((x) => x.network === network)
 
-  return balancesByNetwork?.info[currency]
+  if (!currency) return { currencyBalance: undefined, loading: false }
+
+  return {
+    currencyBalance: balancesByNetwork?.info[currency],
+    loading: loading ?? false,
+  }
 }
 
 export const useManyBalances = (accounts?: string[]) => {

@@ -4,17 +4,33 @@ import { useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { useChainToken } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { getTransferableBalance } from '../balance'
 
-export const useTransferableBalance = (token: string, network: string, address?: string) => {
+export const useTransferableBalance = (
+  token: string,
+  network: string,
+  address?: string
+) => {
   const myAddress = useMyAddress()
   const usedAddress = address || myAddress
-  const balance = useBalancesByNetwork({
+  const { currencyBalance: balance, loading } = useBalancesByNetwork({
     address: usedAddress,
     currency: token,
-    network
+    network,
   })
   const transferableBalance = getTransferableBalance(balance)
-  
+
   const { tokenDecimal, existentialDeposit } = useChainToken(network, token)
-  const formattedBalance = formatBalance(transferableBalance, { forceUnit: '-', decimals: tokenDecimal, withSi: false })
-  return { transferableBalance, formattedTransferableBalance: parseFloat(formattedBalance.replace(/,/g, '')), tokenDecimal, existentialDeposit }
+  const formattedBalance = formatBalance(transferableBalance, {
+    forceUnit: '-',
+    decimals: tokenDecimal,
+    withSi: false,
+  })
+  return {
+    transferableBalance,
+    formattedTransferableBalance: parseFloat(
+      formattedBalance.replace(/,/g, '')
+    ),
+    tokenDecimal,
+    existentialDeposit,
+    loading
+  }
 }
