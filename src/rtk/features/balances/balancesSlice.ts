@@ -49,6 +49,7 @@ export const selectManyBalances = (state: RootState, accounts?: string[]) => {
 
 export type FetchBalanceByNetworkProps = {
   accounts: string[]
+  reload?: boolean
   network?: string
 }
 
@@ -60,12 +61,12 @@ const slice = createSlice({
       state,
       action: PayloadAction<FetchBalanceByNetworkProps>
     ) => {
-      const { accounts } = action.payload
+      const { accounts, reload = true } = action.payload
 
       upsertManyEntity({
         adapter: balancesAdapter,
         state: state as EntityState<BalancesEntity>,
-        reload: true,
+        reload,
         fieldName: 'balances',
         ids: accounts,
         selector: selectorByAccount

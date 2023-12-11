@@ -14,6 +14,7 @@ import {
 import { AccountInfoByChain } from 'src/components/identity/types'
 import { useCurrentAccount } from 'src/components/providers/MyExtensionAccountsContext'
 import { useEffect } from 'react'
+import { supportedNetworks } from '../multiChainInfo/types'
 
 export const fetchBalances = dispatchWithGenericAccounts(
   balancesActions.fetchBalances
@@ -22,7 +23,8 @@ export const fetchBalances = dispatchWithGenericAccounts(
 export const fetchBalanceByNetwork = (
   dispatch: AppDispatch,
   accounts: string[],
-  network?: string
+  network?: string,
+  reload?: boolean
 ) => {
   const genericAccounts = toGenericAccountIds(accounts)
 
@@ -30,22 +32,30 @@ export const fetchBalanceByNetwork = (
     balancesActions.fetchBalanceByNetwork({
       accounts: genericAccounts,
       network,
+      reload: reload || true
     })
   )
 }
 
-export const useFetchBalanceByNetwork = (network: string, address?: string) => {
+type FetchBalanceByNetworkProps = {
+  address?: string
+  reload?: boolean
+  network?: string
+  trigger?: boolean
+}
+
+export const useFetchBalanceByNetwork = ({ address, reload, network, trigger = true }: FetchBalanceByNetworkProps) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!address || !network) return
+    if (!address || !network || !trigger) return
 
     const getBalanceByNetwork = () => {
-      fetchBalanceByNetwork(dispatch, [ address ], network)
+      fetchBalanceByNetwork(dispatch, [ address ], network, reload)
     }
 
     getBalanceByNetwork()
-  }, [ address, network ])
+  }, [ address, network, trigger ])
 }
 
 export const useFetchBalances = (addressesToFetch?: string[]) => {
@@ -68,7 +78,7 @@ export const useFetchBalances = (addressesToFetch?: string[]) => {
     const isReload =
       selectedBalances &&
       Object.values(selectedBalances).some(
-        (balance) => balance?.balances && balance.balances.length <= 1
+        (balance) => balance?.balances && balance.balances.length <= supportedNetworks.length
       )
 
     const getBalances = () => {

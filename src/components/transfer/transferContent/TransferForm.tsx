@@ -61,6 +61,7 @@ export type TransferFormProps = Omit<FormProps, 'form' | 'children'> & {
   onTransferClick?: (param: ExtendedTransferFormData) => void
   onTransferSuccess?: (param: ExtendedTransferFormData) => void
   onTransferFailed?: () => void
+  isModalVisible?: boolean
   isModal?: boolean
   dest?: string
   children?: (
@@ -84,6 +85,7 @@ export default function TransferForm({
   onTransferSuccess,
   onTransferFailed,
   isModal = false,
+  isModalVisible,
   dest,
   children,
   ...props
@@ -106,7 +108,12 @@ export default function TransferForm({
     token: '',
   })
 
-  useFetchBalanceByNetwork(selectedToken.network || '', myAddress)
+  useFetchBalanceByNetwork({
+    network: selectedToken.network || '',
+    address: myAddress,
+    reload: false,
+    trigger: !isModal && isModalVisible,
+  })
 
   const {
     getSameChainTransferExtrinsic,
@@ -146,7 +153,11 @@ export default function TransferForm({
     form.resetFields()
 
     const selectedTokenFromSelectorOptions = !isModal
-      ? getDefaultSelectorOption(tokensOptions, defaultSelectedToken, crossChain)
+      ? getDefaultSelectorOption(
+          tokensOptions,
+          defaultSelectedToken,
+          crossChain
+        )
       : defaultSelectedToken
 
     form.setFieldsValue({
