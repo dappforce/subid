@@ -49,6 +49,10 @@ type StakingTxButtonProps = CommonTxButtonProps & {
   tx: string
 }
 
+const StakingTxButton = ({
+  amount,
+  spaceId,
+  decimal,
 function StakingTxButton ({
   amount,
   spaceId,
@@ -67,9 +71,11 @@ function StakingTxButton ({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
-    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
+    fetchBackerInfo(dispatch, [spaceId], myAddress || '')
     fetchGeneralEraInfo(dispatch)
+    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
+
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
@@ -86,7 +92,7 @@ function StakingTxButton ({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [ spaceId, amountWithDecimals.toString() ]
+    return [spaceId, amountWithDecimals.toString()]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
@@ -129,7 +135,7 @@ export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   const sendEvent = useSendEvent()
   const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  const balancesByCurrency = useBalancesByNetwork({
+  const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({
     address: myAddress,
     network: 'subsocial',
     currency: props.tokenSymbol,

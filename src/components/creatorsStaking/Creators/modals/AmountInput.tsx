@@ -48,7 +48,7 @@ export const StakeOrIncreaseStakeAmountInput = (
 
   const { minimumStakingAmount, minimumRemainingAmount } = stakingConsts || {}
 
-  const balancesByCurrency = useBalancesByNetwork({
+  const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({
     address: myAddress,
     network: 'subsocial',
     currency: tokenSymbol,
@@ -225,9 +225,9 @@ export const AmountInput = ({
   }
 
   useEffect(() => {
-    if(inputRef.current) {
+    if (inputRef.current) {
       inputRef.current.focus()
-    } 
+    }
   }, [])
 
   return (

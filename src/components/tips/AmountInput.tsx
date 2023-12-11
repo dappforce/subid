@@ -23,7 +23,7 @@ export const TipAmountInput = React.memo(({ form }: ContributionAmountInputProps
   const decimals = infoByNetwork?.tokenDecimals[0]
   const { t } = useTranslation()
 
-  const balancesByCurrency = useBalancesByNetwork({ address: sender, network, currency })
+  const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({ address: sender, network, currency })
   const availableBalance = balancesByCurrency ? getTransferableBalance(balancesByCurrency) : BN_ZERO
 
   const maxAmount = decimals ? convertToBalanceWithDecimal(availableBalance.toString(), decimals) : BIGNUMBER_ZERO

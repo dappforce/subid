@@ -49,7 +49,8 @@ const StakingModalBody = ({ address, network, hide, action }: StakingModalBodyPr
   const decimals = tokenDecimals[0]
 
   const currency = nativeToken || tokenSymbols[0]
-  const balancesByCurrency = useBalancesByNetwork({ address: toGenericAccountId(delegator), network, currency })
+  const { currencyBalance: balancesByCurrency } = 
+    useBalancesByNetwork({ address: toGenericAccountId(delegator), network, currency })
 
   const availableBalance = balancesByCurrency ? getTransferableBalance(balancesByCurrency) : BN_ZERO
 
