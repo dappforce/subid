@@ -19,7 +19,6 @@ export type TokenSelectorProps = HTMLProps<HTMLDivElement> & {
   showNetwork?: boolean
   filterCrossChainBridgeable?: boolean
   selectProps?: Omit<SearchableSelectProps, 'options'>
-  isModal?: boolean
 }
 
 export type TokenData = {

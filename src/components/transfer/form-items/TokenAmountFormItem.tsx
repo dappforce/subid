@@ -116,9 +116,8 @@ export function TokenAmountFormItem ({
 
   useEffect(() => {
     const name = props.name?.toString()
-    if (name) {
-      if (defaultAmount)
-        setFieldsValue({ ['amount']: parseFloat(defaultAmount) })
+    if (name && defaultAmount) {
+      setFieldsValue({ ['amount']: parseFloat(defaultAmount) })
       form.validateFields([ name ])
     }
   }, [ maxTransfer, defaultAmount ])
