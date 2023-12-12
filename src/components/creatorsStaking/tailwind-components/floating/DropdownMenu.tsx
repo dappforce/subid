@@ -58,7 +58,7 @@ interface MenuProps {
   panelClassName?: string
   panelSize?: MenuListProps['size']
   isOpen: boolean
-  focus: number
+  focus?: number
   itemClassName?: string
   setIsOpen: (isOpen: boolean) => void
 }
@@ -81,8 +81,8 @@ export const MenuComponent = React.forwardRef<
     },
     forwardedRef
   ) => {
-    const [ hasFocusInside, setHasFocusInside ] = React.useState(false)
-    const [ activeIndex, setActiveIndex ] = React.useState<number | null>(null)
+    const [hasFocusInside, setHasFocusInside] = React.useState(false)
+    const [activeIndex, setActiveIndex] = React.useState<number | null>(null)
 
     const elementsRef = React.useRef<Array<HTMLButtonElement | null>>([])
     const labelsRef = React.useRef<Array<string | null>>([])
@@ -98,7 +98,7 @@ export const MenuComponent = React.forwardRef<
       open: isOpen,
       onOpenChange: setIsOpen,
       placement: 'bottom-start',
-      middleware: [ offset({ mainAxis: 4, alignmentAxis: 0 }), flip(), shift() ],
+      middleware: [offset({ mainAxis: 4, alignmentAxis: 0 }), flip(), shift()],
       whileElementsMounted: autoUpdate,
     })
 
@@ -127,16 +127,16 @@ export const MenuComponent = React.forwardRef<
     })
 
     const { getReferenceProps, getFloatingProps, getItemProps } =
-      useInteractions([ hover, click, role, dismiss, listNavigation, typeahead ])
+      useInteractions([hover, click, role, dismiss, listNavigation, typeahead])
 
     React.useEffect(() => {
       if (!tree) return
 
-      function handleTreeClick () {
+      function handleTreeClick() {
         setIsOpen(false)
       }
 
-      function onSubMenuOpen (event: { nodeId: string; parentId: string }) {
+      function onSubMenuOpen(event: { nodeId: string; parentId: string }) {
         if (event.nodeId !== nodeId && event.parentId === parentId) {
           setIsOpen(false)
         }
@@ -149,18 +149,38 @@ export const MenuComponent = React.forwardRef<
         tree.events.off('click', handleTreeClick)
         tree.events.off('menuopen', onSubMenuOpen)
       }
-    }, [ tree, nodeId, parentId ])
+    }, [tree, nodeId, parentId])
 
     React.useEffect(() => {
       if (isOpen && tree) {
         tree.events.emit('menuopen', { parentId, nodeId })
       }
-    }, [ tree, isOpen, nodeId, parentId ])
+    }, [tree, isOpen, nodeId, parentId])
+
+    const menuList = (
+      <div
+        ref={refs.setFloating}
+        style={floatingStyles}
+        {...getFloatingProps()}
+      >
+        <MenuList
+          size={panelSize}
+          className={clsx(
+            'overflow-hidden rounded-lg bg-background-light',
+            'shadow-[0_5px_50px_-12px_rgb(0,0,0,.25)] dark:shadow-[0_5px_50px_-12px_rgb(0,0,0)]',
+            panelSize === 'xs' ? 'w-44' : 'w-52',
+            panelClassName
+          )}
+          menus={menus}
+          itemClassName={itemClassName}
+        />
+      </div>
+    )
 
     return (
       <FloatingNode id={nodeId}>
         {children({
-          ref: useMergeRefs([ refs.setReference, item.ref, forwardedRef ]),
+          ref: useMergeRefs([refs.setReference, item.ref, forwardedRef]),
           referenceProps: getReferenceProps(
             parent.getItemProps({
               ...props,
@@ -188,29 +208,17 @@ export const MenuComponent = React.forwardRef<
           <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
             {isOpen && (
               <FloatingPortal>
-                <FloatingFocusManager
-                  context={context}
-                  modal={false}
-                  initialFocus={focus}
-                >
-                  <div
-                    ref={refs.setFloating}
-                    style={floatingStyles}
-                    {...getFloatingProps()}
+                {focus !== undefined ? (
+                  <FloatingFocusManager
+                    context={context}
+                    modal={false}
+                    initialFocus={focus}
                   >
-                    <MenuList
-                      size={panelSize}
-                      className={clsx(
-                        'overflow-hidden rounded-lg bg-background-light',
-                        'shadow-[0_5px_50px_-12px_rgb(0,0,0,.25)] dark:shadow-[0_5px_50px_-12px_rgb(0,0,0)]',
-                        panelSize === 'xs' ? 'w-44' : 'w-52',
-                        panelClassName
-                      )}
-                      menus={menus}
-                      itemClassName={itemClassName}
-                    />
-                  </div>
-                </FloatingFocusManager>
+                    {menuList}
+                  </FloatingFocusManager>
+                ) : (
+                  menuList
+                )}
               </FloatingPortal>
             )}
           </FloatingList>

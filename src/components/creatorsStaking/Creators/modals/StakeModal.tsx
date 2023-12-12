@@ -129,6 +129,14 @@ const modalData = {
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
   },
+  'move-stake': {
+    title: '📤 Move Stake',
+    inputLabel: 'Increase stake by',
+    balanceLabel: 'Balance',
+    modalButton: 'Increase',
+    amountInput: StakeOrIncreaseStakeAmountInput,
+    actionButton: StakeOrIncreaseTxButton,
+  }
 }
 
 type StakeModalProps = {

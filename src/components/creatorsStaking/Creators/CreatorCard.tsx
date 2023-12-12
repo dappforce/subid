@@ -19,6 +19,7 @@ import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
 import { MdArrowOutward } from 'react-icons/md'
+import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 
 type CreatorNameProps = {
   name?: string
@@ -101,12 +102,12 @@ type CreatorCardProps = {
 
 const CreatorCard = ({
   spaceId,
-}: // era
-CreatorCardProps) => {
+  era
+}: CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  // const eraStake = useEraStakesById(spaceId, era)
+  const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ openAboutModal, setOpenAboutModal ] = useState(false)
@@ -116,10 +117,10 @@ CreatorCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null)
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
-  // const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
+  const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: backerInfoLoading } = backerInfo || {}
 
-  // const { backersCount, totalStaked: total } = eraStakeInfo || {}
+  const { backersCount, totalStaked: total } = eraStakeInfo || {}
   const { totalStaked } = info || {}
 
   const isStake = totalStaked === '0'
@@ -129,14 +130,14 @@ CreatorCardProps) => {
 
   const owner = ownedByAccount?.id
 
-  // const totalStake = (
-  //   <FormatBalance
-  //     value={total || '0'}
-  //     decimals={decimal}
-  //     currency={tokenSymbol}
-  //     isGrayDecimal={false}
-  //   />
-  // )
+  const totalStake = (
+    <FormatBalance
+      value={total || '0'}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
 
   const myStake =
     totalStaked && !isStake ? (
@@ -273,7 +274,7 @@ CreatorCardProps) => {
               value={myStake}
               loading={backerInfoLoading}
             />
-            {/* <CreatorCardValue
+            <CreatorCardValue
               label='Total stake'
               value={totalStake}
               loading={eraStakeLoading}
@@ -282,7 +283,7 @@ CreatorCardProps) => {
               label='Stakers'
               value={backersCount || '0'}
               loading={eraStakeLoading}
-            /> */}
+            />
           </div>
         </div>
         <StakeActionButtons

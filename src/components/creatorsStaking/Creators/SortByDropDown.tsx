@@ -7,6 +7,7 @@ import Button from '../tailwind-components/Button'
 import { HiOutlineSwitchVertical } from 'react-icons/hi'
 import { HiChevronDown } from 'react-icons/hi2'
 
+
 type FloatingMenuItemProps = {
   sortBy: string
   changeSortBy: (sortBy: string) => void
@@ -31,16 +32,16 @@ const SortByDropDown = ({
       text: 'Default',
       onClick: () => changeSortBy('default'),
     },
-    // {
-    //   key: 'total-stake',
-    //   text: 'Total stake',
-    //   onClick: () => changeSortBy('total-stake'),
-    // },
-    // {
-    //   key: 'backers',
-    //   text: 'Stakers',
-    //   onClick: () => changeSortBy('backers'),
-    // },
+    {
+      key: 'total-stake',
+      text: 'Total stake',
+      onClick: () => changeSortBy('total-stake'),
+    },
+    {
+      key: 'backers',
+      text: 'Stakers',
+      onClick: () => changeSortBy('backers'),
+    },
     {
       key: 'my-stake',
       text: 'My stake',
@@ -62,14 +63,13 @@ const SortByDropDown = ({
     <div className='flex items-center gap-2'>
       {!isMobile && <span className='text-text-muted'>Sort by:</span>}
       <Menu
-        label={'Edit'}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         menus={augmentedMenus}
         itemClassName={itemClassName}
         panelClassName={panelClassName}
         panelSize={panelSize}
-        focus={menus.findIndex((menu) => menu.key === sortBy)}
+        focus={menus.findIndex((menu) => menu.key === sortBy) || 0}
       >
         {(config) => {
           const { referenceProps, otherProps, ref } = config || {}

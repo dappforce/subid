@@ -10,6 +10,8 @@ import { Tooltip } from 'antd'
 import clsx from 'clsx'
 import HowToSelectAccountModal from './modals/HowToSelectAccountModal'
 import { useState } from 'react'
+import StakeActionButtonsMenu from './StakeActionButtonsMenu'
+import MoveStakeModal from './modals/MoveStakeModal'
 
 type StakeButtonProps = {
   spaceId: string
@@ -34,8 +36,9 @@ const StakeActionButtons = ({
   const stakingConsts = useStakingConsts()
   const backerInfo = useBackerInfo(spaceId, myAddress || '')
   const isMulti = useIsMulti()
+  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
 
-  const [ openMultiAccountModal, setOpenMultiAccountModal ] = useState(false)
+  const [openMultiAccountModal, setOpenMultiAccountModal] = useState(false)
 
   const { info } = backerInfo || {}
 
@@ -49,6 +52,11 @@ const StakeActionButtons = ({
     onClick?.()
     setModalVariant(modalVariant)
     openModal()
+  }
+
+  const onOpenMoveStakeModal = () => {
+    onClick?.()
+    setOpenMoveStakeModal(true)
   }
 
   const disableButtons =
@@ -69,16 +77,19 @@ const StakeActionButtons = ({
         {label}
       </Button>
       {!isStake && myAddress && (
-        <Button
-          variant='outlined'
-          className={clsx('w-full', className)}
-          size={buttonsSize}
-          onClick={() => onButtonClick('unstake')}
-          disabled={disableButtons}
-        >
-          Unstake
-        </Button>
+        <StakeActionButtonsMenu
+          panelSize='xs'
+          panelClassName='!w-32'
+          itemClassName='my-[2px]'
+          openUnstakeModal={() => onButtonClick('unstake')}
+          openMoveStakeModal={() => onOpenMoveStakeModal()}
+        />
       )}
+      <MoveStakeModal 
+        open={openMoveStakeModal}
+        closeModal={() => setOpenMoveStakeModal(false)}
+        defaultCreatorFrom={spaceId}
+      />
     </div>
   )
 
