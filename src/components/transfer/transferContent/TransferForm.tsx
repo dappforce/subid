@@ -385,7 +385,6 @@ export default function TransferForm ({
             setValue={crossChain ? onCrossChainTokenChange : onTokenChange}
             filterCrossChainBridgeable={crossChain}
             showNetwork={!crossChain}
-            isModal={isModal}
           />
         </Form.Item>
         <TokenBalanceView

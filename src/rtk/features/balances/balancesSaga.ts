@@ -113,8 +113,6 @@ function* fetchBalancesByNetworkWorker (
 
     const newBalances: BalancesEntity[] = yield all(dataMap)
 
-    console.log(newBalances)
-
     yield put(balancesActions.fetchBalancesSuccess(newBalances))
   } catch (error) {
     log.error('Failed to fetch balances by network', error)
