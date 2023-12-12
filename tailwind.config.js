@@ -23,6 +23,7 @@ export const theme = {
       'staking-bg': 'url(/images/banners/staking-bg.png)',
       'staking-bg-mobile': 'url(/images/banners/staking-bg-mobile.png)',
       'staking-info-banner': 'url(/images/banners/staking-info-banner.png)',
+      'staking-info-banner-mobile': 'url(/images/banners/staking-info-banner-mobile.png)',
 
     },
     fontFamily: {

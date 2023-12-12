@@ -606,22 +606,6 @@ video {
   top: 50%;
 }
 
-.right-0 {
-  right: 0px;
-}
-
-.top-4 {
-  top: 1rem;
-}
-
-.right-4 {
-  right: 1rem;
-}
-
-.top-2 {
-  top: 0.5rem;
-}
-
 .-z-10 {
   z-index: -10;
 }
@@ -683,6 +667,11 @@ video {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.\!mx-4 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
 }
 
 .-ml-2 {
@@ -907,6 +896,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[13rem\] {
+  width: 13rem;
 }
 
 .min-w-fit {
@@ -1371,8 +1364,20 @@ video {
   background-image: url(/images/banners/staking-info-banner.png);
 }
 
+.bg-staking-info-banner-mobile {
+  background-image: url(/images/banners/staking-info-banner-mobile.png);
+}
+
 .bg-cover {
   background-size: cover;
+}
+
+.bg-center {
+  background-position: center;
+}
+
+.bg-right {
+  background-position: right;
 }
 
 .bg-no-repeat {
@@ -2256,6 +2261,14 @@ video {
     margin-bottom: 1rem;
   }
 
+  .md\:w-auto {
+    width: auto;
+  }
+
+  .md\:w-full {
+    width: 100%;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2285,6 +2298,14 @@ video {
     border-top-right-radius: 20px;
   }
 
+  .md\:bg-staking-info-banner-mobile {
+    background-image: url(/images/banners/staking-info-banner-mobile.png);
+  }
+
+  .md\:bg-staking-info-banner {
+    background-image: url(/images/banners/staking-info-banner.png);
+  }
+
   .md\:p-6 {
     padding: 1.5rem;
   }
@@ -2310,6 +2331,16 @@ video {
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  .md\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  .md\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 

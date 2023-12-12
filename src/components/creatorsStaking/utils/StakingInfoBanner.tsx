@@ -1,49 +1,63 @@
 import clsx from 'clsx'
 import Button from '../tailwind-components/Button'
-// import { IoMdClose } from 'react-icons/io'
-// import store from 'store'
-// import { useState } from 'react'
-
-// const bannerStoreKey = 'staking-info-banner:closed'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
+import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
+import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import getAmountRange from './getAmountRangeForAnalytics'
 
 const StakingInfoBanner = () => {
-  // const stakingInfoBannerClosed = store.get(bannerStoreKey)
-  // const [isBannerClosed, setIsBannerClosed] = useState(
-  //   stakingInfoBannerClosed !== undefined ? stakingInfoBannerClosed : false
-  // )
+  const myAddress = useMyAddress()
+  const sendEvent = useSendEvent()
+  const backerLedger = useBackerLedger(myAddress)
+  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
-  // const onCloseClick = () => {
-  //   setIsBannerClosed(true)
-  //   store.set(bannerStoreKey, true)
-  // }
+  const { loading, ledger } = backerLedger || {}
 
-  // if (isBannerClosed) return null
+  const { locked } = ledger || {}
+
+  const onButtonClick = (eventName: string) => {
+    const amountRange = getAmountRange(decimal, locked)
+
+    sendEvent(eventName, { amountRange: amountRange })
+  }
 
   return (
     <div
       className={clsx(
-        'bg-staking-info-banner bg-cover bg-no-repeat rounded-[20px] text-white',
-        'md:!mx-4 mx-0 flex flex-col gap-4 p-6 relative'
+        'bg-staking-info-banner-mobile md:bg-staking-info-banner bg-right bg-cover bg-no-repeat',
+        '!mx-4 flex flex-col gap-4  relative rounded-[20px] text-white',
+        'md:p-6 p-4'
       )}
     >
       <div className='flex flex-col gap-2'>
-        <div className='text-4xl UnboundedFont'>Receive extra SUB tokens</div>
-        <div className='text-xl'>
+        <div className='md:text-4xl text-2xl md:w-full w-[13rem] UnboundedFont'>Receive extra SUB tokens</div>
+        <div className='md:text-xl text-lg'>
           Get rewarded based on your social activity
         </div>
       </div>
       <div className='flex items-center gap-4'>
-        <Button variant={'primary'}>Learn more</Button>
-        <Button className='text-white' variant={'whiteOutline'}>
+        <Button
+          href='https://grill.chat/creators/stakers-20132'
+          target='_blank'
+          variant={'primary'}
+          className='text-white md:w-auto w-full'
+          disabled={loading}
+          onClick={() => onButtonClick('cs_active_cs_banner_lear_more_clicked')}
+        >
+          Learn more
+        </Button>
+        <Button
+          href='https://subsocial.network/active-staking-details'
+          target='_blank'
+          className='text-white md:w-auto w-full'
+          variant={'whiteOutline'}
+          disabled={loading}
+          onClick={() => onButtonClick('cs_active_cs_banner_discuss_clicked')}
+        >
           Dicsuss
         </Button>
       </div>
-
-      {/* <div className='absolute right-2 top-2 text-xl'>
-        <Button onClick={onCloseClick} variant='transparent' size={'circle'}>
-          <IoMdClose />
-        </Button>
-      </div> */}
     </div>
   )
 }
