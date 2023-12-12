@@ -606,6 +606,22 @@ video {
   top: 50%;
 }
 
+.right-0 {
+  right: 0px;
+}
+
+.top-4 {
+  top: 1rem;
+}
+
+.right-4 {
+  right: 1rem;
+}
+
+.top-2 {
+  top: 0.5rem;
+}
+
 .-z-10 {
   z-index: -10;
 }
@@ -1349,6 +1365,10 @@ video {
 
 .bg-staking-bg-mobile {
   background-image: url(/images/banners/staking-bg-mobile.png);
+}
+
+.bg-staking-info-banner {
+  background-image: url(/images/banners/staking-info-banner.png);
 }
 
 .bg-cover {

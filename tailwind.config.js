@@ -21,7 +21,8 @@ export const theme = {
   extend: {
     backgroundImage: {
       'staking-bg': 'url(/images/banners/staking-bg.png)',
-      'staking-bg-mobile': 'url(/images/banners/staking-bg-mobile.png)'
+      'staking-bg-mobile': 'url(/images/banners/staking-bg-mobile.png)',
+      'staking-info-banner': 'url(/images/banners/staking-info-banner.png)',
 
     },
     fontFamily: {

@@ -10,6 +10,7 @@ import { linkTextStyles } from './tailwind-components/LinkText'
 import { useState } from 'react'
 import HowToSelectAccountModal from './Creators/modals/HowToSelectAccountModal'
 import GetSubInfoSection from './utils/GetSubInfoSection'
+import StakingInfoBanner from './utils/StakingInfoBanner'
 
 const MultiAccountWarning = () => {
   const [ openModal, setOpenModal ] = useState(false)
@@ -66,6 +67,8 @@ const CreatorsStaking = () => {
         <Banner />
 
         <GetSubInfoSection />
+
+        <StakingInfoBanner />
 
         <div className='flex flex-col gap-10 mx-4'>
           {isMulti ? (
