@@ -20,6 +20,7 @@ import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
 import { MdArrowOutward } from 'react-icons/md'
 import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import MoveStakeModal from './modals/MoveStakeModal'
 
 type CreatorNameProps = {
   name?: string
@@ -112,6 +113,7 @@ const CreatorCard = ({
   const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ openAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
@@ -290,8 +292,9 @@ const CreatorCard = ({
           spaceId={spaceId}
           isStake={isStake}
           buttonsSize='sm'
-          openModal={() => setOpenStakeModal(true)}
+          openStakeModal={() => setOpenStakeModal(true)}
           setModalVariant={setModalVariant}
+          openMoveStakeModal={() => setOpenMoveStakeModal(true)}
         />
       </div>
       <AboutModal
@@ -309,6 +312,11 @@ const CreatorCard = ({
         modalVariant={modalVariant}
         amount={amount}
         setAmount={setAmount}
+      />
+      <MoveStakeModal
+        open={openMoveStakeModal}
+        closeModal={() => setOpenMoveStakeModal(false)}
+        defaultCreatorFrom={spaceId}
       />
     </>
   )

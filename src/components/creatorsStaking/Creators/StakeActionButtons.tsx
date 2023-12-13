@@ -11,13 +11,13 @@ import clsx from 'clsx'
 import HowToSelectAccountModal from './modals/HowToSelectAccountModal'
 import { useState } from 'react'
 import StakeActionButtonsMenu from './StakeActionButtonsMenu'
-import MoveStakeModal from './modals/MoveStakeModal'
 
 type StakeButtonProps = {
   spaceId: string
   isStake: boolean
   buttonsSize?: 'sm' | 'lg' | 'md'
-  openModal: () => void
+  openStakeModal: () => void
+  openMoveStakeModal: () => void
   setModalVariant: (variant: StakingModalVariant) => void
   onClick?: () => void
   className?: string
@@ -27,16 +27,16 @@ const StakeActionButtons = ({
   spaceId,
   isStake,
   buttonsSize = 'sm',
-  openModal,
+  openStakeModal,
   setModalVariant,
   onClick,
   className,
+  openMoveStakeModal,
 }: StakeButtonProps) => {
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
   const backerInfo = useBackerInfo(spaceId, myAddress || '')
   const isMulti = useIsMulti()
-  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
 
   const [openMultiAccountModal, setOpenMultiAccountModal] = useState(false)
 
@@ -51,12 +51,12 @@ const StakeActionButtons = ({
   const onButtonClick = (modalVariant: StakingModalVariant) => {
     onClick?.()
     setModalVariant(modalVariant)
-    openModal()
+    openStakeModal()
   }
 
   const onOpenMoveStakeModal = () => {
     onClick?.()
-    setOpenMoveStakeModal(true)
+    openMoveStakeModal()
   }
 
   const disableButtons =
@@ -82,14 +82,12 @@ const StakeActionButtons = ({
           panelClassName='!w-32'
           itemClassName='my-[2px]'
           openUnstakeModal={() => onButtonClick('unstake')}
-          openMoveStakeModal={() => onOpenMoveStakeModal()}
+          openMoveStakeModal={() => {
+            onOpenMoveStakeModal()
+          }}
+          buttonsSize={buttonsSize}
         />
       )}
-      <MoveStakeModal 
-        open={openMoveStakeModal}
-        closeModal={() => setOpenMoveStakeModal(false)}
-        defaultCreatorFrom={spaceId}
-      />
     </div>
   )
 

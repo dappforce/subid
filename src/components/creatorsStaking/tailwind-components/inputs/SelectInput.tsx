@@ -20,7 +20,9 @@ type SelectInputProps<AdditionalData> = {
   imgClassName?: string
   renderItem?: (item: ListItem<AdditionalData>, open: boolean) => JSX.Element
   placeholder?: React.ReactNode
+  rightLabelItem?: React.ReactNode
   disabled?: boolean
+  className?: string
 }
 
 export default function SelectInput<AdditionalData = {}>({
@@ -31,7 +33,9 @@ export default function SelectInput<AdditionalData = {}>({
   imgClassName,
   renderItem,
   disabled,
+  rightLabelItem,
   placeholder,
+  className
 }: SelectInputProps<AdditionalData>) {
   return (
     <div>
@@ -39,8 +43,9 @@ export default function SelectInput<AdditionalData = {}>({
         {({ open }) => (
           <>
             {fieldLabel && (
-              <Listbox.Label className='mb-2 block text-sm font-normal leading-4 text-text-muted'>
+              <Listbox.Label className='flex items-center justify-between mb-2 text-sm font-normal leading-4 text-text-muted'>
                 {fieldLabel}
+                {rightLabelItem}
               </Listbox.Label>
             )}
             <div className='relative'>
@@ -53,6 +58,7 @@ export default function SelectInput<AdditionalData = {}>({
                   'pl-4 pr-12 text-left',
                   'appearance-none text-base ring-1 ring-border-gray',
                   'bg-background text-text',
+                  className,
                   interactionRingStyles()
                 )}
               >

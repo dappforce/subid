@@ -162,11 +162,12 @@ export const MenuComponent = React.forwardRef<
         ref={refs.setFloating}
         style={floatingStyles}
         {...getFloatingProps()}
+        className='z-[10]'
       >
         <MenuList
           size={panelSize}
           className={clsx(
-            'overflow-hidden rounded-lg bg-background-light',
+            'overflow-hidden rounded-lg bg-background-light z-[41]',
             'shadow-[0_5px_50px_-12px_rgb(0,0,0,.25)] dark:shadow-[0_5px_50px_-12px_rgb(0,0,0)]',
             panelSize === 'xs' ? 'w-44' : 'w-52',
             panelClassName
@@ -207,7 +208,7 @@ export const MenuComponent = React.forwardRef<
         >
           <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
             {isOpen && (
-              <FloatingPortal>
+              <>
                 {focus !== undefined ? (
                   <FloatingFocusManager
                     context={context}
@@ -219,7 +220,7 @@ export const MenuComponent = React.forwardRef<
                 ) : (
                   menuList
                 )}
-              </FloatingPortal>
+              </>
             )}
           </FloatingList>
         </MenuContext.Provider>

@@ -3,6 +3,7 @@ import { Menu } from '../tailwind-components/floating/DropdownMenu'
 import { useState } from 'react'
 import Button from '../tailwind-components/Button'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import clsx from 'clsx'
 
 type FloatingMenuItemProps = {
   panelClassName?: string
@@ -10,6 +11,7 @@ type FloatingMenuItemProps = {
   panelSize?: MenuListProps['size']
   openUnstakeModal: () => void
   openMoveStakeModal: () => void
+  buttonsSize?: 'sm' | 'lg' | 'md'
 }
 
 const StakeActionButtonsMenu = ({
@@ -17,7 +19,8 @@ const StakeActionButtonsMenu = ({
   itemClassName,
   panelSize = 'sm',
   openUnstakeModal,
-  openMoveStakeModal
+  openMoveStakeModal,
+  buttonsSize = 'sm',
 }: FloatingMenuItemProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -31,6 +34,7 @@ const StakeActionButtonsMenu = ({
       key: 'unstake',
       text: 'Unstake',
       onClick: () => openUnstakeModal(),
+      className: 'text-red-500',
     },
   ]
 
@@ -61,7 +65,15 @@ const StakeActionButtonsMenu = ({
         }
 
         return (
-          <Button variant='outlined' size='circle' {...commonProps}>
+          <Button
+            variant='outlined'
+            size={'circle'}
+            className={clsx('w-fit h-full', {
+              ['p-4']: buttonsSize === 'lg',
+              ['p-2']: buttonsSize === 'sm',
+            })}
+            {...commonProps}
+          >
             <BsThreeDotsVertical />
           </Button>
         )

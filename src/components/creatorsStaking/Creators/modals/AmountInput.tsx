@@ -35,6 +35,7 @@ type AmountInputProps = CommonAmountInputProps & {
   balanceValue?: JSX.Element
   validateInput: (amountValue: string) => void
   onMaxAmountClick?: () => void
+  className?: string
 }
 
 export const StakeOrIncreaseStakeAmountInput = (
@@ -211,6 +212,7 @@ export const AmountInput = ({
   balanceValue,
   onMaxAmountClick,
   validateInput,
+  className
 }: AmountInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -268,7 +270,8 @@ export const AmountInput = ({
           'focus:outline-none focus:ring-1 focus:ring-indigo-500',
           'hover:outline-none hover:ring-1 hover:ring-indigo-500',
           'focus-visible:!ring-1 focus-visible:ring-indigo-500',
-          'bg-slate-200 text-black'
+          '!bg-[#FAFBFF] hover:bg-[#FAFBFF] text-black',
+          className
         )}
       />
     </div>
