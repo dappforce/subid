@@ -19,7 +19,7 @@ import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
 import { MdArrowOutward } from 'react-icons/md'
-import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+// import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import MoveStakeModal from './modals/MoveStakeModal'
 
 type CreatorNameProps = {
@@ -39,7 +39,7 @@ const CreatorName = ({ name, loading, cardRef }: CreatorNameProps) => {
 
   return (
     <FloatingWrapper
-      allowedPlacements={['top']}
+      allowedPlacements={[ 'top' ]}
       mainAxisOffset={4}
       panel={() => (
         <div className='rounded-md border border-background-lighter bg-white px-1.5 text-sm py-1'>
@@ -101,25 +101,25 @@ type CreatorCardProps = {
   era?: string
 }
 
-const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
+const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const eraStake = useEraStakesById(spaceId, era)
+  // const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
-  const [openAboutModal, setOpenAboutModal] = useState(false)
-  const [openStakeModal, setOpenStakeModal] = useState(false)
-  const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
-  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
+  const [ openAboutModal, setOpenAboutModal ] = useState(false)
+  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
+  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
-  const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
+  // const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
   const { info, loading: backerInfoLoading } = backerInfo || {}
 
-  const { backersCount, totalStaked: total } = eraStakeInfo || {}
+  // const { backersCount, totalStaked: total } = eraStakeInfo || {}
   const { totalStaked } = info || {}
 
   const isStake = totalStaked === '0'
@@ -129,14 +129,14 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
 
   const owner = ownedByAccount?.id
 
-  const totalStake = (
-    <FormatBalance
-      value={total || '0'}
-      decimals={decimal}
-      currency={tokenSymbol}
-      isGrayDecimal={false}
-    />
-  )
+  // const totalStake = (
+  //   <FormatBalance
+  //     value={total || '0'}
+  //     decimals={decimal}
+  //     currency={tokenSymbol}
+  //     isGrayDecimal={false}
+  //   />
+  // )
 
   const myStake =
     totalStaked && !isStake ? (
@@ -274,7 +274,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
               value={myStake}
               loading={backerInfoLoading}
             />
-            <CreatorCardValue
+            {/* <CreatorCardValue
               label='Total stake'
               value={totalStake}
               loading={eraStakeLoading}
@@ -283,7 +283,7 @@ const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
               label='Stakers'
               value={backersCount || '0'}
               loading={eraStakeLoading}
-            />
+            /> */}
           </div>
         </div>
         <StakeActionButtons

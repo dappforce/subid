@@ -38,7 +38,7 @@ const StakeActionButtons = ({
   const backerInfo = useBackerInfo(spaceId, myAddress || '')
   const isMulti = useIsMulti()
 
-  const [openMultiAccountModal, setOpenMultiAccountModal] = useState(false)
+  const [ openMultiAccountModal, setOpenMultiAccountModal ] = useState(false)
 
   const { info } = backerInfo || {}
 

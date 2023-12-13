@@ -25,7 +25,7 @@ type SelectInputProps<AdditionalData> = {
   className?: string
 }
 
-export default function SelectInput<AdditionalData = {}>({
+export default function SelectInput<AdditionalData = {}> ({
   items,
   fieldLabel,
   selected,
@@ -129,7 +129,7 @@ type SelectListItemProps<AdditionalData> = {
   renderedItem?: JSX.Element
 }
 
-function SelectListItem<AdditionalData>({
+function SelectListItem<AdditionalData> ({
   item,
   imgClassName,
   renderedItem,

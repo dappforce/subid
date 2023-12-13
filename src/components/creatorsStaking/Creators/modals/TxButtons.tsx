@@ -44,7 +44,7 @@ type StakingTxButtonProps = CommonTxButtonProps & {
   tx: string
 }
 
-function StakingTxButton({
+function StakingTxButton ({
   amount,
   spaceId,
   decimal,
@@ -61,10 +61,10 @@ function StakingTxButton({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
-    fetchBackerInfo(dispatch, [spaceId], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
-    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
 
@@ -80,7 +80,7 @@ function StakingTxButton({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
 
-    return [spaceId, amountWithDecimals.toString()]
+    return [ spaceId, amountWithDecimals.toString() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
@@ -117,7 +117,7 @@ function StakingTxButton({
   )
 }
 
-export function StakeOrIncreaseTxButton(props: CommonTxButtonProps) {
+export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
 
   const balancesByCurrency = useBalancesByNetwork({
@@ -139,7 +139,7 @@ export function StakeOrIncreaseTxButton(props: CommonTxButtonProps) {
   )
 }
 
-export function UnstakeTxButton(props: CommonTxButtonProps) {
+export function UnstakeTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
   const backerInfo = useBackerInfo(props.spaceId, myAddress)
   const { info } = backerInfo || {}
@@ -165,7 +165,7 @@ type MoveStakeTxButtonProps = {
   closeModal: () => void
 }
 
-export function MoveStakeTxButton({
+export function MoveStakeTxButton ({
   amount,
   decimal,
   spaceIdFrom,
@@ -181,7 +181,7 @@ export function MoveStakeTxButton({
   const onSuccess = () => {
     if (!spaceIdTo) return
 
-    const spaceIds = [spaceIdFrom, spaceIdTo]
+    const spaceIds = [ spaceIdFrom, spaceIdTo ]
 
     fetchBackerInfo(dispatch, spaceIds, myAddress || '')
     fetchBackerLedger(dispatch, myAddress || '')
@@ -193,7 +193,7 @@ export function MoveStakeTxButton({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
 
-    return [spaceIdFrom, spaceIdTo, amountWithDecimals.toString()]
+    return [ spaceIdFrom, spaceIdTo, amountWithDecimals.toString() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (

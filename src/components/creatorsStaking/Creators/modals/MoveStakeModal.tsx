@@ -39,17 +39,17 @@ const MoveStakeModal = ({
   const spaceIds = creatorsList?.map((item) => item.creator.spaceId)
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
 
-  const [creatorFrom, setCreatorFrom] = useState<ListItem>({
+  const [ creatorFrom, setCreatorFrom ] = useState<ListItem>({
     id: defaultCreatorFrom,
     label: <ItemLabel spaceId={defaultCreatorFrom} />,
   })
-  const [creatorTo, setCreatorTo] = useState<ListItem>()
+  const [ creatorTo, setCreatorTo ] = useState<ListItem>()
 
   const bakerInfoFrom = useBackerInfo(creatorFrom.id, myAddress)
   const backerInfoTo = useBackerInfo(creatorTo?.id, myAddress)
 
-  const [amount, setAmount] = useState<string>('')
-  const [inputError, setInputError] = useState<string>()
+  const [ amount, setAmount ] = useState<string>('')
+  const [ inputError, setInputError ] = useState<string>()
 
   useEffect(() => {
     setCreatorFrom({
@@ -60,13 +60,13 @@ const MoveStakeModal = ({
     setCreatorTo(undefined)
     setAmount('')
     setInputError(undefined)
-  }, [open])
+  }, [ open ])
 
   useEffect(() => {
     if (creatorFrom.id === creatorTo?.id) {
       setCreatorTo(undefined)
     }
-  }, [creatorFrom.id, creatorTo?.id])
+  }, [ creatorFrom.id, creatorTo?.id ])
 
   const cretorsToSpaceIds = spaceIds?.filter((item) => item !== creatorFrom.id)
 
@@ -84,7 +84,7 @@ const MoveStakeModal = ({
     const amountWithDecimal = balanceWithDecimal(amount, decimal)
 
     return amountWithDecimal.eq(new BN(myStakeFrom))
-  }, [amount, myStakeFrom])
+  }, [ amount, myStakeFrom ])
 
   const creatorFromItems: ListItem[] = myCreatorsIds?.map((item) => {
     return {
