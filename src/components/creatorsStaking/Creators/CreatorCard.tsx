@@ -39,7 +39,7 @@ const CreatorName = ({ name, loading, cardRef }: CreatorNameProps) => {
 
   return (
     <FloatingWrapper
-      allowedPlacements={[ 'top' ]}
+      allowedPlacements={['top']}
       mainAxisOffset={4}
       panel={() => (
         <div className='rounded-md border border-background-lighter bg-white px-1.5 text-sm py-1'>
@@ -101,20 +101,17 @@ type CreatorCardProps = {
   era?: string
 }
 
-const CreatorCard = ({
-  spaceId,
-  era
-}: CreatorCardProps) => {
+const CreatorCard = ({ spaceId, era }: CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
-  const [ openAboutModal, setOpenAboutModal ] = useState(false)
-  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [openAboutModal, setOpenAboutModal] = useState(false)
+  const [openStakeModal, setOpenStakeModal] = useState(false)
   const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
-  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -169,7 +166,7 @@ const CreatorCard = ({
     </div>
   )
 
-  const contactInfo = { email, links: links?.filter(x => x !== 'null') }
+  const contactInfo = { email, links: links?.filter((x) => x !== 'null') }
 
   const onChatButtonClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -194,7 +191,8 @@ const CreatorCard = ({
         target='_blank'
         rel='noreferrer'
         className={clsx(
-          'text-[#64748B] text-sm font-normal hover:text-text-primary [&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
+          'text-[#64748B] text-sm font-normal hover:text-text-primary w-fit',
+          '[&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
         )}
       >
         {pluralize({

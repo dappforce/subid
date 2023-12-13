@@ -29,7 +29,7 @@ const AccountPreview = ({ space, spaceId }: AccountPreviewProps) => {
         target='_blank'
         rel='noreferrer'
         className={clsx(
-          'text-[#64748B] text-sm font-normal hover:text-text-primary',
+          'text-[#64748B] text-sm font-normal hover:text-text-primary w-fit',
           '[&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
         )}
       >
