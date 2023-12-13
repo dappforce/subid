@@ -5,12 +5,14 @@ import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/back
 import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import getAmountRange from './getAmountRangeForAnalytics'
+import { useResponsiveSize } from '@/components/responsive'
 
 const StakingInfoBanner = () => {
   const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
   const backerLedger = useBackerLedger(myAddress)
   const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { isMobile } = useResponsiveSize()
 
   const { loading, ledger } = backerLedger || {}
 
@@ -31,7 +33,9 @@ const StakingInfoBanner = () => {
       )}
     >
       <div className='flex flex-col gap-2'>
-        <div className='md:text-4xl text-2xl md:w-full w-[13rem] UnboundedFont'>Receive extra SUB tokens</div>
+        <div className='md:text-4xl text-2xl md:w-full w-[13rem] UnboundedFont'>
+          Receive extra SUB tokens
+        </div>
         <div className='md:text-xl text-lg'>
           Get rewarded based on your social activity
         </div>
@@ -41,11 +45,11 @@ const StakingInfoBanner = () => {
           href='https://grill.chat/creators/stakers-20132'
           target='_blank'
           variant={'primary'}
-          className='text-white md:w-auto w-full'
+          className='text-white md:w-auto w-full border-white'
           disabled={loading}
           onClick={() => onButtonClick('cs_active_cs_banner_lear_more_clicked')}
         >
-          Learn more
+          {isMobile ? 'Learn more' : 'How does it work?'}
         </Button>
         <Button
           href='https://subsocial.network/active-staking-details'
@@ -55,7 +59,7 @@ const StakingInfoBanner = () => {
           disabled={loading}
           onClick={() => onButtonClick('cs_active_cs_banner_discuss_clicked')}
         >
-          Dicsuss
+          {isMobile ? 'Discuss' : 'Discuss the feature'}
         </Button>
       </div>
     </div>
