@@ -144,7 +144,7 @@ type StakeModalProps = {
   open: boolean
   spaceId: string
   modalVariant: StakingModalVariant
-  amount: string
+  amount?: string
   setAmount: (amount: string) => void
 }
 

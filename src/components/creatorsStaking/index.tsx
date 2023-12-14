@@ -58,7 +58,11 @@ const MultiAccountWarning = () => {
   )
 }
 
-const CreatorsStaking = () => {
+type CreatorsStakingProps = {
+  defaultSpaceId?: string
+}
+
+const CreatorsStaking = ({ defaultSpaceId }: CreatorsStakingProps) => {
   const isMulti = useIsMulti()
 
   return (

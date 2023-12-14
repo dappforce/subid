@@ -22,6 +22,7 @@ import SuccessModal from './modals/SuccessModal'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { betaVersionAgreementStorageName } from './modals/StakeModal'
 import store from 'store'
+import DefaultAboutModal from './modals/DefaultAboutModal';
 
 // const DEFAULT_PAGE_SIZE = 9
 
@@ -51,7 +52,12 @@ const CreatorsCards = ({
     )
 
   const creatorsCards = ids.map((spaceId, i) => (
-    <CreatorCard key={i} spaceId={spaceId} era={era} {...modalProps} />
+    <CreatorCard
+      key={i}
+      spaceId={spaceId}
+      era={era}
+      {...modalProps}
+    />
   ))
 
   // const start = (page - 1) * DEFAULT_PAGE_SIZE
@@ -75,15 +81,19 @@ const CreatorsCards = ({
   )
 }
 
-type CreatorsSectionInnerProps = {
+type CreatorsSectionInnerProps = CreatorsSectionProps & {
   spaceIds?: string[]
   era?: string
 }
 
-const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
-  const [ tab, setTab ] = useState(0)
+const CreatorsSectionInner = ({
+  spaceIds,
+  era,
+  defaultSpaceId,
+}: CreatorsSectionInnerProps) => {
+  const [tab, setTab] = useState(0)
   const myAddress = useMyAddress()
-  const [ sortBy, changeSortBy ] = useState('default')
+  const [sortBy, changeSortBy] = useState('default')
   const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } =
     useModalContext()
   const creatorsList = useCreatorsList()
@@ -94,7 +104,7 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
       !!creatorsList?.find(
         (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
       ),
-    [ creatorsList?.length ]
+    [creatorsList?.length]
   )
 
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
@@ -105,14 +115,18 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
     } else {
       store.set(betaVersionAgreementStorageName, false)
     }
-  }, [ myCreatorsIds.length, myAddress ])
+  }, [myCreatorsIds.length, myAddress])
 
   const tabs: TabsProps['tabs'] = [
     {
       id: 'all-creators',
       text: 'All Creators',
       content: () => (
-        <CreatorsCards spaceIds={spaceIds} era={era} sortBy={sortBy} />
+        <CreatorsCards
+          spaceIds={spaceIds}
+          era={era}
+          sortBy={sortBy}
+        />
       ),
     },
     {
@@ -173,11 +187,16 @@ const CreatorsSectionInner = ({ spaceIds, era }: CreatorsSectionInnerProps) => {
         tokenSymbol={'SUB'}
         amount={amount}
       />
+      <DefaultAboutModal defaultSpaceId={defaultSpaceId} />
     </div>
   )
 }
 
-const CreatorsSection = () => {
+type CreatorsSectionProps = {
+  defaultSpaceId?: string
+}
+
+const CreatorsSection = ({ defaultSpaceId }: CreatorsSectionProps) => {
   const myAddress = useMyAddress()
   const creatorsList = useCreatorsList()
   const eraInfo = useGeneralEraInfo()
@@ -192,7 +211,11 @@ const CreatorsSection = () => {
 
   return (
     <ModalContextWrapper>
-      <CreatorsSectionInner spaceIds={creatorsSpaceIds} era={currentEra} />
+      <CreatorsSectionInner
+        defaultSpaceId={defaultSpaceId}
+        spaceIds={creatorsSpaceIds}
+        era={currentEra}
+      />
     </ModalContextWrapper>
   )
 }

@@ -6,7 +6,7 @@ import { FormatBalance } from 'src/components/common/balances'
 import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import AboutModal from './modals/AboutModal'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
@@ -39,7 +39,7 @@ const CreatorName = ({ name, loading, cardRef }: CreatorNameProps) => {
 
   return (
     <FloatingWrapper
-      allowedPlacements={[ 'top' ]}
+      allowedPlacements={['top']}
       mainAxisOffset={4}
       panel={() => (
         <div className='rounded-md border border-background-lighter bg-white px-1.5 text-sm py-1'>
@@ -108,10 +108,10 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   // const eraStake = useEraStakesById(spaceId, era)
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
-  const [ openAboutModal, setOpenAboutModal ] = useState(false)
-  const [ openStakeModal, setOpenStakeModal ] = useState(false)
-  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
-  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const [openAboutModal, setOpenAboutModal] = useState(false)
+  const [openStakeModal, setOpenStakeModal] = useState(false)
+  const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
+  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
 

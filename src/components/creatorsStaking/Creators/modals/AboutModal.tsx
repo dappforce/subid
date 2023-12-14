@@ -11,7 +11,7 @@ type AboutModalProps = {
   closeModal: () => void
   spaceId: string
   isStake: boolean
-  amount: string
+  amount?: string
   setAmount: (amount: string) => void
 }
 

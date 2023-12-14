@@ -22,7 +22,7 @@ type CommonAmountInputProps = {
   setAmount: (amount: string) => void
   inputError?: string
   setInputError: (error?: string) => void
-  amount: string
+  amount?: string
   tokenSymbol?: string
   decimals?: number
   label: string

@@ -29,7 +29,7 @@ import { useModalContext } from '../../contexts/ModalContext'
 import store from 'store'
 
 export type CommonTxButtonProps = {
-  amount: string
+  amount?: string
   spaceId: string
   decimal: number
   label: string
