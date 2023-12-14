@@ -634,6 +634,11 @@ video {
   margin: 0.25rem;
 }
 
+.\!mx-4 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+
 .mx-0 {
   margin-left: 0px;
   margin-right: 0px;
@@ -872,6 +877,10 @@ video {
   width: 13rem;
 }
 
+.w-\[13rem\] {
+  width: 13rem;
+}
+
 .w-\[20px\] {
   width: 20px;
 }
@@ -891,6 +900,18 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[14rem\] {
+  width: 14rem;
+}
+
+.w-\[13\.5rem\] {
+  width: 13.5rem;
+}
+
+.w-\[17rem\] {
+  width: 17rem;
 }
 
 .min-w-fit {
@@ -1351,8 +1372,32 @@ video {
   background-image: url(/images/banners/staking-bg-mobile.png);
 }
 
+.bg-support-creators-mobile-banner {
+  background-image: url(/images/banners/support-creators-mobile-banner.png);
+}
+
+.bg-support-creators-desktop-banner {
+  background-image: url(/images/banners/support-creators-desktop-banner.png);
+}
+
+.bg-earn-sub-desktop-banner {
+  background-image: url(/images/banners/earn-sub-desktop-banner.png);
+}
+
+.bg-earn-sub-mobile-banner {
+  background-image: url(/images/banners/earn-sub-mobile-banner.png);
+}
+
 .bg-cover {
   background-size: cover;
+}
+
+.bg-right {
+  background-position: right;
+}
+
+.bg-center {
+  background-position: center;
 }
 
 .bg-no-repeat {
@@ -1781,6 +1826,24 @@ video {
 
 .text-white\/80 {
   color: rgb(255 255 255 / 0.8);
+}
+
+.text-\[\] {
+  color: ;
+}
+
+.text-\[\#\] {
+  color: #;
+}
+
+.text-\[\#A91C83\] {
+  --tw-text-opacity: 1;
+  color: rgb(169 28 131 / var(--tw-text-opacity));
+}
+
+.\!text-\[\#A91C83\] {
+  --tw-text-opacity: 1 !important;
+  color: rgb(169 28 131 / var(--tw-text-opacity)) !important;
 }
 
 .opacity-0 {
@@ -2236,6 +2299,14 @@ video {
     margin-bottom: 1rem;
   }
 
+  .md\:w-auto {
+    width: auto;
+  }
+
+  .md\:w-full {
+    width: 100%;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2265,6 +2336,10 @@ video {
     border-top-right-radius: 20px;
   }
 
+  .md\:bg-right {
+    background-position: right;
+  }
+
   .md\:p-6 {
     padding: 1.5rem;
   }
@@ -2290,6 +2365,16 @@ video {
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  .md\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  .md\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 
