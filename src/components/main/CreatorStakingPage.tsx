@@ -8,13 +8,10 @@ import clsx from 'clsx'
 import { NextPage } from 'next'
 
 type CreatorStakingPageProp = {
-  spaceId?: string 
-  domain?: string
+  spaceId?: string
 }
 
 const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
-  console.log(props)
-
   return (
     <>
       <Head>

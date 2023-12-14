@@ -3,36 +3,30 @@ import { getInitialPropsWithRedux } from 'src/rtk/app/nextHelpers'
 import { fetchCreatorsList } from '../../rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { FETCH_CHIAN_INFO_WITH_PRICES } from 'src/rtk/app/actions'
 import { fetchStakingConsts } from '../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
-import { getDomainBySpaceId, getOwnerByDomain } from '@/api'
-import { tryParseInt } from '@/components/utils'
+import { getOwnerByDomain } from '@/api'
 
 getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch, context }) => {
   const { creator } = context.query
 
-  const domainOrSpaceId = creator as string
+  const domainOrSpaceIdFromUrl = creator as string
 
-  const isDomain = !tryParseInt(domainOrSpaceId as string, 0)
+  const isDomain = domainOrSpaceIdFromUrl?.startsWith('@')
 
-  let domain = ''
-  let spaceId = ''
+  let spaceId = domainOrSpaceIdFromUrl
 
   if (isDomain) {
-    domain =
-      domainOrSpaceId.split('.').length > 1
-        ? domainOrSpaceId
-        : domainOrSpaceId + '.sub'
-    const domainStructByDomainName = await getOwnerByDomain(domain)
+    const domain =
+      domainOrSpaceIdFromUrl?.split('.').length > 1
+        ? domainOrSpaceIdFromUrl
+        : domainOrSpaceIdFromUrl + '.sub'
 
-    console.log(domainStructByDomainName)
+    const domainStructByDomainName = await getOwnerByDomain(domain.replace('@', ''))
 
     const { innerValue } = domainStructByDomainName || {}
 
     const { space: domainSpaceId } = innerValue || {}
 
     spaceId = domainSpaceId
-  } else {
-    domain = await getDomainBySpaceId(domainOrSpaceId)
-    spaceId = domainOrSpaceId
   }
 
   dispatch({ type: FETCH_CHIAN_INFO_WITH_PRICES })
@@ -47,7 +41,6 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch, context }) => {
       forceTitle: true,
     },
     spaceId,
-    domain,
   }
 })
 

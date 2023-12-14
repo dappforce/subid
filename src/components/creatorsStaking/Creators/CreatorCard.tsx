@@ -21,6 +21,7 @@ import { pluralize } from '@subsocial/utils'
 import { MdArrowOutward } from 'react-icons/md'
 // import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import MoveStakeModal from './modals/MoveStakeModal'
+import { useRouter } from 'next/router'
 
 type CreatorNameProps = {
   name?: string
@@ -114,6 +115,7 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   // const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -124,8 +126,16 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
 
   const isStake = totalStaked === '0'
 
-  const { name, about, postsCount, ownedByAccount, image, links, email } =
-    space || {}
+  const {
+    name,
+    about,
+    postsCount,
+    ownedByAccount,
+    image,
+    links,
+    email,
+    domain,
+  } = space || {}
 
   const owner = ownedByAccount?.id
 
@@ -226,7 +236,20 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
         <div className='flex flex-col gap-2'>
           <div
             className='cursor-pointer flex flex-col gap-3'
-            onClick={() => setOpenAboutModal(true)}
+            onClick={() => {
+              const domainName = domain?.replace('.sub', '')
+
+              router.replace(
+                '/creators/[creator]',
+                `/creators/${domainName ? '@' + domainName : spaceId}`,
+                {
+                  scroll: false,
+                  shallow: true,
+                }
+              )
+
+              setOpenAboutModal(true)
+            }}
           >
             <div className='w-full flex justify-between gap-2'>
               <CreatorPreview

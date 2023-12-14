@@ -5,6 +5,7 @@ import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
 import AccountPreview from '../AccountPreview'
 import MoveStakeModal from './MoveStakeModal'
+import { useRouter } from 'next/router'
 
 type AboutModalProps = {
   open: boolean
@@ -25,9 +26,10 @@ const AboutModal = ({
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
 
-  const [ openStakeModal, setOpenStakeModal ] = useState(false)
-  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
-  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
+  const [openStakeModal, setOpenStakeModal] = useState(false)
+  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
+  const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
+  const router = useRouter()
 
   const { space } = creatorSpaceEntity || {}
 
@@ -42,6 +44,21 @@ const AboutModal = ({
         title={'ℹ️ About'}
         withCloseButton
         closeModal={() => {
+          const query = router.query
+
+          if (query.creator) {
+            delete query.creator
+          }
+
+          router.replace(
+            {
+              pathname: '/creators',
+              query,
+            },
+            undefined,
+            { scroll: false }
+          )
+
           closeModal()
         }}
       >

@@ -26,7 +26,7 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
     if (defaultSpaceId) {
       setOpenDefaultAboutModal(true)
     }
-  }, [defaultSpaceId])
+  }, [])
 
   if(!defaultSpaceId) return null
 

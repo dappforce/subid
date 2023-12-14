@@ -909,6 +909,10 @@ video {
   width: 14rem;
 }
 
+.w-\[13rem\] {
+  width: 13rem;
+}
+
 .w-\[14rem\] {
   width: 14rem;
 }
@@ -1415,14 +1419,6 @@ video {
 
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
-}
-
-.bg-earn-sub-desktop-banner {
-  background-image: url(/images/banners/earn-sub-desktop-banner.png);
-}
-
-.bg-earn-sub-mobile-banner {
-  background-image: url(/images/banners/earn-sub-mobile-banner.png);
 }
 
 .bg-staking-bg-mobile {
