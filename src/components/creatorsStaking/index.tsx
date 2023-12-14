@@ -13,7 +13,7 @@ import GetSubInfoSection from './utils/GetSubInfoSection'
 import StakingInfoBanner from './utils/StakingInfoBanner'
 
 const MultiAccountWarning = () => {
-  const [ openModal, setOpenModal ] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
 
   const onButtonClick = () => {
     setOpenModal(true)
@@ -65,10 +65,7 @@ const CreatorsStaking = () => {
     <div className='flex flex-col gap-10'>
       <StakingContextWrapper network='subsocial'>
         <Banner />
-
         <GetSubInfoSection />
-
-        <StakingInfoBanner />
 
         <div className='flex flex-col gap-10 mx-4'>
           {isMulti ? (
@@ -79,6 +76,8 @@ const CreatorsStaking = () => {
               <MyStakingSection />
             </>
           )}
+
+          <StakingInfoBanner />
           <CreatorsSection />
         </div>
       </StakingContextWrapper>

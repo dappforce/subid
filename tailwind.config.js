@@ -22,9 +22,10 @@ export const theme = {
     backgroundImage: {
       'staking-bg': 'url(/images/banners/staking-bg.png)',
       'staking-bg-mobile': 'url(/images/banners/staking-bg-mobile.png)',
-      'staking-info-banner': 'url(/images/banners/staking-info-banner.png)',
-      'staking-info-banner-mobile': 'url(/images/banners/staking-info-banner-mobile.png)',
-
+      'earn-sub-desktop-banner': 'url(/images/banners/earn-sub-desktop-banner.png)',
+      'earn-sub-mobile-banner': 'url(/images/banners/earn-sub-mobile-banner.png)',
+      'support-creators-desktop-banner': 'url(/images/banners/support-creators-desktop-banner.png)',
+      'support-creators-mobile-banner': 'url(/images/banners/support-creators-mobile-banner.png)',
     },
     fontFamily: {
       sans: ['var(--source-sans-pro)', ..._fontFamily.sans],
