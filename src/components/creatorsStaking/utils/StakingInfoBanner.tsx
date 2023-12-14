@@ -42,7 +42,7 @@ const StakingInfoBanner = () => {
       </div>
       <div className='flex items-center gap-4'>
         <Button
-          href='https://grill.chat/creators/stakers-20132'
+          href='https://subsocial.network/active-staking-details'
           target='_blank'
           variant={'primary'}
           className='text-white md:w-auto w-full border-white'
@@ -52,7 +52,7 @@ const StakingInfoBanner = () => {
           {isMobile ? 'Learn more' : 'How does it work?'}
         </Button>
         <Button
-          href='https://subsocial.network/active-staking-details'
+          href='https://grill.chat/creators/stakers-20132'
           target='_blank'
           className='text-white md:w-auto w-full'
           variant={'whiteOutline'}
