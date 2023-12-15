@@ -27,9 +27,9 @@ const StakingInfoBanner = () => {
     sendEvent(eventName, { amountRange: amountRange })
   }
 
-  if (loading && !locked) return null
-
   const isStaked = locked && !new BN(locked).isZero()
+
+  if ((loading && !locked) || !isStaked) return null
 
   const walletForDiscussUrl = wallet ? `?wallet=${wallet}` : ''
 
@@ -40,8 +40,8 @@ const StakingInfoBanner = () => {
         'flex flex-col gap-4  relative rounded-[20px] text-white',
         'md:p-6 p-4',
         {
-          ['bg-support-creators-mobile-banner']: !isStaked && isMobile,
-          ['bg-support-creators-desktop-banner']: !isStaked && !isMobile,
+          // ['bg-support-creators-mobile-banner']: !isStaked && isMobile,
+          // ['bg-support-creators-desktop-banner']: !isStaked && !isMobile,
           ['bg-earn-sub-mobile-banner']: isStaked && isMobile,
           ['bg-earn-sub-desktop-banner']: isStaked && !isMobile,
         }
@@ -49,16 +49,14 @@ const StakingInfoBanner = () => {
     >
       <div className='flex flex-col gap-2'>
         <div className='md:text-4xl text-2xl md:w-full w-[17rem] UnboundedFont'>
-          {isStaked ? 'Earn extra SUB tokens' : 'Support creators & earn SUB'}
+          Earn extra SUB tokens
         </div>
         <div
           className={clsx('md:text-xl text-lg text-white/80', {
             ['w-[14rem]']: isStaked && isMobile,
           })}
         >
-          {isStaked
-            ? 'Get rewarded based on your social activity'
-            : 'Generate rewards for both you and creators by staking towards them'}
+          Get rewarded based on your social activity
         </div>
       </div>
       <div className='flex items-center gap-4'>
@@ -66,13 +64,13 @@ const StakingInfoBanner = () => {
           href='https://subsocial.network/active-staking-details'
           target='_blank'
           variant={'white'}
-          className={clsx('md:w-auto w-full border-white !text-text-primary', {
-            ['!text-[#A91C83]']: isStaked,
-          })}
+          className={clsx(
+            'md:w-auto w-full border-white !text-[#A91C83]'
+          )}
           disabled={loading}
           onClick={() => onButtonClick('cs_active_cs_banner_lear_more_clicked')}
         >
-          {isMobile ? 'Learn more' : 'How does it work?'}
+          Learn more
         </Button>
         <Button
           href={`https://grill.chat/creators/stakers-20132${walletForDiscussUrl}`}

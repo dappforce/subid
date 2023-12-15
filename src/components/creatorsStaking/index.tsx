@@ -13,7 +13,7 @@ import GetSubInfoSection from './utils/GetSubInfoSection'
 import StakingInfoBanner from './utils/StakingInfoBanner'
 
 const MultiAccountWarning = () => {
-  const [openModal, setOpenModal] = useState(false)
+  const [ openModal, setOpenModal ] = useState(false)
 
   const onButtonClick = () => {
     setOpenModal(true)
