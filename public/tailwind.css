@@ -634,11 +634,6 @@ video {
   margin: 0.25rem;
 }
 
-.\!mx-4 {
-  margin-left: 1rem !important;
-  margin-right: 1rem !important;
-}
-
 .mx-0 {
   margin-left: 0px;
   margin-right: 0px;
@@ -877,8 +872,12 @@ video {
   width: 13rem;
 }
 
-.w-\[13rem\] {
-  width: 13rem;
+.w-\[14rem\] {
+  width: 14rem;
+}
+
+.w-\[17rem\] {
+  width: 17rem;
 }
 
 .w-\[20px\] {
@@ -900,18 +899,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[14rem\] {
-  width: 14rem;
-}
-
-.w-\[13\.5rem\] {
-  width: 13.5rem;
-}
-
-.w-\[17rem\] {
-  width: 17rem;
 }
 
 .min-w-fit {
@@ -1368,18 +1355,6 @@ video {
   --tw-bg-opacity: 0.25;
 }
 
-.bg-staking-bg-mobile {
-  background-image: url(/images/banners/staking-bg-mobile.png);
-}
-
-.bg-support-creators-mobile-banner {
-  background-image: url(/images/banners/support-creators-mobile-banner.png);
-}
-
-.bg-support-creators-desktop-banner {
-  background-image: url(/images/banners/support-creators-desktop-banner.png);
-}
-
 .bg-earn-sub-desktop-banner {
   background-image: url(/images/banners/earn-sub-desktop-banner.png);
 }
@@ -1388,12 +1363,20 @@ video {
   background-image: url(/images/banners/earn-sub-mobile-banner.png);
 }
 
-.bg-cover {
-  background-size: cover;
+.bg-staking-bg-mobile {
+  background-image: url(/images/banners/staking-bg-mobile.png);
 }
 
-.bg-right {
-  background-position: right;
+.bg-support-creators-desktop-banner {
+  background-image: url(/images/banners/support-creators-desktop-banner.png);
+}
+
+.bg-support-creators-mobile-banner {
+  background-image: url(/images/banners/support-creators-mobile-banner.png);
+}
+
+.bg-cover {
+  background-size: cover;
 }
 
 .bg-center {
@@ -1731,6 +1714,11 @@ video {
   line-height: 1.5;
 }
 
+.\!text-\[\#A91C83\] {
+  --tw-text-opacity: 1 !important;
+  color: rgb(169 28 131 / var(--tw-text-opacity)) !important;
+}
+
 .\!text-red-500 {
   --tw-text-opacity: 1 !important;
   color: rgb(239 68 68 / var(--tw-text-opacity)) !important;
@@ -1826,24 +1814,6 @@ video {
 
 .text-white\/80 {
   color: rgb(255 255 255 / 0.8);
-}
-
-.text-\[\] {
-  color: ;
-}
-
-.text-\[\#\] {
-  color: #;
-}
-
-.text-\[\#A91C83\] {
-  --tw-text-opacity: 1;
-  color: rgb(169 28 131 / var(--tw-text-opacity));
-}
-
-.\!text-\[\#A91C83\] {
-  --tw-text-opacity: 1 !important;
-  color: rgb(169 28 131 / var(--tw-text-opacity)) !important;
 }
 
 .opacity-0 {
@@ -2110,6 +2080,11 @@ video {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.hover\:text-text:hover {
+  --tw-text-opacity: 1;
+  color: rgb(var(--text) / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
