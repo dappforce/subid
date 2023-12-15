@@ -13,7 +13,6 @@ import { useChatContext } from '../providers/ChatContext'
 import { isCreatorStakingPage } from '../utils'
 import { useRouter } from 'next/router'
 import { getCurrentWallet } from '../utils'
-import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 
 const creatorsHubId = '1218'
 
@@ -73,7 +72,6 @@ export default function ChatIframe ({
   onUnreadCountChange,
   ...props
 }: ChatIframeProps) {
-  const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
   const sendEventRef = useWrapInRef(sendEvent)
   const { spaceId, metadata } = useChatContext()
@@ -123,8 +121,7 @@ export default function ChatIframe ({
     return () => {
       if (listener) grill.removeMessageListener(eventListener)
     }
-    // reload grill widget when user changes to update the wallet data
-  }, [ spaceId, pathname, myAddress ])
+  }, [ spaceId, pathname ])
 
   return (
     <div
