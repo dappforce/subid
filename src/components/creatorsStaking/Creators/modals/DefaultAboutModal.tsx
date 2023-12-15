@@ -12,29 +12,29 @@ type DefaultAboutModalProps = {
 const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
-  const [ openDefaultAboutModal, setOpenDefaultAboutModal ] = useState(false)
+  const [openDefaultAboutModal, setOpenDefaultAboutModal] = useState(false)
   const creatorsList = useCreatorsList()
 
   const creatorsSpaceIds = creatorsList?.map(({ id }) => id)
 
-  const isCreator = defaultSpaceId && creatorsSpaceIds?.includes(defaultSpaceId)
+  const isCreator =
+    defaultSpaceId && creatorsSpaceIds?.includes(defaultSpaceId?.toString())
 
   const backerInfo = useBackerInfo(defaultSpaceId, myAddress)
-  
+
   const { info } = backerInfo || {}
-  
-  // const { backersCount, totalStaked: total } = eraStakeInfo || {}
+
   const { totalStaked } = info || {}
-  
+
   const isStake = totalStaked === '0'
-  
+
   useEffect(() => {
     if (defaultSpaceId && isCreator) {
       setOpenDefaultAboutModal(true)
     }
-  }, [])
+  }, [creatorsSpaceIds?.join(',')])
 
-  if(!defaultSpaceId || !isCreator) return null
+  if (!defaultSpaceId || !isCreator) return null
 
   return (
     <AboutModal
