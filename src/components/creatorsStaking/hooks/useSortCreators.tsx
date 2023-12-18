@@ -15,8 +15,8 @@ const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
   const entries = Object.entries(data)
 
   return entries
-    .sort(([_, a], [__, b]) => new BN(b[field]).minus(a[field]).toNumber())
-    .map(([key]) => key)
+    .sort(([ _, a ], [ __, b ]) => new BN(b[field]).minus(a[field]).toNumber())
+    .map(([ key ]) => key)
 }
 
 export const useSortBy = (
@@ -27,7 +27,7 @@ export const useSortBy = (
   const myAddress = useMyAddress()
   const backersInfo = useBackerInfoBySpaces(spaceIds, myAddress)
   const eraStakes = useEraStakesByIds(spaceIds, era)
-  const [shuffledSpaceIds, setShuffledSpaceIds] = useState<string[]>()
+  const [ shuffledSpaceIds, setShuffledSpaceIds ] = useState<string[]>()
 
   const sortedSpaceIds = useMemo(() => {
     if (!backersInfo || !eraStakes) return spaceIds

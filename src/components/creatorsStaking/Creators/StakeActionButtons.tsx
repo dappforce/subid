@@ -66,7 +66,7 @@ const StakeActionButtons = ({
     stakes.length >= parseInt(maxEraStakeValues) - 1
 
   const buttons = (
-    <div className='flex gap-4 md:flex-row flex-col'>
+    <div className='flex gap-4'>
       <Button
         onClick={() => onButtonClick(isStake ? 'stake' : 'increaseStake')}
         variant='primaryOutline'
@@ -82,6 +82,7 @@ const StakeActionButtons = ({
           panelClassName='!w-32'
           itemClassName='my-[2px]'
           openUnstakeModal={() => onButtonClick('unstake')}
+          disabled={disableButtons}
           openMoveStakeModal={() => {
             onOpenMoveStakeModal()
           }}

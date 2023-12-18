@@ -12,6 +12,7 @@ type FloatingMenuItemProps = {
   openUnstakeModal: () => void
   openMoveStakeModal: () => void
   buttonsSize?: 'sm' | 'lg' | 'md'
+  disabled?: boolean
 }
 
 const StakeActionButtonsMenu = ({
@@ -21,6 +22,7 @@ const StakeActionButtonsMenu = ({
   openUnstakeModal,
   openMoveStakeModal,
   buttonsSize = 'sm',
+  disabled
 }: FloatingMenuItemProps) => {
   const [ isOpen, setIsOpen ] = useState(false)
 
@@ -68,6 +70,7 @@ const StakeActionButtonsMenu = ({
           <Button
             variant='outlined'
             size={'circle'}
+            disabled={disabled}
             className={clsx('w-fit h-full', {
               ['p-4']: buttonsSize === 'lg',
               ['p-2']: buttonsSize === 'sm',
