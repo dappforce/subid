@@ -29,6 +29,8 @@ function generateGrillConfig ({
 
   const isCreatorStaking = isCreatorStakingPage()
 
+  console.log(isCreatorStaking, window.location.href)
+
   // TODO: remove this hack and improve the config for using hub instead of channel
   const hub = isCreatorStaking || spaceId ? { id: creatorsHubId } : { id: hubId }
 

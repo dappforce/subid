@@ -15,7 +15,7 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   const { amount, setAmount } = useModalContext()
   const [ openDefaultAboutModal, setOpenDefaultAboutModal ] = useState(false)
   const creatorsList = useCreatorsList()
-  const router = useRouter()  
+  const router = useRouter()
 
   const creatorsSpaceIds = creatorsList?.map(({ id }) => id)
 
@@ -36,10 +36,10 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
     }
 
     if (defaultSpaceId && !isCreator) {
-      const query = router.query  
+      const query = router.query
 
-      if(query.creator) {
-        router.replace('/creators')
+      if (query.creator) {
+        router.replace('/creators', '/creators', { scroll: false })
       }
     }
   }, [ creatorsSpaceIds?.join(',') ])

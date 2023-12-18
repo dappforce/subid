@@ -17,6 +17,7 @@ import clsx from 'clsx'
 import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import AccountPreview from '../AccountPreview'
+import { useRouter } from 'next/router'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -136,7 +137,7 @@ const modalData = {
     modalButton: 'Increase',
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
-  }
+  },
 }
 
 type StakeModalProps = {
@@ -162,6 +163,7 @@ const StakingModal = ({
   const betaversionAgreement = store.get(
     betaVersionAgreementStorageName
   ) as boolean
+  const router = useRouter()
 
   useEffect(() => {
     if (open) {
@@ -196,6 +198,12 @@ const StakingModal = ({
       title={title}
       withCloseButton
       closeModal={() => {
+        const query = router.query
+
+        if (query.creator) {
+          router.replace('/creators', '/creators', { scroll: false })
+        }
+
         closeModal()
       }}
     >
