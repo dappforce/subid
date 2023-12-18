@@ -27,6 +27,9 @@ import {
 import { showParsedErrorMessage } from 'src/components/utils'
 import { useModalContext } from '../../contexts/ModalContext'
 import store from 'store'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
+import getAmountRange from '../../utils/getAmountRangeForAnalytics'
+import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 export type CommonTxButtonProps = {
   amount?: string
@@ -38,6 +41,8 @@ export type CommonTxButtonProps = {
   modalVariant?: StakingModalVariant
   inputError?: string
   disabled?: boolean
+  eventSource?: string
+  onClick?: () => void
 }
 
 type StakingTxButtonProps = CommonTxButtonProps & {
@@ -52,6 +57,7 @@ function StakingTxButton ({
   disabled,
   tx,
   closeModal,
+  onClick,
   modalVariant,
   inputError,
 }: StakingTxButtonProps) {
@@ -110,6 +116,7 @@ function StakingTxButton ({
       tx={tx}
       disabled={disableButton}
       component={Component}
+      onClick={onClick}
       params={buildParams}
       onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
@@ -119,6 +126,8 @@ function StakingTxButton ({
 
 export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
+  const sendEvent = useSendEvent()
+  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
   const balancesByCurrency = useBalancesByNetwork({
     address: myAddress,
@@ -133,6 +142,12 @@ export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   return (
     <StakingTxButton
       {...props}
+      onClick={() =>
+        sendEvent('cs_stake_increase', {
+          amountRange: getAmountRange(decimal, props.amount),
+          eventSource: props.eventSource,
+        })
+      }
       disabled={availableBalance.isZero() || props.disabled}
       tx='creatorStaking.stake'
     />
@@ -143,6 +158,8 @@ export function UnstakeTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
   const backerInfo = useBackerInfo(props.spaceId, myAddress)
   const { info } = backerInfo || {}
+  const sendEvent = useSendEvent()
+  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
 
   const { totalStaked } = info || {}
 
@@ -151,6 +168,12 @@ export function UnstakeTxButton (props: CommonTxButtonProps) {
       {...props}
       disabled={!totalStaked || new BN(totalStaked).isZero() || props.disabled}
       tx='creatorStaking.unstake'
+      onClick={() => {
+        sendEvent('cs_stake_increase', {
+          amountRange: getAmountRange(decimal, props.amount),
+          eventSource: props.eventSource,
+        })
+      }}
     />
   )
 }
@@ -163,6 +186,7 @@ type MoveStakeTxButtonProps = {
   inputError?: string
   disabled?: boolean
   closeModal: () => void
+  eventSource?: string
 }
 
 export function MoveStakeTxButton ({
@@ -173,10 +197,12 @@ export function MoveStakeTxButton ({
   inputError,
   disabled,
   closeModal,
+  eventSource,
 }: MoveStakeTxButtonProps) {
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
   const eraInfo = useGeneralEraInfo()
+  const sendEvent = useSendEvent()
 
   const onSuccess = () => {
     if (!spaceIdTo) return
@@ -225,6 +251,14 @@ export function MoveStakeTxButton ({
       disabled={disableButton}
       component={Component}
       params={buildParams}
+      onClick={() =>
+        sendEvent('cs_stake_increase', {
+          from: spaceIdFrom,
+          to: spaceIdTo,
+          amountRange: getAmountRange(decimal, amount),
+          eventSource: eventSource,
+        })
+      }
       onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
     />

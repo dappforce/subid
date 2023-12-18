@@ -145,6 +145,7 @@ type StakeModalProps = {
   spaceId: string
   modalVariant: StakingModalVariant
   amount?: string
+  eventSource?: string
   setAmount: (amount: string) => void
 }
 
@@ -155,6 +156,7 @@ const StakingModal = ({
   modalVariant,
   setAmount,
   amount,
+  eventSource
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   const [ inputError, setInputError ] = useState<string | undefined>(undefined)
@@ -231,6 +233,7 @@ const StakingModal = ({
           decimal={decimal}
           spaceId={spaceId}
           label={modalButton}
+          eventSource={eventSource}
           tokenSymbol={tokenSymbol}
           closeModal={closeModal}
           modalVariant={modalVariant}

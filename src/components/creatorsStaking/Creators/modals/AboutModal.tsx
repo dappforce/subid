@@ -89,6 +89,7 @@ const AboutModal = ({
         closeModal={() => setOpenStakeModal(false)}
         spaceId={spaceId}
         modalVariant={modalVariant}
+        eventSource='about-modal'
         amount={amount}
         setAmount={setAmount}
       />

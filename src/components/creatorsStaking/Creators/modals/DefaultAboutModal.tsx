@@ -5,6 +5,7 @@ import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { useModalContext } from '../../contexts/ModalContext'
 import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
 import { useRouter } from 'next/router'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type DefaultAboutModalProps = {
   defaultSpaceId?: string
@@ -15,7 +16,8 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   const { amount, setAmount } = useModalContext()
   const [ openDefaultAboutModal, setOpenDefaultAboutModal ] = useState(false)
   const creatorsList = useCreatorsList()
-  const router = useRouter()  
+  const router = useRouter() 
+  const sendEvent = useSendEvent() 
 
   const creatorsSpaceIds = creatorsList?.map(({ id }) => id)
 
@@ -33,6 +35,7 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   useEffect(() => {
     if (defaultSpaceId && isCreator) {
       setOpenDefaultAboutModal(true)
+      sendEvent('cs_about_modal_opened', { value: defaultSpaceId })
     }
 
     if (defaultSpaceId && !isCreator) {
