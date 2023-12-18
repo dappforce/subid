@@ -82,7 +82,7 @@ const CreatorsStaking = ({ defaultSpaceId }: CreatorsStakingProps) => {
           )}
 
           <StakingInfoBanner />
-          <CreatorsSection />
+          <CreatorsSection defaultSpaceId={defaultSpaceId} />
         </div>
       </StakingContextWrapper>
     </div>

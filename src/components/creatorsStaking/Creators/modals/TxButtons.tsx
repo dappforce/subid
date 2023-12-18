@@ -78,7 +78,7 @@ function StakingTxButton ({
   }
 
   const buildParams = () => {
-    const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
     return [ spaceId, amountWithDecimals.toString() ]
   }

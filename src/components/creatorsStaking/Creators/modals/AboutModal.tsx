@@ -26,9 +26,9 @@ const AboutModal = ({
 }: AboutModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
 
-  const [openStakeModal, setOpenStakeModal] = useState(false)
-  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
-  const [openMoveStakeModal, setOpenMoveStakeModal] = useState(false)
+  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
   const router = useRouter()
 
   const { space } = creatorSpaceEntity || {}

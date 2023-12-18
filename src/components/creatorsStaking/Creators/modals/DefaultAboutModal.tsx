@@ -4,6 +4,7 @@ import { useBackerInfo } from '@/rtk/features/creatorStaking/backerInfo/backerIn
 import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { useModalContext } from '../../contexts/ModalContext'
 import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { useRouter } from 'next/router'
 
 type DefaultAboutModalProps = {
   defaultSpaceId?: string
@@ -12,8 +13,9 @@ type DefaultAboutModalProps = {
 const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
-  const [openDefaultAboutModal, setOpenDefaultAboutModal] = useState(false)
+  const [ openDefaultAboutModal, setOpenDefaultAboutModal ] = useState(false)
   const creatorsList = useCreatorsList()
+  const router = useRouter()  
 
   const creatorsSpaceIds = creatorsList?.map(({ id }) => id)
 
@@ -32,7 +34,15 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
     if (defaultSpaceId && isCreator) {
       setOpenDefaultAboutModal(true)
     }
-  }, [creatorsSpaceIds?.join(',')])
+
+    if (defaultSpaceId && !isCreator) {
+      const query = router.query  
+
+      if(query.creator) {
+        router.replace('/creators')
+      }
+    }
+  }, [ creatorsSpaceIds?.join(',') ])
 
   if (!defaultSpaceId || !isCreator) return null
 

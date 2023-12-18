@@ -22,7 +22,7 @@ import SuccessModal from './modals/SuccessModal'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import { betaVersionAgreementStorageName } from './modals/StakeModal'
 import store from 'store'
-import DefaultAboutModal from './modals/DefaultAboutModal';
+import DefaultAboutModal from './modals/DefaultAboutModal'
 
 // const DEFAULT_PAGE_SIZE = 9
 
@@ -91,9 +91,9 @@ const CreatorsSectionInner = ({
   era,
   defaultSpaceId,
 }: CreatorsSectionInnerProps) => {
-  const [tab, setTab] = useState(0)
+  const [ tab, setTab ] = useState(0)
   const myAddress = useMyAddress()
-  const [sortBy, changeSortBy] = useState('default')
+  const [ sortBy, changeSortBy ] = useState('default')
   const { showSuccessModal, setShowSuccessModal, amount, stakedSpaceId } =
     useModalContext()
   const creatorsList = useCreatorsList()
@@ -104,7 +104,7 @@ const CreatorsSectionInner = ({
       !!creatorsList?.find(
         (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
       ),
-    [creatorsList?.length]
+    [ creatorsList?.length ]
   )
 
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
@@ -115,7 +115,7 @@ const CreatorsSectionInner = ({
     } else {
       store.set(betaVersionAgreementStorageName, false)
     }
-  }, [myCreatorsIds.length, myAddress])
+  }, [ myCreatorsIds.length, myAddress ])
 
   const tabs: TabsProps['tabs'] = [
     {
