@@ -6,6 +6,7 @@ import { useBackerInfoBySpaces } from 'src/rtk/features/creatorStaking/backerInf
 import { useEraStakesByIds } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { useMemo, useState } from 'react'
 import { shuffle } from 'lodash'
+import { isEmptyArray } from '@subsocial/utils'
 
 const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
   data: T,
@@ -38,13 +39,23 @@ export const useSortBy = (
     } else if (sortBy === 'my-stake') {
       return sortValues(backersInfo, 'totalStaked')
     } else {
-      if (!shuffledSpaceIds?.length) {
+      const isNewSpaceIdsArr = !isEmptyArray(
+        spaceIds?.filter((spaceId) => shuffledSpaceIds?.includes(spaceId)) || []
+      )
+
+      if (!shuffledSpaceIds?.length && isNewSpaceIdsArr) {
         setShuffledSpaceIds(shuffle(spaceIds))
       }
 
       return shuffledSpaceIds
     }
-  }, [ sortBy, backersInfo, eraStakes, myAddress ])
+  }, [
+    sortBy,
+    JSON.stringify(backersInfo || {}),
+    spaceIds,
+    eraStakes,
+    myAddress,
+  ])
 
   return sortedSpaceIds
 }

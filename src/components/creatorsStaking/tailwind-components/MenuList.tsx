@@ -48,7 +48,7 @@ type Menu = {
   onClick?: () => void
   href?: string
   disabled?: boolean
-  itemClassName?: string
+  className?: string
 }
 export type MenuListProps = ComponentProps<'div'> &
   VariantProps<typeof menuListStyles> & {
@@ -60,7 +60,7 @@ export default function MenuList ({ menus, size, itemClassName, ...props }: Menu
   return (
     <div {...props} className={clsx(menuListStyles({ size }), props.className)}>
       {menus.map(
-        ({ icon: Icon, onClick, text, href, iconClassName, disabled }, idx) => (
+        ({ icon: Icon, onClick, text, href, iconClassName, disabled, className }, idx) => (
           <Button
             key={idx}
             href={href}
@@ -70,7 +70,7 @@ export default function MenuList ({ menus, size, itemClassName, ...props }: Menu
             size='noPadding'
             disabled={disabled}
             interactive='none'
-            className={clsx(menuListItemStyles({ size }), itemClassName, 'text-left')}
+            className={clsx(menuListItemStyles({ size }), itemClassName, className, 'text-left')}
             disabledStyle='subtle'
             onClick={onClick}
           >

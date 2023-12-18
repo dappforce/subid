@@ -7,7 +7,7 @@ const inputStyles = cva('', {
     variant: {
       fill: 'bg-background-light',
       'fill-bg': 'bg-background ring-1 ring-border-gray',
-      outlined: 'ring-1 ring-background-lightest bg-transparent',
+      outlined: 'ring-1 ring-background-lightest',
     },
     pill: {
       true: 'rounded-3xl',
@@ -85,8 +85,8 @@ export default function FieldWrapper ({
 }: FieldWrapperProps) {
   const commonClassNames = clsx(
     'transition duration-150',
-    'dark:hover:brightness-110 hover:brightness-105',
-    'dark:focus-visible:brightness-110 focus-visible:brightness-105',
+    'dark:hover:brightness-110',
+    'dark:focus-visible:brightness-110',
     'disabled:cursor-not-allowed disabled:brightness-90 dark:disabled:brightness-75',
     inputStyles({ pill, variant, size, containsRightElement: !!rightElement }),
     interactionRingStyles()

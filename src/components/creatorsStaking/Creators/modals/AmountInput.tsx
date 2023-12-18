@@ -23,18 +23,19 @@ type CommonAmountInputProps = {
   inputError?: string
   setInputError: (error?: string) => void
   amount: string
-  tokenSymbol: string
+  tokenSymbol?: string
   decimals?: number
   label: string
-  balanceLabel: string
-  spaceId: string
-  modalVariant: StakingModalVariant
+  balanceLabel?: string
+  spaceId?: string
+  modalVariant?: StakingModalVariant
 }
 
 type AmountInputProps = CommonAmountInputProps & {
-  balanceValue: JSX.Element
+  balanceValue?: JSX.Element
   validateInput: (amountValue: string) => void
   onMaxAmountClick?: () => void
+  className?: string
 }
 
 export const StakeOrIncreaseStakeAmountInput = (
@@ -202,7 +203,7 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
   )
 }
 
-const AmountInput = ({
+export const AmountInput = ({
   amount,
   setAmount,
   inputError,
@@ -211,6 +212,7 @@ const AmountInput = ({
   balanceValue,
   onMaxAmountClick,
   validateInput,
+  className
 }: AmountInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -232,12 +234,12 @@ const AmountInput = ({
     <div>
       <div className='mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted'>
         <div>{label}</div>
-        <div>
+        {balanceValue && <div>
           {balanceLabel}:{' '}
           <span className={clsx('font-semibold text-black')}>
             {balanceValue}
           </span>
-        </div>
+        </div>}
       </div>
       <Input
         ref={inputRef}
@@ -268,7 +270,8 @@ const AmountInput = ({
           'focus:outline-none focus:ring-1 focus:ring-indigo-500',
           'hover:outline-none hover:ring-1 hover:ring-indigo-500',
           'focus-visible:!ring-1 focus-visible:ring-indigo-500',
-          'bg-slate-200 text-black'
+          '!bg-[#FAFBFF] hover:bg-[#FAFBFF] text-black',
+          className
         )}
       />
     </div>

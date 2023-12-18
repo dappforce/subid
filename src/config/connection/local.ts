@@ -2,7 +2,7 @@ const local = {
   useOffchainForIpfs: true,
   dagHttpMethod: 'post',
   offchainUrl: 'http://localhost:3002',
-  ipfsUrl: 'http://localhost:8080'
+  ipfsUrl: 'https://ipfs.subsocial.network'
 }
 
 export default local

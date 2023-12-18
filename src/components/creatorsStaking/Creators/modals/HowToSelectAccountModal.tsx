@@ -4,6 +4,7 @@ import Button from '../../tailwind-components/Button'
 type HowToSelectAccountModalProps = {
   open: boolean
   closeModal: () => void
+  
 }
 
 const HowToSelectAccountModal = ({

@@ -1,8 +1,11 @@
-import clsx from 'clsx'
+import { ReactNode } from 'react'
 import MenuList, { MenuListProps } from '../MenuList'
 import FloatingWrapper, { FloatingWrapperProps } from './FloatingWrapper'
+import clsx from 'clsx'
 
 type FloatingMenuItemProps = {
+  beforeMenus?: ReactNode
+  afterMenus?: ReactNode
   menus: MenuListProps['menus']
   closeMenu: () => void
   panelClassName?: string
@@ -15,26 +18,20 @@ export type FloatingMenusProps = Omit<FloatingWrapperProps, 'panel'> &
     ) => JSX.Element
   }
 
-export default function FloatingMenus ({
-  children,
-  panelClassName,
-  panelSize,
-  ...props
-}: FloatingMenusProps) {
-  if (props.menus.length === 0) {
+export default function FloatingMenus (props: FloatingMenusProps) {
+  const {
+    children,
+    ...otherProps
+  } = props
+  if (otherProps.menus.length === 0) {
     return children()
   }
 
   return (
     <FloatingWrapper
-      {...props}
+      {...otherProps}
       panel={(closeMenu) => (
-        <FloatingMenuPanel
-          closeMenu={closeMenu}
-          menus={props.menus}
-          panelClassName={panelClassName}
-          panelSize={panelSize}
-        />
+        <FloatingMenuPanel {...props} closeMenu={closeMenu} />
       )}
     >
       {children}
@@ -47,6 +44,8 @@ function FloatingMenuPanel ({
   closeMenu,
   panelClassName,
   panelSize = 'sm',
+  afterMenus,
+  beforeMenus,
 }: FloatingMenuItemProps) {
   const augmentedMenus = menus.map((menu) => ({
     ...menu,
@@ -57,15 +56,16 @@ function FloatingMenuPanel ({
   }))
 
   return (
-    <MenuList
-      size={panelSize}
+    <div
       className={clsx(
-        'overflow-hidden rounded-lg bg-background-light',
-        'shadow-[0_5px_50px_-12px_rgb(0,0,0,.25)] dark:shadow-[0_5px_50px_-12px_rgb(0,0,0)]',
-        panelSize === 'xs' ? 'w-44' : 'w-52',
+        'flex flex-col overflow-hidden rounded-lg bg-background-light shadow-[0_5px_50px_-12px_rgb(0,0,0,.25)] dark:shadow-[0_5px_50px_-12px_rgb(0,0,0)]',
+        panelSize === 'xs' ? 'w-48' : 'w-56',
         panelClassName
       )}
-      menus={augmentedMenus}
-    />
+    >
+      {beforeMenus}
+      <MenuList size={panelSize} menus={augmentedMenus} />
+      {afterMenus}
+    </div>
   )
 }

@@ -10,12 +10,14 @@ import { Tooltip } from 'antd'
 import clsx from 'clsx'
 import HowToSelectAccountModal from './modals/HowToSelectAccountModal'
 import { useState } from 'react'
+import StakeActionButtonsMenu from './StakeActionButtonsMenu'
 
 type StakeButtonProps = {
   spaceId: string
   isStake: boolean
   buttonsSize?: 'sm' | 'lg' | 'md'
-  openModal: () => void
+  openStakeModal: () => void
+  openMoveStakeModal: () => void
   setModalVariant: (variant: StakingModalVariant) => void
   onClick?: () => void
   className?: string
@@ -25,10 +27,11 @@ const StakeActionButtons = ({
   spaceId,
   isStake,
   buttonsSize = 'sm',
-  openModal,
+  openStakeModal,
   setModalVariant,
   onClick,
   className,
+  openMoveStakeModal,
 }: StakeButtonProps) => {
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
@@ -48,7 +51,12 @@ const StakeActionButtons = ({
   const onButtonClick = (modalVariant: StakingModalVariant) => {
     onClick?.()
     setModalVariant(modalVariant)
-    openModal()
+    openStakeModal()
+  }
+
+  const onOpenMoveStakeModal = () => {
+    onClick?.()
+    openMoveStakeModal()
   }
 
   const disableButtons =
@@ -58,7 +66,7 @@ const StakeActionButtons = ({
     stakes.length >= parseInt(maxEraStakeValues) - 1
 
   const buttons = (
-    <div className='flex gap-4 md:flex-row flex-col'>
+    <div className='flex gap-4'>
       <Button
         onClick={() => onButtonClick(isStake ? 'stake' : 'increaseStake')}
         variant='primaryOutline'
@@ -69,15 +77,17 @@ const StakeActionButtons = ({
         {label}
       </Button>
       {!isStake && myAddress && (
-        <Button
-          variant='outlined'
-          className={clsx('w-full', className)}
-          size={buttonsSize}
-          onClick={() => onButtonClick('unstake')}
+        <StakeActionButtonsMenu
+          panelSize='xs'
+          panelClassName='!w-32'
+          itemClassName='my-[2px]'
+          openUnstakeModal={() => onButtonClick('unstake')}
           disabled={disableButtons}
-        >
-          Unstake
-        </Button>
+          openMoveStakeModal={() => {
+            onOpenMoveStakeModal()
+          }}
+          buttonsSize={buttonsSize}
+        />
       )}
     </div>
   )

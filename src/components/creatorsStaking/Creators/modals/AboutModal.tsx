@@ -4,6 +4,7 @@ import StakeActionButtons from '../StakeActionButtons'
 import StakingModal, { StakingModalVariant } from './StakeModal'
 import { useState } from 'react'
 import AccountPreview from '../AccountPreview'
+import MoveStakeModal from './MoveStakeModal'
 
 type AboutModalProps = {
   open: boolean
@@ -26,6 +27,7 @@ const AboutModal = ({
 
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
 
   const { space } = creatorSpaceEntity || {}
 
@@ -34,6 +36,7 @@ const AboutModal = ({
   return (
     <>
       <Modal
+        key={'about-modal'}
         isOpen={open}
         withFooter={false}
         title={'ℹ️ About'}
@@ -56,7 +59,8 @@ const AboutModal = ({
             spaceId={spaceId}
             isStake={isStake}
             buttonsSize='lg'
-            openModal={() => setOpenStakeModal(true)}
+            openStakeModal={() => setOpenStakeModal(true)}
+            openMoveStakeModal={() => setOpenMoveStakeModal(true)}
             setModalVariant={setModalVariant}
             onClick={() => closeModal()}
             className='text-base'
@@ -70,6 +74,11 @@ const AboutModal = ({
         modalVariant={modalVariant}
         amount={amount}
         setAmount={setAmount}
+      />
+      <MoveStakeModal
+        open={openMoveStakeModal}
+        closeModal={() => setOpenMoveStakeModal(false)}
+        defaultCreatorFrom={spaceId}
       />
     </>
   )

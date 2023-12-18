@@ -19,6 +19,8 @@ import { Tooltip } from 'antd'
 import FloatingWrapper from '../tailwind-components/floating/FloatingWrapper'
 import { pluralize } from '@subsocial/utils'
 import { MdArrowOutward } from 'react-icons/md'
+// import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
+import MoveStakeModal from './modals/MoveStakeModal'
 
 type CreatorNameProps = {
   name?: string
@@ -99,10 +101,7 @@ type CreatorCardProps = {
   era?: string
 }
 
-const CreatorCard = ({
-  spaceId,
-}: // era
-CreatorCardProps) => {
+const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   const myAddress = useMyAddress()
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
@@ -111,6 +110,7 @@ CreatorCardProps) => {
   const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ openAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ openMoveStakeModal, setOpenMoveStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
@@ -166,7 +166,7 @@ CreatorCardProps) => {
     </div>
   )
 
-  const contactInfo = { email, links: links?.filter(x => x !== 'null') }
+  const contactInfo = { email, links: links?.filter((x) => x !== 'null') }
 
   const onChatButtonClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -191,7 +191,8 @@ CreatorCardProps) => {
         target='_blank'
         rel='noreferrer'
         className={clsx(
-          'text-[#64748B] text-sm font-normal hover:text-text-primary [&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
+          'text-[#64748B] text-sm font-normal hover:text-text-primary w-fit',
+          '[&>svg]:hover:text-text-primary leading-none duration-0 flex items-center gap-1'
         )}
       >
         {pluralize({
@@ -289,8 +290,9 @@ CreatorCardProps) => {
           spaceId={spaceId}
           isStake={isStake}
           buttonsSize='sm'
-          openModal={() => setOpenStakeModal(true)}
+          openStakeModal={() => setOpenStakeModal(true)}
           setModalVariant={setModalVariant}
+          openMoveStakeModal={() => setOpenMoveStakeModal(true)}
         />
       </div>
       <AboutModal
@@ -308,6 +310,11 @@ CreatorCardProps) => {
         modalVariant={modalVariant}
         amount={amount}
         setAmount={setAmount}
+      />
+      <MoveStakeModal
+        open={openMoveStakeModal}
+        closeModal={() => setOpenMoveStakeModal(false)}
+        defaultCreatorFrom={spaceId}
       />
     </>
   )
