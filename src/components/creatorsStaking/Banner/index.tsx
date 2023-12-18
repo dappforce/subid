@@ -87,10 +87,11 @@ const Banner = () => {
       >
         <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
           <div className='flex flex-col gap-2 text-white md:items-start items-center'>
-            <div className='text-4xl md:text-left text-center UnboundedFont'>Creator Staking Beta</div>
+            <div className='text-4xl md:text-left text-center UnboundedFont'>
+              Creator Staking Beta
+            </div>
             <div className='text-[20px] md:text-left text-center'>
-              An innovative way to stake for your favorite dapp and content
-              creators
+              Generate rewards for both you and creators by staking SUB towards them
             </div>
           </div>
 
@@ -98,7 +99,7 @@ const Banner = () => {
             variant='white'
             size='sm'
             target='_blank'
-            href='https://docs.subsocial.network/docs/basics/staking/overview'
+            href='https://docs.subsocial.network/docs/basics/creator-staking/'
           >
             <span className='flex gap-2 items-center py-1'>
               <AiOutlineQuestionCircle size={20} /> How does it work?

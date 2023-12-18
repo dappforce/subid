@@ -12,6 +12,7 @@ import {
 import { useChatContext } from '../providers/ChatContext'
 import { isCreatorStakingPage } from '../utils'
 import { useRouter } from 'next/router'
+import { getCurrentWallet } from '../utils'
 
 const creatorsHubId = '1218'
 
@@ -81,6 +82,10 @@ export default function ChatIframe ({
     const config = generateGrillConfig({ spaceId, metadata })
 
     config.onWidgetCreated = (iframe) => {
+      const currentWallet = getCurrentWallet()
+      if (currentWallet) {
+        iframe.src = `${iframe.src}&wallet=${currentWallet}`
+      }
       iframe.onerror = () => {
         sendEventRef.current('chat_widget_error')
       }

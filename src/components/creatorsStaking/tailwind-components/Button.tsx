@@ -13,7 +13,7 @@ export const buttonStyles = cva('relative rounded-full transition leading-[22px]
       primaryOutline:
         'bg-transparent border border-background-primary !text-text-primary',
       whiteOutline: 'bg-transparent border border-white text-text',
-      white: 'bg-white !text-text',
+      white: 'bg-white text-text hover:text-text',
       mutedOutline: 'bg-transparent border border-text-muted text-text-muted',
       transparent: 'bg-transparent',
       redOutline: 'bg-transparent border border-text-red',
