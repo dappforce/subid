@@ -99,7 +99,7 @@ const Banner = () => {
             variant='white'
             size='sm'
             target='_blank'
-            href='https://docs.subsocial.network/docs/basics/staking/overview'
+            href='https://docs.subsocial.network/docs/basics/creator-staking/'
           >
             <span className='flex gap-2 items-center py-1'>
               <AiOutlineQuestionCircle size={20} /> How does it work?
