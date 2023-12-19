@@ -53,15 +53,22 @@ const SuccessModal = ({
       )}
     >
       <div className='flex gap-4 items-center text-start'>
-        {!isMobile && <div className='text-blue-400'>
-          <MdInfo size={24} />
-        </div>}
+        {!isMobile && (
+          <div className='text-blue-400'>
+            <MdInfo size={24} />
+          </div>
+        )}
         <div className='max-w-[260px]'>
           Earn more SUB based on your social activity.
         </div>
       </div>
       <div>
-        <Button variant='primary' href='' className='w-max md:!px-6 !px-4 text-sm' size='md'>
+        <Button
+          variant='primary'
+          href='https://subsocial.network/active-staking-details'
+          className='w-max md:!px-6 !px-4 text-sm'
+          size='md'
+        >
           Learn more
         </Button>
       </div>

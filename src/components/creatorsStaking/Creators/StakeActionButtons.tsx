@@ -110,8 +110,6 @@ const StakeActionButtons = ({
     </div>
   )
 
-  console.log(myAddress)
-
   const tooltipText = !myAddress
     ? 'Connect your wallet'
     : 'Claim your rewards first'

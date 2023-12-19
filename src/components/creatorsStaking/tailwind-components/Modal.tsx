@@ -50,7 +50,7 @@ export type ModalProps = ModalFunctionalityProps &
     subModalContent?: React.ReactNode
   }
 
-export default function Modal({
+export default function Modal ({
   children,
   titleClassName,
   contentClassName,
