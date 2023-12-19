@@ -17,7 +17,7 @@ import clsx from 'clsx'
 import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import AccountPreview from '../AccountPreview'
-import { useRouter } from 'next/router'
+import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -163,7 +163,7 @@ const StakingModal = ({
   const betaversionAgreement = store.get(
     betaVersionAgreementStorageName
   ) as boolean
-  const router = useRouter()
+  const redirectToCreatorsPage = useRedirectToCreatorsPage()
 
   useEffect(() => {
     if (open) {
@@ -198,11 +198,7 @@ const StakingModal = ({
       title={title}
       withCloseButton
       closeModal={() => {
-        const query = router.query
-
-        if (query.creator) {
-          router.replace('/creators', '/creators', { scroll: false })
-        }
+        redirectToCreatorsPage()
 
         closeModal()
       }}

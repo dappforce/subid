@@ -20,7 +20,7 @@ import {
 import { BIGNUMBER_ZERO } from '@/config/app/consts'
 import BN from 'bignumber.js'
 import UserIcon from '@/assets/icons/user-icon.svg'
-import { useRouter } from 'next/router'
+import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
 
 type MoveStakeModalProps = {
   open: boolean
@@ -36,7 +36,7 @@ const MoveStakeModal = ({
   const myAddress = useMyAddress()
   const creatorsList = useCreatorsList()
   const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
-  const router = useRouter()
+  const redirectToCreatorsPage = useRedirectToCreatorsPage()
 
   const spaceIds = creatorsList?.map((item) => item.creator.spaceId)
   const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
@@ -132,11 +132,7 @@ const MoveStakeModal = ({
       title={'🌟 Move Stake'}
       withCloseButton
       closeModal={() => {
-        const query = router.query
-
-        if (query.creator) {
-          router.replace('/creators', '/creators', { scroll: false })
-        }
+        redirectToCreatorsPage()
         closeModal()
       }}
     >

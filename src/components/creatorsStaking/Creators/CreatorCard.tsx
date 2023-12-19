@@ -97,6 +97,12 @@ const CreatorCardValue = ({
   )
 }
 
+const buildCreatorLinks = (spaceId: string, domain?: string) => {
+  const domainName = domain?.replace('.sub', '')
+
+  return `/creators/${domainName ? '@' + domainName : spaceId}`
+}
+
 type CreatorCardProps = {
   spaceId: string
   era?: string
@@ -237,11 +243,9 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
           <div
             className='cursor-pointer flex flex-col gap-3'
             onClick={() => {
-              const domainName = domain?.replace('.sub', '')
-
               router.replace(
                 '/creators/[creator]',
-                `/creators/${domainName ? '@' + domainName : spaceId}`,
+                buildCreatorLinks(spaceId, domain),
                 {
                   scroll: false,
                 }
