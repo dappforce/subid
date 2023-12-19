@@ -6,6 +6,7 @@ import { CreatorPreview } from '../utils/CreatorPreview'
 import { useResponsiveSize } from 'src/components/responsive'
 import { Tooltip } from 'antd'
 import { MdArrowOutward } from 'react-icons/md'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type AccountPreviewProps = {
   space?: CreatorSpace
@@ -14,6 +15,7 @@ type AccountPreviewProps = {
 
 const AccountPreview = ({ space, spaceId }: AccountPreviewProps) => {
   const { isMobile } = useResponsiveSize()
+  const sendEvent = useSendEvent()
 
   const { name, ownedByAccount, image, email, links, postsCount } = space || {}
 
@@ -25,7 +27,10 @@ const AccountPreview = ({ space, spaceId }: AccountPreviewProps) => {
     <Tooltip title={'See their posts on Polkaverse'}>
       <a
         href={`https://polkaverse.com/${spaceId}`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation()
+          sendEvent('cs_polkaverse_link_clicked', { value: spaceId })
+        }}
         target='_blank'
         rel='noreferrer'
         className={clsx(

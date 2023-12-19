@@ -11,6 +11,7 @@ import { fetchBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/back
 import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
@@ -29,6 +30,7 @@ const ClaimRewardsTxButton = ({
   const myAddress = useMyAddress()
   const eraInfo = useGeneralEraInfo()
   const backerRewards = useBackerRewards(myAddress)
+  const sendEvent = useSendEvent()
 
   const { loading } = backerRewards || {}
 
@@ -97,6 +99,7 @@ const ClaimRewardsTxButton = ({
       accountId={myAddress}
       tx={'utility.batch'}
       disabled={disableButton}
+      onClick={() => sendEvent('cs_claim', { restake })}
       component={Component}
       params={buildParams}
       onFailed={showParsedErrorMessage}

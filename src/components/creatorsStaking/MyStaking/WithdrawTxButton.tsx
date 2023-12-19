@@ -12,6 +12,7 @@ import { useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInf
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import BN from 'bignumber.js'
 import { showParsedErrorMessage } from 'src/components/utils'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type WithdrawTxButtonProps = {
   switchToFirstTab: () => void
@@ -22,6 +23,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
   const backerLedger = useBackerLedger(myAddress)
   const eraInfo = useGeneralEraInfo()
   const dispatch = useAppDispatch()
+  const sendEvent = useSendEvent()
 
   const { ledger, loading } = backerLedger || {}
   const { currentEra } = eraInfo?.info || {}
@@ -73,6 +75,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
       tx={'creatorStaking.withdrawUnstaked'}
       disabled={!isSomeAvailable}
       component={Component}
+      onClick={() => sendEvent('cs_withdraw')}
       onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
     />

@@ -23,6 +23,7 @@ import { toGenericAccountId } from 'src/rtk/app/util'
 import { betaVersionAgreementStorageName } from './modals/StakeModal'
 import store from 'store'
 import DefaultAboutModal from './modals/DefaultAboutModal'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 // const DEFAULT_PAGE_SIZE = 9
 
@@ -52,12 +53,7 @@ const CreatorsCards = ({
     )
 
   const creatorsCards = ids.map((spaceId, i) => (
-    <CreatorCard
-      key={i}
-      spaceId={spaceId}
-      era={era}
-      {...modalProps}
-    />
+    <CreatorCard key={i} spaceId={spaceId} era={era} {...modalProps} />
   ))
 
   // const start = (page - 1) * DEFAULT_PAGE_SIZE
@@ -98,6 +94,7 @@ const CreatorsSectionInner = ({
     useModalContext()
   const creatorsList = useCreatorsList()
   const isMulti = useIsMulti()
+  const sendEvent = useSendEvent()
 
   const isCreator = useMemo(
     () =>
@@ -122,11 +119,7 @@ const CreatorsSectionInner = ({
       id: 'all-creators',
       text: 'All Creators',
       content: () => (
-        <CreatorsCards
-          spaceIds={spaceIds}
-          era={era}
-          sortBy={sortBy}
-        />
+        <CreatorsCards spaceIds={spaceIds} era={era} sortBy={sortBy} />
       ),
     },
     {
@@ -151,6 +144,7 @@ const CreatorsSectionInner = ({
               href='https://forms.gle/t3YfTtGnbVdwm7kY8'
               target='_blank'
               size={'sm'}
+              onClick={() => sendEvent('cs_apply_as_creator_clicked')}
             >
               Apply to join
             </Button>
@@ -167,7 +161,10 @@ const CreatorsSectionInner = ({
           tabsRightElement={
             <SortByDropDown
               sortBy={sortBy}
-              changeSortBy={changeSortBy}
+              changeSortBy={(sortBy) => {
+                sendEvent('cs_filter_changed', { type: sortBy })
+                changeSortBy(sortBy)
+              }}
               panelSize='xs'
               panelClassName='!w-32'
               itemClassName='my-[2px]'

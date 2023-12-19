@@ -22,6 +22,7 @@ import { MdArrowOutward } from 'react-icons/md'
 // import { useEraStakesById } from '@/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import MoveStakeModal from './modals/MoveStakeModal'
 import { useRouter } from 'next/router'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type CreatorNameProps = {
   name?: string
@@ -122,6 +123,7 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   const { setOpen, setSpaceId, setMetadata } = useChatContext()
   const cardRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const sendEvent = useSendEvent()
 
   const { space, loading: spaceLoading } = creatorSpaceEntity || {}
   // const { info: eraStakeInfo, loading: eraStakeLoading } = eraStake || {}
@@ -196,6 +198,8 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
         body: about || '',
         image: image || '',
       })
+
+      sendEvent('cs_creator_chat_clicked', { value: spaceId })
     }
   }
 
@@ -203,7 +207,10 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
     <Tooltip title={'See their posts on Polkaverse'}>
       <a
         href={`https://polkaverse.com/${spaceId}`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation()
+          sendEvent('cs_polkaverse_link_clicked', { value: spaceId })
+        }}
         target='_blank'
         rel='noreferrer'
         className={clsx(
@@ -252,6 +259,7 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
               )
 
               setOpenAboutModal(true)
+              sendEvent('cs_about_modal_opened', { value: spaceId })
             }}
           >
             <div className='w-full flex justify-between gap-2'>
@@ -333,6 +341,7 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
         open={openStakeModal}
         closeModal={() => setOpenStakeModal(false)}
         spaceId={spaceId}
+        eventSource='creator-card'
         modalVariant={modalVariant}
         amount={amount}
         setAmount={setAmount}

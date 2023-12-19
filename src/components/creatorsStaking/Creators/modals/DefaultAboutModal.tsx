@@ -4,6 +4,7 @@ import { useBackerInfo } from '@/rtk/features/creatorStaking/backerInfo/backerIn
 import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { useModalContext } from '../../contexts/ModalContext'
 import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
 
 type DefaultAboutModalProps = {
@@ -15,6 +16,7 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   const { amount, setAmount } = useModalContext()
   const [ openDefaultAboutModal, setOpenDefaultAboutModal ] = useState(false)
   const creatorsList = useCreatorsList()
+  const sendEvent = useSendEvent() 
   const redirectToCreatorsPage = useRedirectToCreatorsPage()
 
   const creatorsSpaceIds = creatorsList?.map(({ id }) => id)
@@ -33,6 +35,7 @@ const DefaultAboutModal = ({ defaultSpaceId }: DefaultAboutModalProps) => {
   useEffect(() => {
     if (defaultSpaceId && isCreator) {
       setOpenDefaultAboutModal(true)
+      sendEvent('cs_about_modal_opened', { value: defaultSpaceId })
     }
 
     if (defaultSpaceId && !isCreator) {

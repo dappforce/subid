@@ -10,6 +10,7 @@ import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
 import { useCalculateApr } from './calculateApr'
 import { useMemo } from 'react'
+import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -76,6 +77,7 @@ const StatsCards = () => {
 
 const Banner = () => {
   useFetchGeneralEraInfo()
+  const sendEvent = useSendEvent()
 
   return (
     <div className='md:!mx-4 mx-0'>
@@ -100,6 +102,7 @@ const Banner = () => {
             size='sm'
             target='_blank'
             href='https://docs.subsocial.network/docs/basics/creator-staking/'
+            onClick={() => sendEvent('cs_how_it_works_clicked')}
           >
             <span className='flex gap-2 items-center py-1'>
               <AiOutlineQuestionCircle size={20} /> How does it work?
