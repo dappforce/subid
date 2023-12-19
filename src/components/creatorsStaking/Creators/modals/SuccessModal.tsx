@@ -5,14 +5,21 @@ import { openNewWindow } from 'src/components/utils'
 import { twitterShareUrl } from 'src/components/urls/social-share'
 import Button from '../../tailwind-components/Button'
 import { useResponsiveSize } from 'src/components/responsive'
+import { MdInfo } from 'react-icons/md'
+import clsx from 'clsx'
 
 const twitterText =
   'I just staked my #SUB {creator_name} on @SubsocialChain\n\nYou can stake towards your favorite creators here:'
 
 const getTwitterText = (links?: string[]) => {
-  const twitterUsername = links?.find((link) => link.includes('twitter'))?.split('twitter.com/').pop()
-  return twitterText.replace('{creator_name}',
-      twitterUsername ? `to @${twitterUsername}` : '')
+  const twitterUsername = links
+    ?.find((link) => link.includes('twitter'))
+    ?.split('twitter.com/')
+    .pop()
+  return twitterText.replace(
+    '{creator_name}',
+    twitterUsername ? `to @${twitterUsername}` : ''
+  )
 }
 
 type SuccessModalProps = {
@@ -38,12 +45,43 @@ const SuccessModal = ({
   const { name, ownedByAccount, image, links } = space || {}
   const owner = ownedByAccount?.id
 
+  const subModalContent = (
+    <div
+      className={clsx(
+        'md:p-6 p-5 flex items-center justify-between gap-4 rounded-[20px]',
+        'bg-indigo-50 text-text-primary text-base max-w-lg w-full'
+      )}
+    >
+      <div className='flex gap-4 items-center text-start'>
+        {!isMobile && (
+          <div className='text-blue-400'>
+            <MdInfo size={24} />
+          </div>
+        )}
+        <div className='max-w-[260px]'>
+          Earn more SUB based on your social activity.
+        </div>
+      </div>
+      <div>
+        <Button
+          variant='primary'
+          href='https://subsocial.network/active-staking-details'
+          className='w-max md:!px-6 !px-4 text-sm'
+          size='md'
+        >
+          Learn more
+        </Button>
+      </div>
+    </div>
+  )
+
   return (
     <Modal
       isOpen={open}
       withFooter={false}
       title={'🎉 Success'}
       withCloseButton
+      subModalContent={subModalContent}
       closeModal={() => {
         closeModal()
       }}
@@ -70,8 +108,15 @@ const SuccessModal = ({
           className='w-full'
           onClick={() =>
             openNewWindow(
-              twitterShareUrl('/creators',
-                  getTwitterText(links), { tags: [ 'CreatorEconomy', 'CreatorStaking', 'Subsocial', 'Web3Social', 'SocialFi' ] })
+              twitterShareUrl('/creators', getTwitterText(links), {
+                tags: [
+                  'CreatorEconomy',
+                  'CreatorStaking',
+                  'Subsocial',
+                  'Web3Social',
+                  'SocialFi',
+                ],
+              })
             )
           }
         >
