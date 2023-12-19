@@ -47,9 +47,10 @@ export type ModalProps = ModalFunctionalityProps &
     contentClassName?: string
     initialFocus?: React.RefObject<HTMLElement>
     withFooter?: boolean
+    subModalContent?: React.ReactNode
   }
 
-export default function Modal ({
+export default function Modal({
   children,
   titleClassName,
   contentClassName,
@@ -65,6 +66,7 @@ export default function Modal ({
   description,
   initialFocus,
   withFooter,
+  subModalContent
 }: ModalProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -90,7 +92,7 @@ export default function Modal ({
         <div className='fixed inset-0 w-screen overflow-y-auto'>
           <div
             className={clsx(
-              'flex min-h-full items-center justify-center p-4 text-center',
+              'flex min-h-full flex-col gap-6 items-center justify-center p-4 text-center',
               containerClassName
             )}
           >
@@ -186,6 +188,7 @@ export default function Modal ({
                 )}
               </Dialog.Panel>
             </Transition.Child>
+            {subModalContent}
           </div>
         </div>
       </Dialog>
