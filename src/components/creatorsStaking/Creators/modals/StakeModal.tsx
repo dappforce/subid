@@ -17,6 +17,7 @@ import clsx from 'clsx'
 import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import AccountPreview from '../AccountPreview'
+import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -136,7 +137,7 @@ const modalData = {
     modalButton: 'Increase',
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
-  }
+  },
 }
 
 type StakeModalProps = {
@@ -144,7 +145,7 @@ type StakeModalProps = {
   open: boolean
   spaceId: string
   modalVariant: StakingModalVariant
-  amount: string
+  amount?: string
   setAmount: (amount: string) => void
 }
 
@@ -162,6 +163,7 @@ const StakingModal = ({
   const betaversionAgreement = store.get(
     betaVersionAgreementStorageName
   ) as boolean
+  const redirectToCreatorsPage = useRedirectToCreatorsPage()
 
   useEffect(() => {
     if (open) {
@@ -196,6 +198,8 @@ const StakingModal = ({
       title={title}
       withCloseButton
       closeModal={() => {
+        redirectToCreatorsPage()
+
         closeModal()
       }}
     >

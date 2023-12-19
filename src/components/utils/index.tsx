@@ -198,7 +198,7 @@ export const isHomePage = (): boolean =>
   isClientSide() && window.location.pathname === '/'
 
 export const isCreatorStakingPage = (): boolean =>
-  isClientSide() && window.location.pathname === '/creators'
+  isClientSide() && window.location.pathname.includes('/creators')
 
 export const isAccountsPage = (): boolean =>
   isClientSide() &&

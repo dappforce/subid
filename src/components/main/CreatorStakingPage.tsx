@@ -5,8 +5,13 @@ import Footer from '../footer/Footer'
 import styles from './Main.module.sass'
 import CreatorsStaking from '../creatorsStaking'
 import clsx from 'clsx'
+import { NextPage } from 'next'
 
-const CreatorStakingPage = () => {
+type CreatorStakingPageProp = {
+  spaceId?: string
+}
+
+const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
   return (
     <>
       <Head>
@@ -21,7 +26,7 @@ const CreatorStakingPage = () => {
 
       <div className={clsx('layout-wrapper', styles.CreatorStakingSection)}>
         <PageContent className='position-relative'>
-          <CreatorsStaking />
+          <CreatorsStaking defaultSpaceId={props.spaceId} />
         </PageContent>
       </div>
       <Footer />

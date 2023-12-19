@@ -29,7 +29,7 @@ import { useModalContext } from '../../contexts/ModalContext'
 import store from 'store'
 
 export type CommonTxButtonProps = {
-  amount: string
+  amount?: string
   spaceId: string
   decimal: number
   label: string
@@ -78,7 +78,7 @@ function StakingTxButton ({
   }
 
   const buildParams = () => {
-    const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
     return [ spaceId, amountWithDecimals.toString() ]
   }

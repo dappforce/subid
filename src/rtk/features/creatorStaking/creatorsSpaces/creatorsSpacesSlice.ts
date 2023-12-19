@@ -22,6 +22,7 @@ export type CreatorSpace = {
   name: string
   about: string
   links: string[]
+  domain: string
   email: string
   postsCount: string
   ownedByAccount: {

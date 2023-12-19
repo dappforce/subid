@@ -221,6 +221,7 @@ export const getAddressesByDomain = async (addressesOrDomains?: string[]) => {
       : addressOrDomain + '.sub'
       
       const owner = await getOwnerByDomain(domain)
+      
       return owner?.owner || addressOrDomain
     }
 

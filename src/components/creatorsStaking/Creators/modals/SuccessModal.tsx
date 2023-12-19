@@ -38,8 +38,6 @@ const SuccessModal = ({
   const { name, ownedByAccount, image, links } = space || {}
   const owner = ownedByAccount?.id
 
-
-
   return (
     <Modal
       isOpen={open}
