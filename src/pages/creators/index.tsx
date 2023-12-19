@@ -5,7 +5,6 @@ import { FETCH_CHIAN_INFO_WITH_PRICES } from 'src/rtk/app/actions'
 import { fetchStakingConsts } from '../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 
 getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch }) => {
-
   dispatch({ type: FETCH_CHIAN_INFO_WITH_PRICES })
   fetchCreatorsList(dispatch)
   fetchStakingConsts(dispatch)
@@ -17,8 +16,7 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch }) => {
       image: '/images/creator-staking/meta-bg.jpg',
       forceTitle: true,
     },
-    spaceId: '',
-    domain: '',
+    spaceId: undefined,
   }
 })
 

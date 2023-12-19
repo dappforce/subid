@@ -20,7 +20,9 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch, context }) => {
         ? domainOrSpaceIdFromUrl
         : domainOrSpaceIdFromUrl + '.sub'
 
-    const domainStructByDomainName = await getOwnerByDomain(domain.replace('@', ''))
+    const domainStructByDomainName = await getOwnerByDomain(
+      domain.replace('@', '')
+    )
 
     const { innerValue } = domainStructByDomainName || {}
 
@@ -37,6 +39,7 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch, context }) => {
     head: {
       title: 'Support Favorite Creators And Receive Tokens!',
       desc: 'Stake SUB towards the best creators of content, applications, and communities. Both you and the creator will receive more tokens, and help grow the network.',
+      // TODO: create auto-generated image for particular creator, we can use this one: https://nextjs.org/docs/app/api-reference/functions/image-response
       image: '/images/creator-staking/meta-bg.jpg',
       forceTitle: true,
     },
