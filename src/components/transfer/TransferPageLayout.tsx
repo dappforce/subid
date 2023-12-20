@@ -34,13 +34,13 @@ const TransferPageLayout = ({
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [ showSuccessModal, setShowSuccessModal ] = useState(false)
 
-  const [currentState, setCurrentState] = useState<'form' | 'loading'>()
-  const [transferData, setTransferData] = useState<
+  const [ currentState, setCurrentState ] = useState<'form' | 'loading'>()
+  const [ transferData, setTransferData ] = useState<
     ExtendedTransferFormData | undefined
   >()
-  const [activeTab, setActiveTab] = useState(
+  const [ activeTab, setActiveTab ] = useState(
     getTabKey((transferType as any) || 'same-chain')
   )
   const router = useRouter()
@@ -61,7 +61,7 @@ const TransferPageLayout = ({
     }
 
     router.replace(url)
-  }, [activeTab])
+  }, [ activeTab ])
 
   useEffect(() => {
     setCurrentState('form')

@@ -61,23 +61,23 @@ export const ExtensionAccountsContext = createContext<ExtensionAccountContext>(
   {} as ExtensionAccountContext
 )
 
-export function ExtensionAccountProvider(props: React.PropsWithChildren<{}>) {
+export function ExtensionAccountProvider (props: React.PropsWithChildren<{}>) {
   const { isMobile } = useResponsiveSize()
 
   const currentWallet = getCurrentWallet()
 
-  const [currentStep, setCurrentStep] = useState(
+  const [ currentStep, setCurrentStep ] = useState(
     currentWallet || isMobile ? StepsEnum.SelectAccount : StepsEnum.SelectWallet
   )
 
   const currentAddress = useCurrentAccount()
-  const [showSignInModal, setShowSignInModal] = useState(false)
-  const [myAccount, setMyAccount] = useState<string>()
-  const [isMulti, setIsMulti] = useState(
+  const [ showSignInModal, setShowSignInModal ] = useState(false)
+  const [ myAccount, setMyAccount ] = useState<string>()
+  const [ isMulti, setIsMulti ] = useState(
     currentAddress ? checkIsMulti(currentAddress.join(',')) : false
   )
-  const [balances, setBalances] = useState<Balances>(defaultBalances)
-  const [refreshBalances, setRefreshBalances] = useState(false)
+  const [ balances, setBalances ] = useState<Balances>(defaultBalances)
+  const [ refreshBalances, setRefreshBalances ] = useState(false)
   const dispatch = useAppDispatch()
 
   const {
@@ -87,21 +87,21 @@ export function ExtensionAccountProvider(props: React.PropsWithChildren<{}>) {
   const openModal = () => setShowSignInModal(true)
   const closeModal = () => setShowSignInModal(false)
 
-  const [recheckId, recheck] = useReducer((x) => (x + 1) % 16384, 0)
+  const [ recheckId, recheck ] = useReducer((x) => (x + 1) % 16384, 0)
 
-  const [status, setStatus] = useState<Status>('LOADING')
+  const [ status, setStatus ] = useState<Status>('LOADING')
 
   useEffect(() => {
     const props = { dispatch, setStatus }
     isMobile ? mobileWalletConection(props) : desktopWalletConnect(props)
-  }, [recheckId])
+  }, [ recheckId ])
 
   useEffect(() => {
     if (!recheckStatuses.includes(status)) return
 
     const intervalId = setInterval(recheck, 1000)
     return () => clearInterval(intervalId)
-  }, [status])
+  }, [ status ])
 
   useEffect(() => {
     const setAddresses = async () => {
@@ -123,7 +123,7 @@ export function ExtensionAccountProvider(props: React.PropsWithChildren<{}>) {
     }
 
     setAddresses()
-  }, [addressOrDomainFromUrl, status])
+  }, [ addressOrDomainFromUrl, status ])
 
   const obj: ExtensionAccountContext = {
     extensionStatus: status,
@@ -165,15 +165,15 @@ export const setCurrentAddress = (dispatch: AppDispatch, accounts: string) => {
   })
 }
 
-export function useExtensionAccountsContext() {
+export function useExtensionAccountsContext () {
   return useContext(ExtensionAccountsContext)
 }
 
-export function useMyExtensionAccount() {
+export function useMyExtensionAccount () {
   return useExtensionAccountsContext()
 }
 
-export function useIsMulti() {
+export function useIsMulti () {
   return useExtensionAccountsContext().isMulti
 }
 
@@ -185,11 +185,11 @@ export const useIsMyAddress = (address?: string) => {
     .includes(toGenericAccountId(address))
 }
 
-export function useMyExtensionAddresses() {
+export function useMyExtensionAddresses () {
   return useAppSelector<InjectedAccountWithMeta[]>(selectAccounts)
 }
 
-export function useCurrentAccount() {
+export function useCurrentAccount () {
   const addressFromRedux =
     useAppSelector<string>(selectCurrentAccount)
       ?.split(',')
@@ -206,7 +206,7 @@ export const useMyAddresses = (): string[] | undefined =>
     .filter((x) => x)
 
 export const useMyAddress = (): string | undefined => {
-  const [address] = useMyAddresses() || []
+  const [ address ] = useMyAddresses() || []
 
   return address ? toGenericAccountId(address) : undefined
 }
@@ -220,7 +220,7 @@ export const useMyBalances = () => {
   return useMyExtensionAccount().balances
 }
 
-export function useIsSignedIn() {
+export function useIsSignedIn () {
   return nonEmptyArr(useMyAddresses()) || !!getAddressFromStorage()
 }
 

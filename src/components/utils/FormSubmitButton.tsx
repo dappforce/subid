@@ -21,7 +21,7 @@ export default function FormSubmitButton ({ form, requiredTouchedFields, childre
         if (requiredTouchedFields) {
           for (let i = 0; i < requiredTouchedFields.length; i++) {
             const fieldName = requiredTouchedFields[i]
-            console.log(values[fieldName], fieldName)
+
             const isEmptyAndUntouched = !usedForm.isFieldTouched(fieldName) && !values[fieldName]
             hasAnyEmptyAndUntouchedFields = hasAnyEmptyAndUntouchedFields || isEmptyAndUntouched
             if (isEmptyAndUntouched) break

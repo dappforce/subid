@@ -49,10 +49,6 @@ type StakingTxButtonProps = CommonTxButtonProps & {
   tx: string
 }
 
-const StakingTxButton = ({
-  amount,
-  spaceId,
-  decimal,
 function StakingTxButton ({
   amount,
   spaceId,
