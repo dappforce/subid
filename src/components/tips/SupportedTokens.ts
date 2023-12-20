@@ -14,6 +14,7 @@ export const networkByCurrency: Record<string, string> = {
   PDEX: 'polkadex',
   XOR: 'sora',
   PCX: 'chainx',
+  UNQ: 'unique'
   // TODO add more tokens
   // : '',
 }

@@ -14,6 +14,7 @@ export const overriddenChainNames: Record<string, string> = {
   bitCountry: 'metaverse-network-pioneer',
   parallel: 'parallel-finance',
   pendulum: 'pendulum-chain',
+  unique: 'unique-network',
 }
 
 export const statemineAssets = [ 'rmrk' ]
