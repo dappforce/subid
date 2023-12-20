@@ -20,7 +20,7 @@ export type AddressFormItemProps = FormItemProps & {
   isModal?: boolean
 }
 
-export function AddressFormItem ({
+export function AddressFormItem({
   name,
   form,
   ...props
@@ -29,7 +29,7 @@ export function AddressFormItem ({
     <Form.Item
       noStyle
       shouldUpdate={(prev, curr) =>
-        !checkSameAttributesValues(prev, curr, [ name?.toString() ?? '' ])
+        !checkSameAttributesValues(prev, curr, [name?.toString() ?? ''])
       }
     >
       {({ getFieldValue, validateFields, isFieldTouched }) => {
@@ -44,7 +44,7 @@ export function AddressFormItem ({
             {...props}
             revalidate={async () => {
               if (isFieldTouched(fieldName) || value) {
-                await validateFields([ fieldName ])
+                await validateFields([fieldName])
               }
             }}
           />
@@ -54,7 +54,7 @@ export function AddressFormItem ({
   )
 }
 
-function AddressInput ({
+function AddressInput({
   inputProps,
   rules,
   isRequired,
@@ -74,12 +74,12 @@ function AddressInput ({
 
   useEffect(() => {
     revalidate()
-  }, [ isEthAddress, isRequired, validateIsNotSelfErrMsg ])
+  }, [isEthAddress, isRequired, validateIsNotSelfErrMsg])
 
   const augmentedRules: Rule[] = [
     ...(rules || []),
     ({ getFieldValue }) => ({
-      async validator () {
+      async validator() {
         const address = getFieldValue(props.name ?? '')
 
         if (isRequired && !address) {
@@ -106,19 +106,21 @@ function AddressInput ({
 
   const onSelectAction = (value: string) => {
     if (!isModal) {
-      const recipient = value ? { recipient: value } : { }
+      const recipient = value ? { recipient: value } : {}
 
-      if(!value) {
+      if (!value) {
         delete router.query.recipient
       }
 
-      router.replace({
-        pathname: router.pathname,
+      const url = {
+        pathname: '/send/[transferType]',
         query: {
           ...router.query,
           ...recipient,
         },
-      })
+      }
+
+      router.replace(url)
     }
   }
 

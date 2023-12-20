@@ -21,6 +21,7 @@ export default function FormSubmitButton ({ form, requiredTouchedFields, childre
         if (requiredTouchedFields) {
           for (let i = 0; i < requiredTouchedFields.length; i++) {
             const fieldName = requiredTouchedFields[i]
+            console.log(values[fieldName], fieldName)
             const isEmptyAndUntouched = !usedForm.isFieldTouched(fieldName) && !values[fieldName]
             hasAnyEmptyAndUntouchedFields = hasAnyEmptyAndUntouchedFields || isEmptyAndUntouched
             if (isEmptyAndUntouched) break
@@ -28,7 +29,7 @@ export default function FormSubmitButton ({ form, requiredTouchedFields, childre
         }
 
         const errorFields = usedForm.getFieldsError().filter(({ errors }) => errors.length > 0)
-        const isDisabled = hasAnyEmptyAndUntouchedFields || errorFields.length > 0
+        const isDisabled = hasAnyEmptyAndUntouchedFields || errorFields.length > 0 || !values['recipient']
           
         return children(isDisabled, usedForm)
       }}

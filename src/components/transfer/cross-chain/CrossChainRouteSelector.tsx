@@ -129,14 +129,18 @@ function CrossChainRouteSelectorContent ({
       return
     }
 
-    !isModal && router.replace({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        from: dest,
-        to: source,
-      },
-    })
+    if(!isModal) {
+      const url = {
+        pathname: '/send/cross',
+        query: {
+          ...router.query,
+          from: dest,
+          to: source,
+        },
+      }
+
+      router.replace(url)
+    }
 
     form.setFieldsValue({
       [destChainFieldName]: source,

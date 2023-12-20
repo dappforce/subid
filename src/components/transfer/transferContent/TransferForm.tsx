@@ -78,7 +78,7 @@ export const DEFAULT_TOKEN = {
 type SelectedTokenChainData = TokenData & {
   dest?: string
 }
-export default function TransferForm ({
+export default function TransferForm({
   defaultSelectedToken = DEFAULT_TOKEN,
   defaultRecipient,
   crossChain,
@@ -104,8 +104,8 @@ export default function TransferForm ({
 
   const myAddress = useMyAddress()
 
-  const [ form ] = Form.useForm()
-  const [ selectedToken, setSelectedToken ] = useState<SelectedTokenChainData>({
+  const [form] = Form.useForm()
+  const [selectedToken, setSelectedToken] = useState<SelectedTokenChainData>({
     network: '',
     token: '',
   })
@@ -139,16 +139,16 @@ export default function TransferForm ({
 
     if (crossChain && !recipient) {
       form.setFieldsValue({ [transferFormField('recipient')]: myAddress })
-      form.validateFields([ transferFormField('recipient') ])
+      form.validateFields([transferFormField('recipient')])
     } else if (!crossChain) {
       const isMyAddress =
         toGenericAccountId(myAddress) === toGenericAccountId(recipient)
       if (isMyAddress) {
         form.setFieldsValue({ [transferFormField('recipient')]: '' })
-        form.validateFields([ transferFormField('recipient') ])
+        form.validateFields([transferFormField('recipient')])
       }
     }
-  }, [ crossChain ])
+  }, [crossChain])
 
   const resetForm = useCallback(() => {
     if (!defaultSelectedToken) return
@@ -228,10 +228,12 @@ export default function TransferForm ({
         delete newQuery.from
       }
 
-      router.replace({
-        pathname: router.pathname,
+      const url = {
+        pathname: '/send/[transferType]',
         query: newQuery,
-      })
+      }
+
+      router.replace(url)
     }
   }, [
     tokensOptions.join(','),
@@ -242,21 +244,24 @@ export default function TransferForm ({
 
   useEffect(() => {
     resetForm()
-  }, [ resetForm ])
+  }, [resetForm])
 
   const onTokenChange = (token: string) => {
     form.setFieldsValue({ token })
     const decodedToken = tokenSelectorEncoder.decode(token)
 
-    !isModal &&
-      router.replace({
-        pathname: router.pathname,
+    if (!isModal) {
+      const url = {
+        pathname: '/send/[transferType]',
         query: {
           ...router.query,
           asset: decodedToken.token,
           from: decodedToken.network,
         },
-      })
+      }
+
+      router.replace(url)
+    }
 
     setSelectedToken(decodedToken)
   }
@@ -271,15 +276,18 @@ export default function TransferForm ({
 
     const decodedToken = tokenSelectorEncoder.decode(token)
 
-    !isModal &&
-      router.replace({
-        pathname: router.pathname,
+    if(!isModal) {
+      const url = {
+        pathname: '/send/[transferType]',
         query: {
           ...router.query,
           asset: decodedToken.token,
           from: decodedToken.network,
         },
-      })
+      }
+
+      router.replace(url)
+    }
 
     setSelectedToken({
       token: decodedToken.token,
@@ -318,12 +326,12 @@ export default function TransferForm ({
     if (!myAddress || !submittedData.current) return
     const { sourceChain, destChain, recipient, sender } = submittedData.current
     if (sourceChain) {
-      fetchBalanceByNetwork(dispatch, [ sender ], sourceChain)
+      fetchBalanceByNetwork(dispatch, [sender], sourceChain)
     }
     if (destChain) {
       const WAIT_TIME = 30 * 1000 // 30 seconds
       setTimeout(() => {
-        fetchBalanceByNetwork(dispatch, [ recipient ], destChain)
+        fetchBalanceByNetwork(dispatch, [recipient], destChain)
       }, WAIT_TIME)
     }
   }
@@ -339,7 +347,7 @@ export default function TransferForm ({
     getCrossChainFee: () => getCrossChainFee(form).balance,
   }
 
-  const requiredTouchedFields = [ transferFormField('amount') ]
+  const requiredTouchedFields = [transferFormField('amount')]
   if (crossChain) {
     requiredTouchedFields.push(
       transferFormField('source'),
@@ -350,21 +358,34 @@ export default function TransferForm ({
   }
 
   const onSourceChainChange = (source: string) => {
-    !isModal &&
-      router.replace({
-        pathname: router.pathname,
-        query: { ...router.query, from: source },
-      })
+    if(!isModal) {
+      const url = {
+        pathname: '/send/[transferType]',
+        query: {
+          ...router.query,
+          from: source,
+        },
+      }
+
+      router.replace(url)
+    }
 
     setSelectedToken((prev) => ({ ...prev, network: source }))
   }
 
   const onDestChainChange = (dest: string) => {
-    !isModal &&
-      router.replace({
-        pathname: router.pathname,
-        query: { ...router.query, to: dest },
-      })
+    if(!isModal) {
+      const url = {
+        pathname: '/send/[transferType]',
+        query: {
+          ...router.query,
+          to: dest,
+        },
+      }
+
+      router.replace(url)
+    }
+
     setSelectedToken((prev) => ({ ...prev, dest }))
   }
 

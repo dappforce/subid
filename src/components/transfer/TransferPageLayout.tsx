@@ -34,13 +34,13 @@ const TransferPageLayout = ({
 }: TransferPageLayoutProps) => {
   const { t } = useTranslation()
 
-  const [ showSuccessModal, setShowSuccessModal ] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
 
-  const [ currentState, setCurrentState ] = useState<'form' | 'loading'>()
-  const [ transferData, setTransferData ] = useState<
+  const [currentState, setCurrentState] = useState<'form' | 'loading'>()
+  const [transferData, setTransferData] = useState<
     ExtendedTransferFormData | undefined
   >()
-  const [ activeTab, setActiveTab ] = useState(
+  const [activeTab, setActiveTab] = useState(
     getTabKey((transferType as any) || 'same-chain')
   )
   const router = useRouter()
@@ -49,17 +49,19 @@ const TransferPageLayout = ({
     if (activeTab === transferType) return
 
     const newTransferType = activeTab === 'same-chain' ? 'same' : 'cross'
-    const { pathname, query } = router
+    const { query } = router
 
     if (activeTab === 'same-chain') {
       delete query.to
     }
 
-    router.replace({
-      pathname,
+    const url = {
+      pathname: '/send/[transferType]',
       query: { ...query, transferType: newTransferType },
-    })
-  }, [ activeTab ])
+    }
+
+    router.replace(url)
+  }, [activeTab])
 
   useEffect(() => {
     setCurrentState('form')
