@@ -1,3 +1,5 @@
+@import 'src/styles/subsocial-vars.scss'
+
 .NetworkOption
   .Avatar
     width: 2em
@@ -6,3 +8,11 @@
     border: none !important
     box-shadow: 0 0 0 1px #dee2e6
     margin: 1px
+
+@media (max-width: $max_mobile_width)
+  .CrossChainSelectors
+    flex-direction: column
+    align-items: center !important
+
+    svg
+      transform: rotate(90deg)

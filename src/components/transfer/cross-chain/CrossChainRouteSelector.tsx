@@ -11,6 +11,7 @@ import { checkSameAttributesValues } from 'src/components/utils'
 import { showWarnMessage } from '../../utils/Message'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import styles from '../form-items/TransferChainSelectorFormItem.module.sass'
 
 export type CrossChainRouteSelectorProps = Omit<
   HTMLProps<HTMLDivElement>,
@@ -153,11 +154,11 @@ function CrossChainRouteSelectorContent ({
 
   return (
     <div
-      className={clsx('d-flex align-items-end GapNormal', className)}
+      className={clsx('d-flex align-items-end GapNormal', styles.CrossChainSelectors, className)}
       {...props}>
       <TransferChainSelectorFormItem
         chainFilters={sourceOptions}
-        style={{ flexBasis: '100%' }}
+        style={{ flexBasis: '100%', width: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
         className='bs-mb-0'
         name={sourceChainFieldName}
@@ -176,7 +177,7 @@ function CrossChainRouteSelectorContent ({
       <TransferChainSelectorFormItem
         onChange={onDestChainChange}
         chainFilters={destOptions}
-        style={{ flexBasis: '100%' }}
+        style={{ flexBasis: '100%', width: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
         className='bs-mb-0'
         name={destChainFieldName}
