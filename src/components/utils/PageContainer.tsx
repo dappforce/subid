@@ -34,7 +34,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
   const addressFromUrl = maybeAddress?.toString()
   const parsedAddressFromUrl = parseAddressFromUrl(addressFromUrl)
 
-  const addresses = (useCurrentAccount() || parsedAddressFromUrl).filter(
+  const addresses = (useCurrentAccount() || parsedAddressFromUrl)?.filter(
     (x) => isDef(x) && !!x
   )
   useFetchIdentities(addresses)

@@ -8,9 +8,10 @@ import styles from './TransferChainSelectorFormItem.module.sass'
 export type TransferChainSelectorFormItemProps = Omit<FormItemProps, 'options'> & {
   selectProps?: SelectProps<string>
   chainFilters: string[]
+  onChange?: (value: string) => void
 }
 
-export default function TransferChainSelectorFormItem ({ selectProps, chainFilters, ...props }: TransferChainSelectorFormItemProps) {
+export default function TransferChainSelectorFormItem ({ onChange, selectProps, chainFilters, ...props }: TransferChainSelectorFormItemProps) {
   const allChainInfo = useChainInfo()
 
   const options = chainFilters.map((chain) => {
@@ -27,7 +28,7 @@ export default function TransferChainSelectorFormItem ({ selectProps, chainFilte
     <Form.Item
       {...props}
     >
-      <Select size='large' {...selectProps} options={options} />
+      <Select onSelect={onChange} size='large' {...selectProps} options={options} />
     </Form.Item>
   )
 }

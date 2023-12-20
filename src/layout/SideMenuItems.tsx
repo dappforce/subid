@@ -27,6 +27,7 @@ import { MultiChainInfo } from 'src/rtk/features/multiChainInfo/types'
 import { validatorStakingNetworks } from '../config/app/network'
 import { SiOpencollective } from 'react-icons/si'
 import clsx from 'clsx'
+import { BiTransferAlt } from 'react-icons/bi'
 
 const issuesUrl = 'https://forms.clickup.com/9008022125/f/8ceq0kd-7261/7PAH62P0XTHM9UIV4Q'
 
@@ -98,6 +99,11 @@ export const DefaultMenu = (t: any, isAllNetworksConnected: boolean) => {
       name: t('general.home'),
       page: [ '/[address]', `/${addressForUrl}` ],
       icon: <HomeOutlined />,
+    },
+    {
+      name: 'Transfer',
+      page: [ '/send/[transferType]', '/send/same' ],
+      icon: <SubIcon Icon={BiTransferAlt} />,
     },
     {
       name: t('crowdloan.crowdloans'),

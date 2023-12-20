@@ -13,7 +13,6 @@ import { useManyBalances } from 'src/rtk/features/balances/balancesHooks'
 import { isDataLoading } from '../../utils'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
 import { usePricesData } from 'src/rtk/features/prices/pricesHooks'
-import { TransferFormDefaultToken } from 'src/components/transfer/TransferForm'
 import { useTranslation } from 'react-i18next'
 import { isEmptyArray } from '@subsocial/utils'
 import { BalancesTableInfo } from '../../types'
@@ -27,6 +26,7 @@ import { useResponsiveSize } from 'src/components/responsive'
 import { calculateDashboardBalances } from '../calculateDashboardBalances'
 import { getBalancesFromStoreByAddresses } from '.'
 import BN from 'bignumber.js'
+import { TransferFormDefaultToken } from '@/components/transfer/transferContent/TransferForm'
 
 type TransferModalState = {
   open: boolean
@@ -130,15 +130,15 @@ export const useGetTableData = (
           if (!balancesEntity.balances) return
 
           balancesEntity.balances?.forEach((balance) => {
-            const { nativeToken, tokenSymbols } = chainsInfo[balance.network]
+            const { nativeToken, tokenSymbols } = chainsInfo[balance?.network] || {}
 
-            const nativeSymbol = nativeToken || tokenSymbols[0]
+            const nativeSymbol = nativeToken || tokenSymbols?.[0]
 
-            const nativeBalance = balance.info[nativeSymbol]?.totalBalance
+            const nativeBalance = balance?.info[nativeSymbol]?.totalBalance
 
             if (!new BN(nativeBalance).isZero()) {
               sendEvent('balances_tokens_found', {
-                network: balance.network,
+                network: balance?.network,
               })
             }
           })

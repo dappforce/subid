@@ -3,15 +3,15 @@ import clsx from 'clsx'
 import React, { HTMLProps, useMemo } from 'react'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { useChainInfo } from 'src/rtk/features/multiChainInfo/multiChainInfoHooks'
-import { MutedSpan } from '../utils/MutedText'
+import { MutedSpan } from '../../utils/MutedText'
 import SearchableSelect, {
   SearchableSelectOption, SearchableSelectProps,
-} from '../utils/SearchableSelect'
-import DualAvatar from '../utils/DualAvatar'
-import { isTokenBridgeable } from './configs/cross-chain'
-import tokenImages from './tokenImages'
+} from '../../utils/SearchableSelect'
+import DualAvatar from '../../utils/DualAvatar'
+import { isTokenBridgeable } from '../configs/cross-chain'
+import tokenImages from '../utils/tokenImages'
 import styles from './TokenSelector.module.sass'
-import { useMyAddress } from '../providers/MyExtensionAccountsContext'
+import { useMyAddress } from '../../providers/MyExtensionAccountsContext'
 
 export type TokenSelectorProps = HTMLProps<HTMLDivElement> & {
   value?: string
@@ -94,13 +94,13 @@ export default function TokenSelector ({
   selectProps,
   ...props
 }: TokenSelectorProps) {
-  const chainInfo = useChainInfo()
+  const chainsInfo = useChainInfo()
   const myAddress = useMyAddress()
 
   const options = useMemo(() => {
     const tokenMap: Record<string, SearchableSelectOption> = {}
 
-    Object.values(chainInfo).forEach(
+    Object.values(chainsInfo).forEach(
       ({
         icon,
         nativeToken,
@@ -141,7 +141,7 @@ export default function TokenSelector ({
       }
     )
     return Object.values(tokenMap)
-  }, [ chainInfo, showNetwork, myAddress ])
+  }, [ chainsInfo, showNetwork, myAddress ])
 
   return (
     <div

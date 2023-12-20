@@ -51,41 +51,52 @@ function* fetchBalancesWorker (action: PayloadAction<FetchProps>) {
   }
 }
 
-function* fetchBalancesByNetwork (account: string, network: string) {
+function* fetchBalancesByNetwork (
+  account: string,
+  network: string,
+  reload: boolean
+) {
   if (!account || !network) return
 
   const balancesEntity: BalancesEntity = yield select(selectBalances, account)
 
-  const balancesByNetwork: AccountInfoItem = yield call(
-    getAccountBalancesByNetwork,
-    { account, network }
-  )
+  if (isEmptyArray(balancesEntity.balances || []) || reload) {
+    const balancesByNetwork: AccountInfoItem = yield call(
+      getAccountBalancesByNetwork,
+      { account, network }
+    )
 
-  const augmentedBalances = [ ...(balancesEntity.balances ?? []) ]
-  let found = false
-  for (let i = 0; i < augmentedBalances.length; i++) {
-    const balance = augmentedBalances[i]
-    if (balance.network === network) {
-      augmentedBalances[i] = balancesByNetwork
-      found = true
-      break
+    const augmentedBalances = [ ...(balancesEntity.balances ?? []) ]
+    let found = false
+    for (let i = 0; i < augmentedBalances.length; i++) {
+      const balance = augmentedBalances[i]
+      if (balance.network === network) {
+        augmentedBalances[i] = balancesByNetwork
+        found = true
+        break
+      }
     }
-  }
-  if (!found) {
-    augmentedBalances.push(balancesByNetwork)
-  }
+    if (!found) {
+      augmentedBalances.push(balancesByNetwork)
+    }
 
-  return {
-    ...balancesEntity,
-    balances: augmentedBalances,
-    loading: false,
+    return {
+      ...balancesEntity,
+      balances: augmentedBalances,
+      loading: false,
+    }
+  } else {
+    return {
+      ...balancesEntity,
+      loading: false,
+    }
   }
 }
 
 function* fetchBalancesByNetworkWorker (
   action: PayloadAction<FetchBalanceByNetworkProps>
 ) {
-  const { accounts, network } = action.payload
+  const { accounts, network, reload } = action.payload
 
   if (!network) return
 
@@ -93,7 +104,8 @@ function* fetchBalancesByNetworkWorker (
     const dataMap = accounts.map(function* (account) {
       const accountBalanceByNetwork: any = yield fetchBalancesByNetwork(
         account,
-        network
+        network,
+        reload || true
       )
 
       return accountBalanceByNetwork

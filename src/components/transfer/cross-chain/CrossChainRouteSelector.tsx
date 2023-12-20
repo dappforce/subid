@@ -1,15 +1,17 @@
 import { Button, Form, FormInstance } from 'antd'
-import React, { HTMLProps, useEffect } from 'react'
+import React, { HTMLProps } from 'react'
 import TransferChainSelectorFormItem from '../form-items/TransferChainSelectorFormItem'
 import { MutedDiv } from '../../utils/MutedText'
 import { BsArrowLeftRight } from 'react-icons/bs'
 import clsx from 'clsx'
 import { getRouteOptions } from '../configs/cross-chain'
 import { RouterFilter } from '@polkawallet/bridge'
-import { tokenSelectorEncoder } from '../TokenSelector'
+import { tokenSelectorEncoder } from '../form-items/TokenSelector'
 import { checkSameAttributesValues } from 'src/components/utils'
 import { showWarnMessage } from '../../utils/Message'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+import styles from '../form-items/TransferChainSelectorFormItem.module.sass'
 
 export type CrossChainRouteSelectorProps = Omit<
   HTMLProps<HTMLDivElement>,
@@ -20,6 +22,7 @@ export type CrossChainRouteSelectorProps = Omit<
   destChainFieldName: string
   tokenFieldName: string
   decodeToken?: boolean
+  isModal?: boolean
   onSourceChainChange?: (sourceChain: string) => void
   onDestChainChange?: (destChain: string) => void
 }
@@ -83,6 +86,7 @@ type CrossChainRouteSelectorContentProps = CrossChainRouteSelectorProps & {
   source: string
   dest: string
   token: string
+  isModal?: boolean
 }
 function CrossChainRouteSelectorContent ({
   form,
@@ -96,16 +100,11 @@ function CrossChainRouteSelectorContent ({
   decodeToken: _decodeToken,
   onSourceChainChange,
   onDestChainChange,
+  isModal,
   ...props
 }: CrossChainRouteSelectorContentProps) {
   const { t } = useTranslation()
-
-  useEffect(() => {
-    onSourceChainChange?.(source)
-  }, [ source ])
-  useEffect(() => {
-    onDestChainChange?.(dest)
-  }, [ dest ])
+  const router = useRouter()
 
   const onSwapChain = () => {
     const source = form.getFieldValue(sourceChainFieldName)
@@ -125,10 +124,25 @@ function CrossChainRouteSelectorContent ({
       'dest',
       { token, from: dest }
     ))
+    
     if (!isChanged.every((value) => value)) {
       showWarnMessage({ message: t('transfer.errors.swapRouteNotFound') })
       return
     }
+
+    if(!isModal) {
+      const url = {
+        pathname: '/send/cross',
+        query: {
+          ...router.query,
+          from: dest,
+          to: source,
+        },
+      }
+
+      router.replace(url)
+    }
+
     form.setFieldsValue({
       [destChainFieldName]: source,
       [sourceChainFieldName]: dest,
@@ -140,15 +154,16 @@ function CrossChainRouteSelectorContent ({
 
   return (
     <div
-      className={clsx('d-flex align-items-end GapNormal', className)}
+      className={clsx('d-flex align-items-end GapNormal', styles.CrossChainSelectors, className)}
       {...props}>
       <TransferChainSelectorFormItem
         chainFilters={sourceOptions}
-        style={{ flexBasis: '100%' }}
+        style={{ flexBasis: '100%', width: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
         className='bs-mb-0'
         name={sourceChainFieldName}
         label={t('transfer.source')}
+        onChange={onSourceChainChange}
       />
       <MutedDiv>
         <Button
@@ -160,8 +175,9 @@ function CrossChainRouteSelectorContent ({
         </Button>
       </MutedDiv>
       <TransferChainSelectorFormItem
+        onChange={onDestChainChange}
         chainFilters={destOptions}
-        style={{ flexBasis: '100%' }}
+        style={{ flexBasis: '100%', width: '100%' }}
         selectProps={{ placeholder: 'Select', notFoundContent: 'Route not found' }}
         className='bs-mb-0'
         name={destChainFieldName}

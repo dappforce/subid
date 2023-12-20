@@ -9,6 +9,7 @@ import { toGenericAccountId } from 'src/rtk/app/util'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import SelectAccountInput from '../../utils/inputs/SelectAccountInput'
+import { useRouter } from 'next/router'
 
 export type AddressFormItemProps = FormItemProps & {
   inputProps?: InputProps
@@ -16,15 +17,21 @@ export type AddressFormItemProps = FormItemProps & {
   isEthAddress?: boolean
   validateIsNotSelfErrMsg?: string
   form: FormInstance<any>
+  isModal?: boolean
 }
 
-export function AddressFormItem ({ name, form, ...props }: AddressFormItemProps) {
+export function AddressFormItem ({
+  name,
+  form,
+  ...props
+}: AddressFormItemProps) {
   return (
     <Form.Item
       noStyle
       shouldUpdate={(prev, curr) =>
         !checkSameAttributesValues(prev, curr, [ name?.toString() ?? '' ])
-      }>  
+      }
+    >
       {({ getFieldValue, validateFields, isFieldTouched }) => {
         const fieldName = name ?? ''
         const value = getFieldValue(fieldName)
@@ -56,12 +63,14 @@ function AddressInput ({
   recipient,
   revalidate,
   form,
+  isModal,
   label: _label,
   ...props
 }: AddressFormItemProps & { recipient: string; revalidate: () => void }) {
   const { t } = useTranslation()
   const myAddress = useMyAddress()
   const isMyAddress = useIsMyConnectedAddress(recipient)
+  const router = useRouter()
 
   useEffect(() => {
     revalidate()
@@ -95,26 +104,48 @@ function AddressInput ({
     }),
   ]
 
+  const onSelectAction = (value: string) => {
+    if (!isModal) {
+      const recipient = value ? { recipient: value } : {}
+
+      if (!value) {
+        delete router.query.recipient
+      }
+
+      const url = {
+        pathname: '/send/[transferType]',
+        query: {
+          ...router.query,
+          ...recipient,
+        },
+      }
+
+      router.replace(url)
+    }
+  }
+
   const showYourAddressTag = isMyAddress && !validateIsNotSelfErrMsg
   const label = (
     <span>
       {_label}
-      {showYourAddressTag && <Tag color='green' className='ml-1'>{t('transfer.yourAccount')} </Tag>}
+      {showYourAddressTag && (
+        <Tag color='green' className='ml-1'>
+          {t('transfer.yourAccount')}{' '}
+        </Tag>
+      )}
     </span>
   )
 
   return (
-    <Form.Item
-      {...props}
-      label={label}
-      rules={augmentedRules}>
+    <Form.Item {...props} label={label} rules={augmentedRules}>
       <SelectAccountInput
-          disabled={inputProps?.disabled}
-          value={recipient}
-          form={form}
-          withAvatar={false}
-          revalidate={revalidate}
-        />
+        disabled={inputProps?.disabled}
+        value={recipient}
+        form={form}
+        withAvatar={false}
+        revalidate={revalidate}
+        onSelectAction={onSelectAction}
+      />
     </Form.Item>
   )
 }

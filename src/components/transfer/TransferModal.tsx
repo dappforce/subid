@@ -1,25 +1,20 @@
-import { Button, Tabs } from 'antd'
+import { Tabs } from 'antd'
 import clsx from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomModal, { CustomModalProps } from '../utils/CustomModal'
 import TransferForm, {
   TransferFormDefaultToken,
   ExtendedTransferFormData,
   DEFAULT_TOKEN,
-} from './TransferForm'
+} from './transferContent/TransferForm'
 import LoadingTransaction from '../utils/LoadingTransaction'
 import { toShortAddress } from '../utils'
 import { MutedSpan } from '../utils/MutedText'
-import {
-  DfCardSideBySideContent,
-  DfCardSideBySideContentProps,
-} from '../utils/DfCard'
-import { useTokenAmountInUsd } from 'src/rtk/features/prices/pricesHooks'
-import { toShortMoney } from '@subsocial/utils'
 import { useIsMyConnectedAddress } from '../providers/MyExtensionAccountsContext'
 import { useTranslation } from 'react-i18next'
-import styles from './TokenSelector.module.sass'
+import styles from './Index.module.sass'
 import { isTokenBridgeable } from './configs/cross-chain'
+import SuccessContent from './transferContent/SuccessContent'
 
 type TransferModalProps = CustomModalProps & {
   defaultSelectedToken?: TransferFormDefaultToken
@@ -48,9 +43,10 @@ export default function TransferModal ({
 
   useEffect(() => {
     if (!props.visible) return
+
+    setTransferData(undefined)
     setActiveTab('same-chain')
     setCurrentState('form')
-    setTransferData(undefined)
   }, [ props.visible ])
 
   const txSummary = (
@@ -104,6 +100,8 @@ export default function TransferModal ({
       onTransferFailed={() => setCurrentState('form')}
       onTransferSuccess={() => setCurrentState('success')}
       className='flex-fill'
+      isModal
+      isModalVisible={props.visible}
       defaultSelectedToken={defaultSelectedToken}
       crossChain={activeTab === getTabKey('cross-chain')}
     >
@@ -163,92 +161,5 @@ export default function TransferModal ({
         </CustomModal>
       )}
     </TransferForm>
-  )
-}
-
-function SuccessContent ({
-  data,
-  closeModal,
-}: {
-  data: ExtendedTransferFormData | undefined
-  closeModal?: (e: any) => void
-}) {
-  const { t } = useTranslation()
-  const isSendingToSelf = useIsMyConnectedAddress(data?.recipient ?? '')
-  const tokenAmountInUsd = useTokenAmountInUsd(
-    data?.token ?? '',
-    parseFloat(data?.amount || '0')
-  )
-  const cacheInvalidationTime = useRef(Date.now())
-
-  const cardClassName = clsx('DfBgColor')
-
-  if (!data) return null
-  const { amount, recipient, sourceChainName, token, destChainName } = data
-
-  const firstCardContent: DfCardSideBySideContentProps['content'] = [
-    {
-      label: t('transfer.recipient'),
-      value: isSendingToSelf
-        ? t('transfer.yourAccount')
-        : toShortAddress(recipient) ?? '',
-    },
-  ]
-  if (!destChainName) {
-    firstCardContent.push({
-      label: t('transfer.source'),
-      value: sourceChainName ?? '',
-    })
-  }
-  const secondCardContent: DfCardSideBySideContentProps['content'] = [
-    { label: t('transfer.source'), value: sourceChainName ?? '' },
-    { label: t('transfer.dest'), value: destChainName ?? '' },
-  ]
-
-  return (
-    <div className='position-relative'>
-      <div
-        className='position-absolute inset-0 w-100 h-100'
-        style={{
-          zIndex: 1,
-          transform: 'translateY(-70%)',
-          // date is added to make the gif animation runs every time
-          backgroundImage: `url(/images/confetti.gif?d=${cacheInvalidationTime.current})`,
-          backgroundSize: 'cover',
-          pointerEvents: 'none',
-        }}
-      />
-      <div className='d-flex flex-column align-items-stretch GapNormal position-relative'>
-        <div className='d-flex flex-column align-items-center bs-mb-2'>
-          <span className='FontBig font-weight-semibold'>
-            {amount} {token}
-          </span>
-          {tokenAmountInUsd ? (
-            <MutedSpan>${toShortMoney({ num: tokenAmountInUsd })}</MutedSpan>
-          ) : null}
-        </div>
-        <DfCardSideBySideContent
-          noShadow
-          className={cardClassName}
-          content={firstCardContent}
-        />
-        {destChainName && (
-          <DfCardSideBySideContent
-            noShadow
-            className={cardClassName}
-            content={secondCardContent}
-          />
-        )}
-        <Button
-          onClick={closeModal}
-          type='primary'
-          block
-          size='large'
-          className='bs-mt-2'
-        >
-          {t('buttons.gotIt')}
-        </Button>
-      </div>
-    </div>
   )
 }

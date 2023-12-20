@@ -203,7 +203,8 @@ export const BondInput = ({ form, network, type = 'stake', isModal = false, amou
   const decimals = getTokenDecimals(network, chainsInfo)
   const nativeSymbol = getTokenSymbol(network, chainsInfo)
 
-  const balancesByCurrency = useBalancesByNetwork({ address: toGenericAccountId(myAddress), network, currency: nativeSymbol })
+  const { currencyBalance: balancesByCurrency } = 
+    useBalancesByNetwork({ address: toGenericAccountId(myAddress), network, currency: nativeSymbol })
 
   const availableBalance = balancesByCurrency ? getTransferableBalance(balancesByCurrency) : new BN(0)
 

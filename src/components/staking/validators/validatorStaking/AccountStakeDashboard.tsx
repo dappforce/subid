@@ -44,7 +44,8 @@ const AccountStakingDashboard = ({ network }: AccountStakingDashboardProps) => {
 
   const activeStakedValue = stakingLedger?.active ? convertToBalanceWithDecimal(stakingLedger.active, decimals) : BIGNUMBER_ZERO
   
-  const balancesByCurrency = useBalancesByNetwork({ address: toGenericAccountId(myAddress), network, currency: symbol })
+  const { currencyBalance: balancesByCurrency } = 
+    useBalancesByNetwork({ address: toGenericAccountId(myAddress), network, currency: symbol })
 
   const activeStakedWithDecimals = new BN(stakingLedger?.active || '0')
   const balanceValue = new BN(balancesByCurrency?.totalBalance || '0')

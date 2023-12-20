@@ -204,7 +204,7 @@ const CreatorsSection = ({ defaultSpaceId }: CreatorsSectionProps) => {
   useFetchCreatorsSpaces(creatorsSpaceIds)
   useFetchEraStakes(creatorsSpaceIds, currentEra)
   useFetchBackerInfoBySpaces(creatorsSpaceIds, myAddress)
-  useFetchBalanceByNetwork('subsocial', myAddress)
+  useFetchBalanceByNetwork({ network: 'subsocial', address: myAddress })
 
   return (
     <ModalContextWrapper>
