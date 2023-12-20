@@ -38,6 +38,7 @@ function SuccessContent ({
         : toShortAddress(recipient) ?? '',
     },
   ]
+  
   if (!destChainName) {
     firstCardContent.push({
       label: t('transfer.source'),
