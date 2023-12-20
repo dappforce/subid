@@ -169,7 +169,7 @@ export function UnstakeTxButton (props: CommonTxButtonProps) {
       disabled={!totalStaked || new BN(totalStaked).isZero() || props.disabled}
       tx='creatorStaking.unstake'
       onClick={() => {
-        sendEvent('cs_stake_increase', {
+        sendEvent('cs_stake_decrease', {
           amountRange: getAmountRange(decimal, props.amount),
           eventSource: props.eventSource,
         })
@@ -252,7 +252,7 @@ export function MoveStakeTxButton ({
       component={Component}
       params={buildParams}
       onClick={() =>
-        sendEvent('cs_stake_increase', {
+        sendEvent('cs_stake_move', {
           from: spaceIdFrom,
           to: spaceIdTo,
           amountRange: getAmountRange(decimal, amount),
