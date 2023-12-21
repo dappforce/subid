@@ -4,7 +4,6 @@ import SelectbleDropdown, {
 import { MenuItem } from '@/components/utils/Dropdowns/types'
 import styles from '../Index.module.sass'
 import { LabelWithIcon } from '@/components/table/balancesTable/utils'
-import { PiShareNetworkLight } from 'react-icons/pi'
 
 type ListFilterProps = {
   menus: MenuItem[]

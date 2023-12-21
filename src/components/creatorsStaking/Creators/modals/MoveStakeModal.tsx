@@ -11,7 +11,6 @@ import { AmountInput } from './AmountInput'
 import { useBackerInfo } from '@/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { FormatBalance } from '@/components/common/balances'
-import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { MoveStakeTxButton } from './TxButtons'
 import {
   balanceWithDecimal,
@@ -21,6 +20,7 @@ import { BIGNUMBER_ZERO } from '@/config/app/consts'
 import BN from 'bignumber.js'
 import UserIcon from '@/assets/icons/user-icon.svg'
 import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
+import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type MoveStakeModalProps = {
   open: boolean
@@ -35,7 +35,7 @@ const MoveStakeModal = ({
 }: MoveStakeModalProps) => {
   const myAddress = useMyAddress()
   const creatorsList = useCreatorsList()
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
   const redirectToCreatorsPage = useRedirectToCreatorsPage()
 
   const spaceIds = creatorsList?.map((item) => item.creator.spaceId)

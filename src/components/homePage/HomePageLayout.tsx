@@ -1,6 +1,6 @@
 import NtfLayout from '../ntf/NftsLayout'
 import { Tabs } from 'antd'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
 import { useSendEvent } from '../providers/AnalyticContext'
