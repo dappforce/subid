@@ -12,11 +12,14 @@ import { MINUTES } from '../components/utils/index'
 import dynamic from 'next/dynamic'
 import AnalyticProvider from 'src/components/providers/AnalyticContext'
 import { ChatContextWrapper } from 'src/components/providers/ChatContext'
+import Navigation from './Navigation'
 
-const Navigation = dynamic(() => import('./Navigation'), { ssr: false })
-const ChatFloatingModal = dynamic(() => import('src/components/chat/ChatFloatingModal'), {
-  ssr: false
-})
+const ChatFloatingModal = dynamic(
+  () => import('src/components/chat/ChatFloatingModal'),
+  {
+    ssr: false,
+  }
+)
 
 const Page: React.FunctionComponent = ({ children }) => (
   <>

@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useEffect, useMemo } from 'react'
-import { Layout, Drawer } from 'antd'
+import React, { useMemo } from 'react'
+import { Layout } from 'antd'
 import { useSidebarCollapsed } from '../components/providers/SideBarCollapsedContext'
 import { useRouter } from 'next/router'
 import clsx from 'clsx'
@@ -7,45 +7,15 @@ import dynamic from 'next/dynamic'
 import styles from './Sider.module.sass'
 import { useCurrentAccount } from '../components/providers/MyExtensionAccountsContext'
 
+const DefaultNav = dynamic(() => import('./DefaultNav'), { ssr: false })
+const HomeNav = dynamic(() => import('./HomeNav'), { ssr: false })
 const TopMenu = dynamic(() => import('../components/topMenu/TopMenu'), { ssr: false })
-const Menu = dynamic(() => import('./SideMenu'), { ssr: false })
 
-const { Sider, Content } = Layout
+const { Content } = Layout
 interface Props {
   children: React.ReactNode
 }
 
-const HomeNav = () => {
-  return <Sider
-    className='DfSider'
-    width='230'
-    trigger={null}
-    collapsible
-    collapsed={true}
-  >
-    <Menu />
-  </Sider>
-}
-
-const DefaultNav: FunctionComponent<{ className?: string }> = ({ className }) => {
-  const { state: { collapsed }, hide } = useSidebarCollapsed()
-  const { asPath } = useRouter()
-
-  useEffect(() => hide(), [ asPath ])
-
-  return <Drawer
-    className={clsx('DfSideBar h-100', className)}
-    bodyStyle={{ padding: 0 }}
-    placement='left'
-    closable={false}
-    onClose={hide}
-    visible={!collapsed}
-    getContainer={false}
-    keyboard
-  >
-    <Menu />
-  </Drawer>
-}
 
 const Navigation = (props: Props): JSX.Element => {
   const { children } = props
