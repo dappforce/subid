@@ -88,7 +88,7 @@ const Banner = () => {
         )}
       >
         <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
-          <div className='flex flex-col gap-2 text-white md:items-start items-center'>
+          <div className='flex flex-col gap-2 text-text-dark md:items-start items-center'>
             <div className='text-4xl md:text-left text-center UnboundedFont'>
               Creator Staking Beta
             </div>
