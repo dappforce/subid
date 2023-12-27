@@ -66,7 +66,7 @@ const SuccessModal = ({
         <Button
           variant='primary'
           href='https://subsocial.network/active-staking-details'
-          className='w-max md:!px-6 !px-4 text-sm'
+          className='w-max md:!px-6 !px-4 text-sm hover:text-white'
           size='md'
         >
           Learn more
