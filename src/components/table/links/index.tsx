@@ -1086,6 +1086,19 @@ export const linksByNetworks: Record<string, Partial<NetworkLinks>> = {
       },
     ],
   },
+  pendulum: {
+    website: 'https://pendulumchain.org/',
+    github: 'https://github.com/pendulum-chain/pendulum-prototype',
+    discord: 'https://discord.com/invite/wJ2fQh776B',
+    twitter: 'https://twitter.com/pendulum_chain',
+    telegram: 'https://t.me/pendulum_chain',
+    apps: [
+      {
+        label: 'Pendulum Portal',
+        url: 'https://portal.pendulumchain.org/pendulum/dashboard',
+      },
+    ],
+  },
   imbue: {
     website: 'https://www.imbue.network',
     github: 'https://github.com/ImbueNetwork/imbue',
