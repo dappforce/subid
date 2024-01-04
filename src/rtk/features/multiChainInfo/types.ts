@@ -94,6 +94,7 @@ export const supportedNetworks = [
   'darwinia',
   'darwinia-crab',
   'invArch',
+  'invArch-polkadot',
   'unique',
   'quartz'
 ]
