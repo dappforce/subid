@@ -68,6 +68,16 @@ export const networksVariantsWithIconOpt = [
     ),
     key: 'moonriver',
   },
+  {
+    label: (
+      <LabelWithIcon
+        label={'Subsocial'}
+        iconSize={24}
+        iconSrc={getIconUrl('subsocial.svg')}
+      />
+    ),
+    key: 'subsocial',
+  },
 ]
 
 export const eventsVariantsOpt = [

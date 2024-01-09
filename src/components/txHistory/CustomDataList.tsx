@@ -24,7 +24,7 @@ function CustomDataList (props: DataListProps<Transaction>) {
   const hasData = total > 0
 
   const groupedData = groupBy(dataSource, (x) =>
-    dayjs(x.timestamp).utc(false).format('MMMM D, YYYY')
+    dayjs(x.timestamp).format('MMMM D, YYYY')
   )
 
   if (!hasData) {

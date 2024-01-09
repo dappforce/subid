@@ -186,7 +186,19 @@ const AccountsLayout = ({
         noDataDesc='No spaces yet'
         getKey={(account: AccountCardType) => account.account}
         renderItem={renderItem}
-      />
+      >
+        {({ dataSource, renderItem }) => {
+          return (
+            <div className={styles.CardGrid}>
+              {dataSource.map((x, i) => (
+                <div className={styles.GridItem} key={i}>
+                  {renderItem(x, i)}
+                </div>
+              ))}
+            </div>
+          )
+        }}
+      </InfinitePageList>
     )
   }, [ tabKey, selectedChain ])
 

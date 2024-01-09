@@ -3,6 +3,7 @@ import { Skeleton, Tooltip } from 'antd'
 import { MutedSpan } from '../utils/MutedText'
 import styles from './Index.module.sass'
 import {
+  useCurrentAccount,
   useMyBalances,
   useMyExtensionAccount,
 } from '../providers/MyExtensionAccountsContext'
@@ -10,6 +11,7 @@ import { BalanceView } from '../homePage/address-views/utils/index'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
+import { useGetTableData } from '../table/balancesTable/utils/useGetTableData'
 
 type TotalSectionProps = {
   title: string
@@ -58,6 +60,8 @@ export const AccountDashboard = () => {
   const { t } = useTranslation()
   const balances = useMyBalances()
   const { refreshBalances } = useMyExtensionAccount()
+  const currentAddresses = useCurrentAccount()
+  useGetTableData(currentAddresses, 'chains')
 
   const {
     freeChainBalances,

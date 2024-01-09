@@ -14,6 +14,14 @@ $card_image_size: 100px
   justify-content: center
   margin-bottom: $space_large
 
+.CardGrid
+  display: grid
+  grid-template-columns: repeat(4, calc((100% / 4) - 12px))
+  gap: $space_normal
+
+.GridItem
+  width: 100%
+
 .SelectedNetwork
   cursor: pointer
 
@@ -140,6 +148,10 @@ $card_image_size: 100px
     background-color: #fff
 
 @media (max-width: 767px)
+  .CardGrid
+    padding-left: $space_normal
+    padding-right: $space_normal
+
   .CardStarButton
     visibility: visible !important
 
@@ -163,8 +175,20 @@ $card_image_size: 100px
     right: -$space_small
     top: -$space_tiny
 
+  .CardGrid
+    grid-template-columns: 1fr
+
   .DescriptionSection
     height: 5.5rem
 
   .ProfileCard
     padding: $space_normal
+
+@media (max-width: 818px)
+  .CardGrid
+    grid-template-columns: repeat(3, calc((100% / 3) - 11px))
+  
+@media (max-width: 600px)
+  .CardGrid
+    grid-template-columns: repeat(2, calc((100% / 2) - 8px))
+  

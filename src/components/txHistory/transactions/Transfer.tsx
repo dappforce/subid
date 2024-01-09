@@ -68,7 +68,7 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
     <BalanceView value={totalBalanceBN} symbol='$' startWithSymbol />
   )
 
-  const time = dayjs(item.timestamp).utc(false).format('HH:mm')
+  const time = dayjs(item.timestamp).format('HH:mm')
 
   const extrinsicHash = transaction.transferNative.extrinsicHash
 
@@ -154,7 +154,7 @@ const DesktopTransfer = ({
           <TxHistoryImage icon={icon} txKind={txKind} size={'large'} />
           <div>
             <div className='font-weight-semibold FontNormal'>{title}</div>
-            <MutedDiv>{time} (+UTC)</MutedDiv>
+            <MutedDiv>{time}</MutedDiv>
           </div>
         </div>
       </div>
