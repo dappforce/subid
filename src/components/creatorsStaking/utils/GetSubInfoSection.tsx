@@ -3,7 +3,7 @@ import { useBalances } from '@/rtk/features/balances/balancesHooks'
 import { getTransferableBalance } from '@/utils/balance'
 import { MdInfo } from 'react-icons/md'
 import Button from '../tailwind-components/Button'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useResponsiveSize } from '@/components/responsive'
 import clsx from 'clsx'
 import { getAddressFromStorage } from '@/components/utils'
@@ -30,7 +30,7 @@ export const GetSubInfoSection = () => {
 
     const subBalance = balanceByNetwork?.info?.['SUB']
     const transferableBalance = getTransferableBalance(subBalance)
-    setHideInfoSection( !transferableBalance.isZero() || loading)
+    setHideInfoSection(!transferableBalance.isZero() || loading)
   }, [ loading ])
 
   if (hideInfoSection) return null
