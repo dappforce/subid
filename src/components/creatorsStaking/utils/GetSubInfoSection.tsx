@@ -3,9 +3,10 @@ import { useBalances } from '@/rtk/features/balances/balancesHooks'
 import { getTransferableBalance } from '@/utils/balance'
 import { MdInfo } from 'react-icons/md'
 import Button from '../tailwind-components/Button'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useResponsiveSize } from '@/components/responsive'
 import clsx from 'clsx'
+import { getAddressFromStorage } from '@/components/utils'
 
 export const GetSubInfoSection = () => {
   const myAddress = useMyAddress()
@@ -13,16 +14,23 @@ export const GetSubInfoSection = () => {
   const { isMobile } = useResponsiveSize()
 
   const { balances, loading } = balancesByAccount || {}
+  const [ hideInfoSection, setHideInfoSection ] = useState(true)
 
-  const hideInfoSection = useMemo(() => {
-    if(loading === undefined) return true
+  useEffect(() => {
+    const address = getAddressFromStorage()
+    if (!address) {
+      setHideInfoSection(false)
+      return
+    }
+
+    if (loading === undefined) return setHideInfoSection(true)
 
     const balanceByNetwork =
       balances?.find((x) => x.network === 'subsocial') || ({} as any)
 
     const subBalance = balanceByNetwork?.info?.['SUB']
     const transferableBalance = getTransferableBalance(subBalance)
-    return !transferableBalance.isZero() || loading
+    setHideInfoSection( !transferableBalance.isZero() || loading)
   }, [ loading ])
 
   if (hideInfoSection) return null
