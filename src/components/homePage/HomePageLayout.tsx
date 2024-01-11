@@ -1,11 +1,12 @@
 import NtfLayout from '../ntf/NftsLayout'
 import { Tabs } from 'antd'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styles from './Index.module.sass'
 import BalancesTableNew from '../table/balancesTable'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { useRouter } from 'next/router'
 import TxHistoryLayout from '../txHistory'
+import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 
 type OverviewSectionProps = {
   addresses: string[]
@@ -17,29 +18,42 @@ type HomePageTabKeys = 'portfolio' | 'history' | 'nfts'
 
 const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const { query: queryParams, pathname, replace } = useRouter()
+  const isMulti = useIsMulti()
 
-  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>(
+  const [activeTab, setActiveTab] = useState<HomePageTabKeys>(
     (queryParams?.tab as HomePageTabKeys) || 'portfolio'
   )
   const sendEvent = useSendEvent()
 
-  const tabs = [
-    {
-      key: 'portfolio',
-      tab: 'Portfolio',
-      children: <BalancesTableNew addresses={addresses} />,
-    },
-    {
-      key: 'nfts',
-      tab: 'NFTs',
-      children: <NtfLayout addresses={addresses} />,
-    },
-    {
-      key: 'history',
-      tab: 'History',
-      children: <TxHistoryLayout addresses={addresses} />,
+  useEffect(() => {
+    if (isMulti && activeTab === 'history') {
+      setActiveTab('portfolio')
     }
-  ]
+  }, [isMulti, activeTab])
+
+  const tabs = useMemo(() => {
+    const txHistoryTab = isMulti
+      ? {}
+      : {
+          key: 'history',
+          tab: 'History',
+          children: <TxHistoryLayout addresses={addresses} />,
+        }
+
+    return [
+      {
+        key: 'portfolio',
+        tab: 'Portfolio',
+        children: <BalancesTableNew addresses={addresses} />,
+      },
+      {
+        key: 'nfts',
+        tab: 'NFTs',
+        children: <NtfLayout addresses={addresses} />,
+      },
+      txHistoryTab,
+    ]
+  }, [isMulti, addresses.join(',')])
 
   const onTabChanged = (tab: string) => {
     setActiveTab(tab as HomePageTabKeys)

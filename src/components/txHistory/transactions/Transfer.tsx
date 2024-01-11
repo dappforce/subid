@@ -78,7 +78,9 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
     subscanLinksByNetwork[blockchainTag.toLowerCase()]
   }${extrinsicHash}`
 
-  const balance = (
+  const amountBN = new BN(amount)
+
+  const balance = amountBN.isZero() ? '0' : (
     <FormatBalance
       value={new BN(amount).toFormat({ decimalSeparator: '' })}
       decimals={decimal}
@@ -255,6 +257,7 @@ const BalancePart = ({ txKind, balance, totalBalance }: BalancePartProps) => (
         [styles.RecievedTokens]: txKind === 'TRANSFER_TO',
       })}
     >
+      {txKind === 'TRANSFER_TO' ? '+' : '-'}
       {balance}
     </div>
     <MutedDiv className={styles.Dollars}>{totalBalance}</MutedDiv>
