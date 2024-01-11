@@ -1008,21 +1008,21 @@ hr {
 }
 
 .DfGreyLink {
-  color: $color_muted !important;
+  color: $color_muted;
   cursor: pointer;
 
   a {
-    color: $color_muted !important;
+    color: $color_muted;
     cursor: pointer;
   }
 }
 
 .DfGreyLink:hover {
   a {
-    color: $color_muted !important;
+    color: $color_muted;
   }
 
-  color: $color_muted !important;
+  color: $color_muted;
 }
 
 .DfMutedLink {

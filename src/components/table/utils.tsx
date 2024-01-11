@@ -175,8 +175,10 @@ export const InnerBalancesTable = <T extends TableInfo>({
               return <MutedDiv className={styles.ExpandIcon}>{icon}</MutedDiv>
             },
             onExpand: (expanded, record) => {
-              if(expanded && record.chainName) {
-                sendEvent('balances_details_expanded', { network: record.chainName })
+              if (expanded && record.chainName) {
+                sendEvent('balances_details_expanded', {
+                  network: record.chainName,
+                })
               }
               return (
                 record.children &&
@@ -442,7 +444,7 @@ export const ChainData = ({
   withQr = true,
   isBoldName = true,
   desc,
-  eventSource
+  eventSource,
 }: ChainProps) => {
   const { isMobile } = useResponsiveSize()
 
@@ -678,11 +680,13 @@ type AddressProps = {
   name?: string
   accountId: string
   withCopy?: boolean
+  showCopyIcon?: boolean
   isShortAddress?: boolean
   halfLength?: number
   withQr?: boolean
   isMonosizedFont?: boolean
   eventSource?: string
+  className?: string
 }
 
 export const Address = ({
@@ -691,38 +695,47 @@ export const Address = ({
   withCopy = true,
   isShortAddress = true,
   halfLength = 6,
+  showCopyIcon = true,
   withQr = true,
   isMonosizedFont = false,
-  eventSource
-}: AddressProps) => (
-  <div className='d-flex align-items-center'>
-    {withCopy ? (
-      <CopyAddress
-        message={`${name} address copied`}
-        className={clsx({
-          ['MonosizedFont']: isMonosizedFont,
-          ['bs-mr-2']: withQr,
-        })}
-        eventSource={eventSource}
-        address={accountId}
-        iconVisibility
-      >
-        {isShortAddress ? toShortAddress(accountId, halfLength) : accountId}
-      </CopyAddress>
-    ) : (
-      <MutedDiv>
-        {isShortAddress ? toShortAddress(accountId, halfLength) : accountId}
-      </MutedDiv>
-    )}
-    {withQr && (
-      <AddressQrModal
-        className='grey-light'
-        address={accountId}
-        network={name}
-      />
-    )}
-  </div>
-)
+  eventSource,
+  className,
+}: AddressProps) => {
+  const copyText = name ? `${name} address copied` : 'Address copied'
+
+  return (
+    <div className='d-flex align-items-center'>
+      {withCopy ? (
+        <CopyAddress
+          message={copyText}
+          className={clsx(
+            {
+              ['MonosizedFont']: isMonosizedFont,
+              ['bs-mr-2']: withQr,
+            },
+            className
+          )}
+          eventSource={eventSource}
+          address={accountId}
+          iconVisibility={showCopyIcon}
+        >
+          {isShortAddress ? toShortAddress(accountId, halfLength) : accountId}
+        </CopyAddress>
+      ) : (
+        <MutedDiv className={className}>
+          {isShortAddress ? toShortAddress(accountId, halfLength) : accountId}
+        </MutedDiv>
+      )}
+      {withQr && (
+        <AddressQrModal
+          className='grey-light'
+          address={accountId}
+          network={name}
+        />
+      )}
+    </div>
+  )
+}
 
 type AccountPreviewProps = {
   name?: string
@@ -738,6 +751,7 @@ type AccountPreviewProps = {
   withAddress?: boolean
   largeAvatar?: boolean
   eventSource?: string
+  nameClassName?: string
 }
 
 export const AccountPreview = ({
@@ -754,6 +768,7 @@ export const AccountPreview = ({
   withAvatar = true,
   largeAvatar = false,
   eventSource,
+  nameClassName,
 }: AccountPreviewProps) => {
   useFetchIdentities([ account ])
   const identities = useIdentities(account)
@@ -771,7 +786,11 @@ export const AccountPreview = ({
   )
 
   const accountName = (
-    <Name identities={identities} address={toGenericAccountId(account)} />
+    <Name
+      className={nameClassName}
+      identities={identities}
+      address={toGenericAccountId(account)}
+    />
   )
   const subsocialAvatar = getSubsocialIdentity(identities)?.image
 
@@ -783,11 +802,13 @@ export const AccountPreview = ({
           className
         )}
       >
-        {withAvatar && <BaseAvatar
-          size={largeAvatar ? 36 : 24}
-          address={account}
-          avatar={avatar ? avatar : subsocialAvatar}
-        />}
+        {withAvatar && (
+          <BaseAvatar
+            size={largeAvatar ? 36 : 24}
+            address={account}
+            avatar={avatar ? avatar : subsocialAvatar}
+          />
+        )}
         <div>
           <div className={clsx({ ['font-weight-bold']: withName })}>
             {withName && accountName}

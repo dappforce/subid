@@ -25,6 +25,7 @@ import { AvatarSize } from 'antd/lib/avatar/SizeContext'
 import SentIcon from '@/assets/icons/sent.svg'
 import RecievedIcon from '@/assets/icons/received.svg'
 import { Divider } from 'antd'
+import Link from 'next/link'
 
 dayjs.extend(utc)
 
@@ -34,6 +35,7 @@ const subscanLinksByNetwork: Record<string, string> = {
   astar: 'https://astar.subscan.io/extrinsic/',
   moonbeam: 'https://moonbeam.subscan.io/extrinsic/',
   moonriver: 'https://moonriver.subscan.io/extrinsic/',
+  subsocial: 'https://calamar.app/search?network=subsocial&query=',
 }
 
 type TransferRowProps = {
@@ -160,16 +162,35 @@ const DesktopTransfer = ({
       </div>
       <div>
         <MutedDiv>{txKind === 'TRANSFER_TO' ? 'From' : 'To'}</MutedDiv>
-        <AccountPreview withAddress={false} account={address} />
-        {name && (
-          <Address
-            name='Polkadot'
-            accountId={address}
-            isShortAddress
-            withCopy
-            withQr={false}
-          />
-        )}
+        <Link
+          href={'/[address]'}
+          as={`/${address}`}
+          className='text-black'
+          target='_blank'
+          rel='noreferrer'
+        >
+          <div
+            className={clsx({
+              ['d-flex']: !name,
+            })}
+          >
+            <AccountPreview
+              withAddress={false}
+              withName={!!name}
+              account={address}
+              nameClassName='font-weight-semibold'
+            />
+
+            <Address
+              accountId={address}
+              isShortAddress
+              withCopy
+              showCopyIcon={!!name}
+              withQr={false}
+              className={clsx({ ['text-black font-weight-semibold']: !name })}
+            />
+          </div>
+        </Link>
       </div>
       <BalancePart
         balance={balance}
@@ -195,12 +216,21 @@ const MobileTransfer = ({
         <TxHistoryImage icon={icon} txKind={txKind} size={34} />
         <div>
           <MutedDiv>{titleByKind}</MutedDiv>
-          <AccountPreview
-            withAvatar={false}
-            withAddress={false}
-            account={address}
-            className='FontNormal'
-          />
+          <Link
+            href={'/[address]'}
+            as={`/${address}`}
+            className='text-black'
+            target='_blank'
+            rel='noreferrer'
+          >
+            <AccountPreview
+              withAvatar={false}
+              withAddress={false}
+              account={address}
+              className='FontNormal font-weight-semibold'
+              nameClassName='font-weight-semibold'
+            />
+          </Link>
         </div>
       </div>
       <BalancePart

@@ -1065,6 +1065,10 @@
   color: #fff !important;
 }
 
+.text-black {
+  color: #000 !important;
+}
+
 .text-body {
   color: #212529 !important;
 }
