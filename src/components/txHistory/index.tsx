@@ -84,7 +84,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     )
   }
 
-  const dataLoading = isEmptyArray(initialData.txs)
+  const dataLoading = isEmptyArray(initialData.txs) && !initialData.actualData
 
   const List = useCallback(() => {
     return (
