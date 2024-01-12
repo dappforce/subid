@@ -36,7 +36,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       ? {}
       : {
           key: 'history',
-          tab: 'History',
+          tab: 'Subsocial History',
           children: <TxHistoryLayout addresses={addresses} />,
         }
 
