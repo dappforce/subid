@@ -1,6 +1,6 @@
 import SelectbleDropdown, {
   DropdownActionKind,
-} from '@/components/utils/Dropdowns/SelectbleDropdown'
+} from '@/components/utils/Dropdowns/SelectableDropdown'
 import { MenuItem } from '@/components/utils/Dropdowns/types'
 import styles from '../Index.module.sass'
 import { LabelWithIcon } from '@/components/table/balancesTable/utils'

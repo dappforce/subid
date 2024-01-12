@@ -7,12 +7,12 @@ import { IoCheckmarkSharp } from 'react-icons/io5'
 
 export type DropdownActionKind = 'select' | 'deselect'
 
-type SelectbleMenuItem = MenuItem & {
+type SelectableMenuItem = MenuItem & {
   className?: string
 }
 
 type MenuItemsProps = {
-  items: SelectbleMenuItem[]
+  items: SelectableMenuItem[]
   className?: string
   onChange?: (keys: string[], kind: DropdownActionKind) => void
   defaultValue: string
@@ -40,7 +40,7 @@ const MenuItems = ({
       return (
         <Menu.Item
           key={key}
-          className={clsx(styles.SelectbleMenuItem, className)}
+          className={clsx(styles.SelectableMenuItem, className)}
         >
           {label} {isSelected && <IoCheckmarkSharp />}
         </Menu.Item>

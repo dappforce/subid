@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getTxHistoryQueue } from '../../api/txHistory'
 import { Transaction } from './types'
 
@@ -20,7 +20,6 @@ const useGetInitialTxHistoryData = ({
   refresh,
   setRefresh,
 }: GetIniTitalTxHistoryDataProps) => {
-  let intervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const [ initialData, setInitialData ] =
     useState<InitialData>(defaultInitialData)
   const [ lastUpdateDate, setLastUpdateDate ] = useState<Date | undefined>(
@@ -35,7 +34,7 @@ const useGetInitialTxHistoryData = ({
   useEffect(() => {
     if (!address || !refresh) return
 
-    intervalRef.current = setInterval(async () => {
+    const interval = setInterval(async () => {
       const history: InitialData = await getTxHistoryQueue({
         address,
         offset: 0,
@@ -43,9 +42,9 @@ const useGetInitialTxHistoryData = ({
       })
 
       setInitialData(history)
+
       if (history?.actualData) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = undefined
+        clearInterval(interval)
         setRefresh(false)
         setLastUpdateDate(new Date())
 
@@ -54,8 +53,7 @@ const useGetInitialTxHistoryData = ({
     }, 2000)
 
     return () => {
-      clearInterval(intervalRef.current)
-      intervalRef.current = undefined
+      clearInterval(interval)
     }
   }, [ address, refresh ])
 

@@ -20,7 +20,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
   const { query: queryParams, pathname, replace } = useRouter()
   const isMulti = useIsMulti()
 
-  const [activeTab, setActiveTab] = useState<HomePageTabKeys>(
+  const [ activeTab, setActiveTab ] = useState<HomePageTabKeys>(
     (queryParams?.tab as HomePageTabKeys) || 'portfolio'
   )
   const sendEvent = useSendEvent()
@@ -29,7 +29,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
     if (isMulti && activeTab === 'history') {
       setActiveTab('portfolio')
     }
-  }, [isMulti, activeTab])
+  }, [ isMulti, activeTab ])
 
   const tabs = useMemo(() => {
     const txHistoryTab = isMulti
@@ -53,7 +53,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       },
       txHistoryTab,
     ]
-  }, [isMulti, addresses.join(',')])
+  }, [ isMulti, addresses.join(',') ])
 
   const onTabChanged = (tab: string) => {
     setActiveTab(tab as HomePageTabKeys)

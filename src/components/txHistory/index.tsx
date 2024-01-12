@@ -15,9 +15,9 @@ import ListFilter from './filter/ListFilter'
 import EventsIcon from '@/assets/icons/events.svg'
 import {
   eventsVariantsOpt,
-  networksVariantsWithIconOpt,
+  // networksVariantsWithIconOpt,
 } from './filter/filterItems'
-import { PiShareNetworkLight } from 'react-icons/pi'
+// import { PiShareNetworkLight } from 'react-icons/pi'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -56,8 +56,10 @@ type TxHistoryLayoutProps = {
   addresses: string[]
 }
 
+const supportedNetowrks = [ 'subsocial' ]
+
 const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
-  const [ networks, setNetworks ] = useState<string[]>([ 'all' ])
+  // const [ networks, setNetworks ] = useState<string[]>([ 'all' ])
   const [ events, setEvents ] = useState<string[]>([ 'all' ])
   const address = addresses[0]
   const [ refresh, setRefresh ] = useState(false)
@@ -82,7 +84,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     )
   }
 
-  const dataLoading = isEmptyArray(initialData.txs) && !initialData.actualData
+  const dataLoading = isEmptyArray(initialData.txs)
 
   const List = useCallback(() => {
     return (
@@ -94,7 +96,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
               address,
               page,
               size,
-              networks: networks.filter((x) => x !== 'all'),
+              networks: supportedNetowrks.filter((x) => x !== 'all'),
               events: events.filter((x) => x !== 'all'),
             })
           }
@@ -102,7 +104,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           dataLoadingClassName={styles.InfiniteListLoading}
           noDataDesc='No transactions yet'
           dataSource={
-            networks.includes('all') && events.includes('all')
+            supportedNetowrks.includes('all') && events.includes('all')
               ? initialData.txs
               : undefined
           }
@@ -119,7 +121,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     dataLoading,
     address,
     JSON.stringify(initialData.txs),
-    networks.join(','),
+    supportedNetowrks.join(','),
     events.join(','),
   ])
 
@@ -128,13 +130,13 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
       <div className={styles.TxHistoryActionBlock}>
         <div className={styles.TxHistoryButtons}>
           <div className={styles.LeftPart}>
-            <ListFilter
+            {/* <ListFilter
               menus={networksVariantsWithIconOpt}
               filters={networks}
               setFilters={setNetworks}
               label={'Networks'}
               labelImage={<PiShareNetworkLight />}
-            />
+            /> */}
             <ListFilter
               menus={eventsVariantsOpt}
               filters={events}
