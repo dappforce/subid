@@ -26,6 +26,8 @@ import SentIcon from '@/assets/icons/sent.svg'
 import RecievedIcon from '@/assets/icons/received.svg'
 import { Divider } from 'antd'
 import Link from 'next/link'
+import { useState } from 'react'
+import MobileTransferModal from './MobileTransferModal'
 
 dayjs.extend(utc)
 
@@ -54,7 +56,7 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
     transaction,
   } = item
 
-  const { decimal, tokenSymbol, icon } = useGetChainDataByNetwork(
+  const { decimal, tokenSymbol, icon, name } = useGetChainDataByNetwork(
     blockchainTag.toLowerCase()
   )
 
@@ -70,8 +72,6 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
     <BalanceView value={totalBalanceBN} symbol='$' startWithSymbol />
   )
 
-  const time = dayjs(item.timestamp).format('HH:mm')
-
   const extrinsicHash = transaction.transferNative.extrinsicHash
 
   const subscanUrl = `${
@@ -80,7 +80,9 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
 
   const amountBN = new BN(amount)
 
-  const balance = amountBN.isZero() ? '0' : (
+  const balance = amountBN.isZero() ? (
+    '0'
+  ) : (
     <FormatBalance
       value={new BN(amount).toFormat({ decimalSeparator: '' })}
       decimals={decimal}
@@ -92,11 +94,13 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
   const props = {
     icon: icon,
     subscanUrl: subscanUrl,
-    time: time,
+    timestamp: item.timestamp,
     address: address,
     balance: balance,
     totalBalance: totalBalance,
     txKind: txKind,
+    extrinsicHash,
+    networkName: name,
   }
 
   return (
@@ -118,16 +122,18 @@ export const TransferRow = ({ item, isLastElement }: TransferRowProps) => {
 type DesktopTransferRowProps = {
   icon: string
   subscanUrl: string
-  time: string
+  timestamp: string
   address: string
   balance: React.ReactNode
   totalBalance: React.ReactNode
   txKind: string
+  extrinsicHash: string
+  networkName: string
 }
 
 const DesktopTransfer = ({
   icon,
-  time,
+  timestamp,
   address,
   balance,
   subscanUrl,
@@ -135,7 +141,9 @@ const DesktopTransfer = ({
   txKind,
 }: DesktopTransferRowProps) => {
   const name = useGetProfileName(address)
+
   const titleByKind = txKind === 'TRANSFER_TO' ? 'Received' : 'Sent'
+  const time = dayjs(timestamp).format('HH:mm')
 
   const title = (
     <div className={styles.TransferTitle}>
@@ -209,38 +217,56 @@ const MobileTransfer = ({
   balance,
   totalBalance,
   txKind,
+  timestamp,
+  extrinsicHash,
+  networkName,
+  subscanUrl,
 }: DesktopTransferRowProps) => {
+  const [ open, setOpen ] = useState(false)
   const titleByKind = txKind === 'TRANSFER_TO' ? 'Received from' : 'Sent to'
 
   return (
-    <div className={styles.TransferRow}>
-      <div className={clsx('d-flex align-items-center')}>
-        <TxHistoryImage icon={icon} txKind={txKind} size={34} />
-        <div>
-          <MutedDiv>{titleByKind}</MutedDiv>
-          <Link
-            href={'/[address]'}
-            as={`/${address}`}
-            className='text-black'
-            target='_blank'
-            rel='noreferrer'
-          >
+    <>
+      <div className={styles.TransferRow} onClick={() => setOpen(true)}>
+        <div className={clsx('d-flex align-items-center')}>
+          <TxHistoryImage icon={icon} txKind={txKind} size={34} />
+          <div>
+            <MutedDiv>{titleByKind}</MutedDiv>
+
             <AccountPreview
               withAvatar={false}
               withAddress={false}
               account={address}
-              className='FontNormal font-weight-semibold'
-              nameClassName='font-weight-semibold'
+              className={'FontNormal font-weight-semibold'}
+              nameClassName={clsx(
+                styles.EllipsisPreview,
+                'font-weight-semibold'
+              )}
             />
-          </Link>
+          </div>
         </div>
+        <BalancePart
+          balance={balance}
+          totalBalance={totalBalance}
+          txKind={txKind}
+        />
       </div>
-      <BalancePart
-        balance={balance}
-        totalBalance={totalBalance}
-        txKind={txKind}
+      <MobileTransferModal
+        open={open}
+        setOpen={setOpen}
+        transferInfo={{
+          icon,
+          address,
+          balance,
+          totalBalance,
+          txKind,
+          timestamp,
+          extrinsicHash,
+          networkName,
+          subscanUrl,
+        }}
       />
-    </div>
+    </>
   )
 }
 

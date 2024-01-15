@@ -1,6 +1,6 @@
 import { Button, Dropdown, Menu } from 'antd'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { MenuItem } from './types'
 import styles from './Index.module.sass'
 import { IoCheckmarkSharp } from 'react-icons/io5'
@@ -56,6 +56,8 @@ type TableDropdownButtonProps = {
   onChange: (values: string[], kind: DropdownActionKind) => void
   menuClassName?: string
   values: string[]
+  visible: boolean
+  setVisible: (visible: boolean) => void
 }
 
 const SelectbleDropdown = ({
@@ -65,9 +67,9 @@ const SelectbleDropdown = ({
   onChange,
   menuClassName,
   values,
+  visible,
+  setVisible
 }: TableDropdownButtonProps) => {
-  const [ visible, setVisible ] = useState(false)
-
   useEffect(() => {
     window.addEventListener('wheel', () => {
       setVisible(false)

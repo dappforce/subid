@@ -4,7 +4,7 @@ import { getTxHistory } from '@/api/txHistory'
 import { TransferRow } from './transactions/Transfer'
 import { Transaction } from './types'
 import CustomDataList from './CustomDataList'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import useGetInitialTxHistoryData from './useGetTxHistory'
 import { Button, Tooltip } from 'antd'
 import { SubDate, isEmptyArray } from '@subsocial/utils'
@@ -64,6 +64,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   const address = addresses[0]
   const [ refresh, setRefresh ] = useState(false)
   const { isMobile } = useResponsiveSize()
+  const historySection = useRef(null)
 
   const { initialData, lastUpdateDate } = useGetInitialTxHistoryData({
     address,
@@ -84,6 +85,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     )
   }
 
+  
   const dataLoading = isEmptyArray(initialData.txs) && !initialData.actualData
 
   const List = useCallback(() => {
@@ -126,7 +128,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   ])
 
   return (
-    <div className={styles.HistoryBlock}>
+    <div ref={historySection} className={styles.HistoryBlock}>
       <div className={styles.TxHistoryActionBlock}>
         <div className={styles.TxHistoryButtons}>
           <div className={styles.LeftPart}>
@@ -143,6 +145,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
               setFilters={setEvents}
               label={'Events'}
               labelImage={<EventsIcon />}
+              scrollPosition={(historySection.current as any)?.offsetTop - 180}
             />
           </div>
           <div className={styles.RightPart}>
@@ -162,8 +165,8 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           </div>
         </div>
         {isMobile && (
-          <div className='bs-mt-2 FontNormal'>
-            <span>Last update: </span>
+          <div className='bs-mt-2 d-flex align-items-center FontNormal'>
+            <span className='bs-mr-2'>Last update: </span>
             <LastUpdate lastUpdateDate={lastUpdateDate} refresh={refresh} />
           </div>
         )}
