@@ -8,6 +8,7 @@ import { AccountPreview, AvatarOrSkeleton } from '@/components/table/utils'
 import { CopyAddress } from '../../homePage/address-views/utils/index'
 import { toShortAddress } from '../../utils/index'
 import Link from 'next/link'
+import clsx from 'clsx'
 
 type TransferInfo = {
   icon: string
@@ -64,11 +65,13 @@ const MobileTransferModal = ({
     >
       <div className={styles.ModalContent}>
         <div className={styles.TxContent}>
-          <div className={styles[`Tokens-${isRecieved ? 'Recieved' : 'Send'}`]}>
-            {isRecieved ? '+' : '-'}
-            {balance}
+          <div>
+            <div className={styles[`Tokens-${isRecieved ? 'Recieved' : 'Send'}`]}>
+              {isRecieved ? '+' : '-'}
+              {balance}
+            </div>
+            <div className={clsx(styles.BalanceInDollar, 'mt-1')}>{totalBalance}</div>
           </div>
-          <div className={styles.BalanceInDollar}>{totalBalance}</div>
           <div className={styles.SenderBlock}>
             <div>
               <span className={styles.GrayLabel}>Sender</span>
@@ -91,13 +94,13 @@ const MobileTransferModal = ({
             </div>
             <div>
               <span className={styles.GrayLabel}>Network</span>
-              <span>
+              <span className='d-flex align-items-center'>
                 <AvatarOrSkeleton
                   icon={icon}
                   size={24}
                   className='align-items-start flex-shrink-none'
                 />
-                <span className='ml-2 font-weight-semibold'>{networkName}</span>
+                <span className='ml-2 font-weight-semibold text-black'>{networkName}</span>
               </span>
             </div>
           </div>
