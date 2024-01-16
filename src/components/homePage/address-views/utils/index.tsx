@@ -112,9 +112,9 @@ export const CopyAddress = ({
 
   return (
     <Copy
-      className={clsx(className, 'DfGreyLink', {
+      className={clsx('DfGreyLink', {
         [styles.Copy]: !iconVisibility,
-      })}
+      }, className)}
       text={address.toString()}
       message={message}
       eventSource={eventSource}
@@ -154,6 +154,7 @@ export const Copy = ({
       className={className}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation()
+        e.preventDefault()
         
         eventSource && sendEvent('full_address_copied', { eventSource })
 

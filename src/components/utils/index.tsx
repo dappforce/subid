@@ -57,13 +57,14 @@ type LoadingProps = {
   label?: React.ReactNode
   style?: React.CSSProperties
   center?: boolean
+  className?: string
 }
 
-export const Loading = ({ label, style, center = true }: LoadingProps) => {
+export const Loading = ({ label, style, center = true, className }: LoadingProps) => {
   const alignCss = center ? 'justify-content-center align-items-center' : ''
   return (
     <div
-      className={`d-flex w-100 h-100 flex-sm-fill ${alignCss}`}
+      className={`d-flex w-100 h-100 flex-sm-fill ${alignCss} ${className}`}
       style={style}
     >
       <LoadingOutlined />

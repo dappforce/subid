@@ -329,8 +329,10 @@ a {
 /* ---------------------------------------- */
 
 .ant-btn {
-  border-radius: $border_radius_large;
+  border-radius: 18px !important;
+}
 
+.ColoredIcon {
   &:hover {
     g[fill] {
       path {
@@ -411,7 +413,7 @@ a {
   z-index: 10;
   // top: $height_top_menu;
   // height: 93.5%;
-  overflow: auto;
+  // overflow: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
@@ -507,6 +509,7 @@ a {
   padding: 4rem 0;
   padding-bottom: 0;
   overflow-wrap: break-word;
+  overflow-x: visible !important;
   margin: 0 auto;
   color: $color_font_normal;
 }
@@ -1005,21 +1008,21 @@ hr {
 }
 
 .DfGreyLink {
-  color: $color_muted !important;
+  color: $color_muted;
   cursor: pointer;
 
   a {
-    color: $color_muted !important;
+    color: $color_muted;
     cursor: pointer;
   }
 }
 
 .DfGreyLink:hover {
   a {
-    color: $color_muted !important;
+    color: $color_muted;
   }
 
-  color: $color_muted !important;
+  color: $color_muted;
 }
 
 .DfMutedLink {
@@ -1333,6 +1336,8 @@ hr {
   .ant-btn-icon-only {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+    border-top-right-radius: .625em !important;
+    border-bottom-right-radius: .625em !important;
   }
 }
 
@@ -1549,7 +1554,7 @@ hr {
 
 .DfTopBar {
   position: fixed;
-  z-index: 11;
+  z-index: 12;
   height: $height_top_menu;
   width: 100%;
   padding: $space_normal;

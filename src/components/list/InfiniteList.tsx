@@ -1,14 +1,18 @@
-import DataList, { DataListProps } from './DataList'
-import { useState, useCallback, useEffect } from 'react'
-import { Loading, isClientSide, isServerSide } from '../utils'
-import { nonEmptyArr, isEmptyArray } from '@subsocial/utils'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { useLinkParams } from './utils'
+import { isEmptyArray, nonEmptyArr } from '@subsocial/utils'
 import { useRouter } from 'next/router'
-import { DataListItemProps, InnerLoadMoreFn, CanHaveMoreDataFn } from './types'
-import { tryParseInt, ButtonLink } from '../utils/index'
+import { useCallback, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import {
+  ButtonLink,
+  isClientSide,
+  isServerSide,
+  Loading,
+  tryParseInt,
+} from '../utils'
+import DataList, { DataListProps } from './DataList'
+import { CanHaveMoreDataFn, DataListItemProps, InnerLoadMoreFn } from './types'
+import { useLinkParams } from './utils'
 import { DEFAULT_FIRST_PAGE, DEFAULT_PAGE_SIZE } from './ListData.config'
-import styles from './Index.module.sass'
 
 const DEFAULT_THRESHOLD = isClientSide() ? window.innerHeight / 2 : undefined
 const DEFAULT_MODAL_THRESHOLD = isClientSide()
@@ -22,13 +26,15 @@ type InnerInfiniteListProps<T> = Partial<DataListProps<T>> &
     loadingLabel?: string
     scrollableTarget?: string
     withLoadMoreLink?: boolean // Helpful for SEO
+    dataLoading?: boolean
+    dataLoadingClassName?: string
     canHaveMoreData: CanHaveMoreDataFn<T>
-    isCards?: boolean
+    children?: (props: DataListProps<T>) => JSX.Element
   }
 
 type InfiniteListPropsByData<T> = Omit<
   InnerInfiniteListProps<T>,
-  'canHaveMoreData'
+  'canHaveMoreData' | 'totalCount'
 >
 
 type InfiniteListByPageProps<T> = InfiniteListPropsByData<T> & {
@@ -81,55 +87,66 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     totalCount,
     canHaveMoreData,
     scrollableTarget,
-    isCards = false,
+    children,
+    dataLoading,
+    dataLoadingClassName,
     ...otherProps
   } = props
 
   const {
     query: { page: pagePath },
   } = useRouter()
+
   const hasInitialData = nonEmptyArr(dataSource)
 
   const initialPage = pagePath
     ? tryParseInt(pagePath.toString(), DEFAULT_FIRST_PAGE)
     : DEFAULT_FIRST_PAGE
 
-  const [ page, setPage ] = useState(initialPage)
+  const [ pageValue, setPageValue ] = useState(initialPage)
   const [ data, setData ] = useState(dataSource || [])
-  const [ loading, setLoading ] = useState(false)
 
-  const [ hasMore, setHasMore ] = useState(canHaveMoreData(dataSource, page))
+  const loadingInitialState = !hasInitialData
+  const [ loading, setLoading ] = useState(loadingInitialState)
+
+  const [ hasMore, setHasMore ] = useState(canHaveMoreData(dataSource, pageValue))
 
   const getLinksParams = useLinkParams({
     defaultSize: DEFAULT_PAGE_SIZE,
-    triggers: [ page ],
+    triggers: [ pageValue ],
   })
 
-  const handleInfiniteOnLoad = useCallback(async (page: number) => {
-    setLoading(true)
-    const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
-    data.push(...newData)
+  const handleInfiniteOnLoad = useCallback(
+    async (page: number) => {
+      setLoading(true)
+      const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
+      setData([ ...data, ...(newData || []) ])
 
-    setData([ ...data ])
-
-    if (!canHaveMoreData(newData, page)) {
-      setHasMore(false)
-    }
-
-    setPage(page + 1)
-    setLoading(false)
-  }, [])
+      setLoading(false)
+      setHasMore(canHaveMoreData(newData, page))
+      setPageValue(page + 1)
+    },
+    [ data.length ]
+  )
 
   useEffect(() => {
-    if (hasInitialData) return setPage(page + 1)
+    if (hasInitialData) return setPageValue(pageValue + 1)
 
-    handleInfiniteOnLoad(page)
+    handleInfiniteOnLoad(pageValue)
   }, [])
+  
+  if ((!hasInitialData && isEmptyArray(data) && loading) || dataLoading)
+    return <Loading label={loadingLabel} className={dataLoadingClassName} />
 
-  if (!hasInitialData && isEmptyArray(data) && loading)
-    return <Loading label={loadingLabel} />
+  const linkProps = getLinksParams(pageValue + 1)
 
-  const linkProps = getLinksParams(page + 1)
+  const dataListProps = {
+    ...otherProps,
+    totalCount,
+    dataSource: data,
+    getKey,
+    renderItem,
+  }
 
   // Default height for modals is set to 300, hence threshold for them is 150.
   return (
@@ -140,30 +157,19 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
           ? DEFAULT_MODAL_THRESHOLD
           : DEFAULT_THRESHOLD
       }
-      next={() => handleInfiniteOnLoad(page)}
+      next={() => handleInfiniteOnLoad(pageValue)}
       hasMore={hasMore}
       scrollableTarget={scrollableTarget}
       loader={<Loading label={loadingLabel} />}
     >
-      {isCards ? (
-        <div className={styles.CardGrid}>
-          {data.map((x, i) => (
-            <div className={styles.GridItem} key={i}>
-              {renderItem(x, i)}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <DataList
-          {...otherProps}
-          totalCount={totalCount}
-          dataSource={data}
-          getKey={getKey}
-          renderItem={renderItem}
-        />
-      )}
-      {withLoadMoreLink && !loading && hasMore && isServerSide() && (
-        <ButtonLink block {...linkProps} className='bs-mb-2'>
+      {children ? children(dataListProps) : <DataList {...dataListProps} />}
+      {withLoadMoreLink && !loading && hasMore && (
+        <ButtonLink
+          block
+          {...linkProps}
+          className='mb-2'
+          style={{ opacity: isServerSide() ? 0 : 1 }}
+        >
           Load more
         </ButtonLink>
       )}

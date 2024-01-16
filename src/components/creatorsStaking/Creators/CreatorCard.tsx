@@ -10,7 +10,7 @@ import { useRef, useState } from 'react'
 import StakingModal, { StakingModalVariant } from './modals/StakeModal'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { ContactInfo } from '../utils/socialLinks'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 import { CreatorPreview } from '../utils/CreatorPreview'
 import { useModalContext } from '../contexts/ModalContext'
 import Button from '../tailwind-components/Button'
@@ -114,7 +114,7 @@ const CreatorCard = ({ spaceId }: CreatorCardProps) => {
   const { amount, setAmount } = useModalContext()
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
   // const eraStake = useEraStakesById(spaceId, era)
-  const { decimal, tokenSymbol } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
   const backerInfo = useBackerInfo(spaceId, myAddress)
   const [ openAboutModal, setOpenAboutModal ] = useState(false)
   const [ openStakeModal, setOpenStakeModal ] = useState(false)

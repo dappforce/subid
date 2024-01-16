@@ -26,7 +26,7 @@ export const PreviewAccountsGrid: FC = () => {
     asPath + (asPath === '/' ? '' : '/') + 'accounts'
 
   const showAllButton = isClientSide() ? (
-    <div className={clsx({ ['pl-3 bs-mb-2']: isMobile })}>
+    <div className={clsx({ ['mt-3 bs-mb-2']: isMobile })}>
       <Link href={interestingAccountsUrl} legacyBehavior>
         {t('general.showAll')}
       </Link>
@@ -36,14 +36,13 @@ export const PreviewAccountsGrid: FC = () => {
   return (
     <div>
       <Row justify='space-between'>
-        <Col>
+        <Col className={clsx({['w-100']: isMobile})}>
           <SectionTitle
             title={t('interestingAccounts.title')}
-            className={clsx({ ['pr-3 pl-3']: isMobile })}
           />
         </Col>
         {!isMobile && (
-          <Col className={clsx({ ['bs-mr-3']: isMobile }, 'align-self-center')}>
+          <Col className={clsx('align-self-center')}>
             {showAllButton}
           </Col>
         )}
@@ -59,7 +58,7 @@ export const PreviewAccountsGrid: FC = () => {
               <Col
                 key={x.account + x.type + x.relayChain}
                 span={!isMobile ? 6 : undefined}
-                className={'bs-mb-3'}
+                className={clsx('bs-mb-3', { ['w-50']: isMobile })}
               >
                 <AccountCard accountData={x} />
               </Col>

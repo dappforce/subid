@@ -1,0 +1,117 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.HistoryBlock
+  background-color: #fff
+  // padding: $space_normal
+  box-shadow: $shadow
+  border-radius: $border_radius_normal
+  margin-bottom: 0.1rem
+
+  display: flex
+  flex-direction: column
+  gap: $space_tiny
+
+.TransactionsList
+  padding: 0 $space_normal $space_normal $space_normal
+
+.MenuItemAll
+  height: 24px
+  width: 24px
+  align-items: center
+  justify-content: center
+  background: #F0F0F0
+  border-radius: 50%
+
+.AllEventsIcon
+  svg
+    margin-top: 1px
+    margin-left: 2px
+
+.IconBox
+  svg
+    height: 25px
+    width: 24px
+
+.AllEvents
+  &:global(.ant-menu-item-selected)
+    svg
+      path
+        stroke: $color_primary !important
+
+      li
+        &:hover
+          path
+            stroke: $color_primary !important
+
+.TxHistoryActionBlock
+  position: sticky
+  z-index: 9
+  top: 64px
+  background-color: #fff
+  border-radius: inherit
+  border-bottom-left-radius: 0
+  border-bottom-right-radius: 0
+  padding: $space_normal
+
+.TxHistoryButtons
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: $space_normal
+
+.CommonActionButtonsParts
+  display: flex
+  align-items: center
+  gap: $space_tiny
+
+.TransactionByDateContainer
+  display: flex
+  flex-direction: column
+  gap: $space_tiny
+
+.LabelWithCount
+  display: flex
+  align-items: center
+  gap: $space_mini
+
+.DownloadButton
+  border-radius: 18px
+
+  &:hover
+    path[stroke]
+      stroke: $color_primary
+
+  &:focus
+    path[stroke]
+      stroke: $color_primary  
+
+.LeftPart,
+.RightPart
+  @extend .CommonActionButtonsParts
+
+.Date
+  font-size: $font_medium
+  font-weight: 600
+
+.InfiniteListLoading
+  height: 300px !important
+
+.GroupedData
+  display: flex
+  flex-direction: column
+  gap: $space_big
+
+@media ( max-width: $max_mobile_width )
+  .TransactionsList
+    \:global .infinite-scroll-component 
+      margin-top: 1rem
+
+  .HistoryBlock
+    gap: 0
+
+  .TxHistoryActionBlock
+    border-bottom: 1px solid #F0F0F0
+
+  .TransactionByDateContainer
+    gap: 0
+  

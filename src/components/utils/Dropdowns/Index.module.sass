@@ -1,0 +1,35 @@
+@import 'src/styles/subsocial-vars.scss'
+  
+.CommonOverlay
+  border: none
+  overflow: hidden
+  background: #FFFFFF
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important
+  border-radius: $border_radius_huge !important
+
+.MenuStyles
+  @extend .CommonOverlay
+  min-width: 175px !important
+
+  \:global .ant-menu-item-selected
+    path
+      fill: $color_primary
+
+  li
+    &:hover
+      path
+        fill: $color_primary
+
+.SelectbleMenuStyles
+  @extend .CommonOverlay
+  
+  min-width: 175px !important
+
+  \:global .ant-menu-item-selected
+    background: none !important
+
+
+.SelectableMenuItem
+  display: flex
+  align-items: center
+  justify-content: space-between

@@ -18,7 +18,7 @@ export const BaseAvatar = (props: BaseAvatarProps) => {
   const { size = DEFAULT_AVATAR_SIZE, avatar, style, address } = props
 
   if (!avatar || isEmptyStr(avatar)) {
-    return <IdentityIcon style={style} size={size} value={address} />
+    return <IdentityIcon style={{ ...style, cursor: 'inherit' }} size={size} value={address} />
   }
 
   return <DfBgImg style={style} size={size} src={avatar} className={avatarCss} rounded />

@@ -13,7 +13,7 @@ import {
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import ClaimRewardsTxButton from './ClaimRewardsTxButton'
 import DashboardCard from '../utils/DashboardCard'
-import { useGetDecimalsAndSymbolByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 type RestakeButtonProps = {
   restake: boolean
@@ -44,7 +44,7 @@ const MyRewards = () => {
   const myAddress = useMyAddress()
   const creatorsList = useCreatorsList()
   const { decimal, tokenSymbol: symbol } =
-    useGetDecimalsAndSymbolByNetwork('subsocial')
+    useGetChainDataByNetwork('subsocial')
 
   const creatorsSpaceIds = useMemo(
     () => creatorsList?.map((creator) => creator.id),

@@ -3,7 +3,7 @@ import Button from '../tailwind-components/Button'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
-import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import getAmountRange from './getAmountRangeForAnalytics'
 import { useResponsiveSize } from '@/components/responsive'
 import BN from 'bignumber.js'
@@ -13,7 +13,7 @@ const StakingInfoBanner = () => {
   const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
   const backerLedger = useBackerLedger(myAddress)
-  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal } = useGetChainDataByNetwork('subsocial')
   const { isMobile } = useResponsiveSize()
   const wallet = getCurrentWallet()
 

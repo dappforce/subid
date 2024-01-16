@@ -1,0 +1,126 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.TransferRow
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  align-items: center
+  gap: $space_normal
+
+  min-height: 62px
+
+.Tokens
+  font-size: $font_normal
+  font-weight: 600
+
+.Dollars
+  font-size: $font_small
+
+.FirstCol
+  width: 250px
+
+.TransferTitle
+  display: flex
+  align-items: center
+  gap: $space_mini
+
+.RecievedTokens
+  color: #16A34A
+
+.TransactionDivider
+  display: flex
+  justify-content: flex-end
+
+  \:global .ant-divider
+    margin: 0
+    margin-top: $space_mini
+    max-width: 94.5%
+    min-width: auto
+    border-top-color: #f0f0f0
+
+.TransactionIcon
+  position: absolute
+  bottom: -1px
+  right: -2px
+
+.ModalContent
+  display: flex
+  flex-direction: column
+  gap: $space_normal
+
+  justify-content: space-between
+  height: 100%
+
+.TxContent
+  display: flex
+  flex-direction: column
+  gap: $space_normal
+
+  margin-top: $space_normal
+
+.SenderBlock
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: $space_normal
+
+  background: #F8FAFC
+  border-radius: 10px
+  padding: $space_normal
+
+  div
+    width: 100%
+    display: flex
+    justify-content: space-between
+
+.GrayLabel
+  color: #888
+
+.TextBlock
+  width: 100%
+  display: flex
+  justify-content: space-between
+  gap: $space_mini
+
+  background: #F8FAFC
+  border-radius: 10px
+  padding: $space_normal
+
+.Tokens-Send
+  color: #000
+  font-size: $font_big
+  line-height: 25.144px
+  font-weight: 600
+
+.Tokens-Recieved
+  color: #16A34A
+  font-size: $font_big
+  line-height: 25.144px
+  font-weight: 600
+
+.BalanceInDollar
+  font-size: $font_normal
+  line-height: 25.144px
+
+  span
+    color: #64748B
+
+.Date
+  color: #64748B
+  line-height: 25.144px
+  margin-top: $space_tiny
+
+.EllipsisPreview
+  max-width: 168px
+  display: block
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+  font-weight: 600
+
+@media ( max-width: $max_mobile_width )
+  .TransferRow
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: $space_mini

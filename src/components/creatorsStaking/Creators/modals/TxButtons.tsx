@@ -29,7 +29,7 @@ import { useModalContext } from '../../contexts/ModalContext'
 import store from 'store'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
 import getAmountRange from '../../utils/getAmountRangeForAnalytics'
-import { useGetDecimalsAndSymbolByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 
 export type CommonTxButtonProps = {
   amount?: string
@@ -129,7 +129,7 @@ function StakingTxButton ({
 export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
-  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal } = useGetChainDataByNetwork('subsocial')
 
   const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({
     address: myAddress,
@@ -161,7 +161,7 @@ export function UnstakeTxButton (props: CommonTxButtonProps) {
   const backerInfo = useBackerInfo(props.spaceId, myAddress)
   const { info } = backerInfo || {}
   const sendEvent = useSendEvent()
-  const { decimal } = useGetDecimalsAndSymbolByNetwork('subsocial')
+  const { decimal } = useGetChainDataByNetwork('subsocial')
 
   const { totalStaked } = info || {}
 
