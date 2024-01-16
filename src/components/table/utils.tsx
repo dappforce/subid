@@ -752,6 +752,7 @@ type AccountPreviewProps = {
   largeAvatar?: boolean
   eventSource?: string
   nameClassName?: string
+  identityLoadNotRequired?: boolean
 }
 
 export const AccountPreview = ({
@@ -769,8 +770,9 @@ export const AccountPreview = ({
   largeAvatar = false,
   eventSource,
   nameClassName,
+  identityLoadNotRequired
 }: AccountPreviewProps) => {
-  useFetchIdentities([ account ])
+  useFetchIdentities([ account ], identityLoadNotRequired)
   const identities = useIdentities(account)
 
   const address = (

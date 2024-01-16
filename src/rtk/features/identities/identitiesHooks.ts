@@ -39,12 +39,12 @@ export const useIdentities = (account?: string) =>
     (state) => selectIdentities(state, toGenericAccountId(account))?.identity
   )
 
-export const useFetchIdentities = (accounts?: string[]) => {
+export const useFetchIdentities = (accounts?: string[], dataLoadNotRequired?: boolean) => {
   const dispatch = useAppDispatch()
 
   
   useEffect(() => {
-    if(!accounts) return
+    if(!accounts || dataLoadNotRequired) return
 
     const genericAccountIds = toGenericAccountIds(accounts)
 

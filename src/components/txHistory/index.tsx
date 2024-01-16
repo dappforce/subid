@@ -1,4 +1,4 @@
-import { InfiniteListByData } from '../list'
+import { DataListProps, InfiniteListByData } from '../list'
 import styles from './Index.module.sass'
 import { getTxHistory } from '@/api/txHistory'
 import { TransferRow } from './transactions/Transfer'
@@ -18,6 +18,8 @@ import {
   // networksVariantsWithIconOpt,
 } from './filter/filterItems'
 // import { PiShareNetworkLight } from 'react-icons/pi'
+import { toGenericAccountId } from '../../rtk/app/util'
+import { useFetchIdentities } from '@/rtk/features/identities/identitiesHooks'
 
 const itemsByTxKind: Record<string, any> = {
   TRANSFER_FROM: TransferRow,
@@ -56,13 +58,13 @@ type TxHistoryLayoutProps = {
   addresses: string[]
 }
 
-const supportedNetowrks = ['subsocial']
+const supportedNetowrks = [ 'subsocial' ]
 
 const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   // const [ networks, setNetworks ] = useState<string[]>([ 'all' ])
-  const [events, setEvents] = useState<string[]>(['all'])
+  const [ events, setEvents ] = useState<string[]>([ 'all' ])
   const address = addresses[0]
-  const [refresh, setRefresh] = useState(false)
+  const [ refresh, setRefresh ] = useState(false)
   const { isMobile } = useResponsiveSize()
   const historySection = useRef(null)
 
@@ -93,7 +95,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
         <InfiniteListByData
           loadingLabel={
             dataLoading
-              ? 'Data is loading for the first time and may take a while. Please wait a moment'
+              ? 'Data is loading for the first time and may take a while. Please wait a moment...'
               : 'Loading more transactions...'
           }
           loadMore={(page, size) =>
@@ -117,7 +119,7 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
           renderItem={renderItem}
         >
           {(dataListProps) => {
-            return <CustomDataList {...dataListProps} />
+            return <TransactionsDataList dataListProps={dataListProps} />
           }}
         </InfiniteListByData>
       </div>
@@ -180,13 +182,27 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   )
 }
 
+type TransactionsDataListProps = {
+  dataListProps: DataListProps<Transaction>
+}
+
+const TransactionsDataList = ({ dataListProps }: TransactionsDataListProps) => {
+  const addresses = dataListProps.dataSource.map((x) =>
+    toGenericAccountId(x.senderOrTargetPublicKey)
+  )
+
+  useFetchIdentities(addresses)
+
+  return <CustomDataList {...dataListProps} />
+}
+
 type LastUpdateProps = {
   lastUpdateDate?: Date
   refresh: boolean
 }
 
 const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
-  const [lastUpdate, setLastUpdate] = useState<string | null>(null)
+  const [ lastUpdate, setLastUpdate ] = useState<string | null>(null)
 
   useEffect(() => {
     if (!lastUpdateDate) return
@@ -198,7 +214,7 @@ const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [lastUpdateDate?.getTime()])
+  }, [ lastUpdateDate?.getTime() ])
 
   return (
     <Tooltip title='Last update'>

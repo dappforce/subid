@@ -189,6 +189,7 @@ const DesktopTransfer = ({
               withName={!!name}
               account={address}
               nameClassName='font-weight-semibold'
+              identityLoadNotRequired
             />
 
             <Address
@@ -238,6 +239,7 @@ const MobileTransfer = ({
               withAddress={false}
               account={address}
               className={'FontNormal font-weight-semibold'}
+              identityLoadNotRequired
               nameClassName={clsx(
                 styles.EllipsisPreview,
                 'font-weight-semibold'

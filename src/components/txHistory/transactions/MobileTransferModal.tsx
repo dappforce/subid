@@ -34,7 +34,7 @@ const MobileTransferModal = ({
 }: MobileTransferModalProps) => {
   const {
     icon,
-    address: recipientAddress,
+    address: senderOrTarget,
     balance,
     totalBalance,
     txKind,
@@ -51,6 +51,9 @@ const MobileTransferModal = ({
   const date = dayjs(timestamp).format('MMM DD, YYYY [at] HH:mm:ss ')
 
   const isRecieved = txKind === 'TRANSFER_TO'
+
+  const sender = isRecieved ? senderOrTarget : currentAddress
+  const recipient = isRecieved ? currentAddress : senderOrTarget
 
   return (
     <FloatingModal
@@ -72,14 +75,15 @@ const MobileTransferModal = ({
               <span>
                 <Link
                   href={'/[address]'}
-                  as={`/${currentAddress}`}
+                  as={`/${sender}`}
                   className='text-black'
                   target='_blank'
                   rel='noreferrer'
                 >
                   <AccountPreview
                     withAddress={false}
-                    account={currentAddress}
+                    account={sender}
+                    identityLoadNotRequired
                     nameClassName={styles.EllipsisPreview}
                   />
                 </Link>
@@ -102,14 +106,15 @@ const MobileTransferModal = ({
             <span>
               <Link
                 href={'/[address]'}
-                as={`/${recipientAddress}`}
+                as={`/${recipient}`}
                 className='text-black'
                 target='_blank'
                 rel='noreferrer'
               >
                 <AccountPreview
                   withAddress={false}
-                  account={recipientAddress}
+                  account={recipient}
+                  identityLoadNotRequired
                   nameClassName={styles.EllipsisPreview}
                 />
               </Link>
