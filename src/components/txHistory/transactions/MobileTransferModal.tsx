@@ -23,13 +23,13 @@ type TransferInfo = {
 
 type MobileTransferModalProps = {
   open: boolean
-  setOpen: (open: boolean) => void
+  closeModal: () => void
   transferInfo: TransferInfo
 }
 
 const MobileTransferModal = ({
   open,
-  setOpen,
+  closeModal,
   transferInfo,
 }: MobileTransferModalProps) => {
   const {
@@ -59,7 +59,7 @@ const MobileTransferModal = ({
     <FloatingModal
       position='bottom'
       open={open}
-      setOpen={setOpen}
+      closeModal={closeModal}
       className={'bg-white bs-p-3 FontNormal text-center'}
     >
       <div className={styles.ModalContent}>

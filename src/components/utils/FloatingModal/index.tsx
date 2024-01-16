@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import styles from './FloatingModal.module.sass'
 import { Button } from 'antd'
 import { HiChevronDown } from 'react-icons/hi2'
@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom'
 type FloatingModalProps = {
   position?: 'right' | 'bottom'
   open: boolean
-  setOpen: (open: boolean) => void
+  closeModal: () => void
   className?: string
   children: React.ReactNode
 }
@@ -16,14 +16,14 @@ type FloatingModalProps = {
 export default function FloatingModal ({
   position = 'bottom',
   open,
-  setOpen,
+  closeModal,
   children,
   className
 }: FloatingModalProps) {
   useEffect(() => {
     const close = (e: any) => {
       if (e.keyCode === 27) {
-        setOpen(false)
+        closeModal()
       }
     }
 
@@ -40,14 +40,7 @@ export default function FloatingModal ({
     }
   }, [ open ])
 
-  const hasOpened = useRef(false)
-  const toggleChat = () => {
-    const nextStateOpen = !open
-
-    setOpen(nextStateOpen)
-
-    hasOpened.current = true
-  }
+  if(!open) return null
 
   return (
     <>
@@ -62,12 +55,12 @@ export default function FloatingModal ({
             <div
               className={clsx(styles.ChatOverlay)}
               onClick={() => {
-                setOpen(false)
+                closeModal()
               }}
             />
             <div className={clsx(styles.ChatContent, className)}>
               <div className={clsx(styles.ChatControl)}>
-                <Button onClick={toggleChat}>
+                <Button onClick={closeModal}>
                   <HiChevronDown />
                 </Button>
               </div>
@@ -75,7 +68,7 @@ export default function FloatingModal ({
             </div>
           </div>
         </div>,
-        document.body
+        document.body,
       )}
     </>
   )
