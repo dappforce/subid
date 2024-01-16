@@ -56,13 +56,13 @@ type TxHistoryLayoutProps = {
   addresses: string[]
 }
 
-const supportedNetowrks = [ 'subsocial' ]
+const supportedNetowrks = ['subsocial']
 
 const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
   // const [ networks, setNetworks ] = useState<string[]>([ 'all' ])
-  const [ events, setEvents ] = useState<string[]>([ 'all' ])
+  const [events, setEvents] = useState<string[]>(['all'])
   const address = addresses[0]
-  const [ refresh, setRefresh ] = useState(false)
+  const [refresh, setRefresh] = useState(false)
   const { isMobile } = useResponsiveSize()
   const historySection = useRef(null)
 
@@ -85,14 +85,17 @@ const TxHistoryLayout = ({ addresses }: TxHistoryLayoutProps) => {
     )
   }
 
-  
   const dataLoading = isEmptyArray(initialData.txs) && !initialData.actualData
 
   const List = useCallback(() => {
     return (
       <div className={styles.TransactionsList}>
         <InfiniteListByData
-          loadingLabel='Loading more transactions...'
+          loadingLabel={
+            dataLoading
+              ? 'Data is loading for the first time and may take a while. Please wait a moment'
+              : 'Loading more transactions...'
+          }
           loadMore={(page, size) =>
             loadMore({
               address,
@@ -183,7 +186,7 @@ type LastUpdateProps = {
 }
 
 const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
-  const [ lastUpdate, setLastUpdate ] = useState<string | null>(null)
+  const [lastUpdate, setLastUpdate] = useState<string | null>(null)
 
   useEffect(() => {
     if (!lastUpdateDate) return
@@ -195,7 +198,7 @@ const LastUpdate = ({ lastUpdateDate, refresh }: LastUpdateProps) => {
     return () => {
       clearInterval(intervalId)
     }
-  }, [ lastUpdateDate?.getTime() ])
+  }, [lastUpdateDate?.getTime()])
 
   return (
     <Tooltip title='Last update'>
