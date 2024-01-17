@@ -16,6 +16,7 @@ import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
 import store from 'store'
 import { AccountInfoItem } from '@/components/identity/types'
 import { BalanceEntityRecord } from '@/rtk/features/balances/balancesSlice'
+import { usePrices } from '@/rtk/features/prices/pricesHooks'
 
 export const allowedTokensByNetwork: Record<string, string[]> = {
   statemine: [
@@ -218,4 +219,40 @@ export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
 
     return item
   })
+}
+// 55894.3459
+// 0,010318590723302
+// 576,7508790888
+// 36,2181209112
+type PnlDataProps = {
+  symbol: string
+  balanceValue: BN
+}
+
+export const PnlData = ({ symbol, balanceValue }: PnlDataProps) => {
+  const prices = usePrices()
+
+  const priceObjBySymbol = prices?.find(item => item.symbol.toLowerCase() === symbol.toLowerCase())
+
+  if(!priceObjBySymbol) return null
+
+  const { current_price, price_change_percentage_24h } = priceObjBySymbol
+
+  const priceChange24h = new BN(price_change_percentage_24h)
+
+  const price24hAgo = new BN(current_price).dividedBy(new BN(1).minus(priceChange24h.dividedBy(100)))
+
+  console.log(symbol)
+  console.log('price_change_percentage_24h', price_change_percentage_24h)
+  console.log('Current price', current_price)
+  console.log('Price 24h', price24hAgo.toString())
+
+  const balance24hAgo = balanceValue.multipliedBy(price24hAgo)
+  const currentBalance = balanceValue.multipliedBy(current_price)
+
+  const pnl = currentBalance.minus(balance24hAgo)
+
+  return <>
+    Pnl 24h: {pnl.toFixed(4)}
+  </>
 }
