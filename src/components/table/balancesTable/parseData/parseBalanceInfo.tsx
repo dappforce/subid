@@ -38,6 +38,7 @@ import { TFunction } from 'i18next'
 import { Button } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../../links/Links'
+import { PnlData } from '../utils'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, freeBalance, lockedBalance } = info
@@ -371,9 +372,14 @@ export const parseBalancesTableInfo = ({
               onTransferClick(nativeSymbol, id)
             }
 
+            const chainValue = <div>
+              {isMulti ? <div className='ml-5'>{chain}</div> : chain}
+              <PnlData symbol={nativeSymbol} balanceValue={balanceValue}/>
+            </div>
+
             return {
               key: key,
-              chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+              chain: chainValue,
               balance: getBalancePart(true),
               price: !isMulti ? price : <></>,
               total: (
