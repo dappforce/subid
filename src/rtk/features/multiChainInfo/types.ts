@@ -80,6 +80,7 @@ export const supportedNetworks = [
   'centrifuge',
   'originTrail',
   'interlay',
+  'manta',
   'picasso',
   'polkadex',
   'zeitgeist',

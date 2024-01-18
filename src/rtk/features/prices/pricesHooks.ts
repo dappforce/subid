@@ -15,6 +15,7 @@ export const overriddenChainNames: Record<string, string> = {
   parallel: 'parallel-finance',
   pendulum: 'pendulum-chain',
   unique: 'unique-network',
+  manta: 'manta-network',
 }
 
 export const statemineAssets = [ 'rmrk' ]
