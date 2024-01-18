@@ -344,8 +344,8 @@
   "table": {
     "balances": {
       "frozen": "Frozen",
-      "locked": "Locked balance",
-      "reserved": "Reserved balance",
+      "locked": "Locked",
+      "reserved": "Reserved",
       "free": "Transferable",
       "title": "Balances",
       "loading": "Loading account balances...",

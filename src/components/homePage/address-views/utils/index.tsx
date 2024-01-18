@@ -30,6 +30,7 @@ type BalanceViewProps = {
   defaultPostfix?: string
   style?: CSSProperties
   className?: string
+  decimalClassName?: string
 }
 
 export const BalanceView = ({
@@ -42,6 +43,7 @@ export const BalanceView = ({
   defaultPostfix = '00',
   className,
   style,
+  decimalClassName
 }: BalanceViewProps) => {
   if (!value) return <>-</>
 
@@ -77,7 +79,7 @@ export const BalanceView = ({
       {postfixValue && (
         <>
           .
-          <span className='DfBalanceDecimals'>
+          <span className={clsx('DfBalanceDecimals', decimalClassName)}>
             {isPrefixInString ? postfixValue.slice(0, -1) : postfixValue}
           </span>
         </>
@@ -112,7 +114,7 @@ export const CopyAddress = ({
 
   return (
     <Copy
-      className={clsx('DfGreyLink', {
+      className={clsx('GrayText', {
         [styles.Copy]: !iconVisibility,
       }, className)}
       text={address.toString()}
@@ -126,7 +128,7 @@ export const CopyAddress = ({
           })}
         >
           {children}
-          <CopyOutlined className='ml-1 grey-light DfGreyLink' />
+          <CopyOutlined className='ml-1 GrayIcon' />
         </div>
       </Tooltip>
     </Copy>

@@ -21,16 +21,15 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
   children,
   ...props
 }) => {
-  const { isMobile } = useResponsiveSize()
   const { storeShowZeroBalance, storeTableView } = props
 
   const tableViewFromStorage = store.get(storeTableView)
   const showZeroBalancesFromStorage = store.get(storeShowZeroBalance)
 
-  const [ tableView, setTableView ] = useState<TableView>(
-    isMobile ? 'cards' : tableViewFromStorage || 'table'
+  const [tableView, setTableView] = useState<TableView>(
+    tableViewFromStorage || 'table'
   )
-  const [ showZeroBalances, setShowZeroBalances ] = useState<boolean>(
+  const [showZeroBalances, setShowZeroBalances] = useState<boolean>(
     showZeroBalancesFromStorage !== undefined
       ? showZeroBalancesFromStorage
       : true

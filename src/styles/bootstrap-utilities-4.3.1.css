@@ -237,6 +237,10 @@
   min-width: fit-content !important;
 }
 
+.w-fit {
+  width: fit-content !important;
+}
+
 .h-25 {
   height: 25% !important;
 }

@@ -7,7 +7,7 @@ import {
   pluralize,
   toShortMoney,
 } from '@subsocial/utils'
-import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
+import { MutedSpan } from '../../../utils/MutedText'
 import {
   ChainData,
   getBalanceWithDecimals,
@@ -17,7 +17,6 @@ import {
   getBalances,
   AccountPreview,
   getParentBalances,
-  resolveAccountDataImage,
 } from '../../utils'
 import styles from '../../Table.module.sass'
 import { BalancesTableInfo } from '../../types'
@@ -32,10 +31,10 @@ import { convertAddressToChainFormat, SubIcon } from '../../../utils/index'
 import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { AccountInfoByChain } from '../../../identity/types'
 import { getSubsocialIdentityByAccount } from '../../../../rtk/features/identities/identitiesHooks'
-import BaseAvatar from '../../../utils/DfAvatar'
+import { RiQuestionLine } from 'react-icons/ri'
 import { BalanceView } from '../../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../../links/Links'
 import { PnlData } from '../utils'
@@ -44,11 +43,6 @@ const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    // {
-    //   key: 'frozen',
-    //   label: t('table.balances.frozen'),
-    //   value: frozenBalance?.toString() || '0',
-    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),
@@ -75,7 +69,7 @@ const parseBalancesEntities = (
 ) => {
   const balancesInfoByKey: Record<string, any> = {}
 
-  Object.entries(balancesEntities).forEach(([ account, { balances } ]) => {
+  Object.entries(balancesEntities).forEach(([account, { balances }]) => {
     balances?.forEach((balance) => {
       const { network, info: balanceInfo } = balance || {}
 
@@ -85,7 +79,7 @@ const parseBalancesEntities = (
 
       const balanceInfoBySymbol: Record<string, any> = {}
 
-      Object.entries(balanceInfo || {}).forEach(([ symbol, info ]) => {
+      Object.entries(balanceInfo || {}).forEach(([symbol, info]) => {
         const { decimal } = getDecimalsAndSymbol(chainInfo, symbol)
 
         if (!decimal) return
@@ -175,7 +169,7 @@ export const parseBalancesTableInfo = ({
     tokenPrices
   )
 
-  const parsedData = [ ...supportedNetworks, ...evmLikeNetworks ].map(
+  const parsedData = [...supportedNetworks, ...evmLikeNetworks].map(
     (supportedNetwork) => {
       const chainInfo = chainsInfo[supportedNetwork]
 
@@ -279,6 +273,8 @@ export const parseBalancesTableInfo = ({
                     chain: <></>,
                     balance: <span className='bs-mr-4'>{balance}</span>,
                     price,
+                    balanceValue: balanceValue,
+                    symbol,
                     total,
                     totalValue,
                     className: styles.Children,
@@ -304,28 +300,31 @@ export const parseBalancesTableInfo = ({
                 })
 
                 const chain = (
-                  <div className='d-flex align-items-center'>
-                    <BaseAvatar
-                      size={24}
-                      avatar={resolveAccountDataImage(key)}
-                    />
-                    <div>{label}</div>
+                  <div className='w-fit'>
+                    <Tooltip
+                      title={label}
+                      className='d-flex align-items-center'
+                    >
+                      <div>{label}</div>
+                      <RiQuestionLine className='ml-1 GrayIcon' />
+                    </Tooltip>
                   </div>
                 )
 
                 return {
                   key,
                   chain: (
-                    <MutedDiv
+                    <div
                       className={clsx(
                         { [styles.SecondLevelBalances]: isMulti },
-                        'ml-5'
+                        'ml-5 GrayText'
                       )}
                     >
                       {chain}
-                    </MutedDiv>
+                    </div>
                   ),
                   balance: <span className='bs-mr-4'>{balance}</span>,
+                  balanceValue: valueWithDecimal,
                   price,
                   total,
                   totalValue,
@@ -355,6 +354,9 @@ export const parseBalancesTableInfo = ({
                 icon={icon}
                 name={name}
                 eventSource='balance_table'
+                desc={
+                  <PnlData symbol={nativeSymbol} balanceValue={balanceValue} />
+                }
               />
             ) : (
               <AccountPreview
@@ -372,14 +374,14 @@ export const parseBalancesTableInfo = ({
               onTransferClick(nativeSymbol, id)
             }
 
-            const chainValue = <div>
-              {isMulti ? <div className='ml-5'>{chain}</div> : chain}
-              <PnlData symbol={nativeSymbol} balanceValue={balanceValue}/>
-            </div>
+            const chainValue = (
+              <div>{isMulti ? <div className='ml-5'>{chain}</div> : chain}</div>
+            )
 
             return {
               key: key,
               chain: chainValue,
+              symbol: nativeSymbol,
               balance: getBalancePart(true),
               price: !isMulti ? price : <></>,
               total: (
