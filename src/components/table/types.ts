@@ -46,6 +46,7 @@ export type CommonTableInfo = {
   balanceValue: BN
 
   price: React.ReactNode
+  symbol: string
 
   total: React.ReactNode
   totalValue: BN

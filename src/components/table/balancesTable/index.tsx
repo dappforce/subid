@@ -30,7 +30,7 @@ type BalancesTableInnerProps = BalancesTableProps & {
   storeTableView: string
 }
 
-const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
+const BalancesTableInner = (props: BalancesTableInnerProps) => {
   const { storeShowZeroBalance, storeTableView, addresses } = props
   const isMyAddress = useIsMyConnectedAddress(addresses?.[0])
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
@@ -78,7 +78,7 @@ const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
   )
 }
 
-const BalancesTableNew = (props: BalancesTableProps) => {
+const BalancesTable = (props: BalancesTableProps) => {
   const storeProps = {
     storeShowZeroBalance: BALANCE_SHOW_ZERO_BALANCES,
     storeTableView: BALANCE_TABLE_VIEW,
@@ -88,9 +88,9 @@ const BalancesTableNew = (props: BalancesTableProps) => {
     <TableContextWrapper {...storeProps}>
       <PricesWarning />
 
-      <BalancesTableNewInner {...storeProps} {...props} />
+      <BalancesTableInner {...storeProps} {...props} />
     </TableContextWrapper>
   )
 }
 
-export default BalancesTableNew
+export default BalancesTable

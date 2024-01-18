@@ -54,6 +54,7 @@ import {
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 import { useSendEvent } from '../providers/AnalyticContext'
+import BalancesSectionCards from './customCard/BalancesSectionCard'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
 export const BALANCE_TABLE_VARIANT = 'BalanceTableVariant'
@@ -67,9 +68,9 @@ const { TabPane } = Tabs
 
 export type TableKind = 'balances' | 'crowdloans' | 'assets'
 
-export const relayChains: RelayChain[] = [ 'kusama', 'polkadot' ]
+export const relayChains: RelayChain[] = ['kusama', 'polkadot']
 
-export const disableContributionButton = [ 'acala' ]
+export const disableContributionButton = ['acala']
 
 export const tailsViewOpt: TableViewOption[] = [
   { label: <MenuOutlined />, value: 'table' },
@@ -316,11 +317,11 @@ export const BalancePart = <T extends TableInfo>({
 
   useEffect(() => {
     store.set(storeTableView, tableView)
-  }, [ tableView ])
+  }, [tableView])
 
   useEffect(() => {
     store.set(storeShowZeroBalance, showZeroBalances)
-  }, [ showZeroBalances ])
+  }, [showZeroBalances])
 
   if (!data || !skeleton) return <TableLoading loadingLabel={loadingLabel} />
 
@@ -340,6 +341,24 @@ export const BalancePart = <T extends TableInfo>({
 
   if (isEmptyArray(tableData) && loading)
     return <TableLoading loadingLabel={loadingLabel} />
+
+  if (isMobile) {
+    return balanceKind === 'NativeToken' ? (
+      <BalancesSectionCards
+        data={tableData || []}
+        balanceKind={balanceKind}
+        isMobile={isMobile}
+        noData={noData}
+      />
+    ) : (
+      <BalanceCards
+        data={tableData || []}
+        balanceKind={balanceKind}
+        isMobile={isMobile}
+        noData={noData}
+      />
+    )
+  }
 
   switch (tableView) {
     case 'table':
@@ -364,10 +383,10 @@ export const BalancePart = <T extends TableInfo>({
       )
     default:
       return (
-        <BalanceCards
-          data={tableData || []}
-          balanceKind={balanceKind}
-          isMobile={isMobile}
+        <InnerBalancesTable
+          loading={loading}
+          columns={columns}
+          tableData={tableData}
           noData={noData}
         />
       )
@@ -728,7 +747,7 @@ export const Address = ({
       )}
       {withQr && (
         <AddressQrModal
-          className='grey-light'
+          className='GrayIcon'
           address={accountId}
           network={name}
         />
@@ -770,9 +789,9 @@ export const AccountPreview = ({
   largeAvatar = false,
   eventSource,
   nameClassName,
-  identityLoadNotRequired
+  identityLoadNotRequired,
 }: AccountPreviewProps) => {
-  useFetchIdentities([ account ], identityLoadNotRequired)
+  useFetchIdentities([account], identityLoadNotRequired)
   const identities = useIdentities(account)
 
   const address = (

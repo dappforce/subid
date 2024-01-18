@@ -3,7 +3,10 @@ import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesS
 import { MultiChainInfo } from '../../../../rtk/features/multiChainInfo/types'
 import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { TFunction } from 'i18next'
-import { AccountInfoByChain, BalancesStruct } from 'src/components/identity/types'
+import {
+  AccountInfoByChain,
+  BalancesStruct,
+} from 'src/components/identity/types'
 import BN from 'bignumber.js'
 import {
   AccountPreview,
@@ -14,21 +17,31 @@ import {
   getDecimalsAndSymbol,
   getParentBalances,
   getPrice,
-  resolveAccountDataImage,
 } from '../../utils'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
-import { convertToBalanceWithDecimal, isDef, isEmptyObj, nonEmptyArr, pluralize, } from '@subsocial/utils'
-import BaseAvatar from 'src/components/utils/DfAvatar'
-import { MutedDiv } from 'src/components/utils/MutedText'
+import {
+  convertToBalanceWithDecimal,
+  isDef,
+  isEmptyObj,
+  nonEmptyArr,
+  pluralize,
+} from '@subsocial/utils'
 import clsx from 'clsx'
 import styles from '../../Table.module.sass'
 import { convertAddressToChainFormat, SubIcon } from 'src/components/utils'
 import { LinksButton } from '../../links/Links'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
-import { allowedTokensByNetwork, decodeTokenId, encodeTokenId, getBalancePart, } from '../utils'
+import {
+  allowedTokensByNetwork,
+  decodeTokenId,
+  encodeTokenId,
+  getBalancePart,
+} from '../utils'
+import { PnlData } from '../utils/index'
+import { RiQuestionLine } from 'react-icons/ri'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -50,7 +63,7 @@ type NonTokenImageProps = {
   tokenId: string
 }
 
-const excludedTokensPrefixes = [ 'xc', 'a', 't', '3', 'vs', 'wa' ]
+const excludedTokensPrefixes = ['xc', 'a', 't', '3', 'vs', 'wa']
 
 const NonTokenImage = ({ tokenId }: NonTokenImageProps) => {
   const excludedTokenPrefix = excludedTokensPrefixes.find((prefix) =>
@@ -65,9 +78,13 @@ const NonTokenImage = ({ tokenId }: NonTokenImageProps) => {
 
 type NetworksIconsProps = {
   networkIcons: string[]
+  withCounter?: boolean
 }
 
-export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
+export const NetworksIcons = ({
+  networkIcons,
+  withCounter = false,
+}: NetworksIconsProps) => {
   const icons = networkIcons.map((icon, i) => {
     return (
       <AvatarOrSkeleton
@@ -78,7 +95,16 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
       />
     )
   })
-  return <div className={'d-flex alignt-items-center'}>{icons}</div>
+  return (
+    <div className='d-flex align-items-center'>
+      <div className={'d-flex alignt-items-center'}>{icons}</div>
+      {withCounter && (
+        <span className='GrayText ml-1'>
+          {pluralize({ count: networkIcons.length, singularText: 'chain' })}
+        </span>
+      )}
+    </div>
+  )
 }
 
 export const parseTokenCentricView = ({
@@ -160,7 +186,7 @@ export const parseTokenCentricView = ({
         })
 
         if (nonEmptyArr(children)) {
-          childrenBalances.children = [ ...children ]
+          childrenBalances.children = [...children]
         }
 
         const chainInfo = chainsInfo[firstNetwork]
@@ -184,7 +210,15 @@ export const parseTokenCentricView = ({
           <ChainData
             icon={imagePath}
             name={tokenId}
-            desc={<NetworksIcons networkIcons={networkIcons} />}
+            desc={
+              <div>
+                <NetworksIcons networkIcons={networkIcons} withCounter />
+                <PnlData
+                  symbol={tokenId}
+                  balanceValue={balanceValueWithDecimals}
+                />
+              </div>
+            }
           />
         ) : (
           <AccountPreview
@@ -207,9 +241,10 @@ export const parseTokenCentricView = ({
           name: tokenId,
           address: '',
           decimals,
+          symbol: tokenId,
           totalValue: totalValue,
           balanceWithoutChildren: getBalancePart(balance, false),
-          balanceValue: totalBalance,
+          balanceValue: balanceValueWithDecimals,
           balanceView: getBalancePart(balance, true),
           links: [],
           networkIcons,
@@ -293,7 +328,7 @@ export const parseTokenCentricView = ({
   const balancesInfo = parsedData.filter(isDef).flat()
 
   return balancesInfo.sort((a, b) =>
-      b.totalTokensValue.minus(a.totalTokensValue).toNumber()
+    b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
 }
 
@@ -306,14 +341,14 @@ type BalanceByToken = {
 
 type BalancesByTokenId = Record<string, BalanceByToken>
 
-function parseBalancesByToken (
+function parseBalancesByToken(
   balancesEntities: BalanceEntityRecord,
   multiChainInfo: MultiChainInfo
 ) {
   const balancesByToken: BalancesByTokenId = {}
   const tokenIds = new Set<string>()
 
-  Object.entries(balancesEntities).forEach(([ address, balancesEntity ]) => {
+  Object.entries(balancesEntities).forEach(([address, balancesEntity]) => {
     balancesEntity.balances?.forEach(({ network, info }) => {
       if (!info || isEmptyObj(info)) return
 
@@ -322,7 +357,7 @@ function parseBalancesByToken (
 
       const { ss58Format } = chainInfo
 
-      Object.entries(info).forEach(([ tokenId, balances ]) => {
+      Object.entries(info).forEach(([tokenId, balances]) => {
         const encodedTokenId = encodeTokenId(address, tokenId)
 
         if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId)
@@ -337,7 +372,7 @@ function parseBalancesByToken (
         const { totalBalance: newTotalBalance } = balances
         const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
-        if(!decimal) return
+        if (!decimal) return
 
         const totalBalanceValue = (totalBalanceSum || new BN('0')).plus(
           newTotalBalance || '0'
@@ -381,7 +416,7 @@ type GetChildrenBalanceParams = {
   t: TFunction
 }
 
-function getChildrenBalances ({
+function getChildrenBalances({
   balancesByNetwork,
   isMulti,
   chainsInfo,
@@ -394,7 +429,7 @@ function getChildrenBalances ({
   const balancesByNetworkEntries = Object.entries(balancesByNetwork)
   const networkIcons: string[] = []
 
-  const result = balancesByNetworkEntries.map(([ network, balances ]) => {
+  const result = balancesByNetworkEntries.map(([network, balances]) => {
     const { totalBalance, accountId, ...otherBalances } = balances
 
     const chainInfo = chainsInfo[network]
@@ -403,7 +438,7 @@ function getChildrenBalances ({
 
     const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
-    if(!decimal) return
+    if (!decimal) return
 
     const balanceValue = getBalanceWithDecimals({
       totalBalance: totalBalance ?? '0',
@@ -431,15 +466,17 @@ function getChildrenBalances ({
       decimal,
     })
 
-    childrenBalances.children = [ ...accountData.reverse() ]
+    childrenBalances.children = [...accountData.reverse()]
 
-    const chain = <ChainData 
-      icon={icon} 
-      name={name} 
-      avatarSize={'small'} 
-      isBoldName={false} 
-      eventSource='balance_table'
-    />
+    const chain = (
+      <ChainData
+        icon={icon}
+        name={name}
+        avatarSize={'small'}
+        isBoldName={false}
+        eventSource='balance_table'
+      />
+    )
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
@@ -510,7 +547,7 @@ type GetAccountDataValuesParams = BalancesStruct & {
   t: TFunction
 }
 
-function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
+function getAccountDataValues({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
@@ -545,7 +582,7 @@ type GetAccountDataRowsParams = GetAccountDataValuesParams & {
   isMulti?: boolean
 }
 
-function getAccountDataRows ({
+function getAccountDataRows({
   decimal,
   price,
   priceValue,
@@ -559,42 +596,46 @@ function getAccountDataRows ({
     ...accountDataValuesParams,
   })
 
-  return accountDataValues.map(
-      ({ key, label, value }: any) => {
-        const valueWithDecimal = getBalanceWithDecimals({
-          totalBalance: value,
-          decimals: decimal,
-        })
+  return accountDataValues.map(({ key, label, value }: any) => {
+    const valueWithDecimal = getBalanceWithDecimals({
+      totalBalance: value,
+      decimals: decimal,
+    })
 
-        const { total, totalValue, balance } = getBalances({
-          balanceValue: valueWithDecimal,
-          priceValue,
-          symbol: tokenId,
-          t,
-        })
+    const { total, totalValue, balance } = getBalances({
+      balanceValue: valueWithDecimal,
+      priceValue,
+      symbol: tokenId,
+      t,
+    })
 
-        const chain = (
-            <div className='d-flex align-items-center'>
-              <BaseAvatar size={24} avatar={resolveAccountDataImage(key)}/>
-              <div>{label}</div>
-            </div>
-        )
+    const chain = (
+      <div className='w-fit'>
+        <Tooltip title={label} className='d-flex align-items-center'>
+          <div>{label}</div>
+          <RiQuestionLine className='ml-1 GrayIcon' />
+        </Tooltip>
+      </div>
+    )
 
-        return {
-          key,
-          chain: (
-              <MutedDiv
-                  className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
-              >
-                {chain}
-              </MutedDiv>
-          ),
-          balance: <span className='bs-mr-4'>{balance}</span>,
-          price,
-          total,
-          totalValue,
-          className: styles.Children,
-        }
-      }
-  )
+    return {
+      key,
+      chain: (
+        <div
+          className={clsx(
+            { [styles.SecondLevelBalances]: isMulti },
+            'ml-5 GrayText'
+          )}
+        >
+          {chain}
+        </div>
+      ),
+      balance: <span className='bs-mr-4'>{balance}</span>,
+      balanceValue: valueWithDecimal,
+      price,
+      total,
+      totalValue,
+      className: styles.Children,
+    }
+  })
 }
