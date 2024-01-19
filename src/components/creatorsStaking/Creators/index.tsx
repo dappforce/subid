@@ -31,20 +31,23 @@ type AllCreatorsProps = {
   spaceIds?: string[]
   era?: string
   sortBy: string
+  isMyCreators: boolean
 }
 
 const CreatorsCards = ({
   spaceIds,
   era,
   sortBy,
+  isMyCreators,
   ...modalProps
 }: AllCreatorsProps) => {
   // const [ page, setPage ] = useState(1)
-  const sortedSpaceIds = useSortBy(sortBy, spaceIds, era)
+  const sortedSpaceIds = useSortBy(sortBy, spaceIds, era, isMyCreators)
 
+  
   const ids =
-    sortedSpaceIds && !isEmptyArray(sortedSpaceIds) ? sortedSpaceIds : spaceIds
-
+  sortedSpaceIds && !isEmptyArray(sortedSpaceIds) ? sortedSpaceIds : spaceIds
+  
   if (!ids || isEmptyArray(ids))
     return (
       <div className='h-[261px] flex items-center justify-center'>
@@ -119,14 +122,14 @@ const CreatorsSectionInner = ({
       id: 'all-creators',
       text: 'All Creators',
       content: () => (
-        <CreatorsCards spaceIds={spaceIds} era={era} sortBy={sortBy} />
+        <CreatorsCards isMyCreators={false} spaceIds={spaceIds} era={era} sortBy={sortBy} />
       ),
     },
     {
       id: 'my-creators',
       text: `My Creators (${isMulti ? 0 : myCreatorsIds.length || 0})`,
       content: () => (
-        <CreatorsCards spaceIds={myCreatorsIds} era={era} sortBy={sortBy} />
+        <CreatorsCards isMyCreators={true} spaceIds={myCreatorsIds} era={era} sortBy={sortBy} />
       ),
       disabled: myCreatorsIds.length === 0 || isMulti,
     },

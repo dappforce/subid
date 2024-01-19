@@ -226,7 +226,6 @@ const MobileTransfer = ({
   const [ open, setOpen ] = useState(false)
   const titleByKind = txKind === 'TRANSFER_TO' ? 'Received from' : 'Sent to'
 
-  console.log(extrinsicHash)
   return (
     <>
       <div className={styles.TransferRow} onClick={() => setOpen(true)}>

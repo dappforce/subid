@@ -22,7 +22,8 @@ const sortValues = <T extends BackerInfoRecord | EraStakesBySpaceIdsRecord>(
 export const useSortBy = (
   sortBy: string,
   spaceIds?: string[],
-  era?: string
+  era?: string,
+  isMyCreators?: boolean
 ) => {
   const myAddress = useMyAddress()
   const backersInfo = useBackerInfoBySpaces(spaceIds, myAddress)
@@ -39,11 +40,12 @@ export const useSortBy = (
     } else if (sortBy === 'my-stake') {
       return sortValues(backersInfo, 'totalStaked')
     } else {
-      const isNewSpaceIdsArr = !isEmptyArray(
+      const isNewSpaceIdsArr = isMyCreators ? !isEmptyArray(
         spaceIds?.filter((spaceId) => shuffledSpaceIds?.includes(spaceId)) || []
-      )
-
+      ) : true
+      
       if (!shuffledSpaceIds?.length && isNewSpaceIdsArr) {
+
         setShuffledSpaceIds(shuffle(spaceIds))
       }
 
@@ -56,6 +58,7 @@ export const useSortBy = (
     eraStakes,
     myAddress,
   ])
+
 
   return sortedSpaceIds
 }
