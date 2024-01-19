@@ -474,6 +474,7 @@ export const parseBalancesTableInfo = ({
             accountId={numberOfAccounts}
             isMonosizedFont={false}
             withCopy={false}
+            desc={<PnlData symbol={nativeSymbol} balanceValue={balanceValueBN} />}
           />
         )
 
@@ -484,6 +485,7 @@ export const parseBalancesTableInfo = ({
             balance: getBalancePart(true),
             address: numberOfAccounts,
             price,
+            symbol: nativeSymbol,
             total,
             icon,
             name,

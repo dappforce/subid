@@ -114,12 +114,12 @@ const ActionPannel = ({
   )
 
   return (
-    <div className={clsx('bs-mb-3', { ['bs-px-3']: isMobile })}>
+    <div className={clsx(styles.ActionPannel, 'bs-mb-3', { ['bs-px-3']: isMobile })}>
       <div className='d-flex align-items-center justify-content-between'>
         <div
-          className={'d-flex aling-items-center font-weight-bold FontNormal'}
+          className={styles.TotalBalance}
         >
-          <div className='bs-mr-2 bs-min-w-fit'>{t('general.total')}</div>
+          <div className={styles.TotalBalanceLabel}>{t('general.total')}</div>
           {totalBalance}
         </div>
         <div className={styles.TableActionButtons}>

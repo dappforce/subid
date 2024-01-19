@@ -266,7 +266,7 @@ export const parseTokenCentricView = ({
 
     if (isMulti) {
       const { balanceValueBN, totalValueBN, balance, total } =
-        getParentBalances(balancesByKey, tokenId, true)
+        getParentBalances(balancesByKey, tokenId)
 
       const childrenBalances: any = {}
 
@@ -299,6 +299,7 @@ export const parseTokenCentricView = ({
           accountId={numberOfAccounts}
           isMonosizedFont={false}
           withCopy={false}
+          desc={<PnlData symbol={tokenId} balanceValue={balanceValueBN} />}
         />
       )
 
@@ -308,6 +309,7 @@ export const parseTokenCentricView = ({
           chain,
           balance: getBalancePart(balance, true),
           address: numberOfAccounts,
+          symbol: tokenId,
           price,
           total,
           icon: imagePath,
@@ -551,11 +553,6 @@ function getAccountDataValues({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    // {
-    //   key: 'frozen',
-    //   label: t('table.balances.frozen'),
-    //   value: frozenBalance?.toString() || '0',
-    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),

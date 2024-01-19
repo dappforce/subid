@@ -344,12 +344,7 @@ export const BalancePart = <T extends TableInfo>({
 
   if (isMobile) {
     return balanceKind === 'NativeToken' ? (
-      <BalancesSectionCards
-        data={tableData || []}
-        balanceKind={balanceKind}
-        isMobile={isMobile}
-        noData={noData}
-      />
+      <BalancesSectionCards data={tableData || []} noData={noData} />
     ) : (
       <BalanceCards
         data={tableData || []}
