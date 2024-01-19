@@ -1,13 +1,16 @@
 import { createContext, useContext, useState } from 'react'
-import { useResponsiveSize } from 'src/components/responsive'
 import { TableView } from '../types'
 import store from 'store'
+import { BalanceVariant } from './types'
+import { BALANCE_TABLE_VARIANT } from '../utils'
 
 export type TableContextState = {
   tableView: TableView
   setTableView: (tableView: TableView) => void
   showZeroBalances: boolean
   setShowZeroBalances: (showZeroBalances: boolean) => void
+  balancesVariant: BalanceVariant
+  setBalancesVariant: (balancesVariant: BalanceVariant) => void
 }
 
 type TableContextProps = {
@@ -25,6 +28,7 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
 
   const tableViewFromStorage = store.get(storeTableView)
   const showZeroBalancesFromStorage = store.get(storeShowZeroBalance)
+  const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
 
   const [tableView, setTableView] = useState<TableView>(
     tableViewFromStorage || 'table'
@@ -35,11 +39,17 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
       : true
   )
 
+  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
+    tableVariantFromStore || 'chains'
+  )
+
   const value = {
     tableView,
     setTableView,
     showZeroBalances,
     setShowZeroBalances,
+    balancesVariant,
+    setBalancesVariant
   }
 
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>

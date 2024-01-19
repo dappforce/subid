@@ -63,7 +63,7 @@
   font-size: 12px
 
   button
-    display: flex 
+    display: flex
     align-items: center
     gap: 2px
 
@@ -75,10 +75,8 @@
     border-radius: 6px !important
     padding: 2px 2px 2px 6px !important
 
-
     svg
       font-size: 14px !important
-
 
 .LinksButton
   align-self: center
@@ -98,15 +96,15 @@
   display: grid
   width: 100%
   grid-template-rows: 0fr
-  padding-right: 42px
-  transition: grid-template-rows 0.3s ease-out
+  transition: grid-template-rows 0.3s ease-out, padding-top 0.3s ease-out
+
+.OpenCollapse
+  padding-top: $space_normal
+  grid-template-rows: 1fr
 
 .ChildrenBalances
   width: 100%
   overflow: hidden
-
-.OpenCollapse
-  grid-template-rows: 1fr
 
 .ArrowRight
   transition: transform 0.3s ease-out
@@ -127,18 +125,26 @@
 
     border-color: #F0F0F0
 
-
 // ----- children balances --------
+
+.InnerChildrenWrapper
+  display: flex
+  flex-direction: column
 
 .ChildrenWrapper
   display: flex
   flex-direction: column
   gap: $space_normal
 
-  .ChildrenRow:first-child
-    margin-top: $space_tiny
+  // .ChildrenRow:first-child
+    // margin-top: $space_normal
 
 .ChildrenRow
+  width: 100%
+  display: flex
+  padding-right: 44px
+
+.ChildrenRowContent
   display: flex
   justify-content: space-between
   align-items: flex-start
@@ -155,7 +161,7 @@
     line-height: 1
 
 .InnerCardDivider
-  padding: $space_tiny $space_normal 0 $space_normal
+  padding: $space_normal $space_normal 0 $space_normal
 
   \:global .ant-divider
     margin: 0
@@ -164,3 +170,17 @@
   font-size: 12px
   font-weight: 400
   line-height: 24px
+
+  \:global .ml-5
+    margin-left: 0px !important
+
+.CollapseButton
+  color: $color_gray_icon
+  font-size: 18px !important
+  display: flex
+
+  svg
+    justify-self: center
+    margin-top: 5px
+    margin-left: 6px
+    width: 100%

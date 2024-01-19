@@ -33,15 +33,17 @@ type BalancesTableInnerProps = BalancesTableProps & {
 const BalancesTableInner = (props: BalancesTableInnerProps) => {
   const { storeShowZeroBalance, storeTableView, addresses } = props
   const isMyAddress = useIsMyConnectedAddress(addresses?.[0])
-  const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
-  const { tableView, showZeroBalances } = useTableContext()
 
-  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
-    tableVariantFromStore || 'chains'
-  )
+  const { tableView, showZeroBalances, balancesVariant, setBalancesVariant } =
+    useTableContext()
 
-  const { loading, balancesLoading, data, transferModalState, transferModalDispatch } =
-    useGetTableData(addresses, balancesVariant)
+  const {
+    loading,
+    balancesLoading,
+    data,
+    transferModalState,
+    transferModalDispatch,
+  } = useGetTableData(addresses, balancesVariant)
 
   const { t } = useTranslation()
 
