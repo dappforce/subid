@@ -36,7 +36,7 @@ export const PreviewAccountsGrid: FC = () => {
   return (
     <div>
       <Row justify='space-between'>
-        <Col className={clsx({['w-100']: isMobile})}>
+        <Col className={clsx({ ['w-100']: isMobile })}>
           <SectionTitle
             title={t('interestingAccounts.title')}
           />
