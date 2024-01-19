@@ -69,7 +69,7 @@ const parseBalancesEntities = (
 ) => {
   const balancesInfoByKey: Record<string, any> = {}
 
-  Object.entries(balancesEntities).forEach(([account, { balances }]) => {
+  Object.entries(balancesEntities).forEach(([ account, { balances } ]) => {
     balances?.forEach((balance) => {
       const { network, info: balanceInfo } = balance || {}
 
@@ -79,7 +79,7 @@ const parseBalancesEntities = (
 
       const balanceInfoBySymbol: Record<string, any> = {}
 
-      Object.entries(balanceInfo || {}).forEach(([symbol, info]) => {
+      Object.entries(balanceInfo || {}).forEach(([ symbol, info ]) => {
         const { decimal } = getDecimalsAndSymbol(chainInfo, symbol)
 
         if (!decimal) return
@@ -169,7 +169,7 @@ export const parseBalancesTableInfo = ({
     tokenPrices
   )
 
-  const parsedData = [...supportedNetworks, ...evmLikeNetworks].map(
+  const parsedData = [ ...supportedNetworks, ...evmLikeNetworks ].map(
     (supportedNetwork) => {
       const chainInfo = chainsInfo[supportedNetwork]
 

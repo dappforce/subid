@@ -55,7 +55,7 @@ const CustomCard = <T extends TableInfo>({
   balanceKind,
   isLastElement,
 }: BalanceCardProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const { isMobile } = useResponsiveSize()
   const isMulti = useIsMulti()
   let level = 0
@@ -236,7 +236,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
   className,
   balanceKind,
 }: InnerChildrenBalancesProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const haveChildren = child?.children || child.cardChildren
 
   const balances = (

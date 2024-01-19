@@ -68,9 +68,9 @@ const { TabPane } = Tabs
 
 export type TableKind = 'balances' | 'crowdloans' | 'assets'
 
-export const relayChains: RelayChain[] = ['kusama', 'polkadot']
+export const relayChains: RelayChain[] = [ 'kusama', 'polkadot' ]
 
-export const disableContributionButton = ['acala']
+export const disableContributionButton = [ 'acala' ]
 
 export const tailsViewOpt: TableViewOption[] = [
   { label: <MenuOutlined />, value: 'table' },
@@ -317,11 +317,11 @@ export const BalancePart = <T extends TableInfo>({
 
   useEffect(() => {
     store.set(storeTableView, tableView)
-  }, [tableView])
+  }, [ tableView ])
 
   useEffect(() => {
     store.set(storeShowZeroBalance, showZeroBalances)
-  }, [showZeroBalances])
+  }, [ showZeroBalances ])
 
   if (!data || !skeleton) return <TableLoading loadingLabel={loadingLabel} />
 
@@ -786,7 +786,7 @@ export const AccountPreview = ({
   nameClassName,
   identityLoadNotRequired,
 }: AccountPreviewProps) => {
-  useFetchIdentities([account], identityLoadNotRequired)
+  useFetchIdentities([ account ], identityLoadNotRequired)
   const identities = useIdentities(account)
 
   const address = (

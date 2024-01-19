@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import styles from '../Table.module.sass'
 import {
   BALANCE_SHOW_ZERO_BALANCES,
-  BALANCE_TABLE_VARIANT,
   BALANCE_TABLE_VIEW,
   BalancePart,
 } from '../utils'
@@ -13,9 +12,6 @@ import {
 } from '../customTable/TableContext'
 import { useTranslation } from 'react-i18next'
 import { useIsMyConnectedAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useState } from 'react'
-import { BalanceVariant } from './types'
-import store from 'store'
 import { useGetTableData } from './utils/useGetTableData'
 import ActionPannel from './utils/ActionPannel'
 import TransferModal from 'src/components/transfer/TransferModal'

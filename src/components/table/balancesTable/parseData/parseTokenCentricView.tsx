@@ -63,7 +63,7 @@ type NonTokenImageProps = {
   tokenId: string
 }
 
-const excludedTokensPrefixes = ['xc', 'a', 't', '3', 'vs', 'wa']
+const excludedTokensPrefixes = [ 'xc', 'a', 't', '3', 'vs', 'wa' ]
 
 const NonTokenImage = ({ tokenId }: NonTokenImageProps) => {
   const excludedTokenPrefix = excludedTokensPrefixes.find((prefix) =>
@@ -186,7 +186,7 @@ export const parseTokenCentricView = ({
         })
 
         if (nonEmptyArr(children)) {
-          childrenBalances.children = [...children]
+          childrenBalances.children = [ ...children ]
         }
 
         const chainInfo = chainsInfo[firstNetwork]
@@ -343,14 +343,14 @@ type BalanceByToken = {
 
 type BalancesByTokenId = Record<string, BalanceByToken>
 
-function parseBalancesByToken(
+function parseBalancesByToken (
   balancesEntities: BalanceEntityRecord,
   multiChainInfo: MultiChainInfo
 ) {
   const balancesByToken: BalancesByTokenId = {}
   const tokenIds = new Set<string>()
 
-  Object.entries(balancesEntities).forEach(([address, balancesEntity]) => {
+  Object.entries(balancesEntities).forEach(([ address, balancesEntity ]) => {
     balancesEntity.balances?.forEach(({ network, info }) => {
       if (!info || isEmptyObj(info)) return
 
@@ -359,7 +359,7 @@ function parseBalancesByToken(
 
       const { ss58Format } = chainInfo
 
-      Object.entries(info).forEach(([tokenId, balances]) => {
+      Object.entries(info).forEach(([ tokenId, balances ]) => {
         const encodedTokenId = encodeTokenId(address, tokenId)
 
         if ((allowedTokens && !allowedTokens.includes(tokenId)) || !tokenId)
@@ -418,7 +418,7 @@ type GetChildrenBalanceParams = {
   t: TFunction
 }
 
-function getChildrenBalances({
+function getChildrenBalances ({
   balancesByNetwork,
   isMulti,
   chainsInfo,
@@ -431,7 +431,7 @@ function getChildrenBalances({
   const balancesByNetworkEntries = Object.entries(balancesByNetwork)
   const networkIcons: string[] = []
 
-  const result = balancesByNetworkEntries.map(([network, balances]) => {
+  const result = balancesByNetworkEntries.map(([ network, balances ]) => {
     const { totalBalance, accountId, ...otherBalances } = balances
 
     const chainInfo = chainsInfo[network]
@@ -468,7 +468,7 @@ function getChildrenBalances({
       decimal,
     })
 
-    childrenBalances.children = [...accountData.reverse()]
+    childrenBalances.children = [ ...accountData.reverse() ]
 
     const chain = (
       <ChainData
@@ -549,7 +549,7 @@ type GetAccountDataValuesParams = BalancesStruct & {
   t: TFunction
 }
 
-function getAccountDataValues({ t, ...info }: GetAccountDataValuesParams) {
+function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
@@ -579,7 +579,7 @@ type GetAccountDataRowsParams = GetAccountDataValuesParams & {
   isMulti?: boolean
 }
 
-function getAccountDataRows({
+function getAccountDataRows ({
   decimal,
   price,
   priceValue,

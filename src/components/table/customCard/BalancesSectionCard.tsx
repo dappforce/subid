@@ -22,7 +22,7 @@ const BalancesSectionCard = <T extends TableInfo>({
   value,
   isLastElement,
 }: BalancesSectionCardProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const balanceInfoRef = React.useRef<HTMLDivElement>(null)
 
   const isMulti = useIsMulti()
@@ -162,7 +162,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
   leftOffset,
   isLastElement,
 }: InnerCildrenBalancesProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const { balancesVariant } = useTableContext()
 
   const {
@@ -187,7 +187,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
 
   const childrenOffsetLeft = childrenRowContentRef.current?.offsetLeft || 0
 
-  let childrenOffset = ['reserved', 'locked', 'free'].includes(key)
+  let childrenOffset = [ 'reserved', 'locked', 'free' ].includes(key)
     ? leftOffset + (balancesVariant === 'tokens' || isMulti ? 56 : 8)
     : leftOffset + 7
 
