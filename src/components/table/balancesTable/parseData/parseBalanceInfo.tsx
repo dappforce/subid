@@ -31,13 +31,13 @@ import { convertAddressToChainFormat, SubIcon } from '../../../utils/index'
 import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { AccountInfoByChain } from '../../../identity/types'
 import { getSubsocialIdentityByAccount } from '../../../../rtk/features/identities/identitiesHooks'
-import { RiQuestionLine } from 'react-icons/ri'
 import { BalanceView } from '../../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
 import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../../links/Links'
-import { PnlData } from '../utils'
+import { PnlInDollars, PriceChangedOn } from '../utils'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, freeBalance, lockedBalance } = info
@@ -306,7 +306,7 @@ export const parseBalancesTableInfo = ({
                       className='d-flex align-items-center'
                     >
                       <div>{label}</div>
-                      <RiQuestionLine className='ml-1 GrayIcon' />
+                      <InfoCircleOutlined className='ml-1 GrayIcon' />
                     </Tooltip>
                   </div>
                 )
@@ -346,6 +346,25 @@ export const parseBalancesTableInfo = ({
               </div>
             )
 
+            const priceView = (
+              <div className={styles.RowValue}>
+                {price}
+                {!isMulti && <PriceChangedOn symbol={nativeSymbol} />}
+              </div>
+            )
+
+            const totalView = (
+              <div className={styles.RowValue}>
+                <BalanceView value={totalValue} symbol='$' startWithSymbol />
+                {!isMulti && (
+                  <PnlInDollars
+                    balanceValue={balanceValue}
+                    symbol={nativeSymbol}
+                  />
+                )}
+              </div>
+            )
+
             const chain = !isMulti ? (
               <ChainData
                 accountId={account}
@@ -354,9 +373,6 @@ export const parseBalancesTableInfo = ({
                 icon={icon}
                 name={name}
                 eventSource='balance_table'
-                desc={
-                  <PnlData symbol={nativeSymbol} balanceValue={balanceValue} />
-                }
               />
             ) : (
               <AccountPreview
@@ -383,14 +399,8 @@ export const parseBalancesTableInfo = ({
               chain: chainValue,
               symbol: nativeSymbol,
               balance: getBalancePart(true),
-              price: !isMulti ? price : <></>,
-              total: (
-                <BalanceView
-                  value={totalTokensValue}
-                  symbol='$'
-                  startWithSymbol
-                />
-              ),
+              price: !isMulti ? priceView : <></>,
+              total: totalView,
               totalTokensValue,
               icon,
               name,
@@ -400,7 +410,7 @@ export const parseBalancesTableInfo = ({
               balanceWithoutChildren: getBalancePart(false),
               balanceValue,
               balanceView: getBalancePart(true),
-              links: (
+              links: isMulti ? [] : (
                 <LinksButton
                   network={supportedNetwork}
                   action={onButtonClick}
@@ -409,14 +419,14 @@ export const parseBalancesTableInfo = ({
                 />
               ),
               showLinks: (isShow: boolean) => (
-                <LinksButton
+                !isMulti && <LinksButton
                   action={onButtonClick}
                   network={supportedNetwork}
                   showActionButton={isShow}
                   disableTransferButton={!chainInfo.isTransferable || loading}
                 />
               ),
-              transferAction: (
+              transferAction: !isMulti && (
                 <Button
                   disabled={!chainInfo.isTransferable || loading}
                   size='small'
@@ -432,7 +442,7 @@ export const parseBalancesTableInfo = ({
           .filter(isDef)
 
       if (isMulti) {
-        const { balanceValueBN, totalValueBN, balance, total } =
+        const { balanceValueBN, totalValueBN, totalTokensValueBN, balance } =
           getParentBalances(balancesByNetwork, nativeSymbol)
 
         const childrenBalances: any = {}
@@ -474,9 +484,28 @@ export const parseBalancesTableInfo = ({
             accountId={numberOfAccounts}
             isMonosizedFont={false}
             withCopy={false}
-            desc={<PnlData symbol={nativeSymbol} balanceValue={balanceValueBN} />}
           />
         )
+
+        const priceView = (
+          <div className={styles.RowValue}>
+            {price}
+            <PriceChangedOn symbol={nativeSymbol} />
+          </div>
+        )
+
+        const totalView = (
+          <div className={styles.RowValue}>
+            <BalanceView value={totalValueBN} symbol='$' startWithSymbol />
+            <PnlInDollars balanceValue={balanceValueBN} symbol={nativeSymbol} />
+          </div>
+        )
+
+        const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation()
+          e.currentTarget?.blur()
+          onTransferClick(nativeSymbol, id)
+        }
 
         return [
           {
@@ -484,17 +513,33 @@ export const parseBalancesTableInfo = ({
             chain,
             balance: getBalancePart(true),
             address: numberOfAccounts,
-            price,
+            price: priceView,
             symbol: nativeSymbol,
-            total,
+            total: totalView,
             icon,
             name,
             chainName: name,
-            totalTokensValue: totalValueBN,
+            totalTokensValue: totalTokensValueBN,
             totalValue: totalValueBN,
             balanceWithoutChildren: getBalancePart(false),
             balanceValue: balanceValueBN,
             balanceView: getBalancePart(true),
+            links: (
+              <LinksButton
+                network={supportedNetwork}
+                action={onButtonClick}
+                showActionButton={false}
+                disableTransferButton={!chainInfo.isTransferable || loading}
+              />
+            ),
+            showLinks: (isShow: boolean) => (
+              <LinksButton
+                action={onButtonClick}
+                network={supportedNetwork}
+                showActionButton={isShow}
+                disableTransferButton={!chainInfo.isTransferable || loading}
+              />
+            ),
             ...childrenBalances,
           },
         ]
@@ -506,8 +551,11 @@ export const parseBalancesTableInfo = ({
 
   const balancesInfo = parsedData.filter(isDef).flat()
 
-  const balancesInfoSorted = balancesInfo.sort((a, b) =>
-    b.totalTokensValue.minus(a.totalTokensValue).toNumber()
+  const balancesInfoSorted = balancesInfo.sort(
+    (a, b) =>
+      b.totalValue.minus(a.totalValue).toNumber() ||
+      b.balanceValue.minus(a.balanceValue).toNumber() ||
+      b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
 
   return balancesInfoSorted

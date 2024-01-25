@@ -5,13 +5,15 @@ import clsx from 'clsx'
 import React, { useState } from 'react'
 import { AvatarOrSkeleton, Address } from '../utils'
 import { BalanceView } from '@/components/homePage/address-views/utils'
-import { PnlData } from '../balancesTable/utils/index'
 import { Button, Divider } from 'antd'
 import { NetworksIcons } from '../balancesTable/parseData/parseTokenCentricView'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { useTableContext } from '../customTable/TableContext'
 import { useIsMulti } from '@/components/providers/MyExtensionAccountsContext'
 import NoData from '@/components/utils/EmptyList'
+import { PnlInDollars, calculatePnlInTokens } from '../balancesTable/utils'
+import { MutedSpan } from '@/components/utils/MutedText'
+import { usePrices } from '@/rtk/features/prices/pricesHooks'
 
 type BalancesSectionCardProps<T extends TableInfo> = {
   value: T
@@ -24,6 +26,7 @@ const BalancesSectionCard = <T extends TableInfo>({
 }: BalancesSectionCardProps<T>) => {
   const [ open, setOpen ] = useState<boolean>(false)
   const balanceInfoRef = React.useRef<HTMLDivElement>(null)
+  const prices = usePrices()
 
   const isMulti = useIsMulti()
 
@@ -36,12 +39,19 @@ const BalancesSectionCard = <T extends TableInfo>({
     totalValue,
     children,
     networkIcons,
+    transferAction,
     showLinks,
   } = value
 
+  const pnlData = calculatePnlInTokens({
+    pricesData: prices,
+    balanceValue,
+    symbol,
+  })
+
   const haveChildren = !!children || !isEmptyArray(children)
 
-  const links = showLinks?.(true)
+  const links = showLinks?.(!isMulti)
 
   const balanceView = (
     <BalanceView value={balanceValue} decimalClassName={styles.TokenDecimals} />
@@ -89,13 +99,12 @@ const BalancesSectionCard = <T extends TableInfo>({
           </div>
           {showBottomPart && (
             <div className={styles.BottomPart}>
-              <PnlData
-                balanceValue={balanceValue}
-                symbol={symbol}
-                className={
-                  'd-flex align-items-center justify-content-between lh-1'
-                }
-              />
+              {pnlData && (
+                <div className='d-flex align-items-center justify-content-between lh-1'>
+                  <MutedSpan>PnL 24h</MutedSpan>
+                  <PnlInDollars balanceValue={balanceValue} symbol={symbol} />
+                </div>
+              )}
 
               <div className='d-flex align-items-center justify-content-between'>
                 {address && (
@@ -123,10 +132,14 @@ const BalancesSectionCard = <T extends TableInfo>({
             </div>
           )}
         </div>
-        <div className={styles.LinksButton}>{links}</div>
+        <div className={styles.LinksButton}>{links || transferAction}</div>
       </div>
       {!isLastElement && (
-        <div className={styles.CardDivider}>
+        <div
+          className={clsx(styles.CardDivider, {
+            [styles.DividerOpenState]: haveChildren && open,
+          })}
+        >
           <Divider />
         </div>
       )}
@@ -170,10 +183,13 @@ const InnerChildrenBalances = <T extends TableInfo>({
     chain,
     balanceValue,
     totalValue,
+    showLinks,
     children: innerChildren,
   } = value
   const childrenRowContentRef = React.useRef<HTMLDivElement>(null)
   const isMulti = useIsMulti()
+
+  const links = showLinks?.(!isMulti)
 
   const haveChildren = !!innerChildren || !isEmptyArray(innerChildren)
 
@@ -218,6 +234,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
             <span className={styles.BalanceInDollars}>${balanceInDollats}</span>
           </div>
         </div>
+        <div className={styles.LinksButton}>{links}</div>
       </div>
       <div
         className={clsx(styles.CollapseWrapper, {
@@ -274,7 +291,7 @@ type BalanceCardsProps<T extends TableInfo> = {
 
 const BalancesSectionCards = <T extends TableInfo>({
   data,
-  noData
+  noData,
 }: BalanceCardsProps<T>) => {
   if (isEmptyArray(data)) return <NoData description={noData} />
 

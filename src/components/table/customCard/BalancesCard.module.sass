@@ -6,7 +6,7 @@
 
 .Card
   background: white
-  padding: $space_tiny $space_normal
+  padding: $space_small $space_normal
   display: flex
   align-items: start
 
@@ -40,7 +40,7 @@
   width: 100%
   display: flex
   flex-direction: column
-  gap: $space_normal
+  gap: $space_small
 
 .TopPart
   display: flex
@@ -80,17 +80,21 @@
 
 .LinksButton
   align-self: center
-  width: 36px
+  max-width: 40px
+  width: 100%
   display: flex
   justify-content: flex-end
 
   button
-    padding: 4px !important
+    padding: 3px !important
     align-items: center
     display: flex
 
     \:global .anticon
       vertical-align: 0 !important
+
+    svg
+      width: 100%
 
 .CollapseWrapper
   display: grid
@@ -99,7 +103,7 @@
   transition: grid-template-rows 0.3s ease-out, padding-top 0.3s ease-out
 
 .OpenCollapse
-  padding-top: $space_normal
+  padding-top: $space_small
   grid-template-rows: 1fr
 
 .ChildrenBalances
@@ -113,17 +117,24 @@
   transform: rotate(-90deg)
 
 .CardDivider
-  padding-right: $space_normal
+  padding: 0 $space_normal
   display: flex
   width: 100%
   justify-content: flex-end
 
   \:global .ant-divider
     margin: 0
-    min-width: 87.5%
-    width: 87.5%
+    min-width: 100%
+    width: 100%
+    transition: width 0.3s ease-out, min-width 0.3s ease-out
 
     border-color: #F0F0F0
+
+.DividerOpenState
+  \:global .ant-divider
+    margin: 0
+    min-width: 92%
+    width: 92%
 
 // ----- children balances --------
 
@@ -134,15 +145,12 @@
 .ChildrenWrapper
   display: flex
   flex-direction: column
-  gap: $space_normal
-
-  // .ChildrenRow:first-child
-    // margin-top: $space_normal
+  gap: $space_small
 
 .ChildrenRow
   width: 100%
   display: flex
-  padding-right: 44px
+  padding-right: $space_normal
 
 .ChildrenRowContent
   display: flex
@@ -161,7 +169,7 @@
     line-height: 1
 
 .InnerCardDivider
-  padding: $space_normal $space_normal 0 $space_normal
+  padding: $space_small $space_normal 0 $space_normal
 
   \:global .ant-divider
     margin: 0

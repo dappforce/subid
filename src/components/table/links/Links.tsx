@@ -203,7 +203,7 @@ export const LinksButton = ({
         ghost
         onClick={onMoreButtonClick}
       >
-        <LuMoreVertical />
+        <LuMoreVertical className='GrayIcon' />
       </Button>
     </Dropdown>
   )

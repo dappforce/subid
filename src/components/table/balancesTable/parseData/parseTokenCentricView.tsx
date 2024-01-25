@@ -35,13 +35,14 @@ import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
 import {
+  PnlInDollars,
+  PriceChangedOn,
   allowedTokensByNetwork,
   decodeTokenId,
   encodeTokenId,
   getBalancePart,
 } from '../utils'
-import { PnlData } from '../utils/index'
-import { RiQuestionLine } from 'react-icons/ri'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -206,19 +207,29 @@ export const parseTokenCentricView = ({
           onTransferClick(tokenId, firstNetwork, { id: assetRedistyId })
         }
 
+        const priceView = (
+          <div className={styles.RowValue}>
+            {price}
+            {!isMulti && <PriceChangedOn symbol={tokenId} />}
+          </div>
+        )
+
+        const totalView = (
+          <div className={styles.RowValue}>
+            <BalanceView value={totalValue} symbol='$' startWithSymbol />
+            {!isMulti && (
+              <PnlInDollars
+                balanceValue={balanceValueWithDecimals}
+                symbol={tokenId}
+              />
+            )}
+          </div>
+        )
         const chain = !isMulti ? (
           <ChainData
             icon={imagePath}
             name={tokenId}
-            desc={
-              <div>
-                <NetworksIcons networkIcons={networkIcons} withCounter />
-                <PnlData
-                  symbol={tokenId}
-                  balanceValue={balanceValueWithDecimals}
-                />
-              </div>
-            }
+            desc={<NetworksIcons networkIcons={networkIcons} withCounter />}
           />
         ) : (
           <AccountPreview
@@ -234,8 +245,8 @@ export const parseTokenCentricView = ({
           key: `${balancesKey}-${j}`,
           chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
           balance: getBalancePart(balance, true),
-          price: !isMulti ? price : <></>,
-          total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
+          price: !isMulti ? priceView : <></>,
+          total: totalView,
           totalTokensValue: totalValue,
           icon: imagePath,
           name: tokenId,
@@ -265,7 +276,7 @@ export const parseTokenCentricView = ({
       .filter(isDef)
 
     if (isMulti) {
-      const { balanceValueBN, totalValueBN, balance, total } =
+      const { balanceValueBN, totalValueBN, totalTokensValueBN, balance } =
         getParentBalances(balancesByKey, tokenId)
 
       const childrenBalances: any = {}
@@ -292,6 +303,20 @@ export const parseTokenCentricView = ({
           })
         : ''
 
+      const priceView = (
+        <div className={styles.RowValue}>
+          {price}
+          <PriceChangedOn symbol={tokenId} />
+        </div>
+      )
+
+      const totalView = (
+        <div className={styles.RowValue}>
+          <BalanceView value={totalValueBN} symbol='$' startWithSymbol />
+          <PnlInDollars balanceValue={balanceValueBN} symbol={tokenId} />
+        </div>
+      )
+
       const chain = (
         <ChainData
           icon={imagePath}
@@ -299,7 +324,6 @@ export const parseTokenCentricView = ({
           accountId={numberOfAccounts}
           isMonosizedFont={false}
           withCopy={false}
-          desc={<PnlData symbol={tokenId} balanceValue={balanceValueBN} />}
         />
       )
 
@@ -310,11 +334,11 @@ export const parseTokenCentricView = ({
           balance: getBalancePart(balance, true),
           address: numberOfAccounts,
           symbol: tokenId,
-          price,
-          total,
+          price: priceView,
+          total: totalView,
           icon: imagePath,
           name: tokenId,
-          totalTokensValue: totalValueBN,
+          totalTokensValue: totalTokensValueBN,
           totalValue: totalValueBN,
           balanceWithoutChildren: getBalancePart(balance, false),
           balanceValue: balanceValueBN,
@@ -329,8 +353,11 @@ export const parseTokenCentricView = ({
 
   const balancesInfo = parsedData.filter(isDef).flat()
 
-  return balancesInfo.sort((a, b) =>
-    b.totalTokensValue.minus(a.totalTokensValue).toNumber()
+  return balancesInfo.sort(
+    (a, b) =>
+      b.totalValue.minus(a.totalValue).toNumber() ||
+      b.balanceValue.minus(a.balanceValue).toNumber() ||
+      b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
 }
 
@@ -610,7 +637,7 @@ function getAccountDataRows ({
       <div className='w-fit'>
         <Tooltip title={label} className='d-flex align-items-center'>
           <div>{label}</div>
-          <RiQuestionLine className='ml-1 GrayIcon' />
+          <InfoCircleOutlined className='ml-1 GrayIcon' />
         </Tooltip>
       </div>
     )

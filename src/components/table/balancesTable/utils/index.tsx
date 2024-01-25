@@ -7,6 +7,7 @@ import Image from 'next/image'
 import styles from './Index.module.sass'
 import clsx from 'clsx'
 import {
+  InfoCircleOutlined,
   LineChartOutlined,
   MenuOutlined,
 } from '@ant-design/icons'
@@ -16,6 +17,7 @@ import store from 'store'
 import { AccountInfoItem } from '@/components/identity/types'
 import { BalanceEntityRecord } from '@/rtk/features/balances/balancesSlice'
 import { usePrices } from '@/rtk/features/prices/pricesHooks'
+import { Tooltip } from 'antd'
 
 export const allowedTokensByNetwork: Record<string, string[]> = {
   statemine: [
@@ -222,22 +224,28 @@ export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
   })
 }
 
-type PnlDataProps = {
-  symbol: string
-  balanceValue: BN
-  className?: string
-}
-
-export const PnlData = ({ symbol, balanceValue, className }: PnlDataProps) => {
-  const prices = usePrices()
-
-  const priceObjBySymbol = prices?.find(
+export const getPriceDataBySymbol = (symbol: string, pricesData?: any[]) => {
+  return pricesData?.find(
     (item) => item.symbol.toLowerCase() === symbol.toLowerCase()
   )
+}
 
-  if (!priceObjBySymbol) return null
+type CalculatePnlProps = {
+  pricesData?: any[]
+  balanceValue: BN
+  symbol: string
+}
 
-  const { current_price, price_change_percentage_24h } = priceObjBySymbol
+export const calculatePnlInTokens = ({
+  pricesData,
+  balanceValue,
+  symbol,
+}: CalculatePnlProps) => {
+  const priceData = getPriceDataBySymbol(symbol, pricesData)
+
+  if (!priceData) return
+
+  const { current_price, price_change_percentage_24h } = priceData
 
   const priceChange24h = new BN(price_change_percentage_24h)
 
@@ -249,21 +257,88 @@ export const PnlData = ({ symbol, balanceValue, className }: PnlDataProps) => {
   const currentBalance = balanceValue.multipliedBy(current_price)
 
   const pnl = currentBalance.minus(balance24hAgo)
-  const pnlPercent = pnl.dividedBy(balance24hAgo).multipliedBy(100)
 
   if (pnl.isZero()) return null
 
-  const pnlString = pnl.toFixed(4).replace('-', '')
-  const pnlPercentString = pnlPercent.toFixed(4).replace('-', '')
+  return { pnlBN: pnl, pnlString: pnl.toFixed(4).replace('-', '') }
+}
 
-  const sign = pnl.isPositive() ? '+' : '-'
+const getPnlClassName = (value: BN) =>
+  styles[`PnL${value.isPositive() ? 'Positive' : 'Negative'}`]
+
+type PnlDataProps = {
+  symbol: string
+  balanceValue: BN
+  className?: string
+}
+
+export const PnlInDollars = ({
+  symbol,
+  balanceValue,
+  className,
+}: PnlDataProps) => {
+  const prices = usePrices()
+
+  const pnlData = calculatePnlInTokens({
+    pricesData: prices,
+    balanceValue,
+    symbol,
+  })
+
+  if (!pnlData) return null
+
+  const { pnlBN, pnlString } = pnlData
+
+  const sign = pnlBN.isPositive() ? '+' : '-'
 
   return (
-    <div className={clsx('font-weight-normal', className)}>
-      <span className='GrayText'>Pnl 24h:</span>{' '}
-      <span className={styles[`PnL${pnl.isPositive() ? 'Positive' : 'Negative'}`]}>
-        {sign}${pnlString} ({sign}{pnlPercentString}%)
+    <Tooltip
+      title='pnl'
+      className='d-flex align-items-center justify-content-end'
+    >
+      <InfoCircleOutlined className='GrayIcon bs-mr-2' />
+      <span
+        className={clsx(getPnlClassName(pnlBN), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {sign}${pnlString}
       </span>
-    </div>
+    </Tooltip>
+  )
+}
+
+type PriceChangesProps = {
+  symbol: string
+  className?: string
+}
+
+export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
+  const prices = usePrices()
+
+  const priceData = getPriceDataBySymbol(symbol, prices)
+
+  if (!priceData) return null
+
+  const { price_change_percentage_24h } = priceData
+  const priceChange24h = new BN(price_change_percentage_24h)
+
+  const priceChange24hString = priceChange24h.toFixed(4).replace('-', '')
+
+  const sign = priceChange24h.isPositive() ? '+' : '-'
+
+  return (
+    <Tooltip
+      title='persentage'
+      className='d-flex align-items-center justify-content-end'
+    >
+      <InfoCircleOutlined className='GrayIcon bs-mr-2' />
+      <span
+        className={clsx(getPnlClassName(priceChange24h), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {sign}
+        {priceChange24hString}%
+      </span>
+    </Tooltip>
   )
 }

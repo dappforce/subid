@@ -843,6 +843,7 @@ export const getParentBalances = <T extends TableInfo>(
 ) => {
   let balanceValueBN = BIGNUMBER_ZERO
   let totalValueBN = BIGNUMBER_ZERO
+  let totalTokensValueBN = BIGNUMBER_ZERO
   let priceValue
   let decimals = balances[0]?.decimals || 0
 
@@ -850,7 +851,9 @@ export const getParentBalances = <T extends TableInfo>(
     .filter(isDef)
     .forEach(({ balanceValue, totalValue, totalTokensValue, price }) => {
       balanceValueBN = balanceValueBN.plus(balanceValue)
-      totalValueBN = totalValueBN.plus(totalTokensValue || totalValue)
+      totalValueBN = totalValueBN.plus(totalValue)
+      totalTokensValueBN = totalTokensValueBN.plus(totalTokensValue || 0)
+
       priceValue = price
     })
 
@@ -870,6 +873,7 @@ export const getParentBalances = <T extends TableInfo>(
     priceValue,
     balance,
     total,
+    totalTokensValueBN
   }
 }
 
