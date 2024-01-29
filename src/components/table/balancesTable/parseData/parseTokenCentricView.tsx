@@ -452,6 +452,7 @@ function getChildrenBalances ({
   tokenId,
   priceValue,
   loading,
+  isMobile,
   onTransferClick,
   t,
 }: GetChildrenBalanceParams) {
@@ -497,11 +498,14 @@ function getChildrenBalances ({
 
     childrenBalances.children = [ ...accountData.reverse() ]
 
+    const hideIcon = isMulti && isMobile
+
     const chain = (
       <ChainData
         icon={icon}
         name={name}
         avatarSize={'small'}
+        withIcon={!hideIcon}
         isBoldName={false}
         eventSource='balance_table'
       />

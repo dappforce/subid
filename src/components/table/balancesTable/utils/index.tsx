@@ -296,7 +296,6 @@ export const PnlInDollars = ({
       title='pnl'
       className='d-flex align-items-center justify-content-end'
     >
-      <InfoCircleOutlined className='GrayIcon bs-mr-2' />
       <span
         className={clsx(getPnlClassName(pnlBN), className)}
         onClick={(e) => e.stopPropagation()}
@@ -331,7 +330,6 @@ export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
       title='persentage'
       className='d-flex align-items-center justify-content-end'
     >
-      <InfoCircleOutlined className='GrayIcon bs-mr-2' />
       <span
         className={clsx(getPnlClassName(priceChange24h), className)}
         onClick={(e) => e.stopPropagation()}

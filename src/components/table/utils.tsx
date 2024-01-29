@@ -68,9 +68,9 @@ const { TabPane } = Tabs
 
 export type TableKind = 'balances' | 'crowdloans' | 'assets'
 
-export const relayChains: RelayChain[] = [ 'kusama', 'polkadot' ]
+export const relayChains: RelayChain[] = ['kusama', 'polkadot']
 
-export const disableContributionButton = [ 'acala' ]
+export const disableContributionButton = ['acala']
 
 export const tailsViewOpt: TableViewOption[] = [
   { label: <MenuOutlined />, value: 'table' },
@@ -317,11 +317,11 @@ export const BalancePart = <T extends TableInfo>({
 
   useEffect(() => {
     store.set(storeTableView, tableView)
-  }, [ tableView ])
+  }, [tableView])
 
   useEffect(() => {
     store.set(storeShowZeroBalance, showZeroBalances)
-  }, [ showZeroBalances ])
+  }, [showZeroBalances])
 
   if (!data || !skeleton) return <TableLoading loadingLabel={loadingLabel} />
 
@@ -396,6 +396,7 @@ type ChainProps = {
   icon: string | JSX.Element
   name?: string
   isShortAddress?: boolean
+  withIcon?: boolean
   withCopy?: boolean
   avatarSize?: AvatarSize
   halfLength?: number
@@ -455,6 +456,7 @@ export const ChainData = ({
   withCopy = true,
   halfLength = 6,
   isMonosizedFont = true,
+  withIcon = true,
   withQr = true,
   isBoldName = true,
   desc,
@@ -478,11 +480,13 @@ export const ChainData = ({
   return (
     <div className={clsx({ ['d-flex']: !isMobile }, 'align-items-center')}>
       <div className='d-flex align-items-center'>
-        <AvatarOrSkeleton
-          icon={icon}
-          size={avatarSize}
-          className='bs-mr-2 align-items-start flex-shrink-none'
-        />
+        {withIcon && (
+          <AvatarOrSkeleton
+            icon={icon}
+            size={avatarSize}
+            className='bs-mr-2 align-items-start flex-shrink-none'
+          />
+        )}
         <div>
           {name && (
             <div
@@ -786,7 +790,7 @@ export const AccountPreview = ({
   nameClassName,
   identityLoadNotRequired,
 }: AccountPreviewProps) => {
-  useFetchIdentities([ account ], identityLoadNotRequired)
+  useFetchIdentities([account], identityLoadNotRequired)
   const identities = useIdentities(account)
 
   const address = (
@@ -873,7 +877,7 @@ export const getParentBalances = <T extends TableInfo>(
     priceValue,
     balance,
     total,
-    totalTokensValueBN
+    totalTokensValueBN,
   }
 }
 

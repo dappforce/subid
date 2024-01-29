@@ -20,13 +20,18 @@ type BalancesSectionCardProps<T extends TableInfo> = {
   isLastElement?: boolean
 }
 
+const offsetByIndex = [0, 13, 63]
+
+const collapseIconOffset = [ 0, 12, 10]
+
 const BalancesSectionCard = <T extends TableInfo>({
   value,
   isLastElement,
 }: BalancesSectionCardProps<T>) => {
-  const [ open, setOpen ] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
   const balanceInfoRef = React.useRef<HTMLDivElement>(null)
   const prices = usePrices()
+  const level = 0
 
   const isMulti = useIsMulti()
 
@@ -152,6 +157,7 @@ const BalancesSectionCard = <T extends TableInfo>({
           childrenBalances={children as T[]}
           leftOffset={(balanceInfoRef.current as any)?.offsetLeft}
           className={clsx(styles.ChildrenBalances)}
+          level={level + 1}
         />
       </div>
       {open && haveChildren && (
@@ -168,14 +174,16 @@ type InnerCildrenBalancesProps<T extends TableInfo> = {
   className?: string
   leftOffset: number
   isLastElement?: boolean
+  level: number
 }
 
 const InnerChildrenBalances = <T extends TableInfo>({
   value,
   leftOffset,
   isLastElement,
+  level,
 }: InnerCildrenBalancesProps<T>) => {
-  const [ open, setOpen ] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
   const { balancesVariant } = useTableContext()
 
   const {
@@ -203,9 +211,15 @@ const InnerChildrenBalances = <T extends TableInfo>({
 
   const childrenOffsetLeft = childrenRowContentRef.current?.offsetLeft || 0
 
-  let childrenOffset = [ 'reserved', 'locked', 'free' ].includes(key)
-    ? leftOffset + (balancesVariant === 'tokens' || isMulti ? 56 : 8)
-    : leftOffset + 7
+  let childrenOffset = leftOffset + offsetByIndex[level]
+
+  if (['reserved', 'locked', 'free'].includes(key)) {
+    const chainCentricOffset = isMulti ? 62 : 11
+    const tokenCentricOffset = isMulti ? 31 : 63
+
+    childrenOffset =
+      leftOffset + (balancesVariant === 'tokens' ? tokenCentricOffset : chainCentricOffset)
+  }
 
   return (
     <div className={styles.InnerChildrenWrapper}>
@@ -214,13 +228,15 @@ const InnerChildrenBalances = <T extends TableInfo>({
           className={styles.CollapseButton}
           style={{ width: childrenOffset }}
         >
-          {haveChildren && (
-            <MdKeyboardArrowRight
-              className={clsx(styles.ArrowRight, styles.InnerChildrenArrow, {
-                [styles.RotateArrow]: open && haveChildren,
-              })}
-            />
-          )}
+          <div className={styles.InnerCollapseButton} style={{ paddingRight: collapseIconOffset[level] }}>
+            {haveChildren && (
+              <MdKeyboardArrowRight
+                className={clsx(styles.ArrowRight, styles.InnerChildrenArrow, {
+                  [styles.RotateArrow]: open && haveChildren,
+                })}
+              />
+            )}
+          </div>
         </div>
         <div
           key={key}
@@ -245,6 +261,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
           childrenBalances={innerChildren as T[]}
           leftOffset={childrenOffsetLeft}
           className={clsx(styles.ChildrenBalances)}
+          level={level + 1}
         />
       </div>
       {haveChildren && !isLastElement && open && (
@@ -260,12 +277,14 @@ type ChildrenBalancesProps<T extends TableInfo> = {
   childrenBalances: T[]
   className?: string
   leftOffset: number
+  level: number
 }
 
 const ChildrenBalances = <T extends TableInfo>({
   childrenBalances,
   className,
   leftOffset,
+  level,
 }: ChildrenBalancesProps<T>) => {
   return (
     <div className={clsx(styles.ChildrenWrapper, className)}>
@@ -277,6 +296,7 @@ const ChildrenBalances = <T extends TableInfo>({
             leftOffset={leftOffset}
             className={styles.ChildrenBalances}
             isLastElement={i === childrenBalances.length - 1}
+            level={level}
           />
         )
       })}

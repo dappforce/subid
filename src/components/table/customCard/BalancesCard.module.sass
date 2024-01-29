@@ -80,7 +80,7 @@
 
 .LinksButton
   align-self: center
-  max-width: 40px
+  max-width: 30px
   width: 100%
   display: flex
   justify-content: flex-end
@@ -89,6 +89,9 @@
     padding: 3px !important
     align-items: center
     display: flex
+    min-width: 22px !important
+    height: 22px
+    width: 22px
 
     \:global .anticon
       vertical-align: 0 !important
@@ -186,9 +189,11 @@
   color: $color_gray_icon
   font-size: 18px !important
   display: flex
+  justify-content: flex-end
+
+  .InnerCollapseButton
+    // padding-right: 9px
 
   svg
     justify-self: center
     margin-top: 5px
-    margin-left: 6px
-    width: 100%
