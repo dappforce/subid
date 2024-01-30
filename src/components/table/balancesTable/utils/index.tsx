@@ -7,7 +7,6 @@ import Image from 'next/image'
 import styles from './Index.module.sass'
 import clsx from 'clsx'
 import {
-  InfoCircleOutlined,
   LineChartOutlined,
   MenuOutlined,
 } from '@ant-design/icons'
