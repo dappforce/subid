@@ -11,6 +11,7 @@ import ClaimRewardsTxButton from './ClaimRewardsTxButton'
 import { FormatBalance } from '@/components/common/balances'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import BN from 'bignumber.js'
+import NewStakingVersionSection from '../utils/NewStakingVersionSection'
 
 const ClaimSection = () => {
   const myAddress = useMyAddress()
@@ -56,21 +57,25 @@ const ClaimSection = () => {
   )
 
   return (
-    <div className='flex flex-col items-center gap-6 bg-white rounded-[20px] p-6'>
-      <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
-        👉 My next steps
+    <div className='flex flex-col gap-6'>
+      <NewStakingVersionSection />
+
+      <div className='flex flex-col items-center gap-6 bg-white rounded-[20px] p-6'>
+        <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
+          👉 My next steps
+        </div>
+        <div className='text-slate-900 text-lg font-normal leading-[26px]'>
+          You have staking rewards of{' '}
+          <span className='font-semibold'>{myRewards}</span> available to claim:
+        </div>
+        <ClaimRewardsTxButton
+          rewardsSpaceIds={Object.keys(availableClaimsBySpaceId || {}) || []}
+          totalRewards={totalRewards || '0'}
+          availableClaimsBySpaceId={availableClaimsBySpaceId}
+          restake={false}
+          label={<>Claim {myRewards}</>}
+        />
       </div>
-      <div className='text-slate-900 text-lg font-normal leading-[26px]'>
-        You have staking rewards of{' '}
-        <span className='font-semibold'>{myRewards}</span> available to claim:
-      </div>
-      <ClaimRewardsTxButton
-        rewardsSpaceIds={Object.keys(availableClaimsBySpaceId || {}) || []}
-        totalRewards={totalRewards || '0'}
-        availableClaimsBySpaceId={availableClaimsBySpaceId}
-        restake={false}
-        label={<>Claim {myRewards}</>}
-      />
     </div>
   )
 }

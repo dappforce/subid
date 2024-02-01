@@ -6,9 +6,18 @@ import { BN_ZERO } from '@polkadot/util'
 import Button from '../tailwind-components/Button'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import BN from 'bignumber.js'
+import StakingModal, {
+  StakingModalVariant,
+} from '../Creators/modals/StakeModal'
+import { useState } from 'react'
 
 const BannerActionButtons = () => {
   const myAddress = useMyAddress()
+  const backerLedger = useBackerLedger(myAddress)
+
+  const { ledger } = backerLedger || {}
+  const { locked } = ledger || {}
+
   const { tokenSymbol } = useGetChainDataByNetwork('subsocial')
 
   const { currencyBalance: balancesByCurrency } = useBalancesByNetwork({
@@ -23,7 +32,7 @@ const BannerActionButtons = () => {
 
   const haveSub = !availableBalance.isZero()
 
-  console.log(availableBalance.toString())
+  const isLockedTokens = !new BN(locked || '0').isZero()
 
   const text = !haveSub
     ? 'To start earning from Content Staking, you first need to get some SUB:'
@@ -31,12 +40,12 @@ const BannerActionButtons = () => {
 
   return (
     <div className='flex flex-col gap-6 items-center'>
-      <div className='text-lg font-normal text-slate-900'>{text}</div>
+      {!isLockedTokens && <div className='text-lg font-normal text-slate-900'>{text}</div>}
       <div>
         {haveSub ? (
-          <LockingButtons />
+          <LockingButtons locked={locked} />
         ) : (
-          <Button size={'md'} variant={'primary'}>
+          <Button size={'lg'} variant={'primary'}>
             Get SUB
           </Button>
         )}
@@ -45,27 +54,59 @@ const BannerActionButtons = () => {
   )
 }
 
-const LockingButtons = () => {
+type LockingButtonsProps = {
+  locked?: string
+}
+
+const LockingButtons = ({ locked }: LockingButtonsProps) => {
   const myAddress = useMyAddress()
-  const backerLedger = useBackerLedger(myAddress)
-  const { ledger } = backerLedger || {}
-  const { locked } = ledger || {}
+  const [openStakeModal, setOpenStakeModal] = useState(false)
+  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
+  const [amount, setAmount] = useState('0')
+
 
   const isLockedTokens = !new BN(locked || '0').isZero()
 
   const lockSubButtonText = isLockedTokens ? 'Lock more SUB' : 'Lock SUB'
 
+  const onButtonClick = (modalVariant: StakingModalVariant) => {
+    setOpenStakeModal(true)
+    setModalVariant(modalVariant)
+  }
+
   return (
-    <div className='flex items-center gap-6'>
-      <Button size={'md'} variant={'primary'}>
-        {lockSubButtonText}
-      </Button>
-      {isLockedTokens && (
-        <Button size={'md'} variant={'redOutline'}>
-          Unlock SUB
+    <>
+      <div className='flex items-center gap-6'>
+        <Button
+          size={'lg'}
+          variant={'primary'}
+          onClick={() =>
+            onButtonClick(isLockedTokens ? 'increaseStake' : 'stake')
+          }
+        >
+          {lockSubButtonText}
         </Button>
-      )}
-    </div>
+        {isLockedTokens && (
+          <Button
+            size={'lg'}
+            variant={'redOutline'}
+            onClick={() => onButtonClick('unstake')}
+          >
+            Unlock SUB
+          </Button>
+        )}
+
+        <StakingModal
+          open={openStakeModal}
+          closeModal={() => setOpenStakeModal(false)}
+          spaceId={'12361'}
+          eventSource='creator-card'
+          modalVariant={modalVariant}
+          amount={amount}
+          setAmount={setAmount}
+        />
+      </div>
+    </>
   )
 }
 

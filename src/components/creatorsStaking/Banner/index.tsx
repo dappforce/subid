@@ -58,7 +58,7 @@ const StatsCards = () => {
               skeletonClassName='h-[24px]'
             />
           ),
-          infoTitle: 'How many tokens you have locked across all creators',
+          infoTitle: 'How many tokens you have locked',
         }
       : undefined
 
@@ -80,7 +80,7 @@ const StatsCards = () => {
         infoTitle: 'The total number of unique accounts currently locking SUB',
       },
     ].filter(isDef)
-  }, [stakedBalance, info?.backerCount])
+  }, [stakedBalance, info?.backerCount, myAddress])
 
   return (
     <div

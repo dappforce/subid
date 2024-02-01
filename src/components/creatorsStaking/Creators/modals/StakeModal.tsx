@@ -18,6 +18,7 @@ import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import AccountPreview from '../AccountPreview'
 import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
+import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 
 export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
 
@@ -30,7 +31,7 @@ const BetaVersionAgreement = ({
   isCheckboxChecked,
   setIsCheckboxChecked,
 }: BetaVersionAgreementProps) => {
-  const [ isTextClamped, setIsTextClamped ] = useState(true)
+  const [isTextClamped, setIsTextClamped] = useState(true)
 
   useEffect(() => {
     setIsTextClamped(true)
@@ -73,22 +74,18 @@ const BetaVersionAgreement = ({
   )
 }
 
-type CurrentStakeProps = {
-  spaceId: string
-}
-
-const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
+const CurrentStake = () => {
   const myAddress = useMyAddress()
-  const backerInfo = useBackerInfo(spaceId, myAddress)
+  const backerLedger = useBackerLedger(myAddress)
   const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
 
-  const { info } = backerInfo || {}
+  const { ledger } = backerLedger || {}
 
-  const { totalStaked } = info || {}
+  const { locked } = ledger || {}
 
   const currentStake = (
     <FormatBalance
-      value={totalStaked}
+      value={locked}
       decimals={decimal}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -97,7 +94,7 @@ const CurrentStake = ({ spaceId }: CurrentStakeProps) => {
 
   return (
     <div className='flex flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
-      <div className='text-sm text-text-muted leading-5'>My current stake</div>
+      <div className='text-sm text-text-muted leading-5'>My current lock</div>
       <div className='font-medium text-base leading-6'>{currentStake}</div>
     </div>
   )
@@ -107,26 +104,26 @@ export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
 
 const modalData = {
   stake: {
-    title: '🌟 Stake',
-    inputLabel: 'Stake amount',
+    title: '🌟 Lock SUB',
+    inputLabel: 'Lock amount:',
     balanceLabel: 'Balance',
-    modalButton: 'Start staking',
+    modalButton: 'Lock',
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
   },
   unstake: {
-    title: '📤 Unstake',
+    title: '📤 Unlock SUB',
     inputLabel: 'Amount',
-    balanceLabel: 'Staked',
-    modalButton: 'Unstake',
+    balanceLabel: 'Locked',
+    modalButton: 'Unlock',
     amountInput: UnstakeAmountInput,
     actionButton: UnstakeTxButton,
   },
   increaseStake: {
-    title: '🌟 Increase Stake',
-    inputLabel: 'Increase stake by',
+    title: '🌟 Lock more SUB',
+    inputLabel: 'Lock amount',
     balanceLabel: 'Balance',
-    modalButton: 'Increase',
+    modalButton: 'Lock',
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
   },
@@ -157,11 +154,11 @@ const StakingModal = ({
   modalVariant,
   setAmount,
   amount,
-  eventSource
+  eventSource,
 }: StakeModalProps) => {
   const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const [ inputError, setInputError ] = useState<string | undefined>(undefined)
-  const [ isCheckboxChecked, setIsCheckboxChecked ] = useState(false)
+  const [inputError, setInputError] = useState<string | undefined>(undefined)
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false)
   const betaversionAgreement = store.get(
     betaVersionAgreementStorageName
   ) as boolean
@@ -172,7 +169,7 @@ const StakingModal = ({
       setAmount('')
       inputError && setInputError(undefined)
     }
-  }, [ open ])
+  }, [open])
 
   const stakingConsts = useStakingConsts()
 
@@ -206,8 +203,7 @@ const StakingModal = ({
       }}
     >
       <div className='flex flex-col md:gap-6 gap-4'>
-        <AccountPreview spaceId={spaceId} space={space} />
-        {modalVariant === 'increaseStake' && <CurrentStake spaceId={spaceId} />}
+        {modalVariant === 'increaseStake' && <CurrentStake />}
         <AmountInput
           amount={amount}
           setAmount={setAmount}

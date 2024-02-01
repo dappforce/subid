@@ -98,7 +98,7 @@ const ClaimRewardsTxButton = ({
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
     compProps
   ) => (
-    <Button {...compProps} variant={'primary'} size={'md'}>
+    <Button {...compProps} variant={'primary'} size={'lg'}>
       {label}
     </Button>
   )

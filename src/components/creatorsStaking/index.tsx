@@ -8,7 +8,8 @@ import HowToSelectAccountModal from './Creators/modals/HowToSelectAccountModal'
 import Banner from './Banner'
 import NewStakingVersionSection from './utils/NewStakingVersionSection'
 import ClaimSection from './ClaimSections'
-import UnstakingSection from './UnstakingSection/index';
+import UnstakingSection from './UnstakingSection/index'
+import StakingInfoBanner from './utils/StakingInfoBanner'
 
 const MultiAccountWarning = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -72,8 +73,8 @@ const CreatorsStaking = (_props: CreatorsStakingProps) => {
             <MultiAccountWarning />
           ) : (
             <>
-              <NewStakingVersionSection />
               <ClaimSection />
+              <StakingInfoBanner />
               <UnstakingSection />
             </>
           )}

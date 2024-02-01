@@ -6,7 +6,7 @@ import {
 } from '../../../rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import MyRewards from './MyRewards'
-import Unstaking from '../UnstakingSection/Unstaking'
+import UnstakingTable from '../UnstakingSection/UnstakingTable'
 import { isEmptyArray, isEmptyObj } from '@subsocial/utils'
 import WithdrawTxButton from '../UnstakingSection/WithdrawTxButton'
 import { useBackerRewards } from '@/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
@@ -42,7 +42,7 @@ const MyStakingSection = () => {
     {
       id: 'unstaking',
       text: `Unstaking (${unbondingChunks?.length || 0})`,
-      content: () => <Unstaking />,
+      content: () => <UnstakingTable />,
       disabled: isEmptyArray(unbondingChunks),
     },
   ]
