@@ -6,9 +6,9 @@ import {
 } from '../../../rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import MyRewards from './MyRewards'
-import Unstaking from './Unstaking'
+import Unstaking from '../UnstakingSection/Unstaking'
 import { isEmptyArray, isEmptyObj } from '@subsocial/utils'
-import WithdrawTxButton from './WithdrawTxButton'
+import WithdrawTxButton from '../UnstakingSection/WithdrawTxButton'
 import { useBackerRewards } from '@/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 
 const MyStakingSection = () => {

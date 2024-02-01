@@ -6,68 +6,89 @@ import {
   useGeneralEraInfo,
 } from '../../../rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
-import { NextEraStartDate } from '../utils/NextEraStartDate'
 import { DashboardCard, TotalStakedBalance } from './utils'
-import { useCalculateApr } from './calculateApr'
 import { useMemo } from 'react'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
+import {
+  useBackerLedger,
+  useFetchBackerLedger,
+} from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
+import { FormatBalance } from '@/components/common/balances'
+import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import BN from 'bignumber.js'
+import { isDef } from '@subsocial/utils'
+import BannerActionButtons from './BannerActionButtons'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
-const Apr = () => {
-  const apr = useCalculateApr()
-
-  return (
-    <ValueOrSkeleton
-      value={apr && `${apr.toFixed(2)}%`}
-      skeletonClassName={skeletonClassName}
-    />
-  )
-}
-
 const StatsCards = () => {
+  const myAddress = useMyAddress()
+
   const generalEraInfo = useGeneralEraInfo()
+  const backerLedger = useBackerLedger(myAddress)
+
+  const { decimal, tokenSymbol: symbol } = useGetChainDataByNetwork('subsocial')
 
   const { info, loading } = generalEraInfo ?? {}
+  const { ledger, loading: ledgerLoading } = backerLedger || {}
 
   const stakedBalance = info?.staked ?? 0
+  const { locked } = ledger || {}
 
-  const dashboardData = useMemo(
-    () => [
+  const isLockedTokens = !new BN(locked || '0').isZero()
+
+  const myLock = (
+    <FormatBalance
+      value={locked || '0'}
+      decimals={decimal}
+      currency={symbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  const dashboardData = useMemo(() => {
+    const myLockedDashboardItem = isLockedTokens
+      ? {
+          title: 'My lock',
+          value: (
+            <ValueOrSkeleton
+              value={myLock}
+              loading={ledgerLoading}
+              skeletonClassName='h-[24px]'
+            />
+          ),
+          infoTitle: 'How many tokens you have locked across all creators',
+        }
+      : undefined
+
+    return [
+      myLockedDashboardItem,
       {
-        title: 'Total Staked',
+        title: 'Total tokens locked',
         value: <TotalStakedBalance value={stakedBalance} loading={loading} />,
-        infoTitle: 'The total amount of tokens staked on the Subsocial network',
+        infoTitle: 'The total amount of tokens locked on the Subsocial network',
       },
       {
-        title: 'Estimated APR',
-        value: <Apr />,
-        infoTitle:
-          'An estimate of how much your token balance will increase after a year of staking, regardless of which creator you stake to',
-      },
-      {
-        title: 'Next Rewards',
-        value: <NextEraStartDate />,
-        infoTitle: (
-          <>Time until the next round of rewards is available to claim.</>
-        ),
-      },
-      {
-        title: 'Total Stakers',
+        title: 'Total participants',
         value: (
           <ValueOrSkeleton
             value={info?.backerCount}
             skeletonClassName={skeletonClassName}
           />
         ),
-        infoTitle: 'The total number of unique accounts currently staking SUB',
+        infoTitle: 'The total number of unique accounts currently locking SUB',
       },
-    ],
-    [ stakedBalance, info?.currentEra, info?.backerCount ]
-  )
+    ].filter(isDef)
+  }, [stakedBalance, info?.backerCount])
 
   return (
-    <div className='grid md:grid-cols-4 grid-cols-2 md:gap-6 gap-4'>
+    <div
+      className={clsx(
+        'grid grid-cols-2 md:gap-6 gap-4',
+        !isLockedTokens ? 'md:grid-cols-2' : 'md:grid-cols-3'
+      )}
+    >
       {dashboardData.map((data) => (
         <DashboardCard key={data.title} {...data} />
       ))}
@@ -76,7 +97,11 @@ const StatsCards = () => {
 }
 
 const Banner = () => {
+  const myAddress = useMyAddress()
+
   useFetchGeneralEraInfo()
+  useFetchBackerLedger(myAddress)
+
   const sendEvent = useSendEvent()
 
   return (
@@ -87,29 +112,30 @@ const Banner = () => {
           'w-full flex gap-6 flex-col md:p-6 p-4 rounded-[20px] md:rounded-t-[20px] rounded-t-none'
         )}
       >
-        <div className='flex md:flex-row gap-6 flex-col justify-between md:items-start items-center w-full'>
-          <div className='flex flex-col gap-2 text-text-dark md:items-start items-center'>
+        <div className='flex flex-col gap-3 w-full'>
+          <div className='flex justify-between gap-6 text-text-dark items-center'>
             <div className='text-4xl md:text-left text-center UnboundedFont'>
-              Creator Staking Beta
+              Content Staking
             </div>
-            <div className='text-[20px] md:text-left text-center'>
-              Generate rewards for both you and creators by staking SUB towards them
-            </div>
+            <Button
+              variant='white'
+              size='sm'
+              target='_blank'
+              href='https://docs.subsocial.network/docs/basics/creator-staking/'
+              onClick={() => sendEvent('cs_how_it_works_clicked')}
+            >
+              <span className='flex gap-2 items-center py-1'>
+                <AiOutlineQuestionCircle size={20} /> How does it work?
+              </span>
+            </Button>
           </div>
-
-          <Button
-            variant='white'
-            size='sm'
-            target='_blank'
-            href='https://docs.subsocial.network/docs/basics/creator-staking/'
-            onClick={() => sendEvent('cs_how_it_works_clicked')}
-          >
-            <span className='flex gap-2 items-center py-1'>
-              <AiOutlineQuestionCircle size={20} /> How does it work?
-            </span>
-          </Button>
+          <div className='text-lg text-slate-500 font-normal leading-[26px]'>
+            Content Staking allows SUB token holders to earn more SUB by
+            actively engaging with good content on the network.
+          </div>
         </div>
         <StatsCards />
+        <BannerActionButtons />
       </div>
     </div>
   )

@@ -1,6 +1,9 @@
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
-import { fetchBackerRewards, useBackerRewards } from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
+import {
+  fetchBackerRewards,
+  useBackerRewards,
+} from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import { ApiPromise } from '@polkadot/api'
 import Button from '../tailwind-components/Button'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
@@ -8,7 +11,10 @@ import { showParsedErrorMessage } from 'src/components/utils'
 import BN from 'bignumber.js'
 import calculateMaxTxCountInBatch from '../utils/calculateMaxTxCount'
 import { fetchBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
-import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import {
+  fetchGeneralEraInfo,
+  useGeneralEraInfo,
+} from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
@@ -18,6 +24,7 @@ type ClaimRewardsTxButtonProps = {
   totalRewards: string
   availableClaimsBySpaceId?: Record<string, string>
   restake: boolean
+  label: React.ReactNode
 }
 
 const ClaimRewardsTxButton = ({
@@ -25,6 +32,7 @@ const ClaimRewardsTxButton = ({
   totalRewards,
   availableClaimsBySpaceId,
   restake,
+  label
 }: ClaimRewardsTxButtonProps) => {
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
@@ -36,15 +44,19 @@ const ClaimRewardsTxButton = ({
 
   const onSuccess = () => {
     fetchGeneralEraInfo(dispatch)
-    
-    if(myAddress) {
+
+    if (myAddress) {
       fetchBackerRewards(dispatch, myAddress, rewardsSpaceIds)
       fetchBackerLedger(dispatch, myAddress)
     }
 
-    if(restake) {
+    if (restake) {
       fetchBackerInfo(dispatch, rewardsSpaceIds, myAddress || '')
-      fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.info?.currentEra || '0')
+      fetchEraStakes(
+        dispatch,
+        rewardsSpaceIds,
+        eraInfo?.info?.currentEra || '0'
+      )
     }
   }
 
@@ -64,7 +76,7 @@ const ClaimRewardsTxButton = ({
     let claimsToDo: Record<string, string> = {}
 
     Object.entries(availableClaimsBySpaceId).forEach(
-      ([ spaceId, availableClaimCount ]) => {
+      ([spaceId, availableClaimCount]) => {
         if (new BN(availableClaimCount).lt(maxClaimCount)) {
           claimsToDo[spaceId] = availableClaimCount
           maxClaimCount = maxClaimCount.minus(availableClaimCount)
@@ -74,20 +86,20 @@ const ClaimRewardsTxButton = ({
       }
     )
 
-    const txs = Object.entries(claimsToDo).map(([ spaceId, claimCount ]) => {
-      return [ ...Array(parseInt(claimCount)).keys() ].map(() =>
+    const txs = Object.entries(claimsToDo).map(([spaceId, claimCount]) => {
+      return [...Array(parseInt(claimCount)).keys()].map(() =>
         api.tx.creatorStaking.claimBackerReward(spaceId, restake)
       )
     })
 
-    return [ txs.flat() ]
+    return [txs.flat()]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
     compProps
   ) => (
-    <Button {...compProps} variant={'primary'} size={'sm'}>
-      Claim
+    <Button {...compProps} variant={'primary'} size={'md'}>
+      {label}
     </Button>
   )
 

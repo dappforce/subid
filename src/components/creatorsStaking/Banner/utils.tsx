@@ -15,7 +15,7 @@ type StatsCardProps = {
 
 export const DashboardCard = ({ title, value, desc, infoTitle }: StatsCardProps) => {
   return (
-    <CardWrapper className='bg-white/50 min-h-[116px] backdrop-blur-[24.5px]'>
+    <CardWrapper className='bg-white/50 min-h-[116px] backdrop-blur-[24.5px] w-full'>
       <div className='text-text-dark/80 flex items-center gap-2'>
         {title}
         {infoTitle && <Tooltip title={infoTitle}><QuestionCircleOutlined /></Tooltip>}

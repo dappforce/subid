@@ -6,12 +6,17 @@ import styles from './Main.module.sass'
 import CreatorsStaking from '../creatorsStaking'
 import clsx from 'clsx'
 import { NextPage } from 'next'
+import { useFetchBalanceByNetwork } from '@/rtk/features/balances/balancesHooks'
+import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 
 type CreatorStakingPageProp = {
   spaceId?: string
 }
 
 const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
+  const myAddress = useMyAddress()
+  useFetchBalanceByNetwork({ address: myAddress, network: 'subsocial' })
+
   return (
     <>
       <Head>

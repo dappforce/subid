@@ -1,19 +1,17 @@
 import Image from 'next/image'
 import { useIsMulti } from '../providers/MyExtensionAccountsContext'
 import { StakingContextWrapper } from '../staking/collators/StakingContext'
-import Banner from './Banner'
-import CreatorDashboard from './CreatorDashboard'
-import CreatorsSection from './Creators'
-import MyStakingSection from './MyStaking'
 import clsx from 'clsx'
 import { linkTextStyles } from './tailwind-components/LinkText'
 import { useState } from 'react'
 import HowToSelectAccountModal from './Creators/modals/HowToSelectAccountModal'
-import GetSubInfoSection from './utils/GetSubInfoSection'
-import StakingInfoBanner from './utils/StakingInfoBanner'
+import Banner from './Banner'
+import NewStakingVersionSection from './utils/NewStakingVersionSection'
+import ClaimSection from './ClaimSections'
+import UnstakingSection from './UnstakingSection/index';
 
 const MultiAccountWarning = () => {
-  const [ openModal, setOpenModal ] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
 
   const onButtonClick = () => {
     setOpenModal(true)
@@ -62,27 +60,23 @@ type CreatorsStakingProps = {
   defaultSpaceId?: string
 }
 
-const CreatorsStaking = ({ defaultSpaceId }: CreatorsStakingProps) => {
+const CreatorsStaking = (_props: CreatorsStakingProps) => {
   const isMulti = useIsMulti()
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-6'>
       <StakingContextWrapper network='subsocial'>
         <Banner />
-        <GetSubInfoSection />
-
-        <div className='flex flex-col gap-10 mx-4'>
+        <div className='flex flex-col gap-6 mx-4'>
           {isMulti ? (
             <MultiAccountWarning />
           ) : (
             <>
-              <CreatorDashboard />
-              <MyStakingSection />
+              <NewStakingVersionSection />
+              <ClaimSection />
+              <UnstakingSection />
             </>
           )}
-
-          <StakingInfoBanner />
-          <CreatorsSection defaultSpaceId={defaultSpaceId} />
         </div>
       </StakingContextWrapper>
     </div>

@@ -11,7 +11,7 @@ import {
   useBackerRewards,
 } from '../../../rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
-import ClaimRewardsTxButton from './ClaimRewardsTxButton'
+import ClaimRewardsTxButton from '../ClaimSections/ClaimRewardsTxButton'
 import DashboardCard from '../utils/DashboardCard'
 import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
 
@@ -57,10 +57,9 @@ const MyRewards = () => {
     myAddress,
     myCreatorsIds.length ? myCreatorsIds : creatorsSpaceIds
   )
+  const backerRewards = useBackerRewards(myAddress)
 
   const backerLedger = useBackerLedger(myAddress)
-
-  const backerRewards = useBackerRewards(myAddress)
 
   const { data: rewardsData, loading: rewardsLoading } = backerRewards || {}
   const { ledger, loading: ledgerLoading } = backerLedger || {}
