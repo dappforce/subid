@@ -10,7 +10,8 @@ import { getTransferableBalance } from 'src/utils/balance'
 import { BN_ZERO } from '@polkadot/util'
 import {
   fetchBackerInfo,
-  useBackerInfo,
+  useBackerInfoBySpaces,
+  useFetchBackerInfoBySpaces,
 } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import BN from 'bn.js'
 import { useAppDispatch } from 'src/rtk/app/store'
@@ -19,7 +20,10 @@ import {
   fetchGeneralEraInfo,
   useGeneralEraInfo,
 } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import {
+  fetchBackerLedger,
+  useBackerLedger,
+} from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import {
   StakingModalVariant,
   betaVersionAgreementStorageName,
@@ -30,6 +34,12 @@ import store from 'store'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
 import getAmountRange from '../../utils/getAmountRangeForAnalytics'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetMyCreatorsIds } from '../../hooks/useGetMyCreators'
+import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { ACTIVE_STAKING_SPACE_ID } from '../../Banner/utils'
+import { isDef, isEmptyArray } from '@subsocial/utils'
+import { useLazyConnectionsContext } from '@/components/lazy-connection/LazyConnectionContext'
+import { useStakingConsts } from '@/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 
 export type CommonTxButtonProps = {
   amount?: string
@@ -49,7 +59,7 @@ type StakingTxButtonProps = CommonTxButtonProps & {
   tx: string
 }
 
-function StakingTxButton ({
+function StakingTxButton({
   amount,
   spaceId,
   decimal,
@@ -67,12 +77,12 @@ function StakingTxButton ({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
-    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
+    fetchBackerInfo(dispatch, [spaceId], myAddress || '')
     fetchGeneralEraInfo(dispatch)
-    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
 
-    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
 
@@ -88,7 +98,7 @@ function StakingTxButton ({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [ spaceId, amountWithDecimals.toString() ]
+    return [spaceId, amountWithDecimals.toString()]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
@@ -126,7 +136,7 @@ function StakingTxButton ({
   )
 }
 
-export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
+export function StakeOrIncreaseTxButton(props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
   const { decimal } = useGetChainDataByNetwork('subsocial')
@@ -156,26 +166,131 @@ export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   )
 }
 
-export function UnstakeTxButton (props: CommonTxButtonProps) {
-  const myAddress = useMyAddress()
-  const backerInfo = useBackerInfo(props.spaceId, myAddress)
-  const { info } = backerInfo || {}
-  const sendEvent = useSendEvent()
-  const { decimal } = useGetChainDataByNetwork('subsocial')
+export function UnstakeTxButton(props: CommonTxButtonProps) {
+  const { amount, label, inputError, disabled, closeModal } = props
 
-  const { totalStaked } = info || {}
+  const myAddress = useMyAddress()
+  const creatorsList = useCreatorsList()
+  const { decimal } = useGetChainDataByNetwork('subsocial')
+  const { getApiByNetwork } = useLazyConnectionsContext()
+  const dispatch = useAppDispatch()
+  const stakingConsts = useStakingConsts()
+
+  const backerLedger = useBackerLedger(myAddress)
+  const { ledger } = backerLedger || {}
+
+  const { locked: myTotalLock } = ledger || {}
+  const { minimumStakingAmount } = stakingConsts || {}
+
+  const spaceIds = creatorsList?.map((item) => item.creator.spaceId)
+  useFetchBackerInfoBySpaces(spaceIds, myAddress)
+
+  const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
+
+  const creatorsSpaceIds =
+    myCreatorsIds?.filter((id) => id !== ACTIVE_STAKING_SPACE_ID) || []
+
+  const isOnlyActiveStaking = isEmptyArray(creatorsSpaceIds)
+
+  const backerInfoBySpaces = useBackerInfoBySpaces(creatorsSpaceIds, myAddress)
+
+  const sendEvent = useSendEvent()
+
+  const onSuccess = () => {
+    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
+    fetchBackerInfo(dispatch, spaceIds || [], myAddress || '')
+    fetchGeneralEraInfo(dispatch)
+
+    fetchBackerLedger(dispatch, myAddress || '')
+    closeModal()
+  }
+
+  const buildUnstakingParams = () => {
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
+
+    return [ACTIVE_STAKING_SPACE_ID, amountWithDecimals.toString()]
+  }
+
+  const buildBatchParams = async () => {
+    if (!backerInfoBySpaces || !myTotalLock || !minimumStakingAmount) return []
+
+    const api = await getApiByNetwork('subsocial')
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
+
+    const spaceIds =
+      myCreatorsIds?.filter((id) => id !== ACTIVE_STAKING_SPACE_ID) || []
+
+    const txs = spaceIds.map((spaceId) => {
+      const { totalStaked } = backerInfoBySpaces[spaceId] || {}
+
+      if (myTotalLock <= minimumStakingAmount) {
+        return api.tx.creatorStaking.unstake(
+          spaceId,
+          amountWithDecimals.toString()
+        )
+      } else {
+        return api.tx.creatorStaking.moveStake(
+          spaceId,
+          ACTIVE_STAKING_SPACE_ID,
+          totalStaked
+        )
+      }
+    })
+
+    const unstakingTx =
+      myTotalLock <= minimumStakingAmount
+        ? undefined
+        : api.tx.creatorStaking.unstake(
+            ACTIVE_STAKING_SPACE_ID,
+            amountWithDecimals.toString()
+          )
+
+    const batchTsx = [...txs, unstakingTx].filter(isDef)
+
+    return [batchTsx]
+  }
+
+  const tx = isOnlyActiveStaking ? 'creatorStaking.unstake' : 'utility.batch'
+  const buildParams = isOnlyActiveStaking
+    ? buildUnstakingParams
+    : buildBatchParams
+
+  const Component: React.FunctionComponent<{ onClick?: () => void }> = (
+    compProps
+  ) => (
+    <Button
+      {...compProps}
+      variant={'primary'}
+      size={'lg'}
+      className='w-full text-base'
+    >
+      {label}
+    </Button>
+  )
+
+  const disableButton =
+    !myAddress ||
+    !amount ||
+    (amount && new BN(amount).lte(new BN(0))) ||
+    !!inputError ||
+    disabled
 
   return (
-    <StakingTxButton
-      {...props}
-      disabled={!totalStaked || new BN(totalStaked).isZero() || props.disabled}
-      tx='creatorStaking.unstake'
+    <LazyTxButton
+      network='subsocial'
+      accountId={myAddress}
+      tx={tx}
+      disabled={disableButton}
+      component={Component}
       onClick={() => {
         sendEvent('cs_stake_decrease', {
           amountRange: getAmountRange(decimal, props.amount),
           eventSource: props.eventSource,
         })
       }}
+      params={buildParams}
+      onFailed={showParsedErrorMessage}
+      onSuccess={onSuccess}
     />
   )
 }
@@ -191,7 +306,7 @@ type MoveStakeTxButtonProps = {
   eventSource?: string
 }
 
-export function MoveStakeTxButton ({
+export function MoveStakeTxButton({
   amount,
   decimal,
   spaceIdFrom,
@@ -209,7 +324,7 @@ export function MoveStakeTxButton ({
   const onSuccess = () => {
     if (!spaceIdTo) return
 
-    const spaceIds = [ spaceIdFrom, spaceIdTo ]
+    const spaceIds = [spaceIdFrom, spaceIdTo]
 
     fetchBackerInfo(dispatch, spaceIds, myAddress || '')
     fetchBackerLedger(dispatch, myAddress || '')
@@ -221,7 +336,7 @@ export function MoveStakeTxButton ({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
 
-    return [ spaceIdFrom, spaceIdTo, amountWithDecimals.toString() ]
+    return [spaceIdFrom, spaceIdTo, amountWithDecimals.toString()]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (

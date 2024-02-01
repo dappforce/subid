@@ -6,6 +6,8 @@ import { Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { toShortMoney } from 'src/components/common/balances'
 
+export const ACTIVE_STAKING_SPACE_ID = '12361'
+
 type StatsCardProps = {
   title: string
   value: React.ReactNode
