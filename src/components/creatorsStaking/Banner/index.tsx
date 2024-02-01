@@ -13,12 +13,13 @@ import {
   useBackerLedger,
   useFetchBackerLedger,
 } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
-import { useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
+import { useIsMulti, useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
 import { FormatBalance } from '@/components/common/balances'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import BN from 'bignumber.js'
 import { isDef } from '@subsocial/utils'
 import BannerActionButtons from './BannerActionButtons'
+import { useResponsiveSize } from '@/components/responsive'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -27,6 +28,8 @@ const StatsCards = () => {
 
   const generalEraInfo = useGeneralEraInfo()
   const backerLedger = useBackerLedger(myAddress)
+  const { isMobile } = useResponsiveSize()
+  const isMulti = useIsMulti()
 
   const { decimal, tokenSymbol: symbol } = useGetChainDataByNetwork('subsocial')
 
@@ -48,7 +51,7 @@ const StatsCards = () => {
   )
 
   const dashboardData = useMemo(() => {
-    const myLockedDashboardItem = isLockedTokens
+    const myLockedDashboardItem = isLockedTokens && !isMulti
       ? {
           title: 'My lock',
           value: (
@@ -65,7 +68,7 @@ const StatsCards = () => {
     return [
       myLockedDashboardItem,
       {
-        title: 'Total tokens locked',
+        title: 'Total locked',
         value: <TotalStakedBalance value={stakedBalance} loading={loading} />,
         infoTitle: 'The total amount of tokens locked on the Subsocial network',
       },
@@ -80,17 +83,23 @@ const StatsCards = () => {
         infoTitle: 'The total number of unique accounts currently locking SUB',
       },
     ].filter(isDef)
-  }, [ stakedBalance, info?.backerCount, myAddress ])
+  }, [ stakedBalance, info?.backerCount, myAddress, isMulti ])
 
   return (
     <div
       className={clsx(
         'grid grid-cols-2 md:gap-6 gap-4',
-        !isLockedTokens ? 'md:grid-cols-2' : 'md:grid-cols-3'
+        !isLockedTokens || isMulti ? 'md:grid-cols-2' : 'md:grid-cols-3'
       )}
     >
-      {dashboardData.map((data) => (
-        <DashboardCard key={data.title} {...data} />
+      {dashboardData.map((data, i) => (
+        <DashboardCard
+          key={data.title}
+          className={clsx({
+            ['col-[1/-1]']: i === dashboardData.length - 1 && isMobile,
+          })}
+          {...data}
+        />
       ))}
     </div>
   )
@@ -98,11 +107,27 @@ const StatsCards = () => {
 
 const Banner = () => {
   const myAddress = useMyAddress()
+  const { isMobile } = useResponsiveSize()
+  const isMulti = useIsMulti()
 
   useFetchGeneralEraInfo()
   useFetchBackerLedger(myAddress)
 
   const sendEvent = useSendEvent()
+
+  const howItWorksButton = (
+    <Button
+      variant='white'
+      size='sm'
+      target='_blank'
+      href='https://docs.subsocial.network/docs/basics/creator-staking/'
+      onClick={() => sendEvent('cs_how_it_works_clicked')}
+    >
+      <span className='flex gap-2 items-center py-1'>
+        <AiOutlineQuestionCircle size={20} /> How does it work?
+      </span>
+    </Button>
+  )
 
   return (
     <div className='md:!mx-4 mx-0'>
@@ -112,30 +137,21 @@ const Banner = () => {
           'w-full flex gap-6 flex-col md:p-6 p-4 rounded-[20px] md:rounded-t-[20px] rounded-t-none'
         )}
       >
-        <div className='flex flex-col gap-3 w-full'>
-          <div className='flex justify-between gap-6 text-text-dark items-center'>
-            <div className='text-4xl md:text-left text-center UnboundedFont'>
+        <div className='flex flex-col gap-3 w-full md:items-start items-center'>
+          <div className='flex md:justify-between justify-center w-full gap-6 text-text-dark'>
+            <div className='text-4xl md:text-left text-center UnboundedFont w-fit'>
               Content Staking
             </div>
-            <Button
-              variant='white'
-              size='sm'
-              target='_blank'
-              href='https://docs.subsocial.network/docs/basics/creator-staking/'
-              onClick={() => sendEvent('cs_how_it_works_clicked')}
-            >
-              <span className='flex gap-2 items-center py-1'>
-                <AiOutlineQuestionCircle size={20} /> How does it work?
-              </span>
-            </Button>
+            {!isMobile && howItWorksButton}
           </div>
-          <div className='text-lg text-slate-500 font-normal leading-[26px]'>
+          <div className='text-lg text-slate-500 text-center md:!text-start font-normal leading-[26px]'>
             Content Staking allows SUB token holders to earn more SUB by
             actively engaging with good content on the network.
           </div>
+          {isMobile && <div>{howItWorksButton}</div>}
         </div>
         <StatsCards />
-        <BannerActionButtons />
+        {!isMulti && <BannerActionButtons />}
       </div>
     </div>
   )

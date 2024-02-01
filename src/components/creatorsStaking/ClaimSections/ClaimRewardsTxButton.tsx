@@ -18,6 +18,7 @@ import {
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
+import { useResponsiveSize } from '@/components/responsive'
 
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
@@ -39,6 +40,7 @@ const ClaimRewardsTxButton = ({
   const eraInfo = useGeneralEraInfo()
   const backerRewards = useBackerRewards(myAddress)
   const sendEvent = useSendEvent()
+  const { isMobile } = useResponsiveSize()
 
   const { loading } = backerRewards || {}
 
@@ -98,7 +100,7 @@ const ClaimRewardsTxButton = ({
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
     compProps
   ) => (
-    <Button {...compProps} variant={'primary'} size={'lg'}>
+    <Button {...compProps} variant={'primary'} size={isMobile ? 'md' : 'lg'}>
       {label}
     </Button>
   )

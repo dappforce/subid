@@ -21,7 +21,7 @@ const ClaimSection = () => {
 
   const creatorsSpaceIds = useMemo(
     () => creatorsList?.map((creator) => creator.id),
-    [creatorsList?.length]
+    [ creatorsList?.length ]
   )
 
   useFetchBackerInfoBySpaces(creatorsSpaceIds)
@@ -63,7 +63,7 @@ const ClaimSection = () => {
     <div className='flex flex-col gap-6'>
       <NewStakingVersionSection />
 
-      <div className='flex flex-col items-center gap-6 bg-white rounded-[20px] p-6'>
+      <div className='flex flex-col items-center gap-6 bg-white rounded-[20px] md:p-6 p-4'>
         <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
           👉 My next steps
         </div>

@@ -167,7 +167,7 @@ export const parseCrowdloansTableInfo = ({
         isReturned,
         links: linksButton,
         showLinks: () => linksButton,
-        claimable: <AccountVestingCrowdloanBalance className='text-center' network={networkNameByParaId} address={address} />,
+        claimable: <AccountVestingCrowdloanBalance className='bs-text-center' network={networkNameByParaId} address={address} />,
         claimRewards: (
           <ClaimCrowdloanButton
             network={networkNameByParaId}

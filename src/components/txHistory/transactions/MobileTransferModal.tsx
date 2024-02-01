@@ -61,7 +61,7 @@ const MobileTransferModal = ({
       position='bottom'
       open={open}
       closeModal={closeModal}
-      className={'bg-white bs-p-3 FontNormal text-center'}
+      className={'bg-white bs-p-3 FontNormal bs-text-center'}
     >
       <div className={styles.ModalContent}>
         <div className={styles.TxContent}>

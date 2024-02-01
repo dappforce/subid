@@ -74,7 +74,7 @@ const NftsPreview = ({ hide, hasTokens }: NFtPreviewProps) => {
         pageSize={DEFAULT_PAGE_SIZE_FOR_BANNERS}
         hideOnSinglePage={nftsByCollectionId.length <= DEFAULT_PAGE_SIZE_FOR_BANNERS}
         onChange={onPaginationChange}
-        className='text-center mt-3'
+        className='bs-text-center mt-3'
         showLessItems={isMobile}
       />
     </div>

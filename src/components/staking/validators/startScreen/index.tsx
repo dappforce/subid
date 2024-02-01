@@ -81,7 +81,7 @@ const StartScreen = ({ network }: StartScreenProps) => {
           backgroundSize: 'cover',
         }}
       >
-        <Space direction={'vertical'} size={24} className={clsx('text-center', { ['w-100']: isMobile })}>
+        <Space direction={'vertical'} size={24} className={clsx('bs-text-center', { ['w-100']: isMobile })}>
           <h2>{t('validatorStaking.startScreen.estimatedEarnings', { symbol: tokenSymbol })}</h2>
           <div className={clsx('d-flex align-items-center', { ['flex-column']: isMobile })}>
             <div className={clsx(styles.EarningBlock, { ['bs-mb-4 w-100']: isMobile, ['bs-mr-3']: !isMobile })}>

@@ -45,7 +45,7 @@ const StakingInfoBanner = () => {
         <div className='md:text-[32px] text-2xl md:w-full w-[17rem] UnboundedFont'>
           Be active & earn rewards
         </div>
-        <div className={clsx('md:text-lg text-lg text-gray-300 w-[33rem]')}>
+        <div className={clsx('md:text-lg text-lg text-gray-300 md:w-[33rem] w-[14rem]')}>
           Stake some SUB, then start creating posts and liking content from
           others on PolkaVerse!
         </div>
@@ -55,7 +55,7 @@ const StakingInfoBanner = () => {
           href='https://polkaverse.com/?tab=posts&type=suggested&date=week'
           target='_blank'
           variant={'white'}
-          size='lg'
+          size={isMobile ? 'md' : 'lg'}
           className={clsx('md:w-auto w-full border-white !text-[#A91C83]')}
           disabled={loading}
           onClick={() => onButtonClick('cs_go_to_polkaverse_clicked')}

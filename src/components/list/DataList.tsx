@@ -60,7 +60,7 @@ export function DataList<T extends any> (props: DataListProps<T>) {
           // If a Pagination is rendered as a part of a List component,
           // then it triggers one extra re-render of a List on page transition.
 
-          <div className='text-center mt-4'>
+          <div className='bs-text-center mt-4'>
             <Pagination {...paginationConfig} />
           </div>
         }

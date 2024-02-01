@@ -9,10 +9,12 @@ import BN from 'bignumber.js'
 import StakingModal, { StakingModalVariant } from '../modals/StakeModal'
 import { useState } from 'react'
 import { ACTIVE_STAKING_SPACE_ID } from '../utils/consts'
+import { useResponsiveSize } from '@/components/responsive'
 
 const BannerActionButtons = () => {
   const myAddress = useMyAddress()
   const backerLedger = useBackerLedger(myAddress)
+  const { isMobile } = useResponsiveSize()
 
   const { ledger } = backerLedger || {}
   const { locked } = ledger || {}
@@ -46,7 +48,7 @@ const BannerActionButtons = () => {
         {haveSub ? (
           <LockingButtons locked={locked} />
         ) : (
-          <Button size={'lg'} variant={'primary'}>
+          <Button size={isMobile ? 'md' : 'lg'} variant={'primary'}>
             Get SUB
           </Button>
         )}
@@ -63,6 +65,7 @@ const LockingButtons = ({ locked }: LockingButtonsProps) => {
   const [ openStakeModal, setOpenStakeModal ] = useState(false)
   const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
   const [ amount, setAmount ] = useState('0')
+  const { isMobile } = useResponsiveSize()
 
   const isLockedTokens = !new BN(locked || '0').isZero()
 
@@ -77,7 +80,7 @@ const LockingButtons = ({ locked }: LockingButtonsProps) => {
     <>
       <div className='flex items-center gap-6'>
         <Button
-          size={'lg'}
+          size={isMobile ? 'md' : 'lg'}
           variant={'primary'}
           onClick={() =>
             onButtonClick(isLockedTokens ? 'increaseStake' : 'stake')
@@ -87,7 +90,7 @@ const LockingButtons = ({ locked }: LockingButtonsProps) => {
         </Button>
         {isLockedTokens && (
           <Button
-            size={'lg'}
+            size={isMobile ? 'md' : 'lg'}
             variant={'redOutline'}
             onClick={() => onButtonClick('unstake')}
           >

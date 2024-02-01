@@ -5,17 +5,19 @@ import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import { Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { toShortMoney } from 'src/components/common/balances'
+import clsx from 'clsx'
 
 type StatsCardProps = {
   title: string
   value: React.ReactNode
   desc?: React.ReactNode
   infoTitle?: React.ReactNode
+  className?: string
 }
 
-export const DashboardCard = ({ title, value, desc, infoTitle }: StatsCardProps) => {
+export const DashboardCard = ({ title, value, desc, infoTitle, className }: StatsCardProps) => {
   return (
-    <CardWrapper className='bg-white/50 min-h-[116px] backdrop-blur-[24.5px] w-full'>
+    <CardWrapper className={clsx('bg-white/50 min-h-[116px] backdrop-blur-[24.5px] w-full', className)}>
       <div className='text-text-dark/80 flex items-center gap-2'>
         {title}
         {infoTitle && <Tooltip title={infoTitle}><QuestionCircleOutlined /></Tooltip>}
