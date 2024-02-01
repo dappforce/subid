@@ -52,13 +52,13 @@ const StakingInfoBanner = () => {
       </div>
       <div>
         <Button
-          href='https://subsocial.network/active-staking-details'
+          href='https://polkaverse.com/?tab=posts&type=suggested&date=week'
           target='_blank'
           variant={'white'}
           size='lg'
           className={clsx('md:w-auto w-full border-white !text-[#A91C83]')}
           disabled={loading}
-          onClick={() => onButtonClick('cs_active_cs_banner_lear_more_clicked')}
+          onClick={() => onButtonClick('cs_go_to_polkaverse_clicked')}
         >
           Go to Polkaverse
         </Button>

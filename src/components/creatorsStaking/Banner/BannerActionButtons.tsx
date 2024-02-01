@@ -6,10 +6,9 @@ import { BN_ZERO } from '@polkadot/util'
 import Button from '../tailwind-components/Button'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import BN from 'bignumber.js'
-import StakingModal, {
-  StakingModalVariant,
-} from '../Creators/modals/StakeModal'
+import StakingModal, { StakingModalVariant } from '../modals/StakeModal'
 import { useState } from 'react'
+import { ACTIVE_STAKING_SPACE_ID } from '../utils/consts'
 
 const BannerActionButtons = () => {
   const myAddress = useMyAddress()
@@ -40,7 +39,9 @@ const BannerActionButtons = () => {
 
   return (
     <div className='flex flex-col gap-6 items-center'>
-      {!isLockedTokens && <div className='text-lg font-normal text-slate-900'>{text}</div>}
+      {!isLockedTokens && (
+        <div className='text-lg font-normal text-slate-900'>{text}</div>
+      )}
       <div>
         {haveSub ? (
           <LockingButtons locked={locked} />
@@ -59,11 +60,9 @@ type LockingButtonsProps = {
 }
 
 const LockingButtons = ({ locked }: LockingButtonsProps) => {
-  const myAddress = useMyAddress()
-  const [openStakeModal, setOpenStakeModal] = useState(false)
-  const [modalVariant, setModalVariant] = useState<StakingModalVariant>('stake')
-  const [amount, setAmount] = useState('0')
-
+  const [ openStakeModal, setOpenStakeModal ] = useState(false)
+  const [ modalVariant, setModalVariant ] = useState<StakingModalVariant>('stake')
+  const [ amount, setAmount ] = useState('0')
 
   const isLockedTokens = !new BN(locked || '0').isZero()
 
@@ -99,7 +98,7 @@ const LockingButtons = ({ locked }: LockingButtonsProps) => {
         <StakingModal
           open={openStakeModal}
           closeModal={() => setOpenStakeModal(false)}
-          spaceId={'12361'}
+          spaceId={ACTIVE_STAKING_SPACE_ID}
           eventSource='creator-card'
           modalVariant={modalVariant}
           amount={amount}

@@ -80,7 +80,7 @@ const StatsCards = () => {
         infoTitle: 'The total number of unique accounts currently locking SUB',
       },
     ].filter(isDef)
-  }, [stakedBalance, info?.backerCount, myAddress])
+  }, [ stakedBalance, info?.backerCount, myAddress ])
 
   return (
     <div

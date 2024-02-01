@@ -1,0 +1,1 @@
+export const ACTIVE_STAKING_SPACE_ID = '12361'

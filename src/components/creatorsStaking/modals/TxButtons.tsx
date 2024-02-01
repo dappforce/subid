@@ -1,6 +1,6 @@
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import Button from '../../tailwind-components/Button'
+import Button from '../tailwind-components/Button'
 import { getBalanceWithDecimal } from 'src/components/common/balances'
 import {
   fetchBalanceByNetwork,
@@ -24,22 +24,18 @@ import {
   fetchBackerLedger,
   useBackerLedger,
 } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
-import {
-  StakingModalVariant,
-  betaVersionAgreementStorageName,
-} from './StakeModal'
+import { StakingModalVariant } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
-import { useModalContext } from '../../contexts/ModalContext'
-import store from 'store'
+import { useModalContext } from '../contexts/ModalContext'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
-import getAmountRange from '../../utils/getAmountRangeForAnalytics'
+import getAmountRange from '../utils/getAmountRangeForAnalytics'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
-import { useGetMyCreatorsIds } from '../../hooks/useGetMyCreators'
+import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
 import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
-import { ACTIVE_STAKING_SPACE_ID } from '../../Banner/utils'
 import { isDef, isEmptyArray } from '@subsocial/utils'
 import { useLazyConnectionsContext } from '@/components/lazy-connection/LazyConnectionContext'
 import { useStakingConsts } from '@/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
+import { ACTIVE_STAKING_SPACE_ID } from '../utils/consts'
 
 export type CommonTxButtonProps = {
   amount?: string
@@ -59,7 +55,7 @@ type StakingTxButtonProps = CommonTxButtonProps & {
   tx: string
 }
 
-function StakingTxButton({
+function StakingTxButton ({
   amount,
   spaceId,
   decimal,
@@ -77,19 +73,18 @@ function StakingTxButton({
   const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
-    fetchBackerInfo(dispatch, [spaceId], myAddress || '')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchBackerInfo(dispatch, [ spaceId ], myAddress || '')
     fetchGeneralEraInfo(dispatch)
-    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
-    fetchEraStakes(dispatch, [spaceId], eraInfo?.info?.currentEra || '0')
+    fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
 
     if (modalVariant === 'stake') {
       setStakedSpaceId(spaceId)
       setShowSuccessModal(true)
-      store.set(betaVersionAgreementStorageName, true)
     }
 
     closeModal()
@@ -98,7 +93,7 @@ function StakingTxButton({
   const buildParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [spaceId, amountWithDecimals.toString()]
+    return [ spaceId, amountWithDecimals.toString() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
@@ -136,7 +131,7 @@ function StakingTxButton({
   )
 }
 
-export function StakeOrIncreaseTxButton(props: CommonTxButtonProps) {
+export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
   const myAddress = useMyAddress()
   const sendEvent = useSendEvent()
   const { decimal } = useGetChainDataByNetwork('subsocial')
@@ -166,7 +161,7 @@ export function StakeOrIncreaseTxButton(props: CommonTxButtonProps) {
   )
 }
 
-export function UnstakeTxButton(props: CommonTxButtonProps) {
+export function UnstakeTxButton (props: CommonTxButtonProps) {
   const { amount, label, inputError, disabled, closeModal } = props
 
   const myAddress = useMyAddress()
@@ -197,7 +192,7 @@ export function UnstakeTxButton(props: CommonTxButtonProps) {
   const sendEvent = useSendEvent()
 
   const onSuccess = () => {
-    fetchBalanceByNetwork(dispatch, [myAddress || ''], 'subsocial')
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
     fetchBackerInfo(dispatch, spaceIds || [], myAddress || '')
     fetchGeneralEraInfo(dispatch)
 
@@ -208,7 +203,7 @@ export function UnstakeTxButton(props: CommonTxButtonProps) {
   const buildUnstakingParams = () => {
     const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [ACTIVE_STAKING_SPACE_ID, amountWithDecimals.toString()]
+    return [ ACTIVE_STAKING_SPACE_ID, amountWithDecimals.toString() ]
   }
 
   const buildBatchParams = async () => {
@@ -245,9 +240,9 @@ export function UnstakeTxButton(props: CommonTxButtonProps) {
             amountWithDecimals.toString()
           )
 
-    const batchTsx = [...txs, unstakingTx].filter(isDef)
+    const batchTsx = [ ...txs, unstakingTx ].filter(isDef)
 
-    return [batchTsx]
+    return [ batchTsx ]
   }
 
   const tx = isOnlyActiveStaking ? 'creatorStaking.unstake' : 'utility.batch'
@@ -289,93 +284,6 @@ export function UnstakeTxButton(props: CommonTxButtonProps) {
         })
       }}
       params={buildParams}
-      onFailed={showParsedErrorMessage}
-      onSuccess={onSuccess}
-    />
-  )
-}
-
-type MoveStakeTxButtonProps = {
-  amount: string
-  decimal: number
-  spaceIdFrom: string
-  spaceIdTo?: string
-  inputError?: string
-  disabled?: boolean
-  closeModal: () => void
-  eventSource?: string
-}
-
-export function MoveStakeTxButton({
-  amount,
-  decimal,
-  spaceIdFrom,
-  spaceIdTo,
-  inputError,
-  disabled,
-  closeModal,
-  eventSource,
-}: MoveStakeTxButtonProps) {
-  const myAddress = useMyAddress()
-  const dispatch = useAppDispatch()
-  const eraInfo = useGeneralEraInfo()
-  const sendEvent = useSendEvent()
-
-  const onSuccess = () => {
-    if (!spaceIdTo) return
-
-    const spaceIds = [spaceIdFrom, spaceIdTo]
-
-    fetchBackerInfo(dispatch, spaceIds, myAddress || '')
-    fetchBackerLedger(dispatch, myAddress || '')
-    fetchEraStakes(dispatch, spaceIds, eraInfo?.info?.currentEra || '0')
-
-    closeModal()
-  }
-
-  const buildParams = () => {
-    const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
-
-    return [spaceIdFrom, spaceIdTo, amountWithDecimals.toString()]
-  }
-
-  const Component: React.FunctionComponent<{ onClick?: () => void }> = (
-    compProps
-  ) => (
-    <Button
-      {...compProps}
-      variant={'primary'}
-      size={'lg'}
-      className='w-full text-base'
-    >
-      Move stake
-    </Button>
-  )
-
-  const disableButton =
-    !myAddress ||
-    !amount ||
-    (amount && new BN(amount).lte(new BN(0))) ||
-    !spaceIdTo ||
-    !!inputError ||
-    disabled
-
-  return (
-    <LazyTxButton
-      network='subsocial'
-      accountId={myAddress}
-      tx={'creatorStaking.moveStake'}
-      disabled={disableButton}
-      component={Component}
-      params={buildParams}
-      onClick={() =>
-        sendEvent('cs_stake_move', {
-          from: spaceIdFrom,
-          to: spaceIdTo,
-          amountRange: getAmountRange(decimal, amount),
-          eventSource: eventSource,
-        })
-      }
       onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
     />

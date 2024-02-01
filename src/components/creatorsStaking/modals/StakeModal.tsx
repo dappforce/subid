@@ -1,78 +1,16 @@
-import { useCreatorSpaceById } from 'src/rtk/features/creatorStaking/creatorsSpaces/creatorsSpacesHooks'
-import Modal from '../../tailwind-components/Modal'
+import Modal from '../tailwind-components/Modal'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import {
   StakeOrIncreaseStakeAmountInput,
   UnstakeAmountInput,
 } from './AmountInput'
-import React, { useEffect, useState, ChangeEvent } from 'react'
-import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
+import React, { useEffect, useState } from 'react'
 import { FormatBalance } from 'src/components/common/balances'
 import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
 import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
-import Checkbox from '../../tailwind-components/Checkbox'
-import { linkTextStyles } from '../../tailwind-components/LinkText'
-import store from 'store'
-import clsx from 'clsx'
-import { DaysToWithdrawWarning } from '../../utils/DaysToWithdraw'
-import { useStakingConsts } from '../../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
-import AccountPreview from '../AccountPreview'
-import useRedirectToCreatorsPage from '../../hooks/useRedirectToCreatorsPage'
+import { DaysToWithdrawWarning } from '../utils/DaysToWithdraw'
+import { useStakingConsts } from '../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
-
-export const betaVersionAgreementStorageName = 'BetaVersionAgreement'
-
-type BetaVersionAgreementProps = {
-  setIsCheckboxChecked: (checked: boolean) => void
-  isCheckboxChecked: boolean
-}
-
-const BetaVersionAgreement = ({
-  isCheckboxChecked,
-  setIsCheckboxChecked,
-}: BetaVersionAgreementProps) => {
-  const [isTextClamped, setIsTextClamped] = useState(true)
-
-  useEffect(() => {
-    setIsTextClamped(true)
-  }, [])
-
-  const onCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsCheckboxChecked(e.target.checked)
-  }
-
-  return (
-    <Checkbox
-      label={
-        <div>
-          <div
-            className={clsx('text-text-muted', {
-              ['line-clamp-1']: isTextClamped,
-            })}
-          >
-            I agree to the rules of the beta version of Creator Staking. <br />{' '}
-            <br />I understand that this is the beta version of Creator Staking
-            and that the staking system is under active development and may be
-            upgraded in the next few months, resulting in my tokens being
-            unstaked, and that I will have to stake them again. I understand
-            that the inflation and rewards distribution numbers may be changed
-            during the beta without my knowledge.
-          </div>
-          {isTextClamped && (
-            <span
-              className={linkTextStyles({ variant: 'primary' })}
-              onClick={() => setIsTextClamped(false)}
-            >
-              Read more
-            </span>
-          )}
-        </div>
-      }
-      onChange={onCheckboxChange}
-      value={isCheckboxChecked}
-    />
-  )
-}
 
 const CurrentStake = () => {
   const myAddress = useMyAddress()
@@ -127,14 +65,6 @@ const modalData = {
     amountInput: StakeOrIncreaseStakeAmountInput,
     actionButton: StakeOrIncreaseTxButton,
   },
-  'move-stake': {
-    title: '📤 Move Stake',
-    inputLabel: 'Increase stake by',
-    balanceLabel: 'Balance',
-    modalButton: 'Increase',
-    amountInput: StakeOrIncreaseStakeAmountInput,
-    actionButton: StakeOrIncreaseTxButton,
-  },
 }
 
 type StakeModalProps = {
@@ -156,26 +86,18 @@ const StakingModal = ({
   amount,
   eventSource,
 }: StakeModalProps) => {
-  const creatorSpaceEntity = useCreatorSpaceById(spaceId)
-  const [inputError, setInputError] = useState<string | undefined>(undefined)
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false)
-  const betaversionAgreement = store.get(
-    betaVersionAgreementStorageName
-  ) as boolean
-  const redirectToCreatorsPage = useRedirectToCreatorsPage()
+  const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (open) {
       setAmount('')
       inputError && setInputError(undefined)
     }
-  }, [open])
+  }, [ open ])
 
   const stakingConsts = useStakingConsts()
 
   const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
-
-  const { space } = creatorSpaceEntity || {}
 
   const {
     title,
@@ -197,8 +119,6 @@ const StakingModal = ({
       title={title}
       withCloseButton
       closeModal={() => {
-        redirectToCreatorsPage()
-
         closeModal()
       }}
     >
@@ -221,13 +141,6 @@ const StakingModal = ({
           unbondingPeriodInEras={stakingConsts?.unbondingPeriodInEras}
         />
 
-        {!betaversionAgreement && (
-          <BetaVersionAgreement
-            isCheckboxChecked={isCheckboxChecked}
-            setIsCheckboxChecked={setIsCheckboxChecked}
-          />
-        )}
-
         <StakingTxButton
           amount={amount}
           decimal={decimal}
@@ -238,7 +151,6 @@ const StakingModal = ({
           closeModal={closeModal}
           modalVariant={modalVariant}
           inputError={inputError}
-          disabled={!isCheckboxChecked && !betaversionAgreement}
         />
       </div>
     </Modal>

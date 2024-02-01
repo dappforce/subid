@@ -11,7 +11,11 @@ const NewStakingVersionSection = () => {
         <span className='text-gray-500 font-normal text-lg'>
           Say goodbye to lazy rewards.
         </span>{' '}
-        <LinkText variant={'primary'} href={''}>
+        <LinkText
+          variant={'primary'}
+          href={'https://subsocial.network/why-active-staking'}
+          target='_blank'
+        >
           Why?
         </LinkText>
       </div>

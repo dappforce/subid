@@ -1,5 +1,5 @@
-import Modal from '../../tailwind-components/Modal'
-import Button from '../../tailwind-components/Button'
+import Modal from '../tailwind-components/Modal'
+import Button from '../tailwind-components/Button'
 
 type HowToSelectAccountModalProps = {
   open: boolean

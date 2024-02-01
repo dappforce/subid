@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { ChangeEventHandler, useEffect, useRef } from 'react'
-import Input from '../../tailwind-components/inputs/Input'
-import Button from '../../tailwind-components/Button'
+import Input from '../tailwind-components/inputs/Input'
+import Button from '../tailwind-components/Button'
 import { useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { calculateBalanceForStaking } from 'src/utils/balance'
@@ -13,10 +13,9 @@ import {
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { FormatBalance } from 'src/components/common/balances'
 import BN from 'bignumber.js'
-import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { StakingModalVariant } from './StakeModal'
-import { useLazyConnectionsContext } from '../../../lazy-connection/LazyConnectionContext'
+import { useLazyConnectionsContext } from '../../lazy-connection/LazyConnectionContext'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 
 type CommonAmountInputProps = {

@@ -12,6 +12,7 @@ import { FormatBalance } from '@/components/common/balances'
 import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import BN from 'bignumber.js'
 import NewStakingVersionSection from '../utils/NewStakingVersionSection'
+import { useFetchBackerInfoBySpaces } from '@/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 
 const ClaimSection = () => {
   const myAddress = useMyAddress()
@@ -22,6 +23,8 @@ const ClaimSection = () => {
     () => creatorsList?.map((creator) => creator.id),
     [creatorsList?.length]
   )
+
+  useFetchBackerInfoBySpaces(creatorsSpaceIds)
 
   const myCreatorsIds = useGetMyCreatorsIds(creatorsSpaceIds)
 

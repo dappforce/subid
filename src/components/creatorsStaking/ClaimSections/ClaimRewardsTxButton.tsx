@@ -76,7 +76,7 @@ const ClaimRewardsTxButton = ({
     let claimsToDo: Record<string, string> = {}
 
     Object.entries(availableClaimsBySpaceId).forEach(
-      ([spaceId, availableClaimCount]) => {
+      ([ spaceId, availableClaimCount ]) => {
         if (new BN(availableClaimCount).lt(maxClaimCount)) {
           claimsToDo[spaceId] = availableClaimCount
           maxClaimCount = maxClaimCount.minus(availableClaimCount)
@@ -86,13 +86,13 @@ const ClaimRewardsTxButton = ({
       }
     )
 
-    const txs = Object.entries(claimsToDo).map(([spaceId, claimCount]) => {
-      return [...Array(parseInt(claimCount)).keys()].map(() =>
+    const txs = Object.entries(claimsToDo).map(([ spaceId, claimCount ]) => {
+      return [ ...Array(parseInt(claimCount)).keys() ].map(() =>
         api.tx.creatorStaking.claimBackerReward(spaceId, restake)
       )
     })
 
-    return [txs.flat()]
+    return [ txs.flat() ]
   }
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (

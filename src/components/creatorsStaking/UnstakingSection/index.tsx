@@ -50,7 +50,7 @@ const UnstakingSection = () => {
         timeRemaining: <TimeRemaining unlockEra={item.unlockEra} />,
       }
     })
-  }, [!!ledger, loading, myAddress, isMobile])
+  }, [ !!ledger, loading, myAddress, isMobile ])
 
   if (isEmptyArray(data)) return null
 

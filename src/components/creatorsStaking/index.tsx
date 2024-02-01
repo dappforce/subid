@@ -4,15 +4,14 @@ import { StakingContextWrapper } from '../staking/collators/StakingContext'
 import clsx from 'clsx'
 import { linkTextStyles } from './tailwind-components/LinkText'
 import { useState } from 'react'
-import HowToSelectAccountModal from './Creators/modals/HowToSelectAccountModal'
+import HowToSelectAccountModal from './modals/HowToSelectAccountModal'
 import Banner from './Banner'
-import NewStakingVersionSection from './utils/NewStakingVersionSection'
 import ClaimSection from './ClaimSections'
 import UnstakingSection from './UnstakingSection/index'
 import StakingInfoBanner from './utils/StakingInfoBanner'
 
 const MultiAccountWarning = () => {
-  const [openModal, setOpenModal] = useState(false)
+  const [ openModal, setOpenModal ] = useState(false)
 
   const onButtonClick = () => {
     setOpenModal(true)
@@ -57,11 +56,7 @@ const MultiAccountWarning = () => {
   )
 }
 
-type CreatorsStakingProps = {
-  defaultSpaceId?: string
-}
-
-const CreatorsStaking = (_props: CreatorsStakingProps) => {
+const CreatorsStaking = () => {
   const isMulti = useIsMulti()
 
   return (

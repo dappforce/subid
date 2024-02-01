@@ -9,11 +9,7 @@ import { NextPage } from 'next'
 import { useFetchBalanceByNetwork } from '@/rtk/features/balances/balancesHooks'
 import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 
-type CreatorStakingPageProp = {
-  spaceId?: string
-}
-
-const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
+const CreatorStakingPage: NextPage = () => {
   const myAddress = useMyAddress()
   useFetchBalanceByNetwork({ address: myAddress, network: 'subsocial' })
 
@@ -31,7 +27,7 @@ const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
 
       <div className={clsx('layout-wrapper', styles.CreatorStakingSection)}>
         <PageContent className='position-relative'>
-          <CreatorsStaking defaultSpaceId={props.spaceId} />
+          <CreatorsStaking />
         </PageContent>
       </div>
       <Footer />

@@ -16,7 +16,6 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch }) => {
       image: '/images/creator-staking/meta-bg.jpg',
       forceTitle: true,
     },
-    spaceId: undefined,
   }
 })
 
