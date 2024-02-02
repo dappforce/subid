@@ -40,9 +40,9 @@ const BannerActionButtons = () => {
     : 'To start earning from Content Staking, you need to lock at least 2,000 SUB:'
 
   return (
-    <div className='flex flex-col gap-6 items-center'>
+    <div className='flex flex-col md:gap-6 gap-4 items-center'>
       {!isLockedTokens && (
-        <div className='text-lg font-normal text-slate-900'>{text}</div>
+        <div className='text-lg font-normal text-center text-slate-900'>{text}</div>
       )}
       <div>
         {haveSub ? (

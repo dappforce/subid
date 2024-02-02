@@ -126,7 +126,7 @@ const StatsCards = () => {
         <DashboardCard
           key={data.title}
           className={clsx({
-            ['col-[1/-1]']: i === dashboardData.length - 1 && isMobile,
+            ['col-[1/-1]']: i === dashboardData.length - 1 && isMobile && !isMulti && myAddress,
           })}
           {...data}
         />
@@ -164,10 +164,10 @@ const Banner = () => {
       <div
         className={clsx(
           'sm:bg-staking-bg bg-staking-bg-mobile bg-no-repeat bg-cover',
-          'w-full flex gap-6 flex-col md:p-6 p-4 rounded-[20px] md:rounded-t-[20px] rounded-t-none'
+          'w-full flex md:gap-6 gap-4 flex-col md:p-6 p-4 rounded-[20px] md:rounded-t-[20px] rounded-t-none'
         )}
       >
-        <div className='flex flex-col gap-3 w-full md:items-start items-center'>
+        <div className='flex flex-col gap-4 w-full md:items-start items-center'>
           <div className='flex md:justify-between justify-center w-full gap-6 text-text-dark'>
             <div className='text-4xl md:text-left text-center UnboundedFont w-fit'>
               Content Staking

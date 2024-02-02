@@ -34,11 +34,11 @@ const CurrentStake = () => {
     />
   )
 
-  const hideMinimumStake = new BN(locked || '0').lte(
+  const showMimimumStake = new BN(locked || '0').lt(
     minimumStakingAmount || '0'
   )
 
-  const minimumStakingAmountWithDecimals = (
+  const requiredLock = (
     <FormatBalance
       value={new BN(minimumStakingAmount || '0')
         .minus(locked || '0')
@@ -55,16 +55,35 @@ const CurrentStake = () => {
         <div className='text-sm text-text-muted leading-5'>My current lock</div>
         <div className='font-medium text-base leading-6'>{currentStake}</div>
       </div>
-      {!hideMinimumStake && (
+      {showMimimumStake && (
         <div className='flex w-full flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
           <div className='text-sm text-text-muted leading-5'>Required lock</div>
-          <div className='font-medium text-base leading-6'>
-            {minimumStakingAmountWithDecimals}
-          </div>
+          <div className='font-medium text-base leading-6'>{requiredLock}</div>
         </div>
       )}
     </div>
   )
+}
+
+const MinimumStake = () => {
+  const consts = useStakingConsts()
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
+
+  const { minimumStakingAmount } = consts || {}
+
+  const minimumStaking = (
+    <FormatBalance
+      value={minimumStakingAmount}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  return <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
+    <div className='text-sm text-text-muted leading-5'>Minimum lock</div>
+    <div className='font-medium text-base leading-6'>{minimumStaking}</div>
+  </div>
 }
 
 export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
@@ -115,14 +134,14 @@ const StakingModal = ({
   amount,
   eventSource,
 }: StakeModalProps) => {
-  const [ inputError, setInputError ] = useState<string | undefined>(undefined)
+  const [inputError, setInputError] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (open) {
       setAmount('')
       inputError && setInputError(undefined)
     }
-  }, [ open ])
+  }, [open])
 
   const stakingConsts = useStakingConsts()
 
@@ -153,6 +172,7 @@ const StakingModal = ({
     >
       <div className='flex flex-col md:gap-6 gap-4'>
         {modalVariant === 'increaseStake' && <CurrentStake />}
+        {modalVariant === 'stake' && <MinimumStake />}
         <AmountInput
           amount={amount}
           setAmount={setAmount}

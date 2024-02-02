@@ -8,7 +8,7 @@ const NewStakingVersionSection = () => {
 
   return (
     <div className='flex flex-col gap-[10px] relative rounded-[20px] border md:p-6 p-4 border-orange-600 bg-[#FEF9E5]'>
-      <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
+      <div className='text-2xl font-semibold leading-[26px] md:max-w-none max-w-[20rem] text-slate-900'>
         We&apos;ve launched a new version of staking
       </div>
       <div>
