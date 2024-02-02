@@ -16,7 +16,7 @@ export const buttonStyles = cva('relative rounded-full transition leading-[22px]
       white: 'bg-white text-text hover:text-text',
       mutedOutline: 'bg-transparent border border-text-muted text-text-muted',
       transparent: 'bg-transparent',
-      redOutline: 'bg-transparent border border-text-red',
+      redOutline: 'bg-transparent border border-text-red text-text-red',
       outlined: 'bg-transparent border border-[#D4E2EF]',
       iconLink: 'text-text-primary hover:text-text-primary bg-indigo-50',
       iconLinkGray: 'text-[#64748B] hover:text-text-primary bg-[#F1F5F9]',

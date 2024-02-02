@@ -1,0 +1,222 @@
+import Modal from '../tailwind-components/Modal'
+import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
+import {
+  StakeOrIncreaseStakeAmountInput,
+  UnstakeAmountInput,
+} from './AmountInput'
+import React, { useEffect, useState } from 'react'
+import { FormatBalance } from 'src/components/common/balances'
+import { StakeOrIncreaseTxButton, UnstakeTxButton } from './TxButtons'
+import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { DaysToWithdrawWarning } from '../utils/DaysToWithdraw'
+import { useStakingConsts } from '../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
+import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import BN from 'bignumber.js'
+import { Tooltip } from 'antd'
+import { convertToBalanceWithDecimal } from '@subsocial/utils'
+import { QuestionCircleOutlined } from '@ant-design/icons'
+
+const CurrentStake = () => {
+  const myAddress = useMyAddress()
+  const backerLedger = useBackerLedger(myAddress)
+  const consts = useStakingConsts()
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
+
+  const { ledger } = backerLedger || {}
+
+  const { locked } = ledger || {}
+
+  const { minimumStakingAmount } = consts || {}
+
+  const currentStake = (
+    <FormatBalance
+      value={locked}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  const showMimimumStake = new BN(locked || '0').lt(minimumStakingAmount || '0')
+
+  const minimumStake = minimumStakingAmount
+    ? convertToBalanceWithDecimal(minimumStakingAmount, decimal)
+    : '0'
+
+  const requiredLock = (
+    <FormatBalance
+      value={new BN(minimumStakingAmount || '0')
+        .minus(locked || '0')
+        .toString()}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  return (
+    <div className='flex items-center gap-4'>
+      <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
+        <div className='text-sm text-text-muted leading-5'>My current lock</div>
+        <div className='font-medium text-base leading-6'>{currentStake}</div>
+      </div>
+      {showMimimumStake && (
+        <div className='flex w-full flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
+          <Tooltip
+            title={`In order to qualify for Content Staking, you need to lock at least ${minimumStake} SUB`}
+          >
+            <div className='text-sm text-text-muted leading-5 flex items-center gap-2'>
+              Additional lock required <QuestionCircleOutlined />
+            </div>
+          </Tooltip>
+          <div className='font-medium text-base leading-6'>{requiredLock}</div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+const MinimumStake = () => {
+  const consts = useStakingConsts()
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
+
+  const { minimumStakingAmount } = consts || {}
+
+  const minimumStaking = (
+    <FormatBalance
+      value={minimumStakingAmount}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
+  return (
+    <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
+      <div className='text-sm text-text-muted leading-5'>Minimum lock</div>
+      <div className='font-medium text-base leading-6'>{minimumStaking}</div>
+    </div>
+  )
+}
+
+export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
+
+const modalData = {
+  stake: {
+    title: '🌟 Lock SUB',
+    inputLabel: 'Amount to lock:',
+    balanceLabel: 'Balance',
+    modalButton: 'Lock',
+    amountInput: StakeOrIncreaseStakeAmountInput,
+    actionButton: StakeOrIncreaseTxButton,
+  },
+  unstake: {
+    title: '📤 Unlock SUB',
+    inputLabel: 'Amount',
+    balanceLabel: 'Locked',
+    modalButton: 'Unlock',
+    amountInput: UnstakeAmountInput,
+    actionButton: UnstakeTxButton,
+  },
+  increaseStake: {
+    title: '🌟 Lock more SUB',
+    inputLabel: 'Increase locked amount',
+    balanceLabel: 'Balance',
+    modalButton: 'Lock',
+    amountInput: StakeOrIncreaseStakeAmountInput,
+    actionButton: StakeOrIncreaseTxButton,
+  },
+}
+
+type StakeModalProps = {
+  closeModal: () => void
+  open: boolean
+  spaceId: string
+  modalVariant: StakingModalVariant
+  amount?: string
+  eventSource?: string
+  setAmount: (amount: string) => void
+}
+
+const StakingModal = ({
+  open,
+  closeModal,
+  spaceId,
+  modalVariant,
+  setAmount,
+  amount,
+  eventSource,
+}: StakeModalProps) => {
+  const [ inputError, setInputError ] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (open) {
+      setAmount('')
+      inputError && setInputError(undefined)
+    }
+  }, [ open ])
+
+  const stakingConsts = useStakingConsts()
+
+  const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
+
+  const {
+    title,
+    inputLabel,
+    balanceLabel,
+    modalButton,
+    actionButton,
+    amountInput,
+  } = modalData[modalVariant]
+
+  const StakingTxButton = actionButton
+
+  const AmountInput = amountInput
+
+  return (
+    <Modal
+      isOpen={open}
+      withFooter={false}
+      title={title}
+      withCloseButton
+      closeModal={() => {
+        closeModal()
+      }}
+    >
+      <div className='flex flex-col md:gap-6 gap-4'>
+        {modalVariant === 'increaseStake' && <CurrentStake />}
+        {modalVariant === 'stake' && <MinimumStake />}
+        <AmountInput
+          amount={amount}
+          setAmount={setAmount}
+          tokenSymbol={tokenSymbol}
+          decimals={decimal}
+          setInputError={setInputError}
+          inputError={inputError}
+          label={inputLabel}
+          spaceId={spaceId}
+          balanceLabel={balanceLabel}
+          modalVariant={modalVariant}
+        />
+
+        <DaysToWithdrawWarning
+          unbondingPeriodInEras={stakingConsts?.unbondingPeriodInEras}
+        />
+
+        <StakingTxButton
+          amount={amount}
+          decimal={decimal}
+          spaceId={spaceId}
+          label={modalButton}
+          eventSource={eventSource}
+          tokenSymbol={tokenSymbol}
+          closeModal={closeModal}
+          modalVariant={modalVariant}
+          inputError={inputError}
+        />
+      </div>
+    </Modal>
+  )
+}
+
+export default StakingModal

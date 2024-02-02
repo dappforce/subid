@@ -15,7 +15,7 @@ import { showParsedErrorMessage } from 'src/components/utils'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
 
 type WithdrawTxButtonProps = {
-  switchToFirstTab: () => void
+  switchToFirstTab?: () => void
 }
 
 const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
@@ -32,7 +32,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
 
   useEffect(() => {
     if (unbondingChunks?.length === 0) {
-      switchToFirstTab()
+      switchToFirstTab?.()
     }
   }, [ unbondingChunks?.length ])
 
@@ -64,7 +64,7 @@ const WithdrawTxButton = ({ switchToFirstTab }: WithdrawTxButtonProps) => {
     compProps
   ) => (
     <Button {...compProps} variant={'primary'} size={'sm'}>
-      Withdraw available
+      Withdraw my SUB
     </Button>
   )
 

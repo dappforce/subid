@@ -1,6 +1,9 @@
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useAppDispatch } from 'src/rtk/app/store'
-import { fetchBackerRewards, useBackerRewards } from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
+import {
+  fetchBackerRewards,
+  useBackerRewards,
+} from 'src/rtk/features/creatorStaking/backerRewards/backerRewardsHooks'
 import { ApiPromise } from '@polkadot/api'
 import Button from '../tailwind-components/Button'
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
@@ -8,16 +11,21 @@ import { showParsedErrorMessage } from 'src/components/utils'
 import BN from 'bignumber.js'
 import calculateMaxTxCountInBatch from '../utils/calculateMaxTxCount'
 import { fetchBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
-import { fetchGeneralEraInfo, useGeneralEraInfo } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
+import {
+  fetchGeneralEraInfo,
+  useGeneralEraInfo,
+} from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
 import { fetchEraStakes } from 'src/rtk/features/creatorStaking/eraStake/eraStakeHooks'
 import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
+import { useResponsiveSize } from '@/components/responsive'
 
 type ClaimRewardsTxButtonProps = {
   rewardsSpaceIds: string[]
   totalRewards: string
   availableClaimsBySpaceId?: Record<string, string>
   restake: boolean
+  label: React.ReactNode
 }
 
 const ClaimRewardsTxButton = ({
@@ -25,26 +33,32 @@ const ClaimRewardsTxButton = ({
   totalRewards,
   availableClaimsBySpaceId,
   restake,
+  label
 }: ClaimRewardsTxButtonProps) => {
   const dispatch = useAppDispatch()
   const myAddress = useMyAddress()
   const eraInfo = useGeneralEraInfo()
   const backerRewards = useBackerRewards(myAddress)
   const sendEvent = useSendEvent()
+  const { isMobile } = useResponsiveSize()
 
   const { loading } = backerRewards || {}
 
   const onSuccess = () => {
     fetchGeneralEraInfo(dispatch)
-    
-    if(myAddress) {
+
+    if (myAddress) {
       fetchBackerRewards(dispatch, myAddress, rewardsSpaceIds)
       fetchBackerLedger(dispatch, myAddress)
     }
 
-    if(restake) {
+    if (restake) {
       fetchBackerInfo(dispatch, rewardsSpaceIds, myAddress || '')
-      fetchEraStakes(dispatch, rewardsSpaceIds, eraInfo?.info?.currentEra || '0')
+      fetchEraStakes(
+        dispatch,
+        rewardsSpaceIds,
+        eraInfo?.info?.currentEra || '0'
+      )
     }
   }
 
@@ -86,8 +100,8 @@ const ClaimRewardsTxButton = ({
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
     compProps
   ) => (
-    <Button {...compProps} variant={'primary'} size={'sm'}>
-      Claim
+    <Button {...compProps} variant={'primary'} size={isMobile ? 'md' : 'lg'}>
+      {label}
     </Button>
   )
 

@@ -6,12 +6,13 @@ import styles from './Main.module.sass'
 import CreatorsStaking from '../creatorsStaking'
 import clsx from 'clsx'
 import { NextPage } from 'next'
+import { useFetchBalanceByNetwork } from '@/rtk/features/balances/balancesHooks'
+import { useMyAddress } from '../providers/MyExtensionAccountsContext'
 
-type CreatorStakingPageProp = {
-  spaceId?: string
-}
+const CreatorStakingPage: NextPage = () => {
+  const myAddress = useMyAddress()
+  useFetchBalanceByNetwork({ address: myAddress, network: 'subsocial' })
 
-const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
   return (
     <>
       <Head>
@@ -26,7 +27,7 @@ const CreatorStakingPage: NextPage<CreatorStakingPageProp> = (props) => {
 
       <div className={clsx('layout-wrapper', styles.CreatorStakingSection)}>
         <PageContent className='position-relative'>
-          <CreatorsStaking defaultSpaceId={props.spaceId} />
+          <CreatorsStaking />
         </PageContent>
       </div>
       <Footer />

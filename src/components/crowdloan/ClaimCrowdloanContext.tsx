@@ -56,7 +56,7 @@ function SuccessClaimModal ({ claimedToken, ...props }: CustomModalProps & { cla
       centered
       title='🎉 Congratulations!'
       subtitle={`You successfully claimed ${claimedToken}`}
-      className={clsx('text-center')}
+      className={clsx('bs-text-center')}
       {...props}
     >
       <div className='bs-mt-2'>

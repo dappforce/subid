@@ -220,7 +220,7 @@ export const LinkWithIcon = ({
       <div
         className={clsx(
           { [styles.SubscanLink]: withCircle, ['bs-mr-2']: label },
-          'text-center LinkWithIcon'
+          'bs-text-center LinkWithIcon'
         )}
       >
         {typeof icon === 'string' ? (

@@ -9,7 +9,7 @@ export const linkTextStyles = cva(
   {
     variants: {
       variant: {
-        primary: 'text-text-primary',
+        primary: 'text-text-primary hover:text-text-primary hover:no-underline',
         secondary: 'text-text-secondary',
         default: '',
       },

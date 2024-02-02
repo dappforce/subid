@@ -207,7 +207,7 @@ const NtfLayout = ({ addresses }: NftsLayoutProps) => {
         showSizeChanger={true}
         hideOnSinglePage={data.length <= DEFAULT_PAGE_SIZE}
         onChange={onPaginationChange}
-        className='text-center mt-3'
+        className='bs-text-center mt-3'
         showLessItems={isMobile}
       />
     </div>

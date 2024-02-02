@@ -164,7 +164,7 @@ export const SignInModalView = ({ open, hide, accounts, walletsType = 'all' }: M
       title={title}
       footer={footer}
       width={520}
-      className='text-center DfSignInModal'
+      className='bs-text-center DfSignInModal'
       onCancel={hide}
       destroyOnClose
     >

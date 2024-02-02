@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { ChangeEventHandler, useEffect, useRef } from 'react'
-import Input from '../../tailwind-components/inputs/Input'
-import Button from '../../tailwind-components/Button'
+import Input from '../tailwind-components/inputs/Input'
+import Button from '../tailwind-components/Button'
 import { useBalancesByNetwork } from 'src/rtk/features/balances/balancesHooks'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { calculateBalanceForStaking } from 'src/utils/balance'
@@ -13,10 +13,10 @@ import {
 import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import { FormatBalance } from 'src/components/common/balances'
 import BN from 'bignumber.js'
-import { useBackerInfo } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import { useStakingConsts } from 'src/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { StakingModalVariant } from './StakeModal'
-import { useLazyConnectionsContext } from '../../../lazy-connection/LazyConnectionContext'
+import { useLazyConnectionsContext } from '../../lazy-connection/LazyConnectionContext'
+import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 
 type CommonAmountInputProps = {
   setAmount: (amount: string) => void
@@ -131,20 +131,20 @@ export const StakeOrIncreaseStakeAmountInput = (
 export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
   const myAddress = useMyAddress()
   const stakingConsts = useStakingConsts()
-  const { tokenSymbol, decimals, spaceId, setInputError } = props
+  const { tokenSymbol, decimals, setInputError } = props
 
   const { minimumStakingAmount } = stakingConsts || {}
 
-  const backerInfo = useBackerInfo(spaceId, myAddress)
+  const backerLedger = useBackerLedger(myAddress)
 
-  const { info } = backerInfo || {}
+  const { ledger } = backerLedger || {}
 
-  const { totalStaked } = info || {}
+  const { locked } = ledger || {}
 
   const onMaxAmountClick = () => {
     const maxAmount =
-      decimals && totalStaked
-        ? convertToBalanceWithDecimal(totalStaked, decimals)
+      decimals && locked
+        ? convertToBalanceWithDecimal(locked, decimals)
         : BIGNUMBER_ZERO
 
     props.setAmount(!maxAmount.lte(0) ? maxAmount.toString() : '')
@@ -154,7 +154,7 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
 
   const balanceValue = (
     <FormatBalance
-      value={totalStaked}
+      value={locked}
       decimals={decimals}
       currency={tokenSymbol}
       isGrayDecimal={false}
@@ -165,8 +165,8 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
     const amountWithDecimals = balanceWithDecimal(amountValue, decimals || 0)
 
     const canUnstake =
-      totalStaked &&
-      new BN(totalStaked)
+    locked &&
+      new BN(locked)
         .minus(amountWithDecimals)
         .gte(new BN(minimumStakingAmount || 0))
 
@@ -174,10 +174,10 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
       setInputError('Amount must be greater than 0')
     } else if (
       (minimumStakingAmount && amountValue && canUnstake) ||
-      amountWithDecimals.eq(totalStaked || '0')
+      amountWithDecimals.eq(locked || '0')
     ) {
       setInputError(undefined)
-    } else if (totalStaked && amountWithDecimals.gt(new BN(totalStaked))) {
+    } else if (locked && amountWithDecimals.gt(new BN(locked))) {
       setInputError('Amount exceeds staked value')
     } else {
       const minimumStakingAmountWithDecimals = convertToBalanceWithDecimal(
@@ -212,7 +212,7 @@ export const AmountInput = ({
   balanceValue,
   onMaxAmountClick,
   validateInput,
-  className
+  className,
 }: AmountInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -234,12 +234,14 @@ export const AmountInput = ({
     <div>
       <div className='mb-2 flex justify-between text-sm font-normal leading-4 text-text-muted'>
         <div>{label}</div>
-        {balanceValue && <div>
-          {balanceLabel}:{' '}
-          <span className={clsx('font-semibold text-black')}>
-            {balanceValue}
-          </span>
-        </div>}
+        {balanceValue && (
+          <div>
+            {balanceLabel}:{' '}
+            <span className={clsx('font-semibold text-black')}>
+              {balanceValue}
+            </span>
+          </div>
+        )}
       </div>
       <Input
         ref={inputRef}

@@ -1,6 +1,6 @@
 import LazyTxButton from 'src/components/lazy-connection/LazyTxButton'
 import { useMyAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import Button from '../../tailwind-components/Button'
+import Button from '../tailwind-components/Button'
 import { getBalanceWithDecimal } from 'src/components/common/balances'
 import {
   fetchBalanceByNetwork,
@@ -10,7 +10,8 @@ import { getTransferableBalance } from 'src/utils/balance'
 import { BN_ZERO } from '@polkadot/util'
 import {
   fetchBackerInfo,
-  useBackerInfo,
+  useBackerInfoBySpaces,
+  useFetchBackerInfoBySpaces,
 } from 'src/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
 import BN from 'bn.js'
 import { useAppDispatch } from 'src/rtk/app/store'
@@ -19,17 +20,21 @@ import {
   fetchGeneralEraInfo,
   useGeneralEraInfo,
 } from 'src/rtk/features/creatorStaking/generalEraInfo/generalEraInfoHooks'
-import { fetchBackerLedger } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import {
-  StakingModalVariant,
-  betaVersionAgreementStorageName,
-} from './StakeModal'
+  fetchBackerLedger,
+  useBackerLedger,
+} from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import { StakingModalVariant } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
-import { useModalContext } from '../../contexts/ModalContext'
-import store from 'store'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
-import getAmountRange from '../../utils/getAmountRangeForAnalytics'
+import getAmountRange from '../utils/getAmountRangeForAnalytics'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
+import { useGetMyCreatorsIds } from '../hooks/useGetMyCreators'
+import { useCreatorsList } from '@/rtk/features/creatorStaking/creatorsList/creatorsListHooks'
+import { isDef, isEmptyArray } from '@subsocial/utils'
+import { useLazyConnectionsContext } from '@/components/lazy-connection/LazyConnectionContext'
+import { useStakingConsts } from '@/rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
+import { ACTIVE_STAKING_SPACE_ID } from '../utils/consts'
 
 export type CommonTxButtonProps = {
   amount?: string
@@ -58,13 +63,11 @@ function StakingTxButton ({
   tx,
   closeModal,
   onClick,
-  modalVariant,
   inputError,
 }: StakingTxButtonProps) {
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
   const eraInfo = useGeneralEraInfo()
-  const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
     fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
@@ -75,12 +78,6 @@ function StakingTxButton ({
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
-
-    if (modalVariant === 'stake') {
-      setStakedSpaceId(spaceId)
-      setShowSuccessModal(true)
-      store.set(betaVersionAgreementStorageName, true)
-    }
 
     closeModal()
   }
@@ -157,72 +154,93 @@ export function StakeOrIncreaseTxButton (props: CommonTxButtonProps) {
 }
 
 export function UnstakeTxButton (props: CommonTxButtonProps) {
+  const { amount, label, inputError, disabled, closeModal } = props
+
   const myAddress = useMyAddress()
-  const backerInfo = useBackerInfo(props.spaceId, myAddress)
-  const { info } = backerInfo || {}
-  const sendEvent = useSendEvent()
+  const creatorsList = useCreatorsList()
   const { decimal } = useGetChainDataByNetwork('subsocial')
-
-  const { totalStaked } = info || {}
-
-  return (
-    <StakingTxButton
-      {...props}
-      disabled={!totalStaked || new BN(totalStaked).isZero() || props.disabled}
-      tx='creatorStaking.unstake'
-      onClick={() => {
-        sendEvent('cs_stake_decrease', {
-          amountRange: getAmountRange(decimal, props.amount),
-          eventSource: props.eventSource,
-        })
-      }}
-    />
-  )
-}
-
-type MoveStakeTxButtonProps = {
-  amount: string
-  decimal: number
-  spaceIdFrom: string
-  spaceIdTo?: string
-  inputError?: string
-  disabled?: boolean
-  closeModal: () => void
-  eventSource?: string
-}
-
-export function MoveStakeTxButton ({
-  amount,
-  decimal,
-  spaceIdFrom,
-  spaceIdTo,
-  inputError,
-  disabled,
-  closeModal,
-  eventSource,
-}: MoveStakeTxButtonProps) {
-  const myAddress = useMyAddress()
+  const { getApiByNetwork } = useLazyConnectionsContext()
   const dispatch = useAppDispatch()
-  const eraInfo = useGeneralEraInfo()
+  const stakingConsts = useStakingConsts()
+
+  const backerLedger = useBackerLedger(myAddress)
+  const { ledger } = backerLedger || {}
+
+  const { locked: myTotalLock } = ledger || {}
+  const { minimumStakingAmount } = stakingConsts || {}
+
+  const spaceIds = creatorsList?.map((item) => item.creator.spaceId)
+  useFetchBackerInfoBySpaces(spaceIds, myAddress)
+
+  const myCreatorsIds = useGetMyCreatorsIds(spaceIds)
+
+  const creatorsSpaceIds =
+    myCreatorsIds?.filter((id) => id !== ACTIVE_STAKING_SPACE_ID) || []
+
+  const isOnlyActiveStaking = isEmptyArray(creatorsSpaceIds)
+
+  const backerInfoBySpaces = useBackerInfoBySpaces(creatorsSpaceIds, myAddress)
+
   const sendEvent = useSendEvent()
 
   const onSuccess = () => {
-    if (!spaceIdTo) return
+    fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
+    fetchBackerInfo(dispatch, spaceIds || [], myAddress || '')
+    fetchGeneralEraInfo(dispatch)
 
-    const spaceIds = [ spaceIdFrom, spaceIdTo ]
-
-    fetchBackerInfo(dispatch, spaceIds, myAddress || '')
     fetchBackerLedger(dispatch, myAddress || '')
-    fetchEraStakes(dispatch, spaceIds, eraInfo?.info?.currentEra || '0')
-
     closeModal()
   }
 
-  const buildParams = () => {
-    const amountWithDecimals = getBalanceWithDecimal(amount, decimal)
+  const buildUnstakingParams = () => {
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
 
-    return [ spaceIdFrom, spaceIdTo, amountWithDecimals.toString() ]
+    return [ ACTIVE_STAKING_SPACE_ID, amountWithDecimals.toString() ]
   }
+
+  const buildBatchParams = async () => {
+    if (!backerInfoBySpaces || !myTotalLock || !minimumStakingAmount) return []
+
+    const api = await getApiByNetwork('subsocial')
+    const amountWithDecimals = getBalanceWithDecimal(amount || '0', decimal)
+
+    const spaceIds =
+      myCreatorsIds?.filter((id) => id !== ACTIVE_STAKING_SPACE_ID) || []
+
+    const txs = spaceIds.map((spaceId) => {
+      const { totalStaked } = backerInfoBySpaces[spaceId] || {}
+
+      if (myTotalLock <= minimumStakingAmount) {
+        return api.tx.creatorStaking.unstake(
+          spaceId,
+          amountWithDecimals.toString()
+        )
+      } else {
+        return api.tx.creatorStaking.moveStake(
+          spaceId,
+          ACTIVE_STAKING_SPACE_ID,
+          totalStaked
+        )
+      }
+    })
+
+    const unstakingTx =
+      myTotalLock <= minimumStakingAmount
+        ? undefined
+        : api.tx.creatorStaking.unstake(
+            ACTIVE_STAKING_SPACE_ID,
+            amountWithDecimals.toString()
+          )
+
+    const batchTsx = [ ...txs, unstakingTx ].filter(isDef)
+
+    return [ batchTsx ]
+  }
+
+  const tx = isOnlyActiveStaking ? 'creatorStaking.unstake' : 'utility.batch'
+  const buildParams = isOnlyActiveStaking
+    ? buildUnstakingParams
+    : buildBatchParams
 
   const Component: React.FunctionComponent<{ onClick?: () => void }> = (
     compProps
@@ -233,7 +251,7 @@ export function MoveStakeTxButton ({
       size={'lg'}
       className='w-full text-base'
     >
-      Move stake
+      {label}
     </Button>
   )
 
@@ -241,7 +259,6 @@ export function MoveStakeTxButton ({
     !myAddress ||
     !amount ||
     (amount && new BN(amount).lte(new BN(0))) ||
-    !spaceIdTo ||
     !!inputError ||
     disabled
 
@@ -249,18 +266,16 @@ export function MoveStakeTxButton ({
     <LazyTxButton
       network='subsocial'
       accountId={myAddress}
-      tx={'creatorStaking.moveStake'}
+      tx={tx}
       disabled={disableButton}
       component={Component}
-      params={buildParams}
-      onClick={() =>
-        sendEvent('cs_stake_move', {
-          from: spaceIdFrom,
-          to: spaceIdTo,
-          amountRange: getAmountRange(decimal, amount),
-          eventSource: eventSource,
+      onClick={() => {
+        sendEvent('cs_stake_decrease', {
+          amountRange: getAmountRange(decimal, props.amount),
+          eventSource: props.eventSource,
         })
-      }
+      }}
+      params={buildParams}
       onFailed={showParsedErrorMessage}
       onSuccess={onSuccess}
     />

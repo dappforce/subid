@@ -51,7 +51,7 @@ export const DaysToWithdraw = ({ unbondingPeriodInEras }: DaysToUnstakeProps) =>
 
 export const DaysToWithdrawWarning = ({ unbondingPeriodInEras }: DaysToUnstakeProps) => {
   return <div className='px-4 py-2 bg-indigo-50 text-text-primary rounded-[15px]'>
-    ℹ️ Unstaking takes about{' '}
+    ℹ️ Unlocking takes about{' '}
     <DaysToWithdraw unbondingPeriodInEras={unbondingPeriodInEras} /> before
     you can withdraw
   </div>
