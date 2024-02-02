@@ -12,6 +12,9 @@ import { DaysToWithdrawWarning } from '../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import BN from 'bignumber.js'
+import { Tooltip } from 'antd'
+import { convertToBalanceWithDecimal } from '@subsocial/utils'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const CurrentStake = () => {
   const myAddress = useMyAddress()
@@ -34,9 +37,11 @@ const CurrentStake = () => {
     />
   )
 
-  const showMimimumStake = new BN(locked || '0').lt(
-    minimumStakingAmount || '0'
-  )
+  const showMimimumStake = new BN(locked || '0').lt(minimumStakingAmount || '0')
+
+  const minimumStake = minimumStakingAmount
+    ? convertToBalanceWithDecimal(minimumStakingAmount, decimal)
+    : '0'
 
   const requiredLock = (
     <FormatBalance
@@ -57,7 +62,13 @@ const CurrentStake = () => {
       </div>
       {showMimimumStake && (
         <div className='flex w-full flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
-          <div className='text-sm text-text-muted leading-5'>Required lock</div>
+          <Tooltip
+            title={`In order to qualify for Content Staking, you need to lock at least ${minimumStake} SUB`}
+          >
+            <div className='text-sm text-text-muted leading-5 flex items-center gap-2'>
+              Additional lock required <QuestionCircleOutlined />
+            </div>
+          </Tooltip>
           <div className='font-medium text-base leading-6'>{requiredLock}</div>
         </div>
       )}
@@ -80,10 +91,12 @@ const MinimumStake = () => {
     />
   )
 
-  return <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
-    <div className='text-sm text-text-muted leading-5'>Minimum lock</div>
-    <div className='font-medium text-base leading-6'>{minimumStaking}</div>
-  </div>
+  return (
+    <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
+      <div className='text-sm text-text-muted leading-5'>Minimum lock</div>
+      <div className='font-medium text-base leading-6'>{minimumStaking}</div>
+    </div>
+  )
 }
 
 export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
@@ -91,7 +104,7 @@ export type StakingModalVariant = 'stake' | 'unstake' | 'increaseStake'
 const modalData = {
   stake: {
     title: '🌟 Lock SUB',
-    inputLabel: 'Lock amount:',
+    inputLabel: 'Amount to lock:',
     balanceLabel: 'Balance',
     modalButton: 'Lock',
     amountInput: StakeOrIncreaseStakeAmountInput,
@@ -107,7 +120,7 @@ const modalData = {
   },
   increaseStake: {
     title: '🌟 Lock more SUB',
-    inputLabel: 'Lock amount',
+    inputLabel: 'Increase locked amount',
     balanceLabel: 'Balance',
     modalButton: 'Lock',
     amountInput: StakeOrIncreaseStakeAmountInput,
@@ -134,14 +147,14 @@ const StakingModal = ({
   amount,
   eventSource,
 }: StakeModalProps) => {
-  const [inputError, setInputError] = useState<string | undefined>(undefined)
+  const [ inputError, setInputError ] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (open) {
       setAmount('')
       inputError && setInputError(undefined)
     }
-  }, [open])
+  }, [ open ])
 
   const stakingConsts = useStakingConsts()
 

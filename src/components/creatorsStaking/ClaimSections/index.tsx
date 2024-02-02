@@ -65,7 +65,7 @@ const ClaimSection = () => {
 
       <div className='flex flex-col items-center gap-6 bg-white rounded-[20px] md:p-6 p-4'>
         <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
-          👉 My next steps
+          👉 Next steps
         </div>
         <div className='text-slate-900 text-lg font-normal text-center leading-[26px]'>
           You have staking rewards of{' '}

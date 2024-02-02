@@ -11,8 +11,8 @@ getInitialPropsWithRedux(CreatorsStakingPage, async ({ dispatch }) => {
 
   return {
     head: {
-      title: 'Support Favorite Creators And Receive Tokens!',
-      desc: 'Stake SUB towards the best creators of content, applications, and communities. Both you and the creator will receive more tokens, and help grow the network.',
+      title: 'Join The Creator Economy On Subsocial',
+      desc: 'Earn rewards when you post content or engage with others in Subsocial\'s Content Staking system. Lock some SUB to get started today!',
       image: '/images/creator-staking/meta-bg.jpg',
       forceTitle: true,
     },
