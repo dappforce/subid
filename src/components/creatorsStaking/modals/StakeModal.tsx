@@ -11,15 +11,19 @@ import { useGetChainDataByNetwork } from 'src/components/utils/useGetDecimalsAnd
 import { DaysToWithdrawWarning } from '../utils/DaysToWithdraw'
 import { useStakingConsts } from '../../../rtk/features/creatorStaking/stakingConsts/stakingConstsHooks'
 import { useBackerLedger } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
+import BN from 'bignumber.js'
 
 const CurrentStake = () => {
   const myAddress = useMyAddress()
   const backerLedger = useBackerLedger(myAddress)
+  const consts = useStakingConsts()
   const { decimal, tokenSymbol } = useGetChainDataByNetwork('subsocial')
 
   const { ledger } = backerLedger || {}
 
   const { locked } = ledger || {}
+
+  const { minimumStakingAmount } = consts || {}
 
   const currentStake = (
     <FormatBalance
@@ -30,10 +34,35 @@ const CurrentStake = () => {
     />
   )
 
+  const hideMinimumStake = new BN(locked || '0').lte(
+    minimumStakingAmount || '0'
+  )
+
+  const minimumStakingAmountWithDecimals = (
+    <FormatBalance
+      value={new BN(minimumStakingAmount || '0')
+        .minus(locked || '0')
+        .toString()}
+      decimals={decimal}
+      currency={tokenSymbol}
+      isGrayDecimal={false}
+    />
+  )
+
   return (
-    <div className='flex flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
-      <div className='text-sm text-text-muted leading-5'>My current lock</div>
-      <div className='font-medium text-base leading-6'>{currentStake}</div>
+    <div className='flex items-center gap-4'>
+      <div className='flex flex-col gap-1 w-full bg-gray-50 p-4 rounded-2xl'>
+        <div className='text-sm text-text-muted leading-5'>My current lock</div>
+        <div className='font-medium text-base leading-6'>{currentStake}</div>
+      </div>
+      {!hideMinimumStake && (
+        <div className='flex w-full flex-col gap-1 bg-gray-50 p-4 rounded-2xl'>
+          <div className='text-sm text-text-muted leading-5'>Required lock</div>
+          <div className='font-medium text-base leading-6'>
+            {minimumStakingAmountWithDecimals}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -67,7 +67,7 @@ const ClaimSection = () => {
         <div className='text-2xl font-semibold leading-[26px] text-slate-900'>
           👉 My next steps
         </div>
-        <div className='text-slate-900 text-lg font-normal leading-[26px]'>
+        <div className='text-slate-900 text-lg font-normal text-center leading-[26px]'>
           You have staking rewards of{' '}
           <span className='font-semibold'>{myRewards}</span> available to claim:
         </div>

@@ -48,7 +48,13 @@ const BannerActionButtons = () => {
         {haveSub ? (
           <LockingButtons locked={locked} />
         ) : (
-          <Button size={isMobile ? 'md' : 'lg'} variant={'primary'}>
+          <Button
+            size={isMobile ? 'md' : 'lg'}
+            href='https://docs.subsocial.network/docs/tutorials/GetSUB/get-sub'
+            target='_blank'
+            className='hover:text-white'
+            variant={'primary'}
+          >
             Get SUB
           </Button>
         )}

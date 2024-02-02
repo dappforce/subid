@@ -13,13 +13,19 @@ import {
   useBackerLedger,
   useFetchBackerLedger,
 } from '@/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
-import { useIsMulti, useMyAddress } from '@/components/providers/MyExtensionAccountsContext'
+import {
+  useIsMulti,
+  useMyAddress,
+} from '@/components/providers/MyExtensionAccountsContext'
 import { FormatBalance } from '@/components/common/balances'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
 import BN from 'bignumber.js'
 import { isDef } from '@subsocial/utils'
 import BannerActionButtons from './BannerActionButtons'
 import { useResponsiveSize } from '@/components/responsive'
+import { useBalancesByNetwork } from '@/rtk/features/balances/balancesHooks'
+import { calculateBalanceForStaking } from '@/utils/balance'
+import { BN_ZERO } from '@polkadot/util'
 
 const skeletonClassName = 'h-[20px] mb-1'
 
@@ -30,6 +36,19 @@ const StatsCards = () => {
   const backerLedger = useBackerLedger(myAddress)
   const { isMobile } = useResponsiveSize()
   const isMulti = useIsMulti()
+
+  const { tokenSymbol } = useGetChainDataByNetwork('subsocial')
+
+  const { currencyBalance: balancesByCurrency, loading: balanceLoading } =
+    useBalancesByNetwork({
+      address: myAddress,
+      network: 'subsocial',
+      currency: tokenSymbol,
+    })
+
+  const availableBalanceValue = balancesByCurrency
+    ? calculateBalanceForStaking(balancesByCurrency, 'crestake')
+    : BN_ZERO
 
   const { decimal, tokenSymbol: symbol } = useGetChainDataByNetwork('subsocial')
 
@@ -50,8 +69,15 @@ const StatsCards = () => {
     />
   )
 
+  const availableBalance = (
+    <TotalStakedBalance
+      value={availableBalanceValue.toString()}
+      loading={balanceLoading}
+    />
+  )
+
   const dashboardData = useMemo(() => {
-    const myLockedDashboardItem = isLockedTokens && !isMulti
+    const dashboardItem = isLockedTokens
       ? {
           title: 'My lock',
           value: (
@@ -63,10 +89,14 @@ const StatsCards = () => {
           ),
           infoTitle: 'How many tokens you have locked',
         }
-      : undefined
+      : {
+          title: 'Available balance',
+          value: availableBalance,
+          infoTitle: 'The amount of tokens you can lock',
+        }
 
     return [
-      myLockedDashboardItem,
+      ...[ !isMulti && myAddress ? dashboardItem : undefined ],
       {
         title: 'Total locked',
         value: <TotalStakedBalance value={stakedBalance} loading={loading} />,
@@ -83,13 +113,13 @@ const StatsCards = () => {
         infoTitle: 'The total number of unique accounts currently locking SUB',
       },
     ].filter(isDef)
-  }, [ stakedBalance, info?.backerCount, myAddress, isMulti ])
+  }, [ loading, ledgerLoading, balanceLoading, myAddress, isMulti ])
 
   return (
     <div
       className={clsx(
         'grid grid-cols-2 md:gap-6 gap-4',
-        !isLockedTokens || isMulti ? 'md:grid-cols-2' : 'md:grid-cols-3'
+        isMulti || !myAddress ? 'md:grid-cols-2' : 'md:grid-cols-3'
       )}
     >
       {dashboardData.map((data, i) => (

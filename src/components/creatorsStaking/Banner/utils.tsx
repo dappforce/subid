@@ -17,13 +17,13 @@ type StatsCardProps = {
 
 export const DashboardCard = ({ title, value, desc, infoTitle, className }: StatsCardProps) => {
   return (
-    <CardWrapper className={clsx('bg-white/50 min-h-[116px] backdrop-blur-[24.5px] w-full', className)}>
+    <CardWrapper className={clsx('bg-white/50 backdrop-blur-[24.5px] w-full', className)}>
       <div className='text-text-dark/80 flex items-center gap-2'>
         {title}
         {infoTitle && <Tooltip title={infoTitle}><QuestionCircleOutlined /></Tooltip>}
       </div>
       <div>
-        <div className='text-text-dark md:text-2xl text-[19px]  font-semibold'>{value}</div>
+        <div className='text-text-dark md:text-2xl text-[19px] font-semibold'>{value}</div>
         {desc && <div className='text-text-dark/80 text-sm'>{desc}</div>}
       </div>
     </CardWrapper>

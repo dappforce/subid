@@ -26,7 +26,6 @@ import {
 } from 'src/rtk/features/creatorStaking/backerLedger/backerLedgerHooks'
 import { StakingModalVariant } from './StakeModal'
 import { showParsedErrorMessage } from 'src/components/utils'
-import { useModalContext } from '../contexts/ModalContext'
 import { useSendEvent } from '@/components/providers/AnalyticContext'
 import getAmountRange from '../utils/getAmountRangeForAnalytics'
 import { useGetChainDataByNetwork } from '@/components/utils/useGetDecimalsAndSymbolByNetwork'
@@ -64,13 +63,11 @@ function StakingTxButton ({
   tx,
   closeModal,
   onClick,
-  modalVariant,
   inputError,
 }: StakingTxButtonProps) {
   const myAddress = useMyAddress()
   const dispatch = useAppDispatch()
   const eraInfo = useGeneralEraInfo()
-  const { setShowSuccessModal, setStakedSpaceId } = useModalContext()
 
   const onSuccess = () => {
     fetchBalanceByNetwork(dispatch, [ myAddress || '' ], 'subsocial')
@@ -81,11 +78,6 @@ function StakingTxButton ({
     fetchEraStakes(dispatch, [ spaceId ], eraInfo?.info?.currentEra || '0')
 
     fetchBackerLedger(dispatch, myAddress || '')
-
-    if (modalVariant === 'stake') {
-      setStakedSpaceId(spaceId)
-      setShowSuccessModal(true)
-    }
 
     closeModal()
   }
