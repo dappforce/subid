@@ -13,6 +13,12 @@ import ValueOrSkeleton from '../utils/ValueOrSkeleton'
 import BN from 'bignumber.js'
 import NewStakingVersionSection from '../utils/NewStakingVersionSection'
 import { useFetchBackerInfoBySpaces } from '@/rtk/features/creatorStaking/backerInfo/backerInfoHooks'
+import {
+  useCreatorRewards,
+  useFetchCreatorRewards,
+} from '../../../rtk/features/creatorStaking/creatorRewards/creatorRewardsHooks'
+import { isEmptyArray } from '@subsocial/utils'
+import { toGenericAccountId } from '@/rtk/app/util'
 
 const ClaimSection = () => {
   const myAddress = useMyAddress()
@@ -32,19 +38,45 @@ const ClaimSection = () => {
     myAddress,
     myCreatorsIds.length ? myCreatorsIds : creatorsSpaceIds
   )
+
+  const creators = creatorsList?.filter(
+    (item) => toGenericAccountId(item.creator.stakeholder) === myAddress
+  )
+
+  useFetchCreatorRewards(
+    myAddress,
+    creators?.map((item) => item.id)
+  )
+
   const backerRewards = useBackerRewards(myAddress)
+  const creatorRewards = useCreatorRewards(myAddress)
 
-  const { data: rewardsData, loading: rewardsLoading } = backerRewards || {}
+  const { data: creatorRewardsData, loading: creatorRewardsLoading } =
+    creatorRewards || {}
+  const { data: backerRewardsData, loading: backerRewardsLoading } =
+    backerRewards || {}
 
-  const { rewards, availableClaimsBySpaceId } = rewardsData || {}
+  const { rewards: creatorRewardsValue, availableClaims: creatorClaimsCount } =
+    creatorRewardsData || {}
+  const { rewards, availableClaimsBySpaceId: backerClaimsCount } =
+    backerRewardsData || {}
 
   const { totalRewards } = rewards || {}
 
-  if (new BN(totalRewards || '0').isZero()) return null
+  const creatorRewardsBN = new BN(creatorRewardsValue || '0')
+  const stakerRewardsBN = new BN(totalRewards || '0')
+
+  if (creatorRewardsBN.isZero() && stakerRewardsBN.isZero()) return null
+
+  const isCreatorRewards = !isEmptyArray(Object.keys(creatorClaimsCount || {}))
 
   const myRewardsValue = (
     <FormatBalance
-      value={totalRewards?.toString() || '0'}
+      value={
+        isCreatorRewards
+          ? creatorRewardsBN.toString()
+          : stakerRewardsBN.toString()
+      }
       decimals={decimal}
       currency={symbol}
       isGrayDecimal={false}
@@ -54,7 +86,7 @@ const ClaimSection = () => {
   const myRewards = (
     <ValueOrSkeleton
       value={myRewardsValue}
-      loading={rewardsLoading}
+      loading={isCreatorRewards ? creatorRewardsLoading : backerRewardsLoading}
       skeletonClassName='h-[24px]'
     />
   )
@@ -68,13 +100,18 @@ const ClaimSection = () => {
           👉 Next steps
         </div>
         <div className='text-slate-900 text-lg font-normal text-center leading-[26px]'>
-          You have staking rewards of{' '}
+          You have {isCreatorRewards ? 'creators' : 'staking'} rewards of{' '}
           <span className='font-semibold'>{myRewards}</span> available to claim:
         </div>
         <ClaimRewardsTxButton
-          rewardsSpaceIds={Object.keys(availableClaimsBySpaceId || {}) || []}
-          totalRewards={totalRewards || '0'}
-          availableClaimsBySpaceId={availableClaimsBySpaceId}
+          rewardsSpaceIds={Object.keys(backerClaimsCount || {}) || []}
+          totalRewards={
+            isCreatorRewards
+              ? creatorRewardsBN.toString()
+              : stakerRewardsBN.toString()
+          }
+          backerClaimsCount={backerClaimsCount}
+          creatorClaimsCount={creatorClaimsCount}
           restake={false}
           label={<>Claim {myRewards}</>}
         />
