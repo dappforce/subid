@@ -40,7 +40,7 @@ export type CommonTableInfo = {
   icon: string | JSX.Element
 
   key: string
-  chain: React.ReactNode
+  chain?: React.ReactNode
 
   balance: React.ReactNode
   balanceValue: BN

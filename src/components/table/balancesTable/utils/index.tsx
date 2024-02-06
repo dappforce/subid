@@ -292,7 +292,7 @@ export const PnlInDollars = ({
 
   return (
     <Tooltip
-      title='pnl'
+      title='The change in the value of these tokens in the last 24 hours'
       className='d-flex align-items-center justify-content-end'
     >
       <span
@@ -326,7 +326,7 @@ export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
 
   return (
     <Tooltip
-      title='persentage'
+      title='How much the price of this token has changed in the last 24 hours'
       className='d-flex align-items-center justify-content-end'
     >
       <span

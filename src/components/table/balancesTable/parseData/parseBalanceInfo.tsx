@@ -47,16 +47,22 @@ const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
       key: 'locked',
       label: t('table.balances.locked'),
       value: lockedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
     {
       key: 'reserved',
       label: t('table.balances.reserved'),
       value: reservedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are reserved by one specific thing, such as setting an on-chain identity, and cannot be transferred to another account.',
     },
     {
       key: 'free',
       label: t('table.balances.free'),
       value: freeBalance,
+      tooltipText:
+        'Tokens that are not reserved or locked, and can be transferred to another account.',
     },
   ]
 }
@@ -269,8 +275,7 @@ export const parseBalancesTableInfo = ({
                   totalTokensValue = totalTokensValue.plus(totalValue)
 
                   return {
-                    key: symbol,
-                    chain: <></>,
+                    key: `detailed-balances-${symbol}`,
                     balance: <span className='bs-mr-4'>{balance}</span>,
                     price,
                     balanceValue: balanceValue,
@@ -286,7 +291,7 @@ export const parseBalancesTableInfo = ({
             const { decimal } = getDecimalsAndSymbol(chainInfo, nativeSymbol)
 
             const accountDataArray: BalancesTableInfo[] = accountData.map(
-              ({ key, label, value }: any) => {
+              ({ key, label, value, tooltipText }: any) => {
                 const valueWithDecimal = getBalanceWithDecimals({
                   totalBalance: value,
                   decimals: decimal,
@@ -302,7 +307,7 @@ export const parseBalancesTableInfo = ({
                 const chain = (
                   <div className='w-fit'>
                     <Tooltip
-                      title={label}
+                      title={tooltipText}
                       className='d-flex align-items-center'
                     >
                       <div>{label}</div>
@@ -315,9 +320,10 @@ export const parseBalancesTableInfo = ({
                   key,
                   chain: (
                     <div
+                      style={{ marginLeft: isMulti ? '5rem' : '3rem' }}
                       className={clsx(
                         { [styles.SecondLevelBalances]: isMulti },
-                        'ml-5 GrayText'
+                        'GrayText'
                       )}
                     >
                       {chain}
@@ -391,7 +397,13 @@ export const parseBalancesTableInfo = ({
             }
 
             const chainValue = (
-              <div>{isMulti ? <div className='ml-5'>{chain}</div> : chain}</div>
+              <div>
+                {isMulti ? (
+                  <div style={{ marginLeft: '3rem' }}>{chain}</div>
+                ) : (
+                  chain
+                )}
+              </div>
             )
 
             return {
@@ -410,7 +422,9 @@ export const parseBalancesTableInfo = ({
               balanceWithoutChildren: getBalancePart(false),
               balanceValue,
               balanceView: getBalancePart(true),
-              links: isMulti ? [] : (
+              links: isMulti ? (
+                []
+              ) : (
                 <LinksButton
                   network={supportedNetwork}
                   action={onButtonClick}
@@ -418,14 +432,15 @@ export const parseBalancesTableInfo = ({
                   disableTransferButton={!chainInfo.isTransferable || loading}
                 />
               ),
-              showLinks: (isShow: boolean) => (
-                !isMulti && <LinksButton
-                  action={onButtonClick}
-                  network={supportedNetwork}
-                  showActionButton={isShow}
-                  disableTransferButton={!chainInfo.isTransferable || loading}
-                />
-              ),
+              showLinks: (isShow: boolean) =>
+                !isMulti && (
+                  <LinksButton
+                    action={onButtonClick}
+                    network={supportedNetwork}
+                    showActionButton={isShow}
+                    disableTransferButton={!chainInfo.isTransferable || loading}
+                  />
+                ),
               transferAction: !isMulti && (
                 <Button
                   disabled={!chainInfo.isTransferable || loading}

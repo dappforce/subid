@@ -20,15 +20,15 @@ type BalancesSectionCardProps<T extends TableInfo> = {
   isLastElement?: boolean
 }
 
-const offsetByIndex = [0, 13, 63]
+const offsetByIndex = [ 0, 13, 63 ]
 
-const collapseIconOffset = [ 0, 12, 10]
+const collapseIconOffset = [ 0, 12, 10 ]
 
 const BalancesSectionCard = <T extends TableInfo>({
   value,
   isLastElement,
 }: BalancesSectionCardProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const balanceInfoRef = React.useRef<HTMLDivElement>(null)
   const prices = usePrices()
   const level = 0
@@ -183,7 +183,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
   isLastElement,
   level,
 }: InnerCildrenBalancesProps<T>) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [ open, setOpen ] = useState<boolean>(false)
   const { balancesVariant } = useTableContext()
 
   const {
@@ -191,6 +191,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
     chain,
     balanceValue,
     totalValue,
+    symbol,
     showLinks,
     children: innerChildren,
   } = value
@@ -213,22 +214,28 @@ const InnerChildrenBalances = <T extends TableInfo>({
 
   let childrenOffset = leftOffset + offsetByIndex[level]
 
-  if (['reserved', 'locked', 'free'].includes(key)) {
+  const isDetailedBalances = key.includes('detailed-balances')
+
+  if (isDetailedBalances) {
     const chainCentricOffset = isMulti ? 62 : 11
     const tokenCentricOffset = isMulti ? 31 : 63
 
     childrenOffset =
-      leftOffset + (balancesVariant === 'tokens' ? tokenCentricOffset : chainCentricOffset)
+      leftOffset +
+      (balancesVariant === 'tokens' ? tokenCentricOffset : chainCentricOffset)
   }
 
   return (
     <div className={styles.InnerChildrenWrapper}>
-      <div className={styles.ChildrenRow}>
+      <div className={styles.ChildrenRow} onClick={() => setOpen(!open)}>
         <div
           className={styles.CollapseButton}
           style={{ width: childrenOffset }}
         >
-          <div className={styles.InnerCollapseButton} style={{ paddingRight: collapseIconOffset[level] }}>
+          <div
+            className={styles.InnerCollapseButton}
+            style={{ paddingRight: collapseIconOffset[level] }}
+          >
             {haveChildren && (
               <MdKeyboardArrowRight
                 className={clsx(styles.ArrowRight, styles.InnerChildrenArrow, {
@@ -242,9 +249,15 @@ const InnerChildrenBalances = <T extends TableInfo>({
           key={key}
           ref={childrenRowContentRef}
           className={styles.ChildrenRowContent}
-          onClick={() => setOpen(!open)}
         >
-          <span className={styles.ChidrenChainName}>{chain}</span>
+          <span
+            className={clsx(styles.ChidrenChainName, {
+              ['GrayText']: isDetailedBalances,
+              [styles.ChainName]: !isDetailedBalances
+            })}
+          >
+            {chain || symbol}
+          </span>
           <div className={styles.ChildrenBalancesBlock}>
             <span className={styles.TokenBalance}>{tokenBalance}</span>
             <span className={styles.BalanceInDollars}>${balanceInDollats}</span>

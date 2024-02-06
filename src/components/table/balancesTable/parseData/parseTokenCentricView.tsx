@@ -243,7 +243,11 @@ export const parseTokenCentricView = ({
 
         return {
           key: `${balancesKey}-${j}`,
-          chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+          chain: isMulti ? (
+            <div style={{ marginLeft: '3rem' }}>{chain}</div>
+          ) : (
+            chain
+          ),
           balance: getBalancePart(balance, true),
           price: !isMulti ? priceView : <></>,
           total: totalView,
@@ -452,7 +456,6 @@ function getChildrenBalances ({
   tokenId,
   priceValue,
   loading,
-  isMobile,
   onTransferClick,
   t,
 }: GetChildrenBalanceParams) {
@@ -498,7 +501,7 @@ function getChildrenBalances ({
 
     childrenBalances.children = [ ...accountData.reverse() ]
 
-    const hideIcon = isMulti && isMobile
+    const hideIcon = isMulti
 
     const chain = (
       <ChainData
@@ -530,7 +533,9 @@ function getChildrenBalances ({
 
     return {
       key: `${network}-${tokenId}`,
-      chain: <div className='ml-5'>{chain}</div>,
+      chain: (
+        <div style={{ marginLeft: isMulti ? '5rem' : '3rem' }}>{chain}</div>
+      ),
       balance: getBalancePart(balance, true),
       price: <></>,
       total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
@@ -588,16 +593,22 @@ function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
       key: 'locked',
       label: t('table.balances.locked'),
       value: lockedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
     {
       key: 'reserved',
       label: t('table.balances.reserved'),
       value: reservedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are reserved by one specific thing, such as setting an on-chain identity, and cannot be transferred to another account.',
     },
     {
       key: 'free',
       label: t('table.balances.free'),
       value: freeBalance,
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
   ]
 }
@@ -624,7 +635,7 @@ function getAccountDataRows ({
     ...accountDataValuesParams,
   })
 
-  return accountDataValues.map(({ key, label, value }: any) => {
+  return accountDataValues.map(({ key, label, tooltipText, value }: any) => {
     const valueWithDecimal = getBalanceWithDecimals({
       totalBalance: value,
       decimals: decimal,
@@ -639,7 +650,7 @@ function getAccountDataRows ({
 
     const chain = (
       <div className='w-fit'>
-        <Tooltip title={label} className='d-flex align-items-center'>
+        <Tooltip title={tooltipText} className='d-flex align-items-center'>
           <div>{label}</div>
           <InfoCircleOutlined className='ml-1 GrayIcon' />
         </Tooltip>
@@ -647,12 +658,13 @@ function getAccountDataRows ({
     )
 
     return {
-      key,
+      key: `detailed-balances-${key}`,
       chain: (
         <div
+          style={{ marginLeft: '5rem' }}
           className={clsx(
             { [styles.SecondLevelBalances]: isMulti },
-            'ml-5 GrayText'
+            'GrayText'
           )}
         >
           {chain}
