@@ -113,6 +113,20 @@ export const StakeOrIncreaseStakeAmountInput = (
       setInputError('Amount exceeds available balance')
     } else if (amountWithDecimals.lte(new BN(0))) {
       setInputError('Amount must be greater than 0')
+    } else if (
+      minimumRemainingAmount &&
+      new BN(availableBalance.toString())
+        .minus(amountWithDecimals)
+        .lt(minimumRemainingAmount)
+    ) {
+      const minimumRemainingAmountWithDecimals = convertToBalanceWithDecimal(
+        minimumRemainingAmount,
+        decimals || 0
+      )
+
+      setInputError(
+        `You must leave at least ${minimumRemainingAmountWithDecimals} SUB in your account`
+      )
     } else {
       setInputError(undefined)
     }
@@ -165,7 +179,7 @@ export const UnstakeAmountInput = (props: CommonAmountInputProps) => {
     const amountWithDecimals = balanceWithDecimal(amountValue, decimals || 0)
 
     const canUnstake =
-    locked &&
+      locked &&
       new BN(locked)
         .minus(amountWithDecimals)
         .gte(new BN(minimumStakingAmount || 0))
