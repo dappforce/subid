@@ -317,7 +317,7 @@ export const parseBalancesTableInfo = ({
                 )
 
                 return {
-                  key,
+                  key: `detailed-balances-${key}`,
                   chain: (
                     <div
                       style={{ marginLeft: isMulti ? '5rem' : '3rem' }}

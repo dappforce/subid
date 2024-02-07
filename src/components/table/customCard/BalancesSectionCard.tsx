@@ -252,7 +252,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
         >
           <span
             className={clsx(styles.ChidrenChainName, {
-              ['GrayText']: isDetailedBalances,
+              [styles.DetailedBalances]: isDetailedBalances,
               [styles.ChainName]: !isDetailedBalances
             })}
           >
