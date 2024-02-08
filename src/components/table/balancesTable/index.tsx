@@ -13,7 +13,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useIsMyConnectedAddress } from 'src/components/providers/MyExtensionAccountsContext'
 import { useGetTableData } from './utils/useGetTableData'
-import ActionPannel from './utils/ActionPannel'
+import ActionPanel from './utils/ActionPanel'
 import TransferModal from 'src/components/transfer/TransferModal'
 import PricesWarning from './PricesWarning'
 
@@ -45,7 +45,7 @@ const BalancesTableInner = (props: BalancesTableInnerProps) => {
 
   return (
     <div className={clsx(styles.BalanceBlock, 'mt-0')}>
-      <ActionPannel
+      <ActionPanel
         balancesVariant={balancesVariant}
         setBalancesVariant={setBalancesVariant}
         loading={!!balancesLoading}

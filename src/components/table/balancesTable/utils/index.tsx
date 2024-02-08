@@ -259,7 +259,7 @@ export const calculatePnlInTokens = ({
 
   if (pnl.isZero()) return null
 
-  return { pnlBN: pnl, pnlString: pnl.toFixed(4).replace('-', '') }
+  return { pnlBN: pnl, pnlString: pnl.abs().toFixed(4) }
 }
 
 const getPnlClassName = (value: BN) =>
@@ -320,7 +320,7 @@ export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
   const { price_change_percentage_24h } = priceData
   const priceChange24h = new BN(price_change_percentage_24h)
 
-  const priceChange24hString = priceChange24h.toFixed(4).replace('-', '')
+  const priceChange24hString = priceChange24h.abs().toFixed(4)
 
   const sign = priceChange24h.isPositive() ? '+' : '-'
 

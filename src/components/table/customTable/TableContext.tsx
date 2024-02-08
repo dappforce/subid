@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { TableView } from '../types'
 import store from 'store'
 import { BalanceVariant } from './types'
@@ -30,18 +30,26 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
   const showZeroBalancesFromStorage = store.get(storeShowZeroBalance)
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
 
-  const [ tableView, setTableView ] = useState<TableView>(
-    tableViewFromStorage || 'table'
+  const [tableView, setTableView] = useState<TableView>(
+    !tableViewFromStorage || tableViewFromStorage === 'cards'
+      ? 'table'
+      : tableViewFromStorage
   )
-  const [ showZeroBalances, setShowZeroBalances ] = useState<boolean>(
+  const [showZeroBalances, setShowZeroBalances] = useState<boolean>(
     showZeroBalancesFromStorage !== undefined
       ? showZeroBalancesFromStorage
       : true
   )
 
-  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
+  const [balancesVariant, setBalancesVariant] = useState<BalanceVariant>(
     tableVariantFromStore || 'chains'
   )
+
+  useEffect(() => {
+    if (!tableViewFromStorage || tableViewFromStorage === 'cards') {
+      store.set(storeTableView, 'table')
+    }
+  }, [tableViewFromStorage])
 
   const value = {
     tableView,
@@ -49,7 +57,7 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
     showZeroBalances,
     setShowZeroBalances,
     balancesVariant,
-    setBalancesVariant
+    setBalancesVariant,
   }
 
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>
