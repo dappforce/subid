@@ -76,7 +76,8 @@ const CustomCard = <T extends TableInfo>({
     showLinks,
   } = value
 
-  const haveChildren = (!!children || !!cardChildren) || !isEmptyArray(children || cardChildren)
+  const haveChildren =
+    !!children || !!cardChildren || !isEmptyArray(children || cardChildren)
 
   const links = showLinks?.(true)
 
@@ -137,12 +138,14 @@ const CustomCard = <T extends TableInfo>({
             <Divider className={clsx(styles.CardDivider, 'MarginTopTiny')} />
           )}
 
-          {(open && haveChildren) &&
+          {open &&
+            haveChildren &&
             (children ? (
               <ChildrenBalances
                 name={name as string}
                 childrenBalances={children as T[]}
                 level={level + 1}
+                balanceKind={balanceKind}
               />
             ) : (
               <CardAdditionalView {...cardChildren} />
@@ -153,23 +156,27 @@ const CustomCard = <T extends TableInfo>({
   )
 }
 
-type ChildrenBalancesProps<T> = {
+export type ChildrenBalancesProps<T> = {
   name: string
   childrenBalances: T[]
   isSecondLevel?: boolean
   level: number
+  balanceKind: BalanceKind
+  className?: string
 }
 
-const ChildrenBalances = <T extends TableInfo>({
+export const ChildrenBalances = <T extends TableInfo>({
   childrenBalances,
   name,
   isSecondLevel = false,
   level,
+  balanceKind,
+  className
 }: ChildrenBalancesProps<T>) => {
   const { isMobile } = useResponsiveSize()
   const isMulti = useIsMulti()
 
-  const balances = childrenBalances.map((child, index) => {
+  const balances = childrenBalances?.map((child, index) => {
     const isLastElement = index === childrenBalances.length - 1
 
     return (
@@ -182,13 +189,16 @@ const ChildrenBalances = <T extends TableInfo>({
           name={name}
           isMulti={isMulti}
           level={level}
+          balanceKind={balanceKind}
           className={clsx(
             { ['bs-mb-2']: isMobile && isLastElement },
-            isMobile && styles.ChildrenBalanceMargin
+            isMobile &&
+              balanceKind !== 'NativeToken' &&
+              styles.ChildrenBalanceMargin
           )}
         />
 
-        {(isLastElement && isSecondLevel && level !== 3) && (
+        {isLastElement && isSecondLevel && level !== 3 && (
           <Divider className={styles.CardDivider} />
         )}
       </>
@@ -197,7 +207,7 @@ const ChildrenBalances = <T extends TableInfo>({
 
   return (
     <>
-      <div key={name} className={styles.ChildrenBalance}>
+      <div key={name} className={clsx(styles.ChildrenBalance, className)}>
         {balances}
       </div>
     </>
@@ -212,6 +222,7 @@ type InnerChildrenBalancesProps<T> = {
   index: number
   level: number
   className?: string
+  balanceKind: BalanceKind
 }
 
 const balanceColumnClasses =
@@ -223,6 +234,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
   isMobile,
   level,
   className,
+  balanceKind,
 }: InnerChildrenBalancesProps<T>) => {
   const [ open, setOpen ] = useState<boolean>(false)
   const haveChildren = child?.children || child.cardChildren
@@ -279,6 +291,7 @@ const InnerChildrenBalances = <T extends TableInfo>({
             childrenBalances={haveChildren as T[]}
             isSecondLevel
             level={level + 1}
+            balanceKind={balanceKind}
           />
         ) : (
           <CardAdditionalView {...child.cardChildren} />

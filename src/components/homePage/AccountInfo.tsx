@@ -3,17 +3,14 @@ import { MutedDiv } from '../utils/MutedText'
 import Section from '../utils/Section'
 import { CopyAddress } from './address-views/utils'
 import { LARGE_AVATAR_SIZE } from '../utils/Size.config'
-import { toShortAddress, convertAddressToChainFormat } from '../utils/index'
+import { toShortAddress } from '../utils/index'
 import { DfMd } from '../utils/DfMd'
 import { useMyExtensionAddresses } from '../providers/MyExtensionAccountsContext'
 import { useResponsiveSize } from '../responsive'
 import BaseAvatar from '../utils/DfAvatar'
 import styles from './address-views/utils/index.module.sass'
-import { LinkWithIcon } from '../table/utils'
-import { resolveStatescanUrl } from '../table/links'
 import { AddressQrModal } from '../qrs/QrModal'
 import clsx from 'clsx'
-import { useChainInfo } from '../../rtk/features/multiChainInfo/multiChainInfoHooks'
 import { allAccountsAvatar } from './address-views/utils/index'
 import { toGenericAccountId } from 'src/rtk/app/util'
 import {
@@ -60,7 +57,6 @@ export const AccountInfo = (props: Props) => {
   const { t } = useTranslation()
 
   const accounts = useMyExtensionAddresses()
-  const chains = useChainInfo()
 
   let { image: accountAvatar, about: accountDescription } = owner || {}
 
@@ -84,11 +80,6 @@ export const AccountInfo = (props: Props) => {
 
   const genericAccountId = toGenericAccountId(address?.toString())
 
-  const ksmAddress = convertAddressToChainFormat(
-    address?.toString(),
-    chains?.kusama?.ss58Format
-  )
-
   const addressView = (
     <div
       className={clsx(
@@ -109,19 +100,9 @@ export const AccountInfo = (props: Props) => {
       <div className='d-flex align-items-center'>
         {address && (
           <AddressQrModal
-            className='grey-light'
+            className='GrayIcon'
             address={address.toString()}
             openFromUrl
-          />
-        )}
-
-        {ksmAddress && (
-          <LinkWithIcon
-            link={resolveStatescanUrl(ksmAddress)}
-            className={clsx(styles.StatescanLink, 'grey-light')}
-            withCircle={false}
-            title={t('buttons.viewAddressOn', { website: 'Statescan.io' })}
-            icon='/images/statescan.svg'
           />
         )}
       </div>

@@ -1,0 +1,211 @@
+@import 'src/styles/subsocial-vars.scss'
+
+.CardWrapper
+  display: flex
+  flex-direction: column
+
+.Card
+  background: white
+  padding: $space_small $space_normal
+  display: flex
+  align-items: start
+
+.RowTitle
+  font-size: 15px
+  font-weight: 600
+  line-height: 1
+
+.RowDesc
+  font-size: 12px
+  font-weight: 400
+  line-height: 24px
+
+.TokenBalance
+  font-size: 15px
+  font-weight: 500
+  line-height: 1
+
+.BalanceInDollars
+  font-size: 12px
+  font-weight: 400
+  line-height: 1
+  color: $color_gray
+
+.TokenDecimals
+  font-size: 12px !important
+  font-weight: 400 !important
+  color: #222 !important
+
+.BalanceInfo
+  width: 100%
+  display: flex
+  flex-direction: column
+  gap: $space_small
+
+.TopPart
+  display: flex
+  justify-content: space-between
+  align-items: center
+  gap: $space_tiny
+
+.TopPartBlock
+  display: flex
+  flex-direction: column
+  gap: 10px
+
+  span
+    line-height: 1
+
+.BottomPart
+  display: flex
+  flex-direction: column
+  gap: $space_tiny
+  font-size: 12px
+
+  button
+    display: flex
+    align-items: center
+    gap: 2px
+
+    background: #F8FAFC !important
+    color: #94A3B8 !important
+    border: none !important
+    font-size: 12px
+    line-height: 1
+    border-radius: 6px !important
+    padding: 2px 2px 2px 6px !important
+
+    svg
+      font-size: 14px !important
+
+.LinksButton
+  align-self: center
+  max-width: 30px
+  width: 100%
+  display: flex
+  justify-content: flex-end
+
+  button
+    padding: 3px !important
+    align-items: center
+    display: flex
+    min-width: 22px !important
+    height: 22px
+    width: 22px
+
+    \:global .anticon
+      vertical-align: 0 !important
+
+    svg
+      width: 100%
+
+.CollapseWrapper
+  display: grid
+  width: 100%
+  grid-template-rows: 0fr
+  transition: grid-template-rows 0.3s ease-out, padding-top 0.3s ease-out
+
+.OpenCollapse
+  padding-top: $space_small
+  grid-template-rows: 1fr
+
+.ChildrenBalances
+  width: 100%
+  overflow: hidden
+
+.ArrowRight
+  transition: transform 0.3s ease-out
+
+.RotateArrow
+  transform: rotate(-90deg)
+
+.CardDivider
+  padding: 0 $space_normal
+  display: flex
+  width: 100%
+  justify-content: flex-end
+
+  \:global .ant-divider
+    margin: 0
+    min-width: 100%
+    width: 100%
+    transition: width 0.3s ease-out, min-width 0.3s ease-out
+
+    border-color: #F0F0F0
+
+.DividerOpenState
+  \:global .ant-divider
+    margin: 0
+    min-width: 92%
+    width: 92%
+
+// ----- children balances --------
+
+.InnerChildrenWrapper
+  display: flex
+  flex-direction: column
+
+.ChildrenWrapper
+  display: flex
+  flex-direction: column
+  gap: $space_small
+
+.ChildrenRow
+  width: 100%
+  display: flex
+  padding-right: $space_normal
+
+.ChildrenRowContent
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  gap: $space_tiny
+  width: 100%
+
+.ChildrenBalancesBlock
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+  gap: 10px
+
+  span
+    line-height: 1
+
+.InnerCardDivider
+  padding: $space_small $space_normal 0 $space_normal
+
+  \:global .ant-divider
+    margin: 0
+
+.ChainName
+  font-size: 15px !important
+  font-weight: 500 !important
+
+  \:global .account-address
+    font-size: 12px !important
+    font-weight: 400 !important
+    line-height: 24px !important
+
+.DetailedBalances
+  font-size: 12px !important
+  font-weight: 400 !important
+  line-height: 24px
+  color: $color_gray
+
+.ChidrenChainName
+
+  div:first-child
+    margin-left: 0px !important
+
+.CollapseButton
+  color: $color_gray_icon
+  font-size: 18px !important
+  display: flex
+  justify-content: flex-end
+
+  .InnerCollapseButton
+    // padding-right: 9px
+
+  svg
+    justify-self: center
+    margin-top: 4px

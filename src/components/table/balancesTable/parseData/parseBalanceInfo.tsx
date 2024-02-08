@@ -7,7 +7,7 @@ import {
   pluralize,
   toShortMoney,
 } from '@subsocial/utils'
-import { MutedSpan, MutedDiv } from '../../../utils/MutedText'
+import { MutedSpan } from '../../../utils/MutedText'
 import {
   ChainData,
   getBalanceWithDecimals,
@@ -17,7 +17,6 @@ import {
   getBalances,
   AccountPreview,
   getParentBalances,
-  resolveAccountDataImage,
 } from '../../utils'
 import styles from '../../Table.module.sass'
 import { BalancesTableInfo } from '../../types'
@@ -32,36 +31,38 @@ import { convertAddressToChainFormat, SubIcon } from '../../../utils/index'
 import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { AccountInfoByChain } from '../../../identity/types'
 import { getSubsocialIdentityByAccount } from '../../../../rtk/features/identities/identitiesHooks'
-import BaseAvatar from '../../../utils/DfAvatar'
 import { BalanceView } from '../../../homePage/address-views/utils/index'
 import { TFunction } from 'i18next'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../../links/Links'
+import { PnlInDollars, PriceChangedOn } from '../utils'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    // {
-    //   key: 'frozen',
-    //   label: t('table.balances.frozen'),
-    //   value: frozenBalance?.toString() || '0',
-    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),
       value: lockedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
     {
       key: 'reserved',
       label: t('table.balances.reserved'),
       value: reservedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are reserved by one specific thing, such as setting an on-chain identity, and cannot be transferred to another account.',
     },
     {
       key: 'free',
       label: t('table.balances.free'),
       value: freeBalance,
+      tooltipText:
+        'Tokens that are not reserved or locked, and can be transferred to another account.',
     },
   ]
 }
@@ -274,10 +275,11 @@ export const parseBalancesTableInfo = ({
                   totalTokensValue = totalTokensValue.plus(totalValue)
 
                   return {
-                    key: symbol,
-                    chain: <></>,
+                    key: `detailed-balances-${symbol}`,
                     balance: <span className='bs-mr-4'>{balance}</span>,
                     price,
+                    balanceValue: balanceValue,
+                    symbol,
                     total,
                     totalValue,
                     className: styles.Children,
@@ -289,7 +291,7 @@ export const parseBalancesTableInfo = ({
             const { decimal } = getDecimalsAndSymbol(chainInfo, nativeSymbol)
 
             const accountDataArray: BalancesTableInfo[] = accountData.map(
-              ({ key, label, value }: any) => {
+              ({ key, label, value, tooltipText }: any) => {
                 const valueWithDecimal = getBalanceWithDecimals({
                   totalBalance: value,
                   decimals: decimal,
@@ -303,28 +305,32 @@ export const parseBalancesTableInfo = ({
                 })
 
                 const chain = (
-                  <div className='d-flex align-items-center'>
-                    <BaseAvatar
-                      size={24}
-                      avatar={resolveAccountDataImage(key)}
-                    />
-                    <div>{label}</div>
+                  <div className='w-fit'>
+                    <Tooltip
+                      title={tooltipText}
+                      className='d-flex align-items-center'
+                    >
+                      <div>{label}</div>
+                      <InfoCircleOutlined className='ml-1 GrayIcon' />
+                    </Tooltip>
                   </div>
                 )
 
                 return {
-                  key,
+                  key: `detailed-balances-${key}`,
                   chain: (
-                    <MutedDiv
+                    <div
+                      style={{ marginLeft: isMulti ? '5rem' : '3rem' }}
                       className={clsx(
                         { [styles.SecondLevelBalances]: isMulti },
-                        'ml-5'
+                        'GrayText'
                       )}
                     >
                       {chain}
-                    </MutedDiv>
+                    </div>
                   ),
                   balance: <span className='bs-mr-4'>{balance}</span>,
+                  balanceValue: valueWithDecimal,
                   price,
                   total,
                   totalValue,
@@ -343,6 +349,25 @@ export const parseBalancesTableInfo = ({
               <div className={clsx('d-grid', withMargin && 'bs-mr-4')}>
                 {balance}
                 {getOtherTokenSymbols(childrenTokenBalances)}
+              </div>
+            )
+
+            const priceView = (
+              <div className={styles.RowValue}>
+                {price}
+                {!isMulti && <PriceChangedOn symbol={nativeSymbol} />}
+              </div>
+            )
+
+            const totalView = (
+              <div className={styles.RowValue}>
+                <BalanceView value={totalValue} symbol='$' startWithSymbol />
+                {!isMulti && (
+                  <PnlInDollars
+                    balanceValue={balanceValue}
+                    symbol={nativeSymbol}
+                  />
+                )}
               </div>
             )
 
@@ -371,18 +396,23 @@ export const parseBalancesTableInfo = ({
               onTransferClick(nativeSymbol, id)
             }
 
+            const chainValue = (
+              <div>
+                {isMulti ? (
+                  <div style={{ marginLeft: '3rem' }}>{chain}</div>
+                ) : (
+                  chain
+                )}
+              </div>
+            )
+
             return {
               key: key,
-              chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+              chain: chainValue,
+              symbol: nativeSymbol,
               balance: getBalancePart(true),
-              price: !isMulti ? price : <></>,
-              total: (
-                <BalanceView
-                  value={totalTokensValue}
-                  symbol='$'
-                  startWithSymbol
-                />
-              ),
+              price: !isMulti ? priceView : <></>,
+              total: totalView,
               totalTokensValue,
               icon,
               name,
@@ -392,7 +422,9 @@ export const parseBalancesTableInfo = ({
               balanceWithoutChildren: getBalancePart(false),
               balanceValue,
               balanceView: getBalancePart(true),
-              links: (
+              links: isMulti ? (
+                []
+              ) : (
                 <LinksButton
                   network={supportedNetwork}
                   action={onButtonClick}
@@ -400,15 +432,16 @@ export const parseBalancesTableInfo = ({
                   disableTransferButton={!chainInfo.isTransferable || loading}
                 />
               ),
-              showLinks: (isShow: boolean) => (
-                <LinksButton
-                  action={onButtonClick}
-                  network={supportedNetwork}
-                  showActionButton={isShow}
-                  disableTransferButton={!chainInfo.isTransferable || loading}
-                />
-              ),
-              transferAction: (
+              showLinks: (isShow: boolean) =>
+                !isMulti && (
+                  <LinksButton
+                    action={onButtonClick}
+                    network={supportedNetwork}
+                    showActionButton={isShow}
+                    disableTransferButton={!chainInfo.isTransferable || loading}
+                  />
+                ),
+              transferAction: !isMulti && (
                 <Button
                   disabled={!chainInfo.isTransferable || loading}
                   size='small'
@@ -424,7 +457,7 @@ export const parseBalancesTableInfo = ({
           .filter(isDef)
 
       if (isMulti) {
-        const { balanceValueBN, totalValueBN, balance, total } =
+        const { balanceValueBN, totalValueBN, totalTokensValueBN, balance } =
           getParentBalances(balancesByNetwork, nativeSymbol)
 
         const childrenBalances: any = {}
@@ -469,22 +502,59 @@ export const parseBalancesTableInfo = ({
           />
         )
 
+        const priceView = (
+          <div className={styles.RowValue}>
+            {price}
+            <PriceChangedOn symbol={nativeSymbol} />
+          </div>
+        )
+
+        const totalView = (
+          <div className={styles.RowValue}>
+            <BalanceView value={totalValueBN} symbol='$' startWithSymbol />
+            <PnlInDollars balanceValue={balanceValueBN} symbol={nativeSymbol} />
+          </div>
+        )
+
+        const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation()
+          e.currentTarget?.blur()
+          onTransferClick(nativeSymbol, id)
+        }
+
         return [
           {
             key: supportedNetwork,
             chain,
             balance: getBalancePart(true),
             address: numberOfAccounts,
-            price,
-            total,
+            price: priceView,
+            symbol: nativeSymbol,
+            total: totalView,
             icon,
             name,
             chainName: name,
-            totalTokensValue: totalValueBN,
+            totalTokensValue: totalTokensValueBN,
             totalValue: totalValueBN,
             balanceWithoutChildren: getBalancePart(false),
             balanceValue: balanceValueBN,
             balanceView: getBalancePart(true),
+            links: (
+              <LinksButton
+                network={supportedNetwork}
+                action={onButtonClick}
+                showActionButton={false}
+                disableTransferButton={!chainInfo.isTransferable || loading}
+              />
+            ),
+            showLinks: (isShow: boolean) => (
+              <LinksButton
+                action={onButtonClick}
+                network={supportedNetwork}
+                showActionButton={isShow}
+                disableTransferButton={!chainInfo.isTransferable || loading}
+              />
+            ),
             ...childrenBalances,
           },
         ]
@@ -496,8 +566,11 @@ export const parseBalancesTableInfo = ({
 
   const balancesInfo = parsedData.filter(isDef).flat()
 
-  const balancesInfoSorted = balancesInfo.sort((a, b) =>
-    b.totalTokensValue.minus(a.totalTokensValue).toNumber()
+  const balancesInfoSorted = balancesInfo.sort(
+    (a, b) =>
+      b.totalValue.minus(a.totalValue).toNumber() ||
+      b.balanceValue.minus(a.balanceValue).toNumber() ||
+      b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
 
   return balancesInfoSorted

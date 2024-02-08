@@ -54,6 +54,7 @@ import {
 } from '../../rtk/features/identities/identitiesHooks'
 import { BIGNUMBER_ZERO } from '../../config/app/consts'
 import { useSendEvent } from '../providers/AnalyticContext'
+import BalancesSectionCards from './customCard/BalancesSectionCard'
 
 export const BALANCE_TABLE_VIEW = 'BalanceTableView'
 export const BALANCE_TABLE_VARIANT = 'BalanceTableVariant'
@@ -341,6 +342,19 @@ export const BalancePart = <T extends TableInfo>({
   if (isEmptyArray(tableData) && loading)
     return <TableLoading loadingLabel={loadingLabel} />
 
+  if (isMobile) {
+    return balanceKind === 'NativeToken' ? (
+      <BalancesSectionCards data={tableData || []} noData={noData} />
+    ) : (
+      <BalanceCards
+        data={tableData || []}
+        balanceKind={balanceKind}
+        isMobile={isMobile}
+        noData={noData}
+      />
+    )
+  }
+
   switch (tableView) {
     case 'table':
       return (
@@ -364,10 +378,10 @@ export const BalancePart = <T extends TableInfo>({
       )
     default:
       return (
-        <BalanceCards
-          data={tableData || []}
-          balanceKind={balanceKind}
-          isMobile={isMobile}
+        <InnerBalancesTable
+          loading={loading}
+          columns={columns}
+          tableData={tableData}
           noData={noData}
         />
       )
@@ -382,6 +396,7 @@ type ChainProps = {
   icon: string | JSX.Element
   name?: string
   isShortAddress?: boolean
+  withIcon?: boolean
   withCopy?: boolean
   avatarSize?: AvatarSize
   halfLength?: number
@@ -441,6 +456,7 @@ export const ChainData = ({
   withCopy = true,
   halfLength = 6,
   isMonosizedFont = true,
+  withIcon = true,
   withQr = true,
   isBoldName = true,
   desc,
@@ -464,17 +480,19 @@ export const ChainData = ({
   return (
     <div className={clsx({ ['d-flex']: !isMobile }, 'align-items-center')}>
       <div className='d-flex align-items-center'>
-        <AvatarOrSkeleton
-          icon={icon}
-          size={avatarSize}
-          className='bs-mr-2 align-items-start flex-shrink-none'
-        />
+        {withIcon && (
+          <AvatarOrSkeleton
+            icon={icon}
+            size={avatarSize}
+            className='bs-mr-2 align-items-start flex-shrink-none'
+          />
+        )}
         <div>
           {name && (
             <div
               className={clsx(
-                { ['font-weight-bold']: isBoldName },
-                'FontNormal'
+                styles.RowTitle,
+                { [styles.RowTitleBold]: isBoldName },
               )}
             >
               {name}
@@ -728,7 +746,7 @@ export const Address = ({
       )}
       {withQr && (
         <AddressQrModal
-          className='grey-light'
+          className='GrayIcon'
           address={accountId}
           network={name}
         />
@@ -770,7 +788,7 @@ export const AccountPreview = ({
   largeAvatar = false,
   eventSource,
   nameClassName,
-  identityLoadNotRequired
+  identityLoadNotRequired,
 }: AccountPreviewProps) => {
   useFetchIdentities([ account ], identityLoadNotRequired)
   const identities = useIdentities(account)
@@ -812,10 +830,10 @@ export const AccountPreview = ({
           />
         )}
         <div>
-          <div className={clsx({ ['font-weight-bold']: withName })}>
+          <div className={clsx({ [styles.RowTitleBold]: withName })}>
             {withName && accountName}
           </div>
-          {withAddress && <div>{address}</div>}
+          {withAddress && <div className='account-address'>{address}</div>}
         </div>
       </div>
     </div>
@@ -829,6 +847,7 @@ export const getParentBalances = <T extends TableInfo>(
 ) => {
   let balanceValueBN = BIGNUMBER_ZERO
   let totalValueBN = BIGNUMBER_ZERO
+  let totalTokensValueBN = BIGNUMBER_ZERO
   let priceValue
   let decimals = balances[0]?.decimals || 0
 
@@ -836,7 +855,9 @@ export const getParentBalances = <T extends TableInfo>(
     .filter(isDef)
     .forEach(({ balanceValue, totalValue, totalTokensValue, price }) => {
       balanceValueBN = balanceValueBN.plus(balanceValue)
-      totalValueBN = totalValueBN.plus(totalTokensValue || totalValue)
+      totalValueBN = totalValueBN.plus(totalValue)
+      totalTokensValueBN = totalTokensValueBN.plus(totalTokensValue || 0)
+
       priceValue = price
     })
 
@@ -856,6 +877,7 @@ export const getParentBalances = <T extends TableInfo>(
     priceValue,
     balance,
     total,
+    totalTokensValueBN,
   }
 }
 

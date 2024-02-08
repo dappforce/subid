@@ -7,7 +7,6 @@ import Image from 'next/image'
 import styles from './Index.module.sass'
 import clsx from 'clsx'
 import {
-  AppstoreOutlined,
   LineChartOutlined,
   MenuOutlined,
 } from '@ant-design/icons'
@@ -16,6 +15,8 @@ import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
 import store from 'store'
 import { AccountInfoItem } from '@/components/identity/types'
 import { BalanceEntityRecord } from '@/rtk/features/balances/balancesSlice'
+import { usePrices } from '@/rtk/features/prices/pricesHooks'
+import { Tooltip } from 'antd'
 
 export const allowedTokensByNetwork: Record<string, string[]> = {
   statemine: [
@@ -94,12 +95,23 @@ type LabelWithIconProps = {
   iconClassName?: string
 }
 
-export const LabelWithIcon = ({ label, iconSrc, iconSize = 16, iconClassName }: LabelWithIconProps) => {
+export const LabelWithIcon = ({
+  label,
+  iconSrc,
+  iconSize = 16,
+  iconClassName,
+}: LabelWithIconProps) => {
   return (
     <div className={'d-flex align-items-center'}>
       <div className={clsx(styles.IconCircle, iconClassName, 'bs-mr-2')}>
         {typeof iconSrc === 'string' ? (
-          <Image src={iconSrc} alt='' className={styles.IconInLabel} height={iconSize} width={iconSize} />
+          <Image
+            src={iconSrc}
+            alt=''
+            className={styles.IconInLabel}
+            height={iconSize}
+            width={iconSize}
+          />
         ) : (
           iconSrc
         )}
@@ -135,15 +147,6 @@ export const balancesViewOpt = [
       <LabelWithIcon iconSrc={<MenuOutlined width={16} />} label={'Table'} />
     ),
     key: 'table',
-  },
-  {
-    label: (
-      <LabelWithIcon
-        iconSrc={<AppstoreOutlined width={16} />}
-        label={'Cards'}
-      />
-    ),
-    key: 'cards',
   },
   {
     label: (
@@ -218,4 +221,121 @@ export const createFieldSkeletons = (data?: BalancesTableInfo[]) => {
 
     return item
   })
+}
+
+export const getPriceDataBySymbol = (symbol: string, pricesData?: any[]) => {
+  return pricesData?.find(
+    (item) => item.symbol.toLowerCase() === symbol.toLowerCase()
+  )
+}
+
+type CalculatePnlProps = {
+  pricesData?: any[]
+  balanceValue: BN
+  symbol: string
+}
+
+export const calculatePnlInTokens = ({
+  pricesData,
+  balanceValue,
+  symbol,
+}: CalculatePnlProps) => {
+  const priceData = getPriceDataBySymbol(symbol, pricesData)
+
+  if (!priceData) return
+
+  const { current_price, price_change_percentage_24h } = priceData
+
+  const priceChange24h = new BN(price_change_percentage_24h)
+
+  const price24hAgo = new BN(current_price).dividedBy(
+    new BN(1).plus(priceChange24h.dividedBy(100))
+  )
+
+  const balance24hAgo = balanceValue.multipliedBy(price24hAgo)
+  const currentBalance = balanceValue.multipliedBy(current_price)
+
+  const pnl = currentBalance.minus(balance24hAgo)
+
+  if (pnl.isZero()) return null
+
+  return { pnlBN: pnl, pnlString: pnl.abs().toFixed(4) }
+}
+
+const getPnlClassName = (value: BN) =>
+  styles[`PnL${value.isPositive() ? 'Positive' : 'Negative'}`]
+
+type PnlDataProps = {
+  symbol: string
+  balanceValue: BN
+  className?: string
+}
+
+export const PnlInDollars = ({
+  symbol,
+  balanceValue,
+  className,
+}: PnlDataProps) => {
+  const prices = usePrices()
+
+  const pnlData = calculatePnlInTokens({
+    pricesData: prices,
+    balanceValue,
+    symbol,
+  })
+
+  if (!pnlData) return null
+
+  const { pnlBN, pnlString } = pnlData
+
+  const sign = pnlBN.isPositive() ? '+' : '-'
+
+  return (
+    <Tooltip
+      title='The change in the value of these tokens in the last 24 hours'
+      className='d-flex align-items-center justify-content-end'
+    >
+      <span
+        className={clsx(getPnlClassName(pnlBN), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {sign}${pnlString}
+      </span>
+    </Tooltip>
+  )
+}
+
+type PriceChangesProps = {
+  symbol: string
+  className?: string
+}
+
+export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
+  const prices = usePrices()
+
+  const priceData = getPriceDataBySymbol(symbol, prices)
+
+  if (!priceData) return null
+
+  const { price_change_percentage_24h } = priceData
+  const priceChange24h = new BN(price_change_percentage_24h)
+
+  const priceChange24hString = priceChange24h.abs().toFixed(4)
+
+  const sign = priceChange24h.isPositive() ? '+' : '-'
+
+  return (
+    <Tooltip
+      title='How much the price of this token has changed in the last 24 hours'
+      className='d-flex align-items-center justify-content-end'
+    >
+      <span
+        className={clsx(getPnlClassName(priceChange24h), className)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {sign}
+        {priceChange24hString}%
+      </span>
+    </Tooltip>
+  )
 }

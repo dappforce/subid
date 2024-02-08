@@ -3,7 +3,10 @@ import { BalanceEntityRecord } from '../../../../rtk/features/balances/balancesS
 import { MultiChainInfo } from '../../../../rtk/features/multiChainInfo/types'
 import { AccountIdentitiesRecord } from '../../../../rtk/features/identities/identitiesSlice'
 import { TFunction } from 'i18next'
-import { AccountInfoByChain, BalancesStruct } from 'src/components/identity/types'
+import {
+  AccountInfoByChain,
+  BalancesStruct,
+} from 'src/components/identity/types'
 import BN from 'bignumber.js'
 import {
   AccountPreview,
@@ -14,21 +17,32 @@ import {
   getDecimalsAndSymbol,
   getParentBalances,
   getPrice,
-  resolveAccountDataImage,
 } from '../../utils'
 import { BalanceView } from 'src/components/homePage/address-views/utils'
-import { convertToBalanceWithDecimal, isDef, isEmptyObj, nonEmptyArr, pluralize, } from '@subsocial/utils'
-import BaseAvatar from 'src/components/utils/DfAvatar'
-import { MutedDiv } from 'src/components/utils/MutedText'
+import {
+  convertToBalanceWithDecimal,
+  isDef,
+  isEmptyObj,
+  nonEmptyArr,
+  pluralize,
+} from '@subsocial/utils'
 import clsx from 'clsx'
 import styles from '../../Table.module.sass'
 import { convertAddressToChainFormat, SubIcon } from 'src/components/utils'
 import { LinksButton } from '../../links/Links'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import tokensCentricImages from 'public/images/folderStructs/token-centric-images.json'
 import { getSubsocialIdentityByAccount } from 'src/rtk/features/identities/identitiesHooks'
-import { allowedTokensByNetwork, decodeTokenId, encodeTokenId, getBalancePart, } from '../utils'
+import {
+  PnlInDollars,
+  PriceChangedOn,
+  allowedTokensByNetwork,
+  decodeTokenId,
+  encodeTokenId,
+  getBalancePart,
+} from '../utils'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 export type ParseBalanceTableInfoProps = {
   chainsInfo: MultiChainInfo
@@ -65,9 +79,13 @@ const NonTokenImage = ({ tokenId }: NonTokenImageProps) => {
 
 type NetworksIconsProps = {
   networkIcons: string[]
+  withCounter?: boolean
 }
 
-export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
+export const NetworksIcons = ({
+  networkIcons,
+  withCounter = false,
+}: NetworksIconsProps) => {
   const icons = networkIcons.map((icon, i) => {
     return (
       <AvatarOrSkeleton
@@ -78,7 +96,16 @@ export const NetworksIcons = ({ networkIcons }: NetworksIconsProps) => {
       />
     )
   })
-  return <div className={'d-flex alignt-items-center'}>{icons}</div>
+  return (
+    <div className='d-flex align-items-center'>
+      <div className={'d-flex alignt-items-center'}>{icons}</div>
+      {withCounter && (
+        <span className='GrayText ml-1'>
+          {pluralize({ count: networkIcons.length, singularText: 'chain' })}
+        </span>
+      )}
+    </div>
+  )
 }
 
 export const parseTokenCentricView = ({
@@ -180,11 +207,29 @@ export const parseTokenCentricView = ({
           onTransferClick(tokenId, firstNetwork, { id: assetRedistyId })
         }
 
+        const priceView = (
+          <div className={styles.RowValue}>
+            {price}
+            {!isMulti && <PriceChangedOn symbol={tokenId} />}
+          </div>
+        )
+
+        const totalView = (
+          <div className={styles.RowValue}>
+            <BalanceView value={totalValue} symbol='$' startWithSymbol />
+            {!isMulti && (
+              <PnlInDollars
+                balanceValue={balanceValueWithDecimals}
+                symbol={tokenId}
+              />
+            )}
+          </div>
+        )
         const chain = !isMulti ? (
           <ChainData
             icon={imagePath}
             name={tokenId}
-            desc={<NetworksIcons networkIcons={networkIcons} />}
+            desc={<NetworksIcons networkIcons={networkIcons} withCounter />}
           />
         ) : (
           <AccountPreview
@@ -198,18 +243,23 @@ export const parseTokenCentricView = ({
 
         return {
           key: `${balancesKey}-${j}`,
-          chain: isMulti ? <div className='ml-5'>{chain}</div> : chain,
+          chain: isMulti ? (
+            <div style={{ marginLeft: '3rem' }}>{chain}</div>
+          ) : (
+            chain
+          ),
           balance: getBalancePart(balance, true),
-          price: !isMulti ? price : <></>,
-          total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
+          price: !isMulti ? priceView : <></>,
+          total: totalView,
           totalTokensValue: totalValue,
           icon: imagePath,
           name: tokenId,
           address: '',
           decimals,
+          symbol: tokenId,
           totalValue: totalValue,
           balanceWithoutChildren: getBalancePart(balance, false),
-          balanceValue: totalBalance,
+          balanceValue: balanceValueWithDecimals,
           balanceView: getBalancePart(balance, true),
           links: [],
           networkIcons,
@@ -230,8 +280,8 @@ export const parseTokenCentricView = ({
       .filter(isDef)
 
     if (isMulti) {
-      const { balanceValueBN, totalValueBN, balance, total } =
-        getParentBalances(balancesByKey, tokenId, true)
+      const { balanceValueBN, totalValueBN, totalTokensValueBN, balance } =
+        getParentBalances(balancesByKey, tokenId)
 
       const childrenBalances: any = {}
 
@@ -257,6 +307,20 @@ export const parseTokenCentricView = ({
           })
         : ''
 
+      const priceView = (
+        <div className={styles.RowValue}>
+          {price}
+          <PriceChangedOn symbol={tokenId} />
+        </div>
+      )
+
+      const totalView = (
+        <div className={styles.RowValue}>
+          <BalanceView value={totalValueBN} symbol='$' startWithSymbol />
+          <PnlInDollars balanceValue={balanceValueBN} symbol={tokenId} />
+        </div>
+      )
+
       const chain = (
         <ChainData
           icon={imagePath}
@@ -273,11 +337,12 @@ export const parseTokenCentricView = ({
           chain,
           balance: getBalancePart(balance, true),
           address: numberOfAccounts,
-          price,
-          total,
+          symbol: tokenId,
+          price: priceView,
+          total: totalView,
           icon: imagePath,
           name: tokenId,
-          totalTokensValue: totalValueBN,
+          totalTokensValue: totalTokensValueBN,
           totalValue: totalValueBN,
           balanceWithoutChildren: getBalancePart(balance, false),
           balanceValue: balanceValueBN,
@@ -292,7 +357,10 @@ export const parseTokenCentricView = ({
 
   const balancesInfo = parsedData.filter(isDef).flat()
 
-  return balancesInfo.sort((a, b) =>
+  return balancesInfo.sort(
+    (a, b) =>
+      b.totalValue.minus(a.totalValue).toNumber() ||
+      b.balanceValue.minus(a.balanceValue).toNumber() ||
       b.totalTokensValue.minus(a.totalTokensValue).toNumber()
   )
 }
@@ -337,7 +405,7 @@ function parseBalancesByToken (
         const { totalBalance: newTotalBalance } = balances
         const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
-        if(!decimal) return
+        if (!decimal) return
 
         const totalBalanceValue = (totalBalanceSum || new BN('0')).plus(
           newTotalBalance || '0'
@@ -403,7 +471,7 @@ function getChildrenBalances ({
 
     const { decimal } = getDecimalsAndSymbol(chainInfo, tokenId)
 
-    if(!decimal) return
+    if (!decimal) return
 
     const balanceValue = getBalanceWithDecimals({
       totalBalance: totalBalance ?? '0',
@@ -433,13 +501,18 @@ function getChildrenBalances ({
 
     childrenBalances.children = [ ...accountData.reverse() ]
 
-    const chain = <ChainData 
-      icon={icon} 
-      name={name} 
-      avatarSize={'small'} 
-      isBoldName={false} 
-      eventSource='balance_table'
-    />
+    const hideIcon = isMulti
+
+    const chain = (
+      <ChainData
+        icon={icon}
+        name={name}
+        avatarSize={'small'}
+        withIcon={!hideIcon}
+        isBoldName={false}
+        eventSource='balance_table'
+      />
+    )
 
     const onButtonClick = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation()
@@ -460,7 +533,9 @@ function getChildrenBalances ({
 
     return {
       key: `${network}-${tokenId}`,
-      chain: <div className='ml-5'>{chain}</div>,
+      chain: (
+        <div style={{ marginLeft: isMulti ? '5rem' : '3rem' }}>{chain}</div>
+      ),
       balance: getBalancePart(balance, true),
       price: <></>,
       total: <BalanceView value={totalValue} symbol='$' startWithSymbol />,
@@ -514,25 +589,26 @@ function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
   const { reservedBalance, freeBalance, lockedBalance } = info
 
   return [
-    // {
-    //   key: 'frozen',
-    //   label: t('table.balances.frozen'),
-    //   value: frozenBalance?.toString() || '0',
-    // },
     {
       key: 'locked',
       label: t('table.balances.locked'),
       value: lockedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
     {
       key: 'reserved',
       label: t('table.balances.reserved'),
       value: reservedBalance?.toString() || '0',
+      tooltipText:
+        'Tokens that are reserved by one specific thing, such as setting an on-chain identity, and cannot be transferred to another account.',
     },
     {
       key: 'free',
       label: t('table.balances.free'),
       value: freeBalance,
+      tooltipText:
+        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
     },
   ]
 }
@@ -559,42 +635,47 @@ function getAccountDataRows ({
     ...accountDataValuesParams,
   })
 
-  return accountDataValues.map(
-      ({ key, label, value }: any) => {
-        const valueWithDecimal = getBalanceWithDecimals({
-          totalBalance: value,
-          decimals: decimal,
-        })
+  return accountDataValues.map(({ key, label, tooltipText, value }: any) => {
+    const valueWithDecimal = getBalanceWithDecimals({
+      totalBalance: value,
+      decimals: decimal,
+    })
 
-        const { total, totalValue, balance } = getBalances({
-          balanceValue: valueWithDecimal,
-          priceValue,
-          symbol: tokenId,
-          t,
-        })
+    const { total, totalValue, balance } = getBalances({
+      balanceValue: valueWithDecimal,
+      priceValue,
+      symbol: tokenId,
+      t,
+    })
 
-        const chain = (
-            <div className='d-flex align-items-center'>
-              <BaseAvatar size={24} avatar={resolveAccountDataImage(key)}/>
-              <div>{label}</div>
-            </div>
-        )
+    const chain = (
+      <div className='w-fit'>
+        <Tooltip title={tooltipText} className='d-flex align-items-center'>
+          <div>{label}</div>
+          <InfoCircleOutlined className='ml-1 GrayIcon' />
+        </Tooltip>
+      </div>
+    )
 
-        return {
-          key,
-          chain: (
-              <MutedDiv
-                  className={clsx({ [styles.SecondLevelBalances]: isMulti }, 'ml-5')}
-              >
-                {chain}
-              </MutedDiv>
-          ),
-          balance: <span className='bs-mr-4'>{balance}</span>,
-          price,
-          total,
-          totalValue,
-          className: styles.Children,
-        }
-      }
-  )
+    return {
+      key: `detailed-balances-${key}`,
+      chain: (
+        <div
+          style={{ marginLeft: '5rem' }}
+          className={clsx(
+            { [styles.SecondLevelBalances]: isMulti },
+            'GrayText'
+          )}
+        >
+          {chain}
+        </div>
+      ),
+      balance: <span className='bs-mr-4'>{balance}</span>,
+      balanceValue: valueWithDecimal,
+      price,
+      total,
+      totalValue,
+      className: styles.Children,
+    }
+  })
 }

@@ -43,16 +43,16 @@ type CommonProps = {
   setBalancesVariant: (value: BalanceVariant) => void
 }
 
-type ActionPannelProps = CommonProps & {
+type ActionPanelProps = CommonProps & {
   addresses: string[]
   loading: boolean
 }
 
-const ActionPannel = ({
+const ActionPanel = ({
   addresses,
   loading,
   ...balanceVariantProps
-}: ActionPannelProps) => {
+}: ActionPanelProps) => {
   const { isMobile } = useResponsiveSize()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -89,7 +89,7 @@ const ActionPannel = ({
     )
 
     return !isEmptyArray(balances.filter(isDef))
-  }, [ JSON.stringify(balancesFromStore || {}) ])
+  }, [JSON.stringify(balancesFromStore || {})])
 
   const totalBalance = loading ? (
     <Tooltip
@@ -114,12 +114,12 @@ const ActionPannel = ({
   )
 
   return (
-    <div className={clsx('bs-mb-3', { ['bs-px-3']: isMobile })}>
+    <div
+      className={clsx(styles.ActionPanel, 'bs-mb-3', { ['bs-px-3']: isMobile })}
+    >
       <div className='d-flex align-items-center justify-content-between'>
-        <div
-          className={'d-flex aling-items-center font-weight-bold FontNormal'}
-        >
-          <div className='bs-mr-2 bs-min-w-fit'>{t('general.total')}</div>
+        <div className={styles.TotalBalance}>
+          <div className={styles.TotalBalanceLabel}>{t('general.total')}</div>
           {totalBalance}
         </div>
         <div className={styles.TableActionButtons}>
@@ -189,7 +189,7 @@ const MobileButtons = (props: CommonProps) => {
     <Dropdown
       overlay={<DrowdownOverlay {...props} />}
       placement='bottomLeft'
-      trigger={[ 'click' ]}
+      trigger={['click']}
     >
       <Button shape='circle'>
         <SwitchIcon />
@@ -240,4 +240,4 @@ const DrowdownOverlay = ({
   )
 }
 
-export default ActionPannel
+export default ActionPanel

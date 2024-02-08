@@ -2,7 +2,6 @@ import { LinkWithIcon } from '../utils'
 import { linksByNetworks, NetworkLinks } from '.'
 import { Menu, Dropdown, Button, Divider } from 'antd'
 import { useCurrentAccount } from '../../providers/MyExtensionAccountsContext'
-import { MoreOutlined } from '@ant-design/icons'
 import styles from './Links.module.sass'
 import { isDef } from '@subsocial/utils'
 import clsx from 'clsx'
@@ -17,6 +16,7 @@ import {
 } from './utils'
 import { SubIcon } from 'src/components/utils'
 import { AiFillAppstore } from 'react-icons/ai'
+import { LuMoreVertical } from 'react-icons/lu'
 
 type LinkButtonsOverlayProps = {
   network: string
@@ -203,7 +203,7 @@ export const LinksButton = ({
         ghost
         onClick={onMoreButtonClick}
       >
-        <MoreOutlined />
+        <LuMoreVertical className='GrayIcon' />
       </Button>
     </Dropdown>
   )

@@ -2,7 +2,7 @@ import NtfLayout from '../ntf/NftsLayout'
 import { Tabs } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
 import styles from './Index.module.sass'
-import BalancesTableNew from '../table/balancesTable'
+import BalancesTable from '../table/balancesTable'
 import { useSendEvent } from '../providers/AnalyticContext'
 import { useRouter } from 'next/router'
 import TxHistoryLayout from '../txHistory'
@@ -44,7 +44,7 @@ const HomePageLayout = ({ addresses }: OverviewSectionProps) => {
       {
         key: 'portfolio',
         tab: 'Portfolio',
-        children: <BalancesTableNew addresses={addresses} />,
+        children: <BalancesTable addresses={addresses} />,
       },
       {
         key: 'nfts',

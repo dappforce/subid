@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import styles from '../Table.module.sass'
 import {
   BALANCE_SHOW_ZERO_BALANCES,
-  BALANCE_TABLE_VARIANT,
   BALANCE_TABLE_VIEW,
   BalancePart,
 } from '../utils'
@@ -13,11 +12,8 @@ import {
 } from '../customTable/TableContext'
 import { useTranslation } from 'react-i18next'
 import { useIsMyConnectedAddress } from 'src/components/providers/MyExtensionAccountsContext'
-import { useState } from 'react'
-import { BalanceVariant } from './types'
-import store from 'store'
 import { useGetTableData } from './utils/useGetTableData'
-import ActionPannel from './utils/ActionPannel'
+import ActionPanel from './utils/ActionPanel'
 import TransferModal from 'src/components/transfer/TransferModal'
 import PricesWarning from './PricesWarning'
 
@@ -30,24 +26,26 @@ type BalancesTableInnerProps = BalancesTableProps & {
   storeTableView: string
 }
 
-const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
+const BalancesTableInner = (props: BalancesTableInnerProps) => {
   const { storeShowZeroBalance, storeTableView, addresses } = props
   const isMyAddress = useIsMyConnectedAddress(addresses?.[0])
-  const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
-  const { tableView, showZeroBalances } = useTableContext()
 
-  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
-    tableVariantFromStore || 'chains'
-  )
+  const { tableView, showZeroBalances, balancesVariant, setBalancesVariant } =
+    useTableContext()
 
-  const { loading, balancesLoading, data, transferModalState, transferModalDispatch } =
-    useGetTableData(addresses, balancesVariant)
+  const {
+    loading,
+    balancesLoading,
+    data,
+    transferModalState,
+    transferModalDispatch,
+  } = useGetTableData(addresses, balancesVariant)
 
   const { t } = useTranslation()
 
   return (
     <div className={clsx(styles.BalanceBlock, 'mt-0')}>
-      <ActionPannel
+      <ActionPanel
         balancesVariant={balancesVariant}
         setBalancesVariant={setBalancesVariant}
         loading={!!balancesLoading}
@@ -78,7 +76,7 @@ const BalancesTableNewInner = (props: BalancesTableInnerProps) => {
   )
 }
 
-const BalancesTableNew = (props: BalancesTableProps) => {
+const BalancesTable = (props: BalancesTableProps) => {
   const storeProps = {
     storeShowZeroBalance: BALANCE_SHOW_ZERO_BALANCES,
     storeTableView: BALANCE_TABLE_VIEW,
@@ -88,9 +86,9 @@ const BalancesTableNew = (props: BalancesTableProps) => {
     <TableContextWrapper {...storeProps}>
       <PricesWarning />
 
-      <BalancesTableNewInner {...storeProps} {...props} />
+      <BalancesTableInner {...storeProps} {...props} />
     </TableContextWrapper>
   )
 }
 
-export default BalancesTableNew
+export default BalancesTable

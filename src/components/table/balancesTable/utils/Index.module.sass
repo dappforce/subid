@@ -20,7 +20,6 @@
 .IconInLabel
   border-radius: 50%
 
-
 .IconCircle
   text-align: center
   display: flex
@@ -51,7 +50,6 @@
   label
     width: 100%
 
-
 .MobileButtonsOverlay
   @extend .CommonOverlay
   min-width: 200px !important
@@ -80,7 +78,39 @@
   &:hover
     background: transparent
 
+.PnLPositive
+  color: #2EBD85
+
+.PnLNegative
+  color: #F6465D
+
+.TotalBalance
+  display: flex
+  font-weight: bold
+
+  .TotalBalanceLabel
+    margin-right: $space_small
+
 @media ( max-width: $max_mobile_width )
   .PricesWarning
     flex-direction: column
     align-items: center !important
+
+  .TotalBalance
+    flex-direction: column
+    align-items: flex-start
+    gap: $space_small
+    line-height: 1
+    font-size: $font_normal
+  
+
+    .TotalBalanceLabel
+      margin-right: 0
+      color: #94A3B8
+      font-size: 14px
+      font-weight: 400
+
+  .ActionPanel
+    border-bottom: 1px solid #F0F0F0 !important
+    margin-bottom: 1px !important
+    padding-bottom: calc($space_small + 1px)

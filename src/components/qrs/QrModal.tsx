@@ -94,7 +94,7 @@ export const AddressQrModal = ({ className, modalClassName, ...props }: Omit<QrM
 
   const QrButton = (props: ButtonProps) => (
     <Tooltip title={t('tooltip.showQR')}>
-      <HiOutlineQrCode className={clsx('DfGreyLink', className)} style={{ transform: 'scale(1.15)' }} {...(props as any)} />
+      <HiOutlineQrCode className={clsx('GrayIcon', className)} style={{ transform: 'scale(1.15)' }} {...(props as any)} />
     </Tooltip>
   )
 
