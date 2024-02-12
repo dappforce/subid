@@ -608,7 +608,7 @@ function getAccountDataValues ({ t, ...info }: GetAccountDataValuesParams) {
       label: t('table.balances.free'),
       value: freeBalance,
       tooltipText:
-        'Tokens that are locked, and cannot be transferred to another account. One token can be locked by multiple things at the same time, such as governance and staking.',
+        'Tokens that are not reserved or locked, and can be transferred to another account.',
     },
   ]
 }
