@@ -30,18 +30,18 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
   const showZeroBalancesFromStorage = store.get(storeShowZeroBalance)
   const tableVariantFromStore = store.get(BALANCE_TABLE_VARIANT)
 
-  const [tableView, setTableView] = useState<TableView>(
+  const [ tableView, setTableView ] = useState<TableView>(
     !tableViewFromStorage || tableViewFromStorage === 'cards'
       ? 'table'
       : tableViewFromStorage
   )
-  const [showZeroBalances, setShowZeroBalances] = useState<boolean>(
+  const [ showZeroBalances, setShowZeroBalances ] = useState<boolean>(
     showZeroBalancesFromStorage !== undefined
       ? showZeroBalancesFromStorage
       : true
   )
 
-  const [balancesVariant, setBalancesVariant] = useState<BalanceVariant>(
+  const [ balancesVariant, setBalancesVariant ] = useState<BalanceVariant>(
     tableVariantFromStore || 'chains'
   )
 
@@ -49,7 +49,7 @@ export const TableContextWrapper: React.FC<TableContextProps> = ({
     if (!tableViewFromStorage || tableViewFromStorage === 'cards') {
       store.set(storeTableView, 'table')
     }
-  }, [tableViewFromStorage])
+  }, [ tableViewFromStorage ])
 
   const value = {
     tableView,

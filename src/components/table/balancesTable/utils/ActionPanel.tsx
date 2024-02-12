@@ -89,7 +89,7 @@ const ActionPanel = ({
     )
 
     return !isEmptyArray(balances.filter(isDef))
-  }, [JSON.stringify(balancesFromStore || {})])
+  }, [ JSON.stringify(balancesFromStore || {}) ])
 
   const totalBalance = loading ? (
     <Tooltip
@@ -189,7 +189,7 @@ const MobileButtons = (props: CommonProps) => {
     <Dropdown
       overlay={<DrowdownOverlay {...props} />}
       placement='bottomLeft'
-      trigger={['click']}
+      trigger={[ 'click' ]}
     >
       <Button shape='circle'>
         <SwitchIcon />

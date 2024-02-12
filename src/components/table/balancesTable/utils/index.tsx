@@ -6,10 +6,7 @@ import { BIGNUMBER_ZERO } from 'src/config/app/consts'
 import Image from 'next/image'
 import styles from './Index.module.sass'
 import clsx from 'clsx'
-import {
-  LineChartOutlined,
-  MenuOutlined,
-} from '@ant-design/icons'
+import { LineChartOutlined, MenuOutlined } from '@ant-design/icons'
 import TokenCentricIcon from '@/assets/icons/token-centric.svg'
 import ChainCentricIcon from '@/assets/icons/chain-centric.svg'
 import store from 'store'
@@ -246,6 +243,8 @@ export const calculatePnlInTokens = ({
 
   const { current_price, price_change_percentage_24h } = priceData
 
+  if (!price_change_percentage_24h) return
+
   const priceChange24h = new BN(price_change_percentage_24h)
 
   const price24hAgo = new BN(current_price).dividedBy(
@@ -257,7 +256,7 @@ export const calculatePnlInTokens = ({
 
   const pnl = currentBalance.minus(balance24hAgo)
 
-  if (pnl.isZero()) return null
+  if (pnl.isZero()) return
 
   return { pnlBN: pnl, pnlString: pnl.abs().toFixed(4) }
 }
@@ -318,9 +317,12 @@ export const PriceChangedOn = ({ symbol, className }: PriceChangesProps) => {
   if (!priceData) return null
 
   const { price_change_percentage_24h } = priceData
+
+  if (!price_change_percentage_24h) return null
+
   const priceChange24h = new BN(price_change_percentage_24h)
 
-  const priceChange24hString = priceChange24h.abs().toFixed(4)
+  const priceChange24hString = priceChange24h.abs().toFixed(2)
 
   const sign = priceChange24h.isPositive() ? '+' : '-'
 
