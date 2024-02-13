@@ -15,6 +15,12 @@ const customSameChainTransferConfig: {
     extrinsic: string
   }
 } = {
+  [getCustomTransferParamId('KSM', 'kusama')]: {
+    extrinsic: 'balances.transferAllowDeath',
+    getParams: (data) => {
+      return [ data.recipient, data.amount ]
+    },
+  },
   [getCustomTransferParamId('MGX', 'mangata')]: {
     extrinsic: 'tokens.transfer',
     getParams: (data) => {
