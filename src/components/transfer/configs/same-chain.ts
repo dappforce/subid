@@ -21,6 +21,12 @@ const customSameChainTransferConfig: {
       return [ data.recipient, data.amount ]
     },
   },
+  [getCustomTransferParamId('DOT', 'polkadot')]: {
+    extrinsic: 'balances.transferAllowDeath',
+    getParams: (data) => {
+      return [ data.recipient, data.amount ]
+    },
+  },
   [getCustomTransferParamId('MGX', 'mangata')]: {
     extrinsic: 'tokens.transfer',
     getParams: (data) => {
