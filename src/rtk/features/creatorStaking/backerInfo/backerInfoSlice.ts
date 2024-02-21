@@ -18,7 +18,6 @@ export type BackerInfoProps = {
 type BackerInfo = {
   id: string
   totalStaked: string
-  stakes: any[]
 }
 
 export type BackerInfoEntity = {

@@ -48,8 +48,7 @@ export function* fetchBackerInfoWorker (action: PayloadAction<BackerInfoProps>) 
           loading: false,
           info: {
             id: entityId,
-            totalStaked: item?.[0]?.staked.toString() || '0',
-            stakes: item,
+            totalStaked: item
           },
         }
       })
