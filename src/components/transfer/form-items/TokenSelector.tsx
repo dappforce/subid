@@ -64,9 +64,7 @@ const generateAddTokenOption =
       network: showNetwork ? networkId : '',
     }
 
-
     const encodedTokenData = tokenSelectorEncoder.encode(tokenData)
-
 
     if (tokenMap[encodedTokenData]) return
     if (filterCrossChainBridgeable && !isTokenBridgeable(token)) return

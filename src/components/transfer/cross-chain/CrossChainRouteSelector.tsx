@@ -147,6 +147,11 @@ function CrossChainRouteSelectorContent ({
       [destChainFieldName]: source,
       [sourceChainFieldName]: dest,
     })
+
+    if(isModal) {
+      onSourceChainChange?.(dest)
+      onDestChainChange?.(source)
+    }
   }
 
   let destOptions = getRouteOptions('dest', { from: source as any, token })
