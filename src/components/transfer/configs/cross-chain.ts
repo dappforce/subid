@@ -5,7 +5,6 @@ import { ShadowAdapter } from '@polkawallet/bridge/adapters/crust'
 import { CrabAdapter } from '@polkawallet/bridge/adapters/darwinia'
 import {
   BasiliskAdapter,
-  HydraAdapter,
   hydraRouteConfigs,
   hydraTokensConfig,
 } from '@polkawallet/bridge/adapters/hydradx'
@@ -26,6 +25,7 @@ import { HeikoAdapter, ParallelAdapter } from '@polkawallet/bridge/adapters/para
 import { ZeitgeistAdapter } from '@polkawallet/bridge/adapters/zeitgeist'
 import { SubsocialAdapter, subsocialTokensConfig } from './custom/SubsocialAdapter'
 import { MoonbeamAdapter } from './custom/MoonbeamAdapter'
+import { HydraDxAdapter } from './custom/HydraAdapter'
 
 // Add SUB for Hydra DX
 hydraRouteConfigs.push({
@@ -127,7 +127,7 @@ const availableAdapters: Record<string, { adapter: BaseCrossChainAdapter; chainN
     chainName: 'heiko',
   },
   hydradx: {
-    adapter: new HydraAdapter(),
+    adapter: new HydraDxAdapter(),
   },
   zeitgeist: {
     adapter: new ZeitgeistAdapter(),

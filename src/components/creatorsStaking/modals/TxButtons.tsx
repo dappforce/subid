@@ -177,8 +177,6 @@ export function UnstakeTxButton (props: CommonTxButtonProps) {
   const creatorsSpaceIds =
     myCreatorsIds?.filter((id) => id !== ACTIVE_STAKING_SPACE_ID) || []
 
-  console.log('creatorsSpaceIds', creatorsSpaceIds)
-
   const isOnlyActiveStaking = isEmptyArray(creatorsSpaceIds)
 
   const backerInfoBySpaces = useBackerInfoBySpaces(creatorsSpaceIds, myAddress)
