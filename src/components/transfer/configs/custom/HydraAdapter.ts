@@ -326,13 +326,13 @@ const createBalanceStorages = (api: AnyApi) => {
       Storage.create<DeriveBalancesAll>({
         api,
         path: 'derive.balances.all',
-        params: [address],
+        params: [ address ],
       }),
     assets: (tokenId: number, address: string) =>
       Storage.create<any>({
         api,
         path: 'query.tokens.accounts',
-        params: [address, tokenId],
+        params: [ address, tokenId ],
       }),
   }
 }
@@ -340,12 +340,12 @@ const createBalanceStorages = (api: AnyApi) => {
 class HydradxBalanceAdapter extends BalanceAdapter {
   private storages: ReturnType<typeof createBalanceStorages>
 
-  constructor({ api, chain, tokens }: BalanceAdapterConfigs) {
+  constructor ({ api, chain, tokens }: BalanceAdapterConfigs) {
     super({ api, chain, tokens })
     this.storages = createBalanceStorages(api)
   }
 
-  public subscribeBalance(
+  public subscribeBalance (
     tokenName: string,
     address: string
   ): Observable<BalanceData> {
@@ -391,7 +391,7 @@ class HydradxBalanceAdapter extends BalanceAdapter {
 class BaseHydradxAdapter extends BaseCrossChainAdapter {
   private balanceAdapter?: HydradxBalanceAdapter
 
-  public async init(api: AnyApi) {
+  public async init (api: AnyApi) {
     this.api = api
 
     await api.isReady
@@ -403,7 +403,7 @@ class BaseHydradxAdapter extends BaseCrossChainAdapter {
     })
   }
 
-  public subscribeTokenBalance(
+  public subscribeTokenBalance (
     token: string,
     address: string
   ): Observable<BalanceData> {
@@ -414,7 +414,7 @@ class BaseHydradxAdapter extends BaseCrossChainAdapter {
     return this.balanceAdapter.subscribeBalance(token, address)
   }
 
-  public subscribeMaxInput(
+  public subscribeMaxInput (
     token: string,
     address: string,
     to: ChainId
@@ -453,7 +453,7 @@ class BaseHydradxAdapter extends BaseCrossChainAdapter {
     )
   }
 
-  public createTx(
+  public createTx (
     params: TransferParams
   ):
     | SubmittableExtrinsic<'promise', ISubmittableResult>
@@ -523,13 +523,13 @@ class BaseHydradxAdapter extends BaseCrossChainAdapter {
 }
 
 export class BasiliskAdapter extends BaseHydradxAdapter {
-  constructor() {
+  constructor () {
     super(chains.basilisk, basiliskRouteConfigs, basiliskTokensConfig)
   }
 }
 
 export class HydraDxAdapter extends BaseHydradxAdapter {
-  constructor() {
+  constructor () {
     super(chains.hydradx, hydradxRoutersConfig, hydradxTokensConfig)
   }
 }
