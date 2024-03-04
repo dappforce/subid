@@ -1,6 +1,5 @@
-import React, { useEffect, FC, useMemo } from 'react'
-import {
-  getAddressFromStorage } from '../utils/index'
+import React, { useEffect, FC } from 'react'
+import { getAddressFromStorage } from '../utils/index'
 import { PageContent } from './PageWrapper'
 import {
   useIsSignedIn,
@@ -18,8 +17,10 @@ const AccountInfo = dynamic(() => import('../homePage/AccountInfo'), {
   ssr: false,
 })
 const Footer = dynamic(() => import('../footer/Footer'), { ssr: false })
-const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), { ssr: false })
-const PromoBanner = dynamic(import('./banners/PromoBanner/index'), { ssr: false })
+const OnlySearch = dynamic(() => import('../onlySearch/OnlySearch'), {
+  ssr: false,
+})
+// const PromoBanner = dynamic(import('./banners/PromoBanner/index'), { ssr: false })
 
 type PageContainerProps = {
   isHomePage?: boolean
@@ -60,14 +61,7 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
     }
   }, [ addressFromStorage, isSignIn ])
 
-  const banner = useMemo(() => <PromoBanner />, [])
-    
-  if (isEmptyArray(parsedAddressFromUrl) && (!isServerSide && !isSignIn)) return <>
-    <div className='layout-wrapper'>
-      <OnlySearch />
-    </div>
-    <Footer />
-  </>
+  // const banner = useMemo(() => <PromoBanner />, [])
 
   if (isEmptyArray(parsedAddressFromUrl) && !isServerSide && !isSignIn)
     return (
@@ -79,25 +73,42 @@ const PageContainer: FC<PageContainerProps> = ({ children, isHomePage }) => {
       </>
     )
 
-  return <>
-    <div className='layout-wrapper'>
-      <PageContent>
-        {!isValid && !isServerSide && asPath !== '/' && !asPath.includes('#')
-          ? <NoData description='Address is not valid' />
-          : <>
-            {isHomePage && banner}
-            <AccountInfo
-              addresses={addresses}
-              addressFromStorage={addressFromStorage}
-              size={isMobile ? 60 : 90}
-              isHomePage={isHomePage}
-            />
-            {children}
-          </>}
-      </PageContent>
-    </div>
-    <Footer />
-  </>
+  if (isEmptyArray(parsedAddressFromUrl) && !isServerSide && !isSignIn)
+    return (
+      <>
+        <div className='layout-wrapper'>
+          <OnlySearch />
+        </div>
+        <Footer />
+      </>
+    )
+
+  return (
+    <>
+      <div className='layout-wrapper'>
+        <PageContent>
+          {!isValid &&
+          !isServerSide &&
+          asPath !== '/' &&
+          !asPath.includes('#') ? (
+            <NoData description='Address is not valid' />
+          ) : (
+            <>
+              {/* {isHomePage && banner} */}
+              <AccountInfo
+                addresses={addresses}
+                addressFromStorage={addressFromStorage}
+                size={isMobile ? 60 : 90}
+                isHomePage={isHomePage}
+              />
+              {children}
+            </>
+          )}
+        </PageContent>
+      </div>
+      <Footer />
+    </>
+  )
 }
 
 export default PageContainer

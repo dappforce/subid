@@ -2,7 +2,7 @@ import { isEthereumAddress } from '@polkadot/util-crypto'
 import { AnyApi } from '@acala-network/sdk-core'
 import { checkMessageVersionIsV3 } from '@polkawallet/bridge/utils/check-message-version'
 import { ExtendedToken } from '@polkawallet/bridge'
-import { BN } from '@polkadot/util';
+import { BN } from '@polkadot/util'
 export type AddressType = 'substract' | 'ethereum'
 
 export const getValidDestAddrType = (
