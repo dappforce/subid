@@ -16,6 +16,7 @@ export const overriddenChainNames: Record<string, string> = {
   pendulum: 'pendulum-chain',
   unique: 'unique-network',
   manta: 'manta-network',
+  continuum: 'mnet-continuum',
 }
 
 export const statemineAssets = [ 'rmrk' ]
