@@ -76,6 +76,7 @@ export const supportedNetworks = [
   'genshiro',
   'robonomics',
   'integritee',
+  'continuum',
   'pendulum',
   'centrifuge',
   'originTrail',
