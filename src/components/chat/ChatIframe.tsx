@@ -3,10 +3,8 @@ import { ComponentProps, useEffect, useState } from 'react'
 import grill, { GrillConfig, GrillEventListener } from '@subsocial/grill-widget'
 import { useSendEvent } from '../providers/AnalyticContext'
 import useWrapInRef from '../../hooks/useWrapInRef'
-import { Resource } from '@subsocial/resource-discussions'
 import {
   ChanelTypeChannel,
-  ChanelTypeResource,
   GenerateGrillConfigParams,
 } from './types'
 import { useChatContext } from '../providers/ChatContext'
@@ -14,12 +12,9 @@ import { isCreatorStakingPage } from '../utils'
 import { useRouter } from 'next/router'
 import { getCurrentWallet } from '../utils'
 
-const creatorsHubId = '1218'
-
 function generateGrillConfig ({
-  hubId = 'polka',
+  hubId = 'featured',
   spaceId,
-  metadata,
 }: GenerateGrillConfigParams): GrillConfig {
   const settings = {
     enableInputAutofocus: true,
@@ -29,27 +24,12 @@ function generateGrillConfig ({
 
   const isCreatorStaking = isCreatorStakingPage()
 
-  // TODO: remove this hack and improve the config for using hub instead of channel
-  const hub = isCreatorStaking || spaceId ? { id: creatorsHubId } : { id: hubId }
+  const hub = { id: hubId }
 
-  const channel = spaceId
-    ? ({
-        type: 'resource',
-        resource: new Resource({
-          schema: 'chain',
-          chainType: 'substrate',
-          chainName: 'subsocial',
-          resourceType: 'creator',
-          resourceValue: {
-            id: spaceId,
-          },
-        }),
-        metadata: metadata,
-      } as ChanelTypeResource)
-    : ({
+  const channel = {
         type: 'channel',
-        id: '754',
-      } as ChanelTypeChannel)
+        id: '54461',
+      } as ChanelTypeChannel
 
   return {
     hub,
