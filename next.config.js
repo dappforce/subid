@@ -18,6 +18,17 @@ const nextConfig = {
 
     return config
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/creators',
+        destination: 'https://grillapp.net/c/staking',
+        permanent: false,
+      },
+    ]
+  },
+
   images: {
     remotePatterns: [
       {

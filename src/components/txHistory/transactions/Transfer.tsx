@@ -37,7 +37,7 @@ const subscanLinksByNetwork: Record<string, string> = {
   astar: 'https://astar.subscan.io/extrinsic/',
   moonbeam: 'https://moonbeam.subscan.io/extrinsic/',
   moonriver: 'https://moonriver.subscan.io/extrinsic/',
-  subsocial: 'https://calamar.app/search?network=subsocial&query=',
+  subsocial: 'https://polkaholic.io/tx/',
 }
 
 type TransferRowProps = {
