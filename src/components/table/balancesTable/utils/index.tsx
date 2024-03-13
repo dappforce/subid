@@ -164,13 +164,13 @@ const getFreeAndLockedBalanceFromChildren = (
 
   children?.forEach((childrenInfo) => {
     switch (childrenInfo.key) {
-      case 'reserved':
-      case 'locked':
+      case 'detailed-balances-reserved':
+      case 'detailed-balances-locked':
         lockedBalance = lockedBalance.plus(
           childrenInfo?.totalValue || BIGNUMBER_ZERO
         )
         break
-      case 'frozen':
+      case 'detailed-balances-frozen':
         break
       default:
         freeBalance = freeBalance.plus(
