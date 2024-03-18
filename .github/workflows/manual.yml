@@ -8,33 +8,17 @@ jobs:
     name: prod-deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        id: extract_branch
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      - name: deploy prod
+        if: matrix.apps == 'production'
+        uses: './.github/actions/common-cd-setup'
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
-
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_PROD }}
-
-      - name: Update deploy file
-        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-frontend:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/deploy.yaml
-
-      - name: Remove hpa
-        run: kubectl -n sub-id delete hpa subid-front
-        
-      - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/deployment/production/deploy.yaml
-
-      - name: Verify deployment
-        run: kubectl -n sub-id rollout status deployment/subid-front
-
-      - name: Recreate hpa 
-        run: kubectl -n sub-id create -f $GITHUB_WORKSPACE/deployment/hpa/hpa.yaml
+          token_input:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
+          k8s_input:  ${{ secrets.K8S_PROD }}
+          app_input: "production"
+          zone_input:  ${{ secrets.CF_ZONE }}
+          mail_input:  ${{ secrets.CF_MAIL }}
+          tokens_input:  ${{ secrets.CF_TOKEN }}
+          prod_deploy: "true"
