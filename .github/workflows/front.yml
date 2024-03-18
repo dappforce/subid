@@ -1,68 +1,50 @@
 name: Build and deploy frontend
 on:
   workflow_dispatch:
+    inputs:
+      back-address:
+        description: "Backend address to connect"
+        required: true
+        default: 'staging.sub.id'
   push:
     branches:
-      - staging
       - main
+      - deploy/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   front-build:
-    name: Push Docker image to Docker Hub
+    strategy:
+      matrix:
+        apps: [production, deploy]
+        isMaster:
+          - ${{ contains(github.ref, 'main') }}
+        isDeploy:
+          - ${{ startsWith(github.ref, 'refs/heads/deploy/') }}
+        exclude:
+          - isMaster: false
+            apps: production
+          - isMaster: true
+            apps: deploy
+
+    name: Build ${{ matrix.apps }} Docker image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        id: extract_branch
-
-      - name: Prepare
-        id: prep
-        run: |
-          echo "image=dappforce/subid-frontend:${{ env.name }}-$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV   
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@master
-
-      - name: Login to DockerHub
-        uses: docker/login-action@master
+      - name: Base ${{ matrix.apps }}
+        uses: './.github/actions/common-ci-setup'
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username_input: ${{ secrets.DOCKER_USERNAME }}
+          password_input: ${{ secrets.DOCKER_PASSWORD }}
+          app_input: ${{ matrix.apps }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-single-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-single-buildx
-
-      - if: ${{ github.ref == 'refs/heads/staging' }}
-        name: Build staging image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          builder: ${{ steps.buildx.outputs.name }}
-          file: docker/Dockerfile
-          push: true
-          
-          build-args: |                  
-                  GH_BACKEND_URL=https://staging.sub.id
-                  GH_IPFS_URL=https://ipfs.subsocial.network
-                  GH_GA_ID=fake
-                  GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
-          tags: |
-                  ${{ env.image }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-
-      - if: ${{ github.ref == 'refs/heads/main' }}
-        name: Build production image
+      - name: Build production image
+        if: matrix.apps == 'production'
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -80,95 +62,69 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+      - name: Build front image
+        if: matrix.apps == 'deploy'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          file: docker/Dockerfile
+          push: true
+          build-args: |
+                  GH_BACKEND_URL=https://${{ github.event.inputs.back-address }}
+                  GH_IPFS_URL=https://ipfs.subsocial.network
+                  GH_GA_ID=fake
+                  GH_AMP_ID=a4dc29d356f19fd9788f24b493b462bf
+          tags: |
+                  ${{ env.image }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-  front-staging-deploy:
-    name: staging-deploy
+  front-deploy:
+    strategy:
+      matrix:
+        apps: [production, deploy]
+        isMaster:
+          - ${{ contains(github.ref, 'main') }}
+        isDeploy:
+          - ${{ startsWith(github.ref, 'refs/heads/deploy/') }}
+        exclude:
+          - isMaster: false
+            apps: production
+          - isMaster: true
+            apps: deploy
+    name: deploy ${{ matrix.apps }}
     needs: front-build
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/staging' }}
     steps:
-      - name: Checkout main
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        id: extract_branch
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      - name: make prod ready
+        if: matrix.apps == 'production'
+        uses: './.github/actions/common-cd-setup'
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_STAGING }}
+          token_input:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
+          k8s_input:  ${{ secrets.K8S_PROD }}
+          app_input: ${{ matrix.apps }}
+          zone_input:  ${{ secrets.CF_ZONE }}
+          mail_input:  ${{ secrets.CF_MAIL }}
+          tokens_input:  ${{ secrets.CF_TOKEN }}
+          prod_deploy: "false"
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_STAGING }}
-
-      - name: Update deploy file
-        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-frontend:'${TAG}'|' $GITHUB_WORKSPACE/deployment/staging/deploy.yaml
-
-      - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/deployment/staging/deploy.yaml
-
-      - name: Verify deployment
-        run: kubectl -n sub-id rollout status deployment/subid-front
-
-  front-prod-deploy:
-    name: prod-deploy
-    needs: front-build
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        id: extract_branch
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      - name: stage deploy ${{ matrix.apps }}
+        if: matrix.apps == 'deploy'
+        uses: './.github/actions/common-cd-setup'
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
-
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.K8S_PROD }}
-
-      - name: Update deploy file
-        run: TAG=${{ env.name }}-$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|dappforce/subid-frontend:'${TAG}'|' $GITHUB_WORKSPACE/deployment/production/daemon.yaml
-
-      - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/deployment/production/daemon.yaml
-
-      - name: Verify deployment
-        run: kubectl -n sub-id rollout status daemonset/front-ready
-
-      - name: Remove from DigitalOcean Kubernetes
-        run: kubectl delete -f $GITHUB_WORKSPACE/deployment/production/daemon.yaml
-        
-  front-bk-prod-deploy:
-    name: bk-prod-deploy
-    needs: front-build
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-      - name: Extract branch name
-        shell: bash
-        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        id: extract_branch
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.BACKUP_HOST }}
-          username: ${{ secrets.BACKUP_USERNAME }}
-          key: ${{ secrets.BACKUP_KEY }}
-          port: ${{ secrets.BACKUP_PORT }}
-          script: |
-            cd /root/subid/frontend
-            ./update.sh
+          token_input:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_STAGING }}
+          k8s_input:  ${{ secrets.K8S_STAGING }}
+          app_input: ${{ matrix.apps }}
+          zone_input:  ${{ secrets.CF_ZONE }}
+          mail_input:  ${{ secrets.CF_MAIL }}
+          tokens_input:  ${{ secrets.CF_TOKEN }}
+          prod_deploy: "false"
