@@ -22,3 +22,12 @@ jobs:
           mail_input:  ${{ secrets.CF_MAIL }}
           tokens_input:  ${{ secrets.CF_TOKEN }}
           prod_deploy: "true"
+
+      - name: Deploy production
+        shell: bash
+        run: |
+          sed -i 's|<IMAGE>|'${{ env.image }}'|' $GITHUB_WORKSPACE/deployment/production/deployment.yaml
+          kubectl delete -f $GITHUB_WORKSPACE/deployment/production/hpa.yaml --ignore-not-found=true
+          kubectl apply -f $GITHUB_WORKSPACE/deployment/production/deployment.yaml
+          kubectl -n sub-id rollout status deployment/subid-front
+          kubectl create -f $GITHUB_WORKSPACE/deployment/production/hpa.yaml

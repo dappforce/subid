@@ -77,13 +77,3 @@ runs:
           kubectl apply -f $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/daemon.yaml
           kubectl -n sub-id rollout status daemonset/front-ready
           kubectl delete -f $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/daemon.yaml
-
-      - name: Deploy ${{ inputs.app_input }}
-        if: github.ref == 'refs/heads/main' && inputs.prod_deploy == true
-        shell: bash
-        run: |
-          sed -i 's|<IMAGE>|'${{ env.image }}'|' $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/deployment.yaml
-          kubectl delete -f $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/hpa.yaml --ignore-not-found=true
-          kubectl apply -f $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/deployment.yaml
-          kubectl -n sub-id rollout status deployment/subid-front
-          kubectl create -f $GITHUB_WORKSPACE/deployment/${{ inputs.app_input }}/hpa.yaml
