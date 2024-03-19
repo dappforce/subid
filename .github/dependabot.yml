@@ -6,6 +6,7 @@ updates:
     reviewers:
       - "oap75"
       - "samchuk-vlad"
+      - "iv1310"
     schedule:
       interval: "weekly"
     commit-message:
