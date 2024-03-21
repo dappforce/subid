@@ -12,7 +12,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: deploy prod
-        if: matrix.apps == 'production'
         uses: './.github/actions/common-cd-setup'
         with:
           token_input:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN_PROD }}
