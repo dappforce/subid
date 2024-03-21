@@ -1,6 +1,7 @@
 import { useAppSelector } from '../../app/store'
 import { PricesEntity, selectPrices } from './pricesSlice'
 import { MultiChainInfo } from '../multiChainInfo/types'
+import { isEmptyObj } from '@subsocial/utils'
 
 export const overriddenChainNames: Record<string, string> = {
   bifrostKusama: 'bifrost-native-coin',
@@ -19,15 +20,17 @@ export const overriddenChainNames: Record<string, string> = {
   continuum: 'mnet-continuum',
 }
 
-export const statemineAssets = [ 'rmrk' ]
-const additionalTokens = [ 'zenlink-network-token', 'weth', 'wrapped-bitcoin' ]
+export const statemineAssets = ['rmrk']
+const additionalTokens = ['zenlink-network-token', 'weth', 'wrapped-bitcoin']
 
 export const getChainsNamesForCoinGecko = (chainsInfo: MultiChainInfo) => {
-  const chainInfoKeys = chainsInfo ? Object.keys(chainsInfo) : []
+  let keys: string[] = []
 
-  chainInfoKeys.push(...statemineAssets, ...additionalTokens)
+  if (chainsInfo && !isEmptyObj(chainsInfo)) {
+    keys = [...Object.keys(chainsInfo), ...statemineAssets, ...additionalTokens]
+  }
 
-  return chainInfoKeys
+  return keys
     .map((network) => overriddenChainNames[network] || network)
     .join(',')
 }

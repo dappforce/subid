@@ -36,7 +36,7 @@ import { TFunction } from 'i18next'
 import { Button, Tooltip } from 'antd'
 import { FiSend } from 'react-icons/fi'
 import { LinksButton } from '../../links/Links'
-import { PnlInDollars, PriceChangedOn } from '../utils'
+import { PnlInDollars, PriceChangedOn, allowedTokensByNetwork } from '../utils'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 const getAccountData = (info: AccountInfoByChain, t: TFunction) => {
@@ -85,7 +85,12 @@ const parseBalancesEntities = (
 
       const balanceInfoBySymbol: Record<string, any> = {}
 
+      const allowedTokens = allowedTokensByNetwork[network]
+
       Object.entries(balanceInfo || {}).forEach(([ symbol, info ]) => {
+        if ((allowedTokens && !allowedTokens.includes(symbol)) || !symbol)
+          return
+
         const { decimal } = getDecimalsAndSymbol(chainInfo, symbol)
 
         if (!decimal) return
