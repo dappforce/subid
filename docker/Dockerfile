@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16 as builder
+FROM node:16-alpine3.16 as dependencies
 
 ARG GH_BACKEND_URL
 ARG GH_IPFS_URL
@@ -15,6 +15,8 @@ WORKDIR /opt/subsocial/app
 COPY package.json yarn.lock* ./
 
 RUN yarn install
+
+FROM dependencies as builder
 
 COPY . .
 
