@@ -55,7 +55,7 @@ runs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-single-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-single-buildx
+            ${{ runner.os }}-single-buildx-
 
       - name: Prepare
         id: prep

@@ -60,7 +60,7 @@ jobs:
                   ${{ env.image }}
                   docker.io/dappforce/subid-frontend:main-latest
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Build front image
         if: matrix.apps == 'deploy'
