@@ -45,7 +45,7 @@ jobs:
 
       - name: Build production image
         if: matrix.apps == 'production'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
@@ -64,7 +64,7 @@ jobs:
 
       - name: Build front image
         if: matrix.apps == 'deploy'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
