@@ -21,6 +21,7 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'CHAOS',
     'USDC',
     'USDT',
+    'USDt',
     'CHRWNA',
     'RMRK',
     'KSM',
@@ -41,7 +42,7 @@ export const allowedTokensByNetwork: Record<string, string[]> = {
     'PHA',
     'PARA',
   ],
-  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'BUSD', 'DED' ],
+  statemint: [ 'WETH', 'WBTC', 'BTC', 'DOT', 'USDC', 'USDT', 'USDt', 'BUSD', 'DED' ],
 }
 
 const BALANCES_KEY = 'balances'
