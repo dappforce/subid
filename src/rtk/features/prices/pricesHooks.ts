@@ -20,14 +20,14 @@ export const overriddenChainNames: Record<string, string> = {
   continuum: 'mnet-continuum',
 }
 
-export const statemineAssets = ['rmrk']
-const additionalTokens = ['zenlink-network-token', 'weth', 'wrapped-bitcoin']
+export const statemineAssets = [ 'rmrk' ]
+const additionalTokens = [ 'zenlink-network-token', 'weth', 'wrapped-bitcoin' ]
 
 export const getChainsNamesForCoinGecko = (chainsInfo: MultiChainInfo) => {
   let keys: string[] = []
 
   if (chainsInfo && !isEmptyObj(chainsInfo)) {
-    keys = [...Object.keys(chainsInfo), ...statemineAssets, ...additionalTokens]
+    keys = [ ...Object.keys(chainsInfo), ...statemineAssets, ...additionalTokens ]
   }
 
   return keys
